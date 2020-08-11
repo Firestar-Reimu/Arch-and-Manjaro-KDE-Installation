@@ -1,6 +1,6 @@
 <font face="JetBrains Mono NL">
 
-# **在Surface Pro 6上安装Manjaro 20.0.3 Plasma + Windows 10双系统的指南**
+# **Manjaro 20.0.3 Plasma + Windows 10双系统的安装指南（Surface Pro 6）**
 
 ## **Windows的准备工作**
 
