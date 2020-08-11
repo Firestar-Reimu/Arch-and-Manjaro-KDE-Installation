@@ -1,6 +1,6 @@
 <font face="JetBrains Mono NL">
 
-# **Manjaro 20.0.3 Plasma + Windows 10双系统的安装指南（Surface Pro 6）**
+# **在Surface Pro 6上安装Manjaro 20.0.3 Plasma + Windows 10双系统的指南**
 
 ## **Windows的准备工作**
 
@@ -351,19 +351,21 @@ https://blog.csdn.net/sinat_33528967/article/details/93380729
 Kde桌面的Mac化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
-ArchWiki -- pacman (简体中文)
-https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
-
-双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读
-https://jakting.com/archives/ubuntu-rw-windows-files.html
-
-Linux Grub引导界面（启动界面）美化
-https://zhuanlan.zhihu.com/p/94331255
-
 gtk3-nocsd, 禁用 GTK 客户端侧面装饰的hack
 https://www.kutu66.com/GitHub/article_117125
 
 Oh-My-Zsh及主题、插件的安装与配置
 https://www.cnblogs.com/misfit/p/10694397.html
 
+ArchWiki -- pacman (简体中文)
+https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+
+双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读
+https://jakting.com/archives/ubuntu-rw-windows-files.html
+
+Linux grub引导界面（启动界面）美化
+https://zhuanlan.zhihu.com/p/94331255
+
+Linux grub删除多余启动条目
+https://blog.csdn.net/JackLiu16/article/details/80383969
 </font>
