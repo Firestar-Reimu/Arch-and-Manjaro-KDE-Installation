@@ -6,6 +6,8 @@
 
 ### **关闭快速启动**
 
+控制面板-->电源选项-->选择电源按钮的功能-->更改当前不可用的设置-->保存修改
+
 ### **关闭Bitlocker**
 
 开始菜单-->设置-->更新和安全-->设备加密-->关闭
@@ -42,7 +44,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 ## **初始配置**
 
-**sudo免密码**
+### **sudo免密码**
 
 首先在终端中输入：
 
@@ -53,7 +55,8 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 	Defaults:(user_name) !authenticate
 
 按 ```Esc``` 进入命令模式，再按 ```:wq``` 保存，按 ```Enter``` 退出
-换源：
+
+### **换源**
 
     sudo pacman-mirrors -i -c China -m rank
 
@@ -66,7 +69,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 **一定要先美化再装软件！**
 
-屏幕是2736*1824，需要配置高分屏优化
+屏幕分辨率是2736*1824，需要配置高分屏优化：
 
 字体大小14pt，固定DPI=144
 
@@ -177,34 +180,39 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 ### **安装sunpinyin+cloudpinyin**
 
-安装
+安装输入法软件：
 
     sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin fcitx-sunpinyin manjaro-asian-input-support-fcitx
 
-配置文件
+配置文件：
+
 在 ```/etc/profile``` 或者 ```~/.xprofile``` 文件中添加：
 
-    export GTK_IM_MODULE=fcitx
-    export QT_IM_MODULE=fcitx
-    export XMODIFIERS=@im=fcitx
+	export XIM=fcitx
+	export XIM_PROGRAM=fcitx
+	export GTK_IM_MODULE=fcitx
+	export QT_IM_MODULE=fcitx
+	export XMODIFIERS="@im=fcitx"
 
 Fcitx配置-->附加组件-->云拼音-->下方的“配置”-->云拼音来源改为“百度”
 
 ### **双系统时间不同步+24小时制**
 
-双系统时间不同步
+#### **双系统时间不同步**
 
 |                   Windows                    |                     Manjaro                      |
 | :------------------------------------------: | :----------------------------------------------: |
 | 时钟点右键-->调整日期/时间-->自动设置时间 | 时钟点右键-->调整日期和时间-->自动设置日期和时间 |
 
-Manjaro设置24小时制：
+#### **Manjaro设置24小时制**
 
 时钟点右键-->配置数字时钟-->时间显示-->24小时制
 
 ### **Linux挂载Windows磁盘**
 
 **首先要确保Bitlocker已经关闭**
+
+**如果要挂载C盘请确保快速启动已经关闭**
 
 这里以D盘为例，分区是 ```/dev/nvme0n1p4``` ，可以在KDE分区管理器里面找到。
 
@@ -236,7 +244,7 @@ Manjaro设置24小时制：
 
     sudo fuser -m -u /dev/sdb2
 
-可以看到数字，就是占用目录的进程PID，杀掉：
+可以看到数字，就是占用目录的进程PID，终止进程：
 
     sudo kill (PID_number)
 
@@ -251,6 +259,12 @@ Manjaro设置24小时制：
 再重新挂载即可：
 
 	sudo mount /dev/nvme0n1p4 /mnt/windows/D
+
+### **自动连接Wifi**
+
+确保KDE钱包开启即可，调整路径如下：
+
+应用-->系统-->KWalletManager
 
 ### **连接北京大学VPN**
 
@@ -290,12 +304,13 @@ yay -P -g
 Evolution用于替代Thunderbird
 
 ### **Anaconda配置**
+
 	yay -S anaconda
 	source ~/.zshrc
 
 ### **Visual Studio Code图标更改**
 
-Visual Studio Code图标变成圆形，想恢复原图标
+Visual Studio Code图标变成圆形，想恢复原图标，更改路径如下：
 
 程序启动器-->编辑应用程序-->Visual Studio Code-->点击图标更改-->其他图标
 
@@ -314,7 +329,10 @@ Visual Studio Code图标变成圆形，想恢复原图标
 BitLocker 恢复密钥
 https://account.microsoft.com/devices/recoverykey?refd=account.microsoft.com
 
-Win10如何关闭设备加密？关闭BitLocker加密图文教程
+Windows 10如何关闭快速启动
+https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html
+
+Win 10如何关闭设备加密？关闭BitLocker加密图文教程
 http://www.w10zj.com/Win10xy/Win10yh_8892.html
 
 创建和使用 Surface 的 USB 恢复驱动器
@@ -323,14 +341,17 @@ https://support.microsoft.com/zh-cn/help/4023512/surface-creating-and-using-a-us
 如何使用 Surface UEFI
 https://support.microsoft.com/zh-cn/help/4023531/surface-how-to-use-surface-uefi
 
-Win10环境下安装Manjaro KDE（双系统） 
+Win 10环境下安装Manjaro KDE（双系统） 
 https://www.cnblogs.com/Jaywhen-xiang/p/11561661.html
 
-Manjaro 20 KDE配置心得：
+Manjaro 20 KDE配置心得
 https://blog.csdn.net/weixin_40293491/article/details/107526553
 
 Manjaro安装后你需要这样做
 https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E6%96%B9%E6%BA%90
+
+ArchWiki -- Sudo (简体中文)
+https://wiki.archlinux.org/index.php/Sudo_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
 比较几种中文输入法后，我最终选择了sunpinyin + cloudpinyin组合
 https://forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
@@ -341,7 +362,7 @@ https://mirrors.tuna.tsinghua.edu.cn/help/AUR/
 SJTUG 软件源镜像服务
 https://mirrors.sjtug.sjtu.edu.cn/#/
 
-Manjaro为包管理器pacman和yaourt\yay 添加多线程下载
+Manjaro为包管理器pacman和yaourt\yay添加多线程下载
 https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase&depth_1-utm_source=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase
 
 ArchWiki -- Microsoft fonts (简体中文)
@@ -370,5 +391,8 @@ https://zhuanlan.zhihu.com/p/94331255
 
 Linux grub删除多余启动条目
 https://blog.csdn.net/JackLiu16/article/details/80383969
+
+在 Mac 上用 Openconnect 连接 Pulse Secure VPN
+https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-mac/
 
 </font>
