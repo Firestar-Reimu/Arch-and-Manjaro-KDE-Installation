@@ -268,7 +268,7 @@ Fcitx配置-->附加组件-->云拼音-->下方的“配置”-->云拼音来源
 
 ### **连接北京大学VPN**
 
-sudo openconnect --user (student_ID) https://vpn.pku.edu.cn --juniper
+    sudo openconnect --user (student_ID) https://vpn.pku.edu.cn --juniper
 
 ### **AUR软件源**
 
@@ -279,15 +279,15 @@ sudo openconnect --user (student_ID) https://vpn.pku.edu.cn --juniper
 
 执行以下命令修改 aururl 以启用清华源:
 
-yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
+    yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
 
 修改的配置文件位于 ```~/.config/yay/config.json``` ，还可通过以下命令查看修改过的配置：
 
-yay -P -g
+    yay -P -g
 
 ## **下载软件**
 
-以下 ```yay -S``` 也可以用 ```sudo pacman -S``` 代替，或者在“添加/删除软件”（即pamac）中搜索安装
+以下命令中的 ```yay -S``` 也可以用 ```sudo pacman -S``` 代替，或者在“添加/删除软件”（即pamac）中搜索安装
 
 	yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 	yay -S electron-netease-cloud-music
