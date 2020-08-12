@@ -1,8 +1,10 @@
 <font face="JetBrains Mono NL">
 
-# **在Surface Pro 6上安装Manjaro 20.0.3 Plasma + Windows 10双系统的指南**
+# **在Surface Pro 6上安装Manjaro 20.0.3 KDE Plasma + Windows 10双系统的指南**
 
 ## **Windows的准备工作**
+
+### **关闭快速启动**
 
 ### **关闭Bitlocker**
 
@@ -40,6 +42,17 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 ## **初始配置**
 
+**sudo免密码**
+
+首先在终端中输入：
+
+	sudo visudo
+
+在最后一行（空行）输入 ```a``` 进入输入模式，加上这一行：
+
+	Defaults:(user_name) !authenticate
+
+按 ```Esc``` 进入命令模式，再按 ```:wq``` 保存，按 ```Enter``` 退出
 换源：
 
     sudo pacman-mirrors -i -c China -m rank
@@ -74,31 +87,21 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 然后保存重启
 
-#### **Konsole快捷键与密码显示星号**
+#### **Konsole快捷键**
 
-右上角$\boxed{\cdot\cdot\cdot}$-->配置键盘快捷键-->复制改为Ctrl+C，粘贴改为Ctrl+V
-
-让密码显示星号的方法，首先输入：
-
-	sudo visudo
-
-在最后一行加入
-
-	Defaults env_reset, pwfeedback
-
-输入 ```:wq``` 保存并退出
+右上角$\boxed{\cdot\cdot\cdot}$-->配置键盘快捷键-->复制改为 ```Ctrl+C``` ，粘贴改为 ```Ctrl+V``` 
 
 #### **Dolphin图标大小和快捷键**
 
 右上角$\boxed{\cdot\cdot\cdot}$-->配置Dolphin-->视图模式-->图标大小都设为96-->标签宽度设为大
 
-右上角$\boxed{\cdot\cdot\cdot}$-->配置键盘快捷键-->移至回收站改为Ctrl+D，删除改为Del
+右上角$\boxed{\cdot\cdot\cdot}$-->配置键盘快捷键-->移至回收站改为 ```Ctrl+D``` ，删除改为 ```Del```
 
 #### **Firefox缩放比例**
 
 首选项-->默认缩放为150%
 
-about:config-->layout.css.devPixelsPerPx-->改为1.5
+```about:config``` --> ```layout.css.devPixelsPerPx``` -->改为1.5
 
 ### **语言包**
 
@@ -106,7 +109,8 @@ about:config-->layout.css.devPixelsPerPx-->改为1.5
 
 ### **安装微软字体**
 
-.ttf和.otf字体右键-->动作-->安装-->安装到系统字体
+.ttf和.otf字体：右键-->动作-->安装-->安装到系统字体
+
 .ttc字体安装方法如下：
 
     sudo mkdir /usr/share/fonts/winfonts
@@ -234,25 +238,23 @@ Manjaro设置24小时制：
 
 可以看到数字，就是占用目录的进程PID，杀掉：
 
-    sudo kill (PID number)
+    sudo kill (PID_number)
 
 取消挂载：
 
     sudo umount /dev/nvme0n1p4
 
-重新挂载：
-
-    sudo mount /dev/nvme0n1p4 /mnt/windows/d
-
-中途如果出现了前面的报错The disk contains an unclean file system，就跟前面一样执行一次：
+执行硬盘NTFS分区修复：
 
     sudo ntfsfix /dev/nvme0n1p4
 
-重启即可
+再重新挂载即可：
+
+	sudo mount /dev/nvme0n1p4 /mnt/windows/D
 
 ### **连接北京大学VPN**
 
-sudo openconnect --user (10位学号) https://vpn.pku.edu.cn --juniper
+sudo openconnect --user (student_ID) https://vpn.pku.edu.cn --juniper
 
 ### **AUR软件源**
 
@@ -265,13 +267,13 @@ sudo openconnect --user (10位学号) https://vpn.pku.edu.cn --juniper
 
 yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
 
-修改的配置文件位于 ~/.config/yay/config.json ，还可通过以下命令查看修改过的配置：
+修改的配置文件位于 ```~/.config/yay/config.json``` ，还可通过以下命令查看修改过的配置：
 
 yay -P -g
 
 ## **下载软件**
 
-以下 ```yay -S``` 也可以用 ```sudo pacman -S``` 代替，或者在“添加/删除软件”中搜索安装
+以下 ```yay -S``` 也可以用 ```sudo pacman -S``` 代替，或者在“添加/删除软件”（即pamac）中搜索安装
 
 	yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 	yay -S electron-netease-cloud-music
@@ -368,4 +370,5 @@ https://zhuanlan.zhihu.com/p/94331255
 
 Linux grub删除多余启动条目
 https://blog.csdn.net/JackLiu16/article/details/80383969
+
 </font>
