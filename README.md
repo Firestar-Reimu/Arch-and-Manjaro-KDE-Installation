@@ -2,11 +2,10 @@
 
 # **在Surface Pro 6上安装Manjaro 20.0.3 KDE Plasma + Windows 10双系统的指南**
 
+```
 OS: Manjaro 20.0.3 Lysia
 
 Kernel: x86_64 Linux 5.7.9-1-MANJARO
-
-Packages: 1273
 
 Shell: zsh 5.8
 
@@ -23,6 +22,7 @@ Icon Theme: Mojave-CT-Light
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+```
 
 ## **Windows的准备工作**
 
@@ -69,6 +69,14 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 ## **初始配置**
 
+### **电源设置**
+
+系统设置-->电源管理-->节能-->勾选“按键事件处理”-->“合上笔记本盖时”选择“关闭屏幕”-->勾选“即使已连接外部显示器”
+
+常见英文名词：
+
+Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
+
 ### **sudo免密码**
 
 首先在终端中输入：
@@ -85,7 +93,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
     sudo pacman-mirrors -i -c China -m rank
 
-建议用上海交大或阿里云的镜像
+建议用上海交大或阿里云的镜像，确认后输入：
 
     sudo pacman -Syyu
 
@@ -110,7 +118,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 |                   Windows                    |                     Manjaro                      |
 | :------------------------------------------: | :----------------------------------------------: |
-| 时钟点右键-->调整日期/时间-->自动设置时间 | 时钟点右键-->调整日期和时间-->自动设置日期和时间 |
+|     时钟点右键-->调整日期/时间-->自动设置时间     |     时钟点右键-->调整日期和时间-->自动设置日期和时间     |
 
 #### **Manjaro设置24小时制**
 
@@ -369,7 +377,7 @@ Evolution用于替代Thunderbird
 
 ### **Visual Studio Code图标更改**
 
-Visual Studio Code图标变成圆形，想恢复原图标，更改路径如下：
+图标美化后Visual Studio Code图标变成圆形，想恢复原图标，更改路径如下：
 
 程序启动器-->编辑应用程序-->Visual Studio Code-->点击图标更改-->其他图标
 
