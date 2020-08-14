@@ -65,9 +65,9 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 | 40960M (40G) |   ext4    |   /    | root  |
 |   the rest   |   ext4    | /home  |       |
 
-**/root建议至少50G，因为几乎所有软件都要装在这里**
+**如果空间足够，/root建议至少60G，因为几乎所有软件都要装在这里**
 
-**Office选择无，在安装软件时再下载 WPS Office**
+**系统安装时Office选择No Office Suite，在安装软件时再下载 WPS Office**
 
 ## **初始配置**
 
@@ -134,7 +134,11 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 ### **连接北京大学VPN**
 
+按 ```Fn+F12``` 打开Yakuake，输入：
+
 	sudo openconnect --user (student_ID) https://vpn.pku.edu.cn --juniper
+
+之后点击窗口外任意位置或按 ```Fn+F12``` 让它收起，不要关闭窗口（关闭窗口则VPN断开）
 
 ### **Linux挂载Windows磁盘**
 
@@ -217,7 +221,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 #### **Firefox缩放比例**
 
-首选项 --> 默认缩放为150%
+首选项 --> 默认缩放为133%
 
 ```about:config```  -->  ```layout.css.devPixelsPerPx```  --> 改为1.5
 
@@ -268,11 +272,11 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 ### **语言包**
 
-系统设置 --> 语言包 --> 右上角安装语言包
+系统设置 --> 语言包 --> 右上角点击“已安装的软件包”安装语言包
 
 ### **安装微软字体**
 
-.ttf和.otf字体：右键 --> 动作 --> 安装 --> 安装到系统字体
+.ttf和.otf字体：右键点击字体文件 --> 动作 --> 安装 --> 安装到系统字体
 
 .ttc字体安装方法如下：
 
@@ -285,7 +289,7 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 这样就可以安装微软雅黑、宋体、黑体等字体了 
 
-#### **更改程序和终端默认中文字体为微软雅黑**
+### **更改程序和终端默认中文字体为微软雅黑**
 
 输入命令：
 
@@ -394,6 +398,11 @@ Preferences --> General --> Config Editor（在最下方） --> layout.css.devPi
 
 右键点击上方工具栏Mail Toolbar，选择Customize，自行配置即可
 
+### **Git配置**
+
+	git config --global user.name "1900011604"
+	git config --global user.email "1900011604@pku.edu.cn"
+
 ### **Anaconda安装**
 
 **运行 ```conda``` 时建议连接北京大学VPN**
@@ -420,7 +429,9 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 下载最新版本的Visual Studio Code（以版本1.48.0为例）：
 
-在官网下载地址 ```https://code.visualstudio.com/Download``` 选择 ```.deb``` 包，下载到文件夹 
+在官网选择 ```.deb``` 包，下载到文件夹，网址如下：
+
+https://code.visualstudio.com/Download
 
 **运行 ```debtap``` 时建议连接北京大学VPN**
 
@@ -428,7 +439,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 	sudo debtap -u
 	sudo debtap code_1.48.0-1597304990_amd64.deb
 
-系统会询问三个问题：文件名随便写，协议写 ```GPL``` 即可，编辑文件直接 ```Enter``` 跳过 
+系统会询问三个问题：文件名随便写，协议写 ```GPL``` 即可，编辑文件直接按 ```Enter``` 跳过 
 
 此处会生成一个 ```tar.zst``` 包，双击打开（右键用“软件安装程序”打开）即可安装 
 
@@ -476,6 +487,9 @@ https://www.cnblogs.com/Jaywhen-xiang/p/11561661.html
 
 Manjaro 20 KDE配置心得
 https://blog.csdn.net/weixin_40293491/article/details/107526553
+
+Manjaro 安装体验小结
+https://zhuanlan.zhihu.com/p/76608451
 
 Manjaro安装后你需要这样做
 https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E6%96%B9%E6%BA%90
