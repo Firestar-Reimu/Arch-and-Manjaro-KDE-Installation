@@ -1,4 +1,4 @@
-<font face="JetBrains Mono NL">
+<font face="JetBrains Mono">
 
 # **在Surface Pro 6上安装Manjaro 20.0.3 KDE Plasma + Windows 10双系统的指南**
 
@@ -28,21 +28,21 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 ### **关闭快速启动**
 
-控制面板-->电源选项-->选择电源按钮的功能-->更改当前不可用的设置-->保存修改
+控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 保存修改
 
 ### **关闭Bitlocker**
 
-开始菜单-->设置-->更新和安全-->设备加密-->关闭
+开始菜单 --> 设置 --> 更新和安全 --> 设备加密 --> 关闭
 
 ### **进入UEFI模式**
 
-关闭 Surface，然后等待大约 10 秒钟以确保其处于关闭状态。
+关闭 Surface，然后等待大约 10 秒钟以确保其处于关闭状态 
 
-长按 Surface 上的调高音量按钮，同时按下再松开电源按钮。
+长按 Surface 上的调高音量按钮，同时按下再松开电源按钮 
     
-屏幕上会显示 Microsoft 或 Surface 徽标。继续按住调高音量按钮。显示 UEFI 屏幕后，松开此按钮。
+屏幕上会显示 Microsoft 或 Surface 徽标 继续按住调高音量按钮 显示 UEFI 屏幕后，松开此按钮 
 
-Security-->Secure Boot-->Disabled(第三个选项)
+Security --> Secure Boot --> Disabled(第三个选项)
 
 ### **制作启动盘**
 
@@ -50,11 +50,11 @@ Security-->Secure Boot-->Disabled(第三个选项)
 
 https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
-下载Rufus（当前版本是3.11），刻录启动盘。启动盘用移动硬盘会无法被识别，直接选中镜像点确定即可。（现在已经没有ISO/DD选项）
+下载Rufus（当前版本是3.11），刻录启动盘 启动盘用移动硬盘会无法被识别，直接选中镜像点确定即可 （现在已经没有ISO/DD选项）
 
 ### **安装Manjaro**
 
-设置-->恢复-->立即重新启动-->USB Storage
+设置 --> 恢复 --> 立即重新启动 --> USB Storage
 
 #### **分区设置**
 
@@ -65,13 +65,15 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 | 40960M (40G) |   ext4    |   /    | root  |
 |   the rest   |   ext4    | /home  |       |
 
-**/root建议至少40G**
+**/root建议至少50G，因为几乎所有软件都要装在这里**
+
+**Office选择无，在安装软件时再下载 WPS Office**
 
 ## **初始配置**
 
 ### **电源设置**
 
-系统设置-->电源管理-->节能-->勾选“按键事件处理”-->“合上笔记本盖时”选择“关闭屏幕”-->勾选“即使已连接外部显示器”
+系统设置 --> 电源管理 --> 节能 --> 勾选“按键事件处理” --> “合上笔记本盖时”选择“关闭屏幕” --> 勾选“即使已连接外部显示器”
 
 常见英文名词：
 
@@ -99,7 +101,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 ### **AUR软件源**
 
-添加/删除软件-->右上角“ $\boxed{\cdot\cdot\cdot}$ ”-->首选项-->AUR-->启用AUR支持
+添加/删除软件 --> 右上角“ $\boxed{\cdot\cdot\cdot}$ ” --> 首选项 --> AUR --> 启用AUR支持
 
 	sudo pacman -S yay
 	sudo pacman -S archlinuxcn-keyring
@@ -118,17 +120,17 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 |                   Windows                    |                     Manjaro                      |
 | :------------------------------------------: | :----------------------------------------------: |
-|     时钟点右键-->调整日期/时间-->自动设置时间     |     时钟点右键-->调整日期和时间-->自动设置日期和时间     |
+|     时钟点右键 --> 调整日期/时间 --> 自动设置时间     |     时钟点右键 --> 调整日期和时间 --> 自动设置日期和时间     |
 
 #### **Manjaro设置24小时制**
 
-时钟点右键-->配置数字时钟-->时间显示-->24小时制
+时钟点右键 --> 配置数字时钟 --> 时间显示 --> 24小时制
 
 ### **自动连接Wifi**
 
 确保KDE钱包开启即可，调整路径如下：
 
-应用-->系统-->KWalletManager
+应用 --> 系统 --> KWalletManager
 
 ### **连接北京大学VPN**
 
@@ -140,12 +142,12 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 **如果要挂载C盘请确保快速启动已经关闭**
 
-这里以D盘为例，分区是 ```/dev/nvme0n1p4``` ，可以在KDE分区管理器里面找到。
+这里以D盘为例，分区是 ```/dev/nvme0n1p4``` ，可以在KDE分区管理器里面找到 
 
-    sudo mkdir /mnt/windows/d
+    sudo mkdir /mnt/windows/D
     sudo blkid /dev/nvme0n1p4
 
-在输出结果中可以发现一段 ```UUID="XXXXXXXXXXXXXXXX"``` 的内容，右键选中复制下来。
+在输出结果中可以发现一段 ```UUID="XXXXXXXXXXXXXXXX"``` 的内容，右键选中复制下来 
 
 接着就来修改系统文件
 
@@ -164,7 +166,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 #### **如果文件系统突然变成只读**
 
-一般来讲是在Windows进行了优化磁盘等操作导致的。
+一般来讲是在Windows进行了优化磁盘等操作导致的 
 
 检查占用进程：
 
@@ -192,11 +194,13 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 ### **桌面美化**
 
-屏幕分辨率是2736*1824，需要配置高分屏优化：
+屏幕分辨率是2736*1824，需要在“系统设置”中配置高分屏优化：
 
 字体大小14pt，固定DPI=144
 
-分辨率-->全局缩放-->125%
+分辨率 --> 全局缩放 --> 125%
+
+光标 --> 大小 --> 36
 
 #### **解决“添加/删除软件”（即pamac）图标太小的问题**
 
@@ -213,9 +217,9 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 #### **Firefox缩放比例**
 
-首选项-->默认缩放为150%
+首选项 --> 默认缩放为150%
 
-```about:config``` --> ```layout.css.devPixelsPerPx``` -->改为1.5
+```about:config```  -->  ```layout.css.devPixelsPerPx```  --> 改为1.5
 
 #### **主题美化**
 
@@ -252,23 +256,23 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 #### **Konsole快捷键**
 
-右上角$\boxed{\cdot\cdot\cdot}$-->配置键盘快捷键-->复制改为 ```Ctrl+C``` ，粘贴改为 ```Ctrl+V``` 
+右上角$\boxed{\cdot\cdot\cdot}$ --> 配置键盘快捷键 --> 复制改为 ```Ctrl+C``` ，粘贴改为 ```Ctrl+V``` 
 
 #### **Dolphin图标大小和快捷键**
 
-右上角$\boxed{\cdot\cdot\cdot}$-->配置Dolphin-->视图模式-->图标大小都设为96-->标签宽度设为大
+右上角$\boxed{\cdot\cdot\cdot}$ --> 配置Dolphin --> 视图模式 --> 图标大小都设为96 --> 标签宽度设为大
 
-右上角$\boxed{\cdot\cdot\cdot}$-->配置键盘快捷键-->移至回收站改为 ```Ctrl+D``` ，删除改为 ```Del```
+右上角$\boxed{\cdot\cdot\cdot}$ --> 配置键盘快捷键 --> 移至回收站改为 ```Ctrl+D``` ，删除改为 ```Del```
 
 ## **下载软件**
 
 ### **语言包**
 
-系统设置-->语言包-->右上角安装语言包
+系统设置 --> 语言包 --> 右上角安装语言包
 
 ### **安装微软字体**
 
-.ttf和.otf字体：右键-->动作-->安装-->安装到系统字体
+.ttf和.otf字体：右键 --> 动作 --> 安装 --> 安装到系统字体
 
 .ttc字体安装方法如下：
 
@@ -279,7 +283,7 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
     sudo mkfontdir
     fc-cache -fv
 
-这样就可以安装微软雅黑、宋体、黑体等字体了。
+这样就可以安装微软雅黑、宋体、黑体等字体了 
 
 #### **更改程序和终端默认中文字体为微软雅黑**
 
@@ -350,38 +354,91 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 	export QT_IM_MODULE=fcitx
 	export XMODIFIERS="@im=fcitx"
 
-Fcitx配置-->附加组件-->云拼音-->下方的“配置”-->云拼音来源改为“百度”
+Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼音来源改为“百度”
 
 ### **安装其它软件**
 
-以下命令中的 ```yay -S``` 也可以用 ```sudo pacman -S``` 代替，或者在“添加/删除软件”（即pamac）中搜索安装
+以下命令中的 ```yay -S``` 也可以在“添加/删除软件”（即pamac）中搜索安装，部分也可用 ```sudo pacman -S``` 代替 
+
+**推荐用 ```yay -S``` ，因为 ```sudo pacman -S``` 不一定能搜索到**
 
 	yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 	yay -S electron-netease-cloud-music
 	yay -S nautilus
 	yay -S texlive-most texlive-lang
 	yay -S texstudio
-	yay -S visual-studio-code-bin
-	yay -S evolution
 	yay -S stellarium
 	yay -S geogebra
 
 **以后用 ```sudo nautilus``` 就可以访问没有权限的文件**
 
-Evolution用于替代Thunderbird
+### **Thunderbird安装与配置**
 
-### **Anaconda配置**
+官方软件仓库的Thunderbird是版本68.11.0，要安装最新的版本78.1.1需要输入：
+
+	yay -S thunderbird-bin
+
+安装后设置邮箱登录，进入首选项界面调整显示：
+
+Startpage清空并取消勾选
+
+Default Search Engine改为Bing
+
+System Intergration全部设为默认并取消勾选
+
+Preferences --> General --> Fonts and Colors --> Advanced... --> Fonts for: --> Simplified Chinese/Latin/Other Writing Systems --> 字体大小（Proportional/Monospace/Minimum Font Size）全部改为16
+
+Preferences --> General --> Fonts and Colors --> Advanced... --> 取消勾选Allow messages to use other fonts
+
+Preferences --> General --> Config Editor（在最下方） --> layout.css.devPixelsPerPx --> 改为2.25
+
+右键点击上方工具栏Mail Toolbar，选择Customize，自行配置即可
+
+### **Anaconda安装**
+
+**运行 ```conda``` 时建议连接北京大学VPN**
+
+默认安装：
 
 	yay -S anaconda
-	source ~/.zshrc
 
-### **Visual Studio Code图标更改**
+自定义安装参考以下网址：
 
-图标美化后Visual Studio Code图标变成圆形，想恢复原图标，更改路径如下：
+Anaconda Documentation -- Installing on Linux
+https://docs.anaconda.com/anaconda/install/linux/
 
-程序启动器-->编辑应用程序-->Visual Studio Code-->点击图标更改-->其他图标
+恢复之前的版本：
 
-### **Visual Studio Code缩放比例**
+	conda list --revisions
+	conda install --revision (revision_number)
+
+注意：如果回滚到早期版本（revision_number较小）之后又想回到某个高版本（revision_number较大），必须要把两个版本中的版本都装一遍
+
+### **Visual Studio Code安装与配置**
+
+#### **Visual Studio Code安装**
+
+下载最新版本的Visual Studio Code（以版本1.48.0为例）：
+
+在官网下载地址 ```https://code.visualstudio.com/Download``` 选择 ```.deb``` 包，下载到文件夹 
+
+**运行 ```debtap``` 时建议连接北京大学VPN**
+
+	yay -S debtap
+	sudo debtap -u
+	sudo debtap code_1.48.0-1597304990_amd64.deb
+
+系统会询问三个问题：文件名随便写，协议写 ```GPL``` 即可，编辑文件直接 ```Enter``` 跳过 
+
+此处会生成一个 ```tar.zst``` 包，双击打开（右键用“软件安装程序”打开）即可安装 
+
+#### **Visual Studio Code图标更改**
+
+如果图标美化后Visual Studio Code图标变成圆形，想恢复原图标，更改路径如下：
+
+程序启动器 --> 编辑应用程序 --> Visual Studio Code --> 点击图标更改 --> 其他图标
+
+#### **Visual Studio Code缩放比例**
 
 放大比例：```Ctrl+=```
 
@@ -391,11 +448,11 @@ Evolution用于替代Thunderbird
 
 清理全部软件安装包
 
-    sudo pacman -Scc
+    yay -Scc
 
 清理无用的孤立软件包
 
-    sudo pacman -Rsn $(pacman -Qdtq)
+    yay -Rsn $(pacman -Qdtq)
 
 ## **参考资料**
 
@@ -464,5 +521,17 @@ https://forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
 
 ArchWiki -- pacman (简体中文)
 https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+
+Font size of mailbox is too small
+https://support.mozilla.org/zh-CN/questions/1297871
+
+Anaconda Documentation -- Installing on Linux
+https://docs.anaconda.com/anaconda/install/linux/
+
+恢复anaconda环境, 卸载anaconda, 重装anaconda
+https://blog.csdn.net/wangweiwells/article/details/88374361
+
+Manjaro 安装 .deb 包
+https://zhuanlan.zhihu.com/p/83335242
 
 </font>
