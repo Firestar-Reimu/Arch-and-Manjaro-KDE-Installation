@@ -75,7 +75,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 系统设置 --> 电源管理 --> 节能 --> 勾选“按键事件处理” --> 合上笔记本盖时 --> 选择“关闭屏幕” --> 勾选“即使已连接外部显示器”
 
-常见英文名词：
+#### **与电源管理相关的常见英文名词**
 
 Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
@@ -104,7 +104,6 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用AUR支持
 
 	sudo pacman -S yay
-	sudo pacman -S archlinuxcn-keyring
 
 执行以下命令修改 aururl 以启用清华源:
 
@@ -113,6 +112,18 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 修改的配置文件位于 ```~/.config/yay/config.json``` ，还可通过以下命令查看修改过的配置：
 
 	yay -P -g
+
+### **Arch Linux CN 软件源**
+
+在 ```/etc/pacman.conf``` 文件末尾添加以下两行：
+
+	[archlinuxcn]
+
+	Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
+
+之后执行下面的命令安装archlinuxcn-keyring包导入GPG key
+
+	sudo pacman -S archlinuxcn-keyring
 
 ### **双系统时间不同步+24小时制**
 
@@ -241,7 +252,7 @@ https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
 Latte-Dock的推荐设置：
 
-行为：位置 --> 底部，可见性 --> 自动隐藏， 延迟 --> 显示 --> none
+行为：位置 --> 底部，可见性 --> 自动隐藏，延迟 --> 显示 --> none
 
 外观：绝对大小 --> 96，背景大小 --> 10%
 
@@ -453,20 +464,33 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 注意：如果回滚到早期版本（revision_number较小）之后又想回到某个高版本（revision_number较大），必须要把两个版本中的版本都装一遍
 
+打开Anaconda Navigator需要在终端中输入：
+
+	anaconda-navigator
+
+用Spyder打开某个文件需要在终端中输入：
+
+	spyder (file_path)/(file_name)
+
 ### **Visual Studio Code安装与配置**
 
 #### **Visual Studio Code安装**
 
 下载最新版本的Visual Studio Code（以版本1.48.0为例）：
 
-在官网选择 ```.deb``` 包，下载到文件夹，网址如下：
+在官网选择 ```.deb``` 安装包，下载到文件夹，网址如下：
 
 https://code.visualstudio.com/Download
 
-**运行 ```debtap``` 时建议连接北京大学VPN**
+首先要下载并更新debtap包：
 
 	yay -S debtap
 	sudo debtap -u
+
+**运行 ```sudo debtap -u``` 时建议连接北京大学VPN**
+
+进入含有 ```.deb``` 安装包的文件夹，输入：
+
 	sudo debtap code_1.48.0-1597304990_amd64.deb
 
 系统会询问三个问题：文件名随便写，协议写 ```GPL``` 即可，编辑文件直接按 ```Enter``` 跳过 
