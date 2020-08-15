@@ -50,7 +50,7 @@ Security --> Secure Boot --> Disabled(第三个选项)
 
 https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
-下载Rufus（当前版本是3.11），刻录启动盘 启动盘用移动硬盘会无法被识别，直接选中镜像点确定即可 （现在已经没有ISO/DD选项）
+下载Rufus（当前版本是3.11），刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有ISO/DD选项）
 
 ### **安装Manjaro**
 
@@ -73,7 +73,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 ### **电源设置**
 
-系统设置 --> 电源管理 --> 节能 --> 勾选“按键事件处理” --> “合上笔记本盖时”选择“关闭屏幕” --> 勾选“即使已连接外部显示器”
+系统设置 --> 电源管理 --> 节能 --> 勾选“按键事件处理” --> 合上笔记本盖时 --> 选择“关闭屏幕” --> 勾选“即使已连接外部显示器”
 
 常见英文名词：
 
@@ -85,7 +85,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	sudo visudo
 
-在最后一行（空行）输入 ```a``` 进入输入模式，加上这一行：
+在最后一行（空行）按 ```a``` 进入输入模式，加上这一行：
 
 	Defaults:(user_name) !authenticate
 
@@ -101,7 +101,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 ### **AUR软件源**
 
-添加/删除软件 --> 右上角“ $\boxed{\cdot\cdot\cdot}$ ” --> 首选项 --> AUR --> 启用AUR支持
+添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用AUR支持
 
 	sudo pacman -S yay
 	sudo pacman -S archlinuxcn-keyring
@@ -118,9 +118,9 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 #### **双系统时间不同步**
 
-|                   Windows                    |                     Manjaro                      |
-| :------------------------------------------: | :----------------------------------------------: |
-|     时钟点右键 --> 调整日期/时间 --> 自动设置时间     |     时钟点右键 --> 调整日期和时间 --> 自动设置日期和时间     |
+|                    Windows                    |                       Manjaro                        |
+| :-------------------------------------------: | :--------------------------------------------------: |
+| 时钟点右键 --> 调整日期/时间 --> 自动设置时间 | 时钟点右键 --> 调整日期和时间 --> 自动设置日期和时间 |
 
 #### **Manjaro设置24小时制**
 
@@ -170,7 +170,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 #### **如果文件系统突然变成只读**
 
-一般来讲是在Windows进行了优化磁盘等操作导致的 
+一般来讲是Windows进行了优化磁盘等操作导致的 
 
 检查占用进程：
 
@@ -239,6 +239,12 @@ https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 	GTK Theme: Mojave-light-alt [GTK2/3]
     Icon Theme: Mojave-CT-Light
 
+Latte-Dock的推荐设置：
+
+行为：位置 --> 底部，可见性 --> 自动隐藏， 延迟 --> 显示 --> none
+
+外观：绝对大小 --> 96，背景大小 --> 10%
+
 #### **终端美化**
 
 参考以下网址：
@@ -260,13 +266,13 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 #### **Konsole快捷键**
 
-右上角$\boxed{\cdot\cdot\cdot}$ --> 配置键盘快捷键 --> 复制改为 ```Ctrl+C``` ，粘贴改为 ```Ctrl+V``` 
+右上角 ··· --> 配置键盘快捷键 --> 复制改为 ```Ctrl+C``` ，粘贴改为 ```Ctrl+V``` 
 
 #### **Dolphin图标大小和快捷键**
 
-右上角$\boxed{\cdot\cdot\cdot}$ --> 配置Dolphin --> 视图模式 --> 图标大小都设为96 --> 标签宽度设为大
+右上角 ··· --> 配置Dolphin --> 视图模式 --> 图标大小都设为96 --> 标签宽度设为大
 
-右上角$\boxed{\cdot\cdot\cdot}$ --> 配置键盘快捷键 --> 移至回收站改为 ```Ctrl+D``` ，删除改为 ```Del```
+右上角 ··· --> 配置键盘快捷键 --> 移至回收站改为 ```Ctrl+D``` ，删除改为 ```Del```
 
 ## **下载软件**
 
@@ -358,6 +364,8 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 	export QT_IM_MODULE=fcitx
 	export XMODIFIERS="@im=fcitx"
 
+保存重启即可
+
 Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼音来源改为“百度”
 
 ### **安装其它软件**
@@ -378,11 +386,23 @@ Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼�
 
 ### **Thunderbird安装与配置**
 
+#### **Thunderbird安装与登录**
+
 官方软件仓库的Thunderbird是版本68.11.0，要安装最新的版本78.1.1需要输入：
 
 	yay -S thunderbird-bin
 
-安装后设置邮箱登录，进入首选项界面调整显示：
+安装后设置邮箱登录，参数如下：
+
+|   收件服务器    |   发件服务器    |
+| :-------------: | :-------------: |
+| imap.pku.edu.cn | smtp.pku.edu.cn |
+|   端口号：143   |   端口号：25    |
+| SSL端口号：993  | SSL端口号：465  |
+
+#### **Thunderbird美化**
+
+进入首选项界面调整显示：
 
 Startpage清空并取消勾选
 
@@ -397,6 +417,16 @@ Preferences --> General --> Fonts and Colors --> Advanced... --> 取消勾选All
 Preferences --> General --> Config Editor（在最下方） --> layout.css.devPixelsPerPx --> 改为2.25
 
 右键点击上方工具栏Mail Toolbar，选择Customize，自行配置即可
+
+#### **Thunderbird帐号配置**
+
+点击邮箱帐号，配置Account Settings如下：
+
+Server Settings --> Server Settings --> Check for new messages every ```1``` minutes
+
+Server Settings --> Server Settings --> When I delete a message --> Remove it immediately
+
+Copies & Folders --> When sending messages, automatically --> 取消勾选Place a copy in
 
 ### **Git配置**
 
