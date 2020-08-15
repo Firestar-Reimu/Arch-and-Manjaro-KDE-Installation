@@ -105,7 +105,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	sudo pacman -S yay
 
-执行以下命令修改 aururl 以启用清华源:
+执行以下命令以启用清华镜像:
 
 	yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
 
@@ -115,7 +115,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 ### **Arch Linux CN 软件源**
 
-在 ```/etc/pacman.conf``` 文件末尾添加以下两行：
+在 ```/etc/pacman.conf``` 文件末尾添加以下两行以启用上海交大镜像：
 
 	[archlinuxcn]
 
@@ -232,7 +232,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 #### **Firefox缩放比例**
 
-首选项 --> 默认缩放为133%
+首选项 --> 默认缩放为150%
 
 ```about:config```  -->  ```layout.css.devPixelsPerPx```  --> 改为1.5
 
