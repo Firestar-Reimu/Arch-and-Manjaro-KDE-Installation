@@ -439,10 +439,19 @@ Server Settings --> Server Settings --> When I delete a message --> Remove it im
 
 Copies & Folders --> When sending messages, automatically --> 取消勾选Place a copy in
 
-### **Git配置**
+### **Git配置用户名、邮箱及免密码设置**
 
-	git config --global user.name "1900011604"
-	git config --global user.email "1900011604@pku.edu.cn"
+	git config --global user.name "(user_name)"
+	git config --global user.email "(user_email)"       
+	kate .git-credentials
+
+写入如下语句：
+
+    https://(user_name):(user_password)@github.com
+
+保存退出
+
+	git config --global credential.helper store
 
 ### **Anaconda安装**
 
