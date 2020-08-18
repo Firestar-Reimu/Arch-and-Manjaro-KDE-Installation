@@ -1,3 +1,0 @@
-autopep8 --in-place --aggressive --aggressive D:/test.py
-
-“D:/test.py”需要根据实际情况调整为自己的路径和python文件名！
