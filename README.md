@@ -185,7 +185,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 检查占用进程：
 
-    sudo fuser -m -u /dev/sdb2
+    sudo fuser -m -u /dev/nvme0n1p4
 
 可以看到数字，就是占用目录的进程PID，终止进程：
 
