@@ -203,6 +203,19 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	sudo mount /dev/nvme0n1p4 /mnt/windows/D
 
+### **Linux-Surface安装**
+
+参考以下网址：
+
+Linux-Surface -- Installation and Setup
+https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
+
+在终端中输入：
+
+	systemctl enable iptsd
+
+可以开机时自动启动触屏功能
+
 ## **美化**
 
 **一定要先美化再装软件！**
@@ -570,6 +583,9 @@ https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-ma
 
 双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读
 https://jakting.com/archives/ubuntu-rw-windows-files.html
+
+Linux-Surface -- Installation and Setup
+https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
 Kde桌面的Mac化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
