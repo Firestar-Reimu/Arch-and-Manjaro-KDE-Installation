@@ -245,8 +245,9 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 Kde桌面的Mac化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
-其中GTK主题和图标主题选择：
-
+其中Plasma主题、GTK主题和图标主题分别选择：
+	
+	Plasma Theme: Mojave-CT
 	GTK Theme: Mojave-light-alt [GTK2/3]
     Icon Theme: Mojave-CT-Light
 
@@ -262,6 +263,10 @@ Latte-Dock的推荐设置：
 
 Oh-My-Zsh及主题、插件的安装与配置
 https://www.cnblogs.com/misfit/p/10694397.html
+
+zsh主题选择：
+
+	geoffgarside
 
 #### **grub美化**
 
