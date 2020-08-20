@@ -586,6 +586,16 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 	yay -S xournalpp
 
+### **屏幕键盘**
+
+目前最受欢迎的屏幕键盘应该是 OnBoard
+
+	yay -S onboard
+
+但 OnBoard 在 Wayland 上无法使用。如果需要在 Wayland 会话中使用屏幕键盘，推荐安装 CellWriter：
+
+	yay -S cellwriter
+
 ### **清理缓存**
 
 清理全部软件安装包
@@ -595,6 +605,12 @@ https://docs.anaconda.com/anaconda/install/linux/
 清理无用的孤立软件包
 
     yay -Rsn $(pacman -Qdtq)
+
+### **重新开启 Secure Boot**
+
+如果想去掉开机时的姨妈红，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
+
+具体教程：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Using_a_signed_boot_loader)
 
 ## **参考资料**
 
