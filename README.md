@@ -34,7 +34,7 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 开始菜单 --> 设置 --> 更新和安全 --> 设备加密 --> 关闭
 
-### **进入UEFI模式**
+### **进入UEFI设置**
 
 关闭 Surface，然后等待大约 10 秒钟以确保其处于关闭状态 
 
@@ -46,11 +46,11 @@ Security --> Secure Boot --> Disabled(第三个选项)
 
 ### **制作启动盘**
 
-在清华大学镜像中下载Manjaro镜像，网址如下：
+在清华大学镜像中下载 Manjaro KDE 镜像，网址如下：
 
 https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
-下载Rufus（当前版本是3.11），刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有ISO/DD选项）
+使用 [Ventoy](https://ventoy.net) 制作启动盘，然后将下载的.iso 文件复制到 U 盘的第一个分区中即可。
 
 ### **安装Manjaro**
 
@@ -60,12 +60,12 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 |     大小     | 文件系统  | 挂载点 | 标记  |
 | :----------: | :-------: | :----: | :---: |
-|  8192M (8G)  | linuxswap |        | swap  |
-|     512M     |   ext4    | /boot  | boot  |
 | 40960M (40G) |   ext4    |   /    | root  |
 |   the rest   |   ext4    | /home  |       |
 
 **如果空间足够，/root建议至少60G，因为几乎所有软件都要装在这里**
+
+**使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件)**
 
 **系统安装时Office选择No Office Suite，在安装软件时再下载 WPS Office**
 
@@ -75,9 +75,21 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 系统设置 --> 电源管理 --> 节能 --> 勾选“按键事件处理” --> 合上笔记本盖时 --> 选择“关闭屏幕” --> 勾选“即使已连接外部显示器”
 
+#### **解决发热严重和掉电快的问题**
+
+安装 KDE 小部件：Intel P-state and CPU-Freq Manager
+
+不需要高性能的时候可以关掉 turbo，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热
+
 #### **与电源管理相关的常见英文名词**
 
 Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
+
+### **禁用 baloo**
+
+`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
+
+	balooctl disable
 
 ### **sudo免密码**
 
@@ -99,13 +111,31 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
     sudo pacman -Syyu
 
-### **AUR软件源**
+### **AUR**
+#### 安装 base-devel
+AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软件包而不将它们写入构建依赖。为了避免在构建过程中出现一些奇怪的错误，建议先安装 `base-devel`：
 
+	sudo pacman -S base-devel
+
+或
+
+	pamac install base-devel
+
+#### 启用 pamac 的 AUR 支持
 添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用AUR支持
+
+然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
+
+#### 安装 yay
+除了预装的 `pamac`，Manjaro 官方仓库中的 AUR 助手还有 `yay`
 
 	sudo pacman -S yay
 
-执行以下命令以启用清华镜像:
+或
+
+	pamac install yay
+
+执行以下命令以启用清华的 AUR 反代:
 
 	yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
 
@@ -125,13 +155,17 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	sudo pacman -S archlinuxcn-keyring
 
+由于 Manjaro 的更新滞后于 Arch，使用 `[archlinuxcn]` 仓库可能会出现“部分更新”的情况，导致某些软件包损坏。用下面的命令切换到 unstable 分支可以尽量跟进 Arch 的更新：
+
+	sudo pacman-mirrors -a -f -B unstable
+
 ### **双系统时间不同步+24小时制**
 
 #### **双系统时间不同步**
 
-|                    Windows                    |                       Manjaro                        |
-| :-------------------------------------------: | :--------------------------------------------------: |
-| 时钟点右键 --> 调整日期/时间 --> 自动设置时间 | 时钟点右键 --> 调整日期和时间 --> 自动设置日期和时间 |
+可以在 Manjaro 上设置硬件时间为 localtime，与 Windows 保持一致
+
+	sudo timedatectl set-local-rtc 1
 
 #### **Manjaro设置24小时制**
 
@@ -383,35 +417,39 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
     sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin fcitx-sunpinyin manjaro-asian-input-support-fcitx
 
-配置文件：
+`manjaro-asian-input-support-fcitx` 提供了 `/etc/profile.d/input-support.sh`，其中包含了以下内容：
 
-在 ```/etc/profile``` 或者 ```~/.xprofile``` 文件中添加：
+	# https://wiki.archlinux.org/index.php/Fcitx
+	im=fcitx
+	export GTK_IM_MODULE=$im
+	export QT_IM_MODULE=$im
+	export XMODIFIERS=@im=$im
 
-	export XIM=fcitx
-	export XIM_PROGRAM=fcitx
-	export GTK_IM_MODULE=fcitx
-	export QT_IM_MODULE=fcitx
-	export XMODIFIERS="@im=fcitx"
-
-保存重启即可
+因此无需再手动设置环境变量
 
 Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼音来源改为“百度”
 
 ### **安装其它软件**
 
-以下命令中的 ```yay -S``` 也可以在“添加/删除软件”（即pamac）中搜索安装，部分也可用 ```sudo pacman -S``` 代替 
-
-**推荐用 ```yay -S``` ，因为 ```sudo pacman -S``` 不一定能搜索到**
+以下命令中的 ```yay -S``` 也可以在“添加/删除软件”（即pamac）中搜索安装，或者用 ```pamac install``` 安装
 
 	yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 	yay -S electron-netease-cloud-music
-	yay -S nautilus
 	yay -S texlive-most texlive-lang
 	yay -S texstudio
 	yay -S stellarium
 	yay -S geogebra
 
-**以后用 ```sudo nautilus``` 就可以访问没有权限的文件**
+~~**以后用 ```sudo nautilus``` 就可以访问没有权限的文件**~~
+很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码。例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框。习惯就好。
+
+### **安装 KDE 的 Wayland 支持**
+
+与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题。目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态。
+
+	yay -S plasma-wayland-session
+
+安装后即可在登录界面选择 Wayland 会话。
 
 ### **Thunderbird安装与配置**
 
@@ -503,26 +541,25 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 #### **Visual Studio Code安装**
 
-下载最新版本的Visual Studio Code（以版本1.48.0为例）：
+发行版维护者从开源代码构建的版本：
 
-在官网选择 ```.deb``` 安装包，下载到文件夹，网址如下：
+	yay -S code
 
-https://code.visualstudio.com/Download
+微软官方的二进制 release（包含部分私有的组件）：
 
-首先要下载并更新debtap包：
+	yay -S visual-studio-code-bin
 
-	yay -S debtap
-	sudo debtap -u
+内测版本：
 
-**运行 ```sudo debtap -u``` 时建议连接北京大学VPN**
+	yay -S visual-studio-code-insiders
 
-进入含有 ```.deb``` 安装包的文件夹，输入：
+第三方发布的从开源代码构建的二进制包：
 
-	sudo debtap code_1.48.0-1597304990_amd64.deb
+	yay -S vscodium-bin
 
-系统会询问三个问题：文件名随便写，协议写 ```GPL``` 即可，编辑文件直接按 ```Enter``` 跳过 
+从最新的开源代码构建：
 
-此处会生成一个 ```tar.zst``` 包，双击打开（右键用“软件安装程序”打开）即可安装 
+	yay -S code-git
 
 #### **Visual Studio Code图标更改**
 
@@ -536,6 +573,29 @@ https://code.visualstudio.com/Download
 
 缩小比例：```Ctrl+-```
 
+#### **在 Visual Studio Code 中使用触屏**
+
+编辑 VSCode 的启动器，在启动命令中加入 `--touch-events` 选项
+
+### **能用上触控笔的软件**
+#### **绘画**
+
+	yay -S krita
+
+#### **手写笔记**
+
+	yay -S xournalpp
+
+### **屏幕键盘**
+
+目前最受欢迎的屏幕键盘应该是 OnBoard
+
+	yay -S onboard
+
+但 OnBoard 在 Wayland 上无法使用。如果需要在 Wayland 会话中使用屏幕键盘，推荐安装 CellWriter：
+
+	yay -S cellwriter
+
 ### **清理缓存**
 
 清理全部软件安装包
@@ -545,6 +605,12 @@ https://code.visualstudio.com/Download
 清理无用的孤立软件包
 
     yay -Rsn $(pacman -Qdtq)
+
+### **重新开启 Secure Boot**
+
+如果想去掉开机时的姨妈红，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
+
+具体教程：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Using_a_signed_boot_loader)
 
 ## **参考资料**
 
@@ -629,7 +695,13 @@ https://docs.anaconda.com/anaconda/install/linux/
 恢复anaconda环境, 卸载anaconda, 重装anaconda
 https://blog.csdn.net/wangweiwells/article/details/88374361
 
-Manjaro 安装 .deb 包
-https://zhuanlan.zhihu.com/p/83335242
+Switching Branches - Manjaro Linux
+https://wiki.manjaro.org/index.php?title=Switching_Branches
+
+System time#Time standard - ArchWiki
+https://wiki.archlinux.org/index.php/System_time#Time_standard
+
+Baloo - ArchWiki
+https://wiki.archlinux.org/index.php/Baloo
 
 </font>
