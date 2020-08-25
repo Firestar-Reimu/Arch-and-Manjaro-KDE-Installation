@@ -1,0 +1,139 @@
+// 下载扩展：Python, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop
+
+
+{
+    "workbench.colorTheme": "Default Light+",
+    "editor.fontSize": 16,
+    "editor.fontFamily": "JetBrains Mono NL, Consolas, SimSun",
+    "debug.console.fontSize": 16,
+    "markdown.preview.fontSize": 16,
+    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+    "editor.tokenColorCustomizations": {
+        "comments": {
+            // 设置字体样式 加粗 下划线 斜体等
+            "fontStyle": "bold",
+            // 设置字体颜色
+            "foreground": "#ff0000"
+        }, // 注释
+        "keywords": "#900090", // 关键字
+        "variables": "#1874CD", // 变量名
+        "strings": "#00aa00", // 字符串
+        "functions": "#ff5500", // 函数名
+        "numbers": "#994400", // 数字
+    },
+    "workbench.colorCustomizations": {
+        "editor.selectionHighlightBackground": "#ffff99"
+    },
+    "python.pythonPath": "D:\\Apps\\Anaconda\\python.exe",
+    "workbench.startupEditor": "newUntitledFile",
+    "files.autoSave": "onFocusChange",
+    "files.autoSaveDelay": 0,
+    "git.enableSmartCommit": true,
+    // bracket-pair-colorizer-2
+    "bracket-pair-colorizer-2.colors": [
+        "#14B363",
+        "#EE4000",
+        "#BA55D3",
+    ],
+    "bracket-pair-colorizer-2.activeScopeCSS": [
+        "borderStyle : solid",
+        "borderWidth : 1px",
+        "borderColor : {color}",
+        "opacity: 0.5"
+    ],
+    // LaTeX
+    "latex-workshop.message.error.show": false,
+    "latex-workshop.message.warning.show": false,
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOCFILE%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOCFILE%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatex",
+            "tools": [
+                "xelatex"
+            ],
+        },
+        {
+            "name": "pdflatex",
+            "tools": [
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "xe->bib->xe->xe",
+            "tools": [
+                "xelatex",
+                "bibtex",
+                "xelatex",
+                "xelatex"
+            ]
+        },
+        {
+            "name": "pdf->bib->pdf->pdf",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        }
+    ],
+    "latex-workshop.view.pdf.viewer": "tab",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.ist",
+        "*.fls",
+        "*.log",
+        "*.fdb_latexmk",
+    ],
+    "latex-workshop.latex.pdfWatch.delay": 0,
+    "editor.wordWrap": "on",
+    "python.dataScience.themeMatplotlibPlots": true,
+    "python.condaPath": "D:\\Apps\\Anaconda\\Scripts\\conda.exe",
+    "python.dataScience.sendSelectionToInteractiveWindow": true,
+    "python.linting.pylintArgs": ["--generate-members"]
+}
