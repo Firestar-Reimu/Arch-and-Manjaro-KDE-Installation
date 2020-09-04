@@ -2,7 +2,7 @@
 
 # **在Surface Pro 6上安装Manjaro 20.0.3 KDE Plasma + Windows 10双系统的指南**
 
-```
+`
 OS: Manjaro 20.0.3 Lysia
 
 Kernel: x86_64 Linux 5.7.9-1-MANJARO
@@ -22,7 +22,7 @@ Icon Theme: Mojave-CT-Light
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
-```
+`
 
 ## **Windows的准备工作**
 
@@ -58,12 +58,10 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 #### **分区设置**
 
-|     大小     | 文件系统  | 挂载点 | 标记  |
-| :----------: | :-------: | :----: | :---: |
-| 40960M (40G) |   ext4    |   /    | root  |
-|   the rest   |   ext4    | /home  |       |
-
-**如果空间足够，/root建议至少60G，因为几乎所有软件都要装在这里**
+|     大小     |  文件系统  |   挂载点   |  标记  |
+| :---------: | :-------: | :-------: | :----: |
+|     all     |   ext4    |     /     |  root  |
+|    260MB    |           | /boot/efi |        |
 
 **使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件)**
 
@@ -97,11 +95,11 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	sudo visudo
 
-在最后一行（空行）按 ```a``` 进入输入模式，加上这一行：
+在最后一行（空行）按 `a` 进入输入模式，加上这一行：
 
 	Defaults:(user_name) !authenticate
 
-按 ```Esc``` 进入命令模式，再按 ```:wq``` 保存，按 ```Enter``` 退出
+按 `Esc` 进入命令模式，再按 `:wq` 保存，按 `Enter` 退出
 
 ### **官方软件源更改镜像**
 
@@ -139,13 +137,13 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 	yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
 
-修改的配置文件位于 ```~/.config/yay/config.json``` ，还可通过以下命令查看修改过的配置：
+修改的配置文件位于 `~/.config/yay/config.json` ，还可通过以下命令查看修改过的配置：
 
 	yay -P -g
 
 ### **Arch Linux CN 软件源**
 
-在 ```/etc/pacman.conf``` 文件末尾添加以下两行以启用上海交大镜像：
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用上海交大镜像：
 
 	[archlinuxcn]
 
@@ -179,11 +177,11 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **连接北京大学VPN**
 
-按 ```Fn+F12``` 打开Yakuake，输入：
+按 `Fn+F12` 打开Yakuake，输入：
 
 	sudo openconnect --user (student_ID) https://vpn.pku.edu.cn --juniper
 
-之后点击窗口外任意位置或按 ```Fn+F12``` 让它收起，不要关闭窗口（关闭窗口则VPN断开）
+之后点击窗口外任意位置或按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则VPN断开）
 
 ### **Linux挂载Windows磁盘**
 
@@ -191,12 +189,12 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 **如果要挂载C盘请确保快速启动已经关闭**
 
-这里以D盘为例，分区是 ```/dev/nvme0n1p4``` ，可以在KDE分区管理器里面找到 
+这里以D盘为例，分区是 `/dev/nvme0n1p4` ，可以在KDE分区管理器里面找到 
 
     sudo mkdir /mnt/windows/D
     sudo blkid /dev/nvme0n1p4
 
-在输出结果中可以发现一段 ```UUID="XXXXXXXXXXXXXXXX"``` 的内容，右键选中复制下来 
+在输出结果中可以发现一段 `UUID="XXXXXXXXXXXXXXXX"` 的内容，右键选中复制下来 
 
 接着就来修改系统文件
 
@@ -281,7 +279,7 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
 首选项 --> 默认缩放为150%
 
-```about:config```  -->  ```layout.css.devPixelsPerPx```  --> 改为1.5
+`about:config`  -->  `layout.css.devPixelsPerPx`  --> 改为1.5
 
 #### **主题美化**
 
@@ -329,13 +327,13 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 #### **Konsole快捷键**
 
-右上角 ··· --> 配置键盘快捷键 --> 复制改为 ```Ctrl+C``` ，粘贴改为 ```Ctrl+V``` 
+右上角 ··· --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V` 
 
 #### **Dolphin图标大小和快捷键**
 
 右上角 ··· --> 配置Dolphin --> 视图模式 --> 图标大小都设为96 --> 标签宽度设为大
 
-右上角 ··· --> 配置键盘快捷键 --> 移至回收站改为 ```Ctrl+D``` ，删除改为 ```Del```
+右上角 ··· --> 配置键盘快捷键 --> 移至回收站改为 `Ctrl+D` ，删除改为 `Del`
 
 ## **下载软件**
 
@@ -345,9 +343,7 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 ### **安装微软字体**
 
-.ttf和.otf字体：右键点击字体文件 --> 动作 --> 安装 --> 安装到系统字体
-
-.ttc字体安装方法如下：
+安装方法如下：
 
     sudo mkdir /usr/share/fonts/winfonts
     sudo cp (win-font-path)/* /usr/share/fonts/winfonts/
@@ -415,7 +411,7 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 安装输入法软件：
 
-    sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin fcitx-sunpinyin manjaro-asian-input-support-fcitx
+    sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
 
 `manjaro-asian-input-support-fcitx` 提供了 `/etc/profile.d/input-support.sh`，其中包含了以下内容：
 
@@ -431,7 +427,7 @@ Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼�
 
 ### **安装其它软件**
 
-以下命令中的 ```yay -S``` 也可以在“添加/删除软件”（即pamac）中搜索安装，或者用 ```pamac install``` 安装
+以下命令中的 `yay -S` 也可以在“添加/删除软件”（即pamac）中搜索安装，或者用 `pamac install` 安装
 
 	yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 	yay -S electron-netease-cloud-music
@@ -440,7 +436,7 @@ Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼�
 	yay -S stellarium
 	yay -S geogebra
 
-**以后用 ```sudo nautilus``` 就可以访问没有权限粘贴/删除的文件夹**
+**以后用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹**
 
 很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码。例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框。习惯就好。
 
@@ -490,7 +486,7 @@ Preferences --> General --> Config Editor（在最下方） --> layout.css.devPi
 
 点击邮箱帐号，配置Account Settings如下：
 
-Server Settings --> Server Settings --> Check for new messages every ```1``` minutes
+Server Settings --> Server Settings --> Check for new messages every `1` minutes
 
 Server Settings --> Server Settings --> When I delete a message --> Remove it immediately
 
@@ -512,7 +508,7 @@ Copies & Folders --> When sending messages, automatically --> 取消勾选Place 
 
 ### **Anaconda安装**
 
-**运行 ```conda``` 时建议连接北京大学VPN**
+**运行 `conda` 时建议连接北京大学VPN**
 
 默认安装：
 
@@ -570,9 +566,9 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 #### **Visual Studio Code缩放比例**
 
-放大比例：```Ctrl+=```
+放大比例：`Ctrl+=`
 
-缩小比例：```Ctrl+-```
+缩小比例：`Ctrl+-`
 
 #### **在 Visual Studio Code 中使用触屏**
 
