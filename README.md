@@ -2,7 +2,7 @@
 
 # **在Surface Pro 6上安装Manjaro 20.0.3 KDE Plasma + Windows 10双系统的指南**
 
-`
+```
 OS: Manjaro 20.0.3 Lysia
 
 Kernel: x86_64 Linux 5.7.9-1-MANJARO
@@ -22,7 +22,7 @@ Icon Theme: Mojave-CT-Light
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
-`
+```
 
 ## **Windows的准备工作**
 
