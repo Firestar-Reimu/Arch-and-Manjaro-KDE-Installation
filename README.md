@@ -237,6 +237,8 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **Linux-Surface安装**
 
+**安装和更新Linux-Surface需要登录北京大学VPN**
+
 参考以下网址：
 
 Linux-Surface -- Installation and Setup
