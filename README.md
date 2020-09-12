@@ -185,7 +185,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **Linux挂载Windows磁盘**
 
-**首先要确保Bitlocker已经关闭**
+**首先要确保Bitlocker已经关闭，这个时候一般来讲会自动挂载的**
 
 **如果要挂载C盘请确保快速启动已经关闭**
 
@@ -353,7 +353,7 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
     sudo mkfontscale
     sudo mkfontdir
     fc-cache -fv
-
+    
 这样就可以安装微软雅黑、宋体、黑体等字体了 
 
 ### **更改程序和终端默认中文字体为微软雅黑**
@@ -409,6 +409,13 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 保存退出即可
 
+新的`Manjaro 20.1`里面只需要输入：
+
+    sudo mkdir /usr/share/fonts/winfonts
+    sudo cp (win-font-path)/* /usr/share/fonts/winfonts/
+
+并更改`/etc/fonts/conf.d/64-language-selector-prefer.conf`，重启即可
+
 ### **安装中文输入法**
 
 安装输入法软件：
@@ -423,7 +430,7 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 	export QT_IM_MODULE=$im
 	export XMODIFIERS=@im=$im
 
-因此无需再手动设置环境变量
+因此无需再手动设置环境变量，但是需要重启生效
 
 Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼音来源改为“百度”
 
@@ -441,6 +448,24 @@ Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼�
 **以后用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹**
 
 很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码。例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框。习惯就好。
+
+#### **用`debtap`安装`.deb`包**
+
+首先要下载并更新debtap包：
+
+	yay -S debtap
+	sudo debtap -u
+
+**运行 ```sudo debtap -u``` 时建议连接北京大学VPN**
+
+进入含有 ```.deb``` 安装包的文件夹，输入：
+
+	sudo debtap (package_name).deb
+
+系统会询问三个问题：文件名随便写，协议写 ```GPL``` 即可，编辑文件直接按 ```Enter``` 跳过 
+
+此处会生成一个 ```tar.zst``` 包，双击打开（右键用“软件安装程序”打开）即可安装 
+
 
 ### **安装 KDE 的 Wayland 支持**
 
