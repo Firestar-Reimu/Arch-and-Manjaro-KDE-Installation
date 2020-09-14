@@ -635,6 +635,10 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 ### **清理缓存**
 
+删除软件包时清理设置文件
+
+	yay -Rn (package_name)
+
 清理全部软件安装包
 
     yay -Scc
