@@ -250,17 +250,31 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
 可以开机时自动启动触屏功能
 
+### **SONY LE-WH1000XM3耳机连接**
+
+长按耳机电源键约7s即可进入配对模式，可以在蓝牙中配对。
+
+### **Logitech M590鼠标的蓝牙连接**
+
+同一台电脑的Windows系统和Manjaro系统在鼠标上会被识别为两个设备。如果Windows系统被识别为设备1，需要按滚轮后的圆形按钮切换至设备2。并长按圆形按钮直到灯2快速闪烁进入配对模式。
+
+首先要安装`bluez-utils`以启用`bluetoothctl`命令：
+
+	yay -S bluez-utils
+	
+然后参考以下网站：
+
+https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
+
 ## **美化**
 
 **一定要先美化再装软件！**
 
 ### **桌面美化**
 
-屏幕分辨率是2736*1824，需要在“系统设置”中配置高分屏优化：
+屏幕分辨率是2736×1824，需要在“系统设置”中配置高分屏优化：
 
-字体大小14pt，固定DPI=144
-
-分辨率 --> 全局缩放 --> 125%
+分辨率 --> 全局缩放 --> 200%
 
 光标 --> 大小 --> 36
 
@@ -276,12 +290,6 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
     export LD_PRELOAD=<"full path" of your libgtk3-nocsd.so.0 file>
 
 然后保存重启
-
-#### **Firefox缩放比例**
-
-首选项 --> 默认缩放为150%
-
-`about:config`  -->  `layout.css.devPixelsPerPx`  --> 改为1.5
 
 #### **主题美化**
 
@@ -409,6 +417,8 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 保存退出即可
 
+#### **在Manjaro 20.1内安装并设置微软字体**
+
 新的`Manjaro 20.1`里面只需要输入：
 
     sudo mkdir /usr/share/fonts/winfonts
@@ -500,12 +510,6 @@ Startpage清空并取消勾选
 Default Search Engine改为Bing
 
 System Intergration全部设为默认并取消勾选
-
-Preferences --> General --> Fonts and Colors --> Advanced... --> Fonts for: --> Simplified Chinese/Latin/Other Writing Systems --> 字体大小（Proportional/Monospace/Minimum Font Size）全部改为16
-
-Preferences --> General --> Fonts and Colors --> Advanced... --> 取消勾选Allow messages to use other fonts
-
-Preferences --> General --> Config Editor（在最下方） --> layout.css.devPixelsPerPx --> 改为2.25
 
 右键点击上方工具栏Mail Toolbar，选择Customize，自行配置即可
 
@@ -602,6 +606,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 编辑 VSCode 的启动器，在启动命令中加入 `--touch-events` 选项
 
 ### **能用上触控笔的软件**
+
 #### **绘画**
 
 	yay -S krita
