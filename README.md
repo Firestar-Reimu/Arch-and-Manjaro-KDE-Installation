@@ -50,7 +50,7 @@ Security --> Secure Boot --> Disabled(第三个选项)
 
 https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
-使用 [Ventoy](https://ventoy.net) 制作启动盘，然后将下载的.iso 文件复制到 U 盘的第一个分区中即可。
+使用 [Ventoy](https://ventoy.net) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可。
 
 ### **安装Manjaro**
 
@@ -62,6 +62,8 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 | :---------: | :-------: | :-------: | :----: |
 |     all     |   ext4    |     /     |  root  |
 |    260MB    |           | /boot/efi |        |
+
+**挂载`/boot/efi`时一定要选择“保留”而不是“格式化”**
 
 **使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件)**
 
