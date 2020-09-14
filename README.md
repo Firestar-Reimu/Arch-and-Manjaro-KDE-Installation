@@ -253,7 +253,7 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
 可以开机时自动启动触屏功能
 
-### **SONY LE-WH1000XM3耳机连接**
+### **SONY LE_WH-1000XM3耳机连接**
 
 长按耳机电源键约7s即可进入配对模式，可以在蓝牙中配对。
 
