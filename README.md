@@ -110,7 +110,9 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
     sudo pacman -Syyu
 
 ### **AUR**
+
 #### 安装 base-devel
+
 AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软件包而不将它们写入构建依赖。为了避免在构建过程中出现一些奇怪的错误，建议先安装 `base-devel`：
 
 	sudo pacman -S base-devel
@@ -120,6 +122,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 	pamac install base-devel
 
 #### 启用 pamac 的 AUR 支持
+
 添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用AUR支持
 
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
@@ -264,6 +267,7 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 	
 然后参考以下网站：
 
+Arch Wiki -- 关于Logitech BLE鼠标的问题
 https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
 
 ## **美化**
@@ -277,6 +281,8 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 分辨率 --> 全局缩放 --> 200%
 
 光标 --> 大小 --> 36
+
+然后重启电脑
 
 #### **解决“添加/删除软件”（即pamac）图标太小的问题**
 
@@ -678,6 +684,9 @@ https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-ma
 
 双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读
 https://jakting.com/archives/ubuntu-rw-windows-files.html
+
+Arch Wiki -- 关于Logitech BLE鼠标的问题
+https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
 
 Linux-Surface -- Installation and Setup
 https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
