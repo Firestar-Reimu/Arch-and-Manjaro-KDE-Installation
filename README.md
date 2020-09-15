@@ -460,10 +460,10 @@ Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼�
 
 	yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 	yay -S electron-netease-cloud-music
-	yay -S texlive-most texlive-lang
 	yay -S texstudio
 	yay -S stellarium
 	yay -S geogebra
+	yay -S nautilus
 
 **以后用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹**
 
@@ -486,14 +486,25 @@ Fcitx配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼�
 
 此处会生成一个 ```tar.zst``` 包，双击打开（右键用“软件安装程序”打开）即可安装 
 
+### **安装TeX Live**
+
+首先在TeX Live下载地址[TeX Live下载地址](https://tug.org/texlive/acquire-netinstall.html)下载`install-tl-unx.tar.gz`
+
+打开终端，运行：
+
+	tar -xzvf install-tl-unx.tar.gz
+
+进入解压后的文件夹，运行：
+
+	sudo perl install-tl
 
 ### **安装 KDE 的 Wayland 支持**
 
-与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题。目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态。
+与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题。目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
 
 	yay -S plasma-wayland-session
 
-安装后即可在登录界面选择 Wayland 会话。
+安装后即可在登录界面选择 Wayland 会话
 
 ### **Thunderbird安装与配置**
 
