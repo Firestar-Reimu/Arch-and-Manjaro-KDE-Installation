@@ -158,11 +158,11 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 	sudo pacman -S archlinuxcn-keyring
 
-由于 Manjaro 的更新滞后于 Arch，使用 `[archlinuxcn]` 仓库可能会出现“部分更新”的情况，导致某些软件包损坏。用下面的命令切换到 unstable 分支可以尽量跟进 Arch 的更新：
+由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏。用下面的命令切换到 unstable 分支可以尽量跟进 Arch 的更新：
 
 	sudo pacman-mirrors -a -f -B unstable
 
-### **双系统时间不同步+24小时制**
+### **双系统时间不同步 + 24小时制**
 
 #### **双系统时间不同步**
 
