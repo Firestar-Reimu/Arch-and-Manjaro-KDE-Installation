@@ -59,9 +59,9 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 #### **分区设置**
 
 |     大小     |  文件系统  |   挂载点   |  标记  |
-| :---------: | :-------: | :-------: | :----: |
-|     all     |   ext4    |     /     |  root  |
-|    260MB    |           | /boot/efi |        |
+| :---------: | :--------: | :-------: | :----: |
+|    >40GB    |    ext4    |     /     |  root  |
+|    260MB    |            | /boot/efi |        |
 
 **挂载`/boot/efi`时一定要选择“保留”而不是“格式化”**
 
