@@ -182,7 +182,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **连接北京大学 VPN**
 
-按 `Fn+F12` 打开Yakuake，输入：
+按 `Fn+F12` 打开 Yakuake，输入：
 
 	sudo openconnect --user (student_ID) https://vpn.pku.edu.cn --juniper
 
@@ -498,6 +498,32 @@ Fcitx 配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼
 
 	sudo perl install-tl
 
+此过程大概需要40分钟，安装后需要将 TeX Live 添加到 PATH
+
+	kate ~/.zshrc
+	
+在最后添加以下语句：
+
+	PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH; export PATH
+	MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH; export MANPATH
+	INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH; export INFOPATH
+	
+更新 zsh 配置：
+
+	source ~/.zshrc
+	
+可以运行`tex -v`检查是否安装成功，若成功应显示（以 Tex Live 2020 为例）：
+
+	TeX 3.14159265 (TeX Live 2020)
+	kpathsea version 6.3.2
+	Copyright 2020 D.E. Knuth.
+	There is NO warranty.  Redistribution of this software is
+	covered by the terms of both the TeX copyright and
+	the Lesser GNU General Public License.
+	For more information about these matters, see the file
+	named COPYING and the TeX source.
+	Primary author of TeX: D.E. Knuth.
+	
 ### **安装 KDE 的 Wayland 支持**
 
 与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题。目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
