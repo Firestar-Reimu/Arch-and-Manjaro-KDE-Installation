@@ -638,7 +638,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 	yay -S onboard
 
-但 OnBoard 在 Wayland 上无法使用。如果需要在 Wayland 会话中使用屏幕键盘，推荐安装 CellWriter：
+但 OnBoard 在 Wayland 上无法使用。如果需要在 Wayland 会话中使用屏幕键盘，推荐安装 CellWriter
 
 	yay -S cellwriter
 
@@ -660,7 +660,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 如果想去掉开机时的姨妈红，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
 
-具体教程：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Using_a_signed_boot_loader)
+具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Using_a_signed_boot_loader)
 
 ## **参考资料**
 
@@ -724,7 +724,7 @@ https://mirrors.tuna.tsinghua.edu.cn/help/AUR/
 SJTUG 软件源镜像服务
 https://mirrors.sjtug.sjtu.edu.cn/#/
 
-Manjaro为包管理器pacman和yaourt\yay添加多线程下载
+Manjaro为包管理器pacman和yaourt/yay添加多线程下载
 https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase&depth_1-utm_source=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase
 
 ArchWiki -- Microsoft fonts (简体中文)
@@ -748,13 +748,13 @@ https://docs.anaconda.com/anaconda/install/linux/
 恢复anaconda环境, 卸载anaconda, 重装anaconda
 https://blog.csdn.net/wangweiwells/article/details/88374361
 
-Switching Branches - Manjaro Linux
+Manjaro Wiki -- Switching Branches
 https://wiki.manjaro.org/index.php?title=Switching_Branches
 
-System time#Time standard - ArchWiki
+ArchWiki -- System time#Time standard
 https://wiki.archlinux.org/index.php/System_time#Time_standard
 
-Baloo - ArchWiki
+ArchWiki -- Baloo
 https://wiki.archlinux.org/index.php/Baloo
 
 </font>
