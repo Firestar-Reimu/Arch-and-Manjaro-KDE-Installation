@@ -727,6 +727,9 @@ https://mirrors.sjtug.sjtu.edu.cn/#/
 Manjaro为包管理器pacman和yaourt/yay添加多线程下载
 https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase&depth_1-utm_source=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase
 
+Linux tar命令总结
+http://www.linuxdiyf.com/linux/2903.html
+
 ArchWiki -- Microsoft fonts (简体中文)
 https://wiki.archlinux.org/index.php/Microsoft_fonts_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
