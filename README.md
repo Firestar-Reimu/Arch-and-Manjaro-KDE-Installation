@@ -609,10 +609,6 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 缩小比例：`Ctrl+-`
 
-#### **在 Visual Studio Code 中使用触屏**
-
-编辑 VSCode 的启动器，在启动命令中加入 `--touch-events` 选项
-
 ### **能用上触控笔的软件**
 
 #### **绘画**
