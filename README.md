@@ -1,6 +1,6 @@
 <font face="JetBrains Mono">
 
-# **在Surface Pro 6上安装Manjaro 20.0.3 KDE Plasma + Windows 10双系统的指南**
+# **在 Surface Pro 6 上安装 Manjaro 20.0.3 KDE Plasma + Windows 10 双系统的指南**
 
 ```
 OS: Manjaro 20.0.3 Lysia
@@ -24,17 +24,17 @@ CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
-## **Windows的准备工作**
+## ** Windows 的准备工作**
 
 ### **关闭快速启动**
 
 控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 保存修改
 
-### **关闭Bitlocker**
+### **关闭 Bitlocker**
 
 开始菜单 --> 设置 --> 更新和安全 --> 设备加密 --> 关闭
 
-### **进入UEFI设置**
+### **进入 UEFI 设置**
 
 关闭 Surface，然后等待大约 10 秒钟以确保其处于关闭状态 
 
@@ -52,7 +52,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 使用 [Ventoy](https://ventoy.net) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可。
 
-### **安装Manjaro**
+### **安装 Manjaro**
 
 设置 --> 恢复 --> 立即重新启动 --> USB Storage
 
@@ -562,11 +562,19 @@ Copies & Folders --> When sending messages, automatically --> 取消勾选Place 
 
 **运行 `conda` 时建议连接北京大学VPN**
 
-默认安装：
+#### **默认安装**
 
 	yay -S anaconda
 
-自定义安装参考以下网址：
+#### **自定义安装**
+
+下载地址如下（官网下载速度极慢，选择清华镜像）：
+
+https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
+
+点击网页第三列的 Date 按钮，使各版本按照时间从旧到新排列，在最底端可以找到最新版本
+
+安装过程参考以下网址：
 
 Anaconda Documentation -- Installing on Linux
 https://docs.anaconda.com/anaconda/install/linux/
