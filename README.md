@@ -272,6 +272,21 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 Arch Wiki -- 关于Logitech BLE鼠标的问题
 https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
 
+### **解决用 root 登录没有声音的问题**
+
+用 root 登录，并在`/root/.config/autostart/`下创建一个`pulseaudio.desktop`文件，写入：
+
+	[Desktop Entry]
+	Encoding=UTF-8
+	Type=Application
+	Name=pulseaudio
+	Exec=pulseaudio --start --log-target=syslog
+	StartupNotify=false
+	Terminal=true
+	Hidden=false
+
+保存退出即可
+
 ## **美化**
 
 **一定要先美化再装软件！**
