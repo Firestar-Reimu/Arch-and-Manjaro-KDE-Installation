@@ -101,7 +101,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	Defaults:(user_name) !authenticate
 
-按 `Esc` 进入命令模式，再按 `:wq` 保存，按 `Enter` 退出
+按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
 
 ### **官方软件源更改镜像**
 
