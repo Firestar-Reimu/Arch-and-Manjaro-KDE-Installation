@@ -654,6 +654,8 @@ https://code.visualstudio.com/Download
 
 此处会生成一个 ```tar.zst``` 包，双击打开（右键用“软件安装程序”打开）即可安装 
 
+其它安装方式如下：
+
 发行版维护者从开源代码构建的版本：
 
 	yay -S code
