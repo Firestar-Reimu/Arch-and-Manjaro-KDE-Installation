@@ -1,27 +1,22 @@
 <font face="JetBrains Mono">
 
-# **在 Surface Pro 6 上安装 Manjaro 20.0.3 KDE Plasma + Windows 10 双系统的指南**
+# **在 Surface Pro 6 上安装 Manjaro 20 KDE Plasma + Windows 10 双系统的指南**
 
 ```
-OS: Manjaro 20.0.3 Lysia
-
-Kernel: x86_64 Linux 5.7.9-1-MANJARO
-
-Shell: zsh 5.8
-
-Resolution: 2736x1824
-
-DE: KDE 5.72.0 / Plasma 5.19.3
-
-WM: KWin
-
-GTK Theme: Mojave-light-alt [GTK2/3]
-
-Icon Theme: Mojave-CT-Light
-
-CPU: Intel Core i5-8250U @ 8x 3.4GHz
-
-GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+ ██████████████████  ████████     firestar@FIRESTAR
+ ██████████████████  ████████     OS: Manjaro 20.1 Mikah
+ ██████████████████  ████████     Kernel: x86_64 Linux 5.8.8-arch1-1-surface
+ ██████████████████  ████████     Uptime: 13m
+ ████████            ████████     Packages: 1257
+ ████████  ████████  ████████     Shell: zsh 5.8
+ ████████  ████████  ████████     Resolution: 2736x1824
+ ████████  ████████  ████████     DE: KDE 5.73.0 / Plasma 5.19.5
+ ████████  ████████  ████████     WM: KWin
+ ████████  ████████  ████████     GTK Theme: Mojave-light [GTK2/3]
+ ████████  ████████  ████████     Icon Theme: Mojave-CT-Light
+ ████████  ████████  ████████     Disk: 30G / 112G (29%)
+ ████████  ████████  ████████     CPU: Intel Core i5-8250U @ 8x 3.4GHz
+ ████████  ████████  ████████     GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
 ## ** Windows 的准备工作**
