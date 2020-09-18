@@ -287,6 +287,14 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 保存退出即可
 
+### **切换图形化界面和命令行界面**
+
+登录时默认进入的是图形化界面，有时候开机后黑屏是图形化界面显示不出来所致，此时可以按快捷键`Ctrl+Alt+(F1~F6)`进入`tty1 ~ tty6`的任何一个命令行界面
+
+注意此时需要手动输入用户名和密码
+
+在命令行界面解决问题后，输入`startx`可以转换回图形化界面
+
 ## **美化**
 
 **一定要先美化再装软件！**
