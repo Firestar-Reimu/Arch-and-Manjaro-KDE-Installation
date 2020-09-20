@@ -70,12 +70,6 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 系统设置 --> 电源管理 --> 节能 --> 勾选“按键事件处理” --> 合上笔记本盖时 --> 选择“关闭屏幕” --> 勾选“即使已连接外部显示器”
 
-#### **解决发热严重和掉电快的问题**
-
-安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
-
-不需要高性能的时候可以关掉 turbo，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热
-
 #### **与电源管理相关的常见英文名词**
 
 Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
@@ -372,6 +366,33 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 ### **桌面设置**
 
 右键点击桌面 --> 配置桌面 ---> 位置 --> 自定义位置
+
+### **调整 CPU 频率**
+
+    kate /etc/tlp.conf
+
+更改以下两处地方：
+
+    CPU_MIN_PERF_ON_AC=15
+    CPU_MAX_PERF_ON_AC=30
+    CPU_MIN_PERF_ON_BAT=15
+    CPU_MAX_PERF_ON_BAT=30
+
+    CPU_BOOST_ON_AC=0
+    CPU_BOOST_ON_BAT=0
+    
+
+**不需要高性能的时候可以关掉 turbo，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
+
+保存、关闭，在终端中输入：
+
+    sudo tlp start
+
+#### **显示 CPU 频率**
+
+安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
+
+右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
 
 ## **下载软件**
 
