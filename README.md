@@ -169,6 +169,20 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 应用 --> 系统 --> KWalletManager
 
+### **动态 Swap 文件设置**
+
+先下载`systemd-swap`软件包：
+
+	yay -S systemd-swap
+
+编辑`/etc/systemd/swap.conf`:
+
+	kate /etc/systemd/swap.conf
+	
+去掉`swapfc_enabled`前的注释并设置为`swapfc_enabled=1`，保存并关闭
+
+在终端输入`sudo systemctl enable --now systemd-swap`以启动`systemd-swap`服务
+
 ### **连接北京大学 VPN**
 
 按 `Fn+F12` 打开 Yakuake，输入：
