@@ -19,7 +19,7 @@
  ████████  ████████  ████████     GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
-## ** Windows 的准备工作**
+## **Windows 的准备工作**
 
 ### **关闭快速启动**
 
