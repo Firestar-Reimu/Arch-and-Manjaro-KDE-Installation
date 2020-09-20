@@ -183,6 +183,8 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 在终端输入`sudo systemctl enable --now systemd-swap`以启动`systemd-swap`服务
 
+**Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
+
 ### **连接北京大学 VPN**
 
 按 `Fn+F12` 打开 Yakuake，输入：
