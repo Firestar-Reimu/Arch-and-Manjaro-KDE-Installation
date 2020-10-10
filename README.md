@@ -80,11 +80,15 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	balooctl disable
 
-### **sudo免密码**
+### **sudo免密码及更改编辑器**
 
 首先在终端中输入：
 
 	sudo visudo
+
+在开头的一个空行键入：
+
+	Defaults editor=/usr/bin/nano
 
 在最后一行（空行）按 `a` 进入输入模式，加上这一行：
 
@@ -396,7 +400,6 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
     CPU_BOOST_ON_AC=0
     CPU_BOOST_ON_BAT=0
-    
 
 **不需要高性能的时候可以关掉 turbo，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
 
@@ -679,25 +682,11 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 #### **Visual Studio Code 安装**
 
-官网下载最新版本的 Visual Studio Code（以版本1.48.0为例）：
-
-https://code.visualstudio.com/Download
-
-选择 ```.deb``` 安装包，下载到文件夹
-
-	yay -S debtap
-	sudo debtap -u
-	sudo debtap code_1.48.0-1597304990_amd64.deb
-
-此处会生成一个 ```tar.zst``` 包，双击打开（右键用“软件安装程序”打开）即可安装 
-
-其它安装方式如下：
-
-发行版维护者从开源代码构建的版本：
+发行版维护者从开源代码构建的版本，可以用`code`命令打开：
 
 	yay -S code
 
-微软官方的二进制 release（包含部分私有的组件）：
+微软官方的二进制 release（包含部分私有的组件），同样可以用`code`命令打开（如果不介意私有组件而且不习惯“Code - OSS”的图标，个人推荐首选此项）：
 
 	yay -S visual-studio-code-bin
 
