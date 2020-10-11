@@ -413,8 +413,6 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
     sudo mkdir /usr/share/fonts/winfonts
     sudo cp (win-font-path)/* /usr/share/fonts/winfonts/
     cd /usr/share/fonts/winfonts/
-    sudo mkfontscale
-    sudo mkfontdir
     fc-cache -fv
     
 这样就可以安装微软雅黑、宋体、黑体等字体了 
@@ -471,15 +469,6 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 ```
 
 保存退出即可
-
-#### **在 Manjaro 20.1 内安装并设置微软字体**
-
-新的 Manjaro 20.1 里面只需要输入：
-
-    sudo mkdir /usr/share/fonts/winfonts
-    sudo cp (win-font-path)/* /usr/share/fonts/winfonts/
-
-并更改`/etc/fonts/conf.d/64-language-selector-prefer.conf`，重启即可
 
 ### **安装中文输入法**
 
