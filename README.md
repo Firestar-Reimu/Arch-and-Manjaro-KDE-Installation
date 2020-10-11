@@ -514,7 +514,7 @@ Fcitx 配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼
 
 很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码。例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框。习惯就好。
 
-#### **用`debtap`安装`.deb`包**
+#### **用`debtap`安装`.deb`包（不推荐）**
 
 首先要下载并更新debtap包：
 
@@ -746,10 +746,10 @@ https://docs.anaconda.com/anaconda/install/linux/
 BitLocker 恢复密钥
 https://account.microsoft.com/devices/recoverykey?refd=account.microsoft.com
 
-Windows 10如何关闭快速启动
+Windows 10 如何关闭快速启动
 https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html
 
-Win 10如何关闭设备加密？关闭BitLocker加密图文教程
+Win 10 如何关闭设备加密？关闭 BitLocker 加密图文教程
 http://www.w10zj.com/Win10xy/Win10yh_8892.html
 
 创建和使用 Surface 的 USB 恢复驱动器
@@ -758,7 +758,7 @@ https://support.microsoft.com/zh-cn/help/4023512/surface-creating-and-using-a-us
 如何使用 Surface UEFI
 https://support.microsoft.com/zh-cn/help/4023531/surface-how-to-use-surface-uefi
 
-Win 10环境下安装Manjaro KDE（双系统） 
+Win 10 环境下安装 Manjaro KDE（双系统） 
 https://www.cnblogs.com/Jaywhen-xiang/p/11561661.html
 
 Manjaro 20 KDE配置心得
@@ -767,7 +767,7 @@ https://blog.csdn.net/weixin_40293491/article/details/107526553
 Manjaro 安装体验小结
 https://zhuanlan.zhihu.com/p/76608451
 
-Manjaro安装后你需要这样做
+Manjaro 安装后你需要这样做
 https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E6%96%B9%E6%BA%90
 
 ArchWiki -- Sudo (简体中文)
@@ -779,22 +779,22 @@ https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-ma
 双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读
 https://jakting.com/archives/ubuntu-rw-windows-files.html
 
-Arch Wiki -- 关于Logitech BLE鼠标的问题
+Arch Wiki -- 关于 Logitech BLE 鼠标的问题
 https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
 
 Linux-Surface -- Installation and Setup
 https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
-Kde桌面的Mac化
+Kde 桌面的 Mac 化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
-Oh-My-Zsh及主题、插件的安装与配置
+Oh-My-Zsh 及主题、插件的安装与配置
 https://www.cnblogs.com/misfit/p/10694397.html
 
-Linux grub引导界面（启动界面）美化
+Linux grub 引导界面（启动界面）美化
 https://zhuanlan.zhihu.com/p/94331255
 
-Linux grub删除多余启动条目
+Linux grub 删除多余启动条目
 https://blog.csdn.net/JackLiu16/article/details/80383969
 
 AUR 镜像使用帮助
@@ -803,19 +803,22 @@ https://mirrors.tuna.tsinghua.edu.cn/help/AUR/
 SJTUG 软件源镜像服务
 https://mirrors.sjtug.sjtu.edu.cn/#/
 
-Manjaro为包管理器pacman和yaourt/yay添加多线程下载
+Manjaro 为包管理器 pacman和yaourt/yay 添加多线程下载
 https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase&depth_1-utm_source=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase
 
-Linux tar命令总结
+pacman 中的 Pac-Man
+https://blog.csdn.net/lujun9972/article/details/79576024?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.channel_param
+
+Linux tar 命令总结
 http://www.linuxdiyf.com/linux/2903.html
 
 ArchWiki -- Microsoft fonts (简体中文)
 https://wiki.archlinux.org/index.php/Microsoft_fonts_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
-Archlinux使用Windows字体及相关配置
+Archlinux 使用 Windows 字体及相关配置
 https://blog.csdn.net/sinat_33528967/article/details/93380729
 
-比较几种中文输入法后，我最终选择了sunpinyin + cloudpinyin组合
+比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合
 https://forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
 
 ArchWiki -- pacman (简体中文)
@@ -827,7 +830,7 @@ https://support.mozilla.org/zh-CN/questions/1297871
 Anaconda Documentation -- Installing on Linux
 https://docs.anaconda.com/anaconda/install/linux/
 
-恢复anaconda环境, 卸载anaconda, 重装anaconda
+恢复 Anaconda 环境, 卸载 Anaconda, 重装 Anaconda
 https://blog.csdn.net/wangweiwells/article/details/88374361
 
 Manjaro Wiki -- Switching Branches
