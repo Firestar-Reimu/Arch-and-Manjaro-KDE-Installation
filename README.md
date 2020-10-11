@@ -354,6 +354,18 @@ https://zhuanlan.zhihu.com/p/94331255
 Linux grub 删除多余启动条目
 https://blog.csdn.net/JackLiu16/article/details/80383969
 
+#### **pacman 添加吃豆人彩蛋**
+
+编辑 /etc/pacman.conf
+
+	kate /etc/pacman.conf
+
+去掉`Color`前面的注释，并在下一行添加：
+
+	ILoveCandy
+
+即可添加吃豆人彩蛋
+
 ### **快捷键配置**
 
 #### **Konsole 快捷键**
