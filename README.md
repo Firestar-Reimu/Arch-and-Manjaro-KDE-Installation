@@ -74,13 +74,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
-### **禁用 baloo**
-
-`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
-
-	balooctl disable
-
-### **sudo免密码及更改编辑器**
+### **sudo免密码及更改默认编辑器为 nano**
 
 首先在终端中输入：
 
@@ -95,6 +89,12 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 	Defaults:(user_name) !authenticate
 
 按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
+
+### **禁用 baloo**
+
+`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
+
+	balooctl disable
 
 ### **官方软件源更改镜像**
 
