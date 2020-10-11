@@ -312,19 +312,6 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 然后重启电脑
 
-#### **解决“添加/删除软件”（即 pamac）图标太小的问题**
-
-    yay -S gtk3-nocsd
-    kate ~/.xsession
-
-这是一个空文件，添加下面两行：
-
-    export GTK_CSD=0
-
-    export LD_PRELOAD=<"full path" of your libgtk3-nocsd.so.0 file>
-
-然后保存重启
-
 #### **主题美化**
 
 **不要用全局主题！**
