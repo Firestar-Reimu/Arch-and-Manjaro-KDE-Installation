@@ -74,7 +74,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
-### **sudo免密码及更改默认编辑器为 nano**
+### **sudo 免密码及更改默认编辑器为 nano**
 
 首先在终端中输入：
 
@@ -344,7 +344,7 @@ zsh主题选择：
 
 	geoffgarside
 
-#### **grub美化**
+#### **grub 美化**
 
 参考以下网址：
 
@@ -496,7 +496,6 @@ Fcitx 配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼
 	yay -S electron-netease-cloud-music
 	yay -S texstudio
 	yay -S stellarium
-	yay -S geogebra
 	yay -S nautilus
 
 **以后用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹**
@@ -726,7 +725,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 ### **重新开启 Secure Boot**
 
-如果想去掉开机时的姨妈红，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
+如果想去掉开机时的红色上边框，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
 
 具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Using_a_signed_boot_loader)
 
