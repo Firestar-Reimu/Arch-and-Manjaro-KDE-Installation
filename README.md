@@ -90,12 +90,6 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
 
-### **禁用 baloo**
-
-`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
-
-	balooctl disable
-
 ### **官方软件源更改镜像**
 
     sudo pacman-mirrors -i -c China -m rank
@@ -412,6 +406,12 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
 
 右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
+
+### **禁用 baloo**
+
+`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
+
+	balooctl disable
 
 ## **下载软件**
 
