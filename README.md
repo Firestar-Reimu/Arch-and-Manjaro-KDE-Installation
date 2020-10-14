@@ -415,6 +415,14 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 ## **下载软件**
 
+### **PGP 密钥无法导入**
+
+如果安装软件时需要导入 PGP 密钥而发生 `gpg: 从公钥服务器接收失败：一般错误` 的问题，将 PGP 密钥复制下来并运行：
+
+gpg --keyserver p80.pool.sks-keyservers.net --recv-keys (pgp_key)
+
+再重新安装软件即可
+
 ### **语言包**
 
 系统设置 --> 语言包 --> 右上角点击“已安装的软件包”安装语言包
@@ -509,11 +517,10 @@ Fcitx 配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼
 	yay -S electron-netease-cloud-music
 	yay -S texstudio
 	yay -S stellarium
-	yay -S nautilus
 
-**以后用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹**
+**如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
-很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码。例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框。习惯就好。
+很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码。例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框。
 
 #### **用 debtap 安装 .deb 包（不推荐）**
 
@@ -578,21 +585,7 @@ Fcitx 配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼
 
 安装后即可在登录界面选择 Wayland 会话
 
-### **Thunderbird 安装与配置**
-
-#### **Thunderbird 安装与登录**
-
-官方软件仓库的 Thunderbird 是版本68.11.0，要安装最新的版本78.1.1需要输入：
-
-	yay -S thunderbird-bin
-
-安装后设置邮箱登录，参数如下：
-
-|   收件服务器    |   发件服务器    |
-| :-------------: | :-------------: |
-| imap.pku.edu.cn | smtp.pku.edu.cn |
-|   端口号：143   |   端口号：25    |
-| SSL端口号：993  | SSL端口号：465  |
+### **Thunderbird 美化与配置**
 
 #### **Thunderbird 美化**
 
