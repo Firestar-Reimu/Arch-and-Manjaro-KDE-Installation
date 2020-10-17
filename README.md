@@ -74,7 +74,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 **使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件)**
 
-**系统安装时Office选择No Office Suite，在安装软件时再下载 WPS Office**
+**系统安装时 Office 一项选择 No Office Suite，在安装软件时再下载 WPS Office**
 
 ## **初始配置**
 
@@ -160,6 +160,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏。用下面的命令切换到 unstable 分支可以尽量跟进 Arch 的更新：
 
 	sudo pacman-mirrors -a -f -B unstable
+	sudo pacman -Syyuu
 
 ### **双系统时间不同步 + 24小时制**
 
