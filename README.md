@@ -530,6 +530,7 @@ Fcitx 配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼
 	yay -S electron-netease-cloud-music
 	yay -S texstudio
 	yay -S stellarium
+	yay -S vim
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -695,6 +696,12 @@ https://docs.anaconda.com/anaconda/install/linux/
 从最新的开源代码构建：
 
 	yay -S code-git
+	
+### **Vim 安装插件**
+
+	git clone https://github.com/tell-k/vim-autopep8.git ~/.vim/pack/vim-autopep8/start/vim-autopep8
+	vim -u NONE -c "helptags ~/.vim/pack/vim-autopep8/start/vim-autopep8/doc" -c q
+
 
 #### **Visual Studio Code 图标更改**
 
