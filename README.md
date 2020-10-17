@@ -47,7 +47,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 使用 [Ventoy](https://ventoy.net) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可。
 
-或使用 [Rufus](https://rufus.ie/zh_CN.html) 刻录启动盘。
+或使用 [Rufus](https://rufus.ie/zh_CN.html) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有ISO/DD选项）
 
 ### **安装 Manjaro**
 
