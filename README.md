@@ -47,9 +47,21 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 使用 [Ventoy](https://ventoy.net) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可。
 
+或使用 [Rufus](https://rufus.ie/zh_CN.html) 刻录启动盘。
+
 ### **安装 Manjaro**
 
 设置 --> 恢复 --> 立即重新启动 --> USB Storage
+
+或按照以下步骤直接从 USB 启动:
+
+关闭 Surface
+
+将可启动 U 盘插入 Surface 上的 USB 端口
+
+长按 Surface 上的调低音量按钮，同时按下并释放 "电源" 按钮，屏幕上会显示 Microsoft 或 Surface 徽标
+
+继续按住调低音量按钮，释放按钮后，徽标下方将显示旋转圆点，按照屏幕说明从 U 盘启动
 
 #### **分区设置**
 
