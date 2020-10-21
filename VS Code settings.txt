@@ -4,7 +4,7 @@
     "workbench.colorTheme": "Default Light+",
     "editor.fontSize": 16,
     "editor.fontFamily": "JetBrains Mono NL, Fira Code, SimSun",
-    "editor.fontLigatures": "'ss01', , 'ss03', 'ss04', 'ss05', 'ss06', 'zero'",
+    "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06', 'zero'",
     "debug.console.fontSize": 16,
     "markdown.preview.fontSize": 16,
     "terminal.integrated.fontSize": 16,
