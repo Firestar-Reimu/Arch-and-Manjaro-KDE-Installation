@@ -1,10 +1,10 @@
-// 下载扩展：Python, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop
-
+// 下载扩展：Python, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++
 
 {
     "workbench.colorTheme": "Default Light+",
     "editor.fontSize": 16,
-    "editor.fontFamily": "JetBrains Mono NL, Consolas, SimSun",
+    "editor.fontFamily": "JetBrains Mono NL, Fira Code, SimSun",
+    "editor.fontLigatures": "'ss01', , 'ss03', 'ss04', 'ss05', 'ss06', 'zero'",
     "debug.console.fontSize": 16,
     "markdown.preview.fontSize": 16,
     "terminal.integrated.fontSize": 16,
@@ -20,7 +20,7 @@
         "variables": "#1874CD", // 变量名
         "strings": "#00aa00", // 字符串
         "functions": "#ff5500", // 函数名
-        "numbers": "#994400", // 数字
+        "numbers": "#994400" // 数字
     },
     "workbench.colorCustomizations": {
         "editor.selectionHighlightBackground": "#ffff99"
@@ -34,7 +34,7 @@
     "bracket-pair-colorizer-2.colors": [
         "#14B363",
         "#EE4000",
-        "#BA55D3",
+        "#BA55D3"
     ],
     "bracket-pair-colorizer-2.activeScopeCSS": [
         "borderStyle : solid",
@@ -79,7 +79,7 @@
             "name": "xelatex",
             "tools": [
                 "xelatex"
-            ],
+            ]
         },
         {
             "name": "pdflatex",
@@ -128,12 +128,21 @@
         "*.ist",
         "*.fls",
         "*.log",
-        "*.fdb_latexmk",
+        "*.fdb_latexmk"
     ],
     "latex-workshop.latex.pdfWatch.delay": 0,
     "editor.wordWrap": "on",
     "python.dataScience.themeMatplotlibPlots": true,
     "python.condaPath": "D:\\Apps\\Anaconda\\Scripts\\conda.exe",
     "python.dataScience.sendSelectionToInteractiveWindow": true,
-    "python.linting.pylintArgs": ["--generate-members"]
+    "python.linting.pylintArgs": [
+        "--generate-members"
+    ],
+    "git.confirmSync": true,
+    "git.autofetch": true,
+    "files.associations": {
+        "*.json": "jsonc"
+    },
+    "C_Cpp.updateChannel": "Insiders",
+    "window.zoomLevel": 0
 }
