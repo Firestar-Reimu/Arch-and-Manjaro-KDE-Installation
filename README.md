@@ -769,6 +769,9 @@ http://www.w10zj.com/Win10xy/Win10yh_8892.html
 创建和使用 Surface 的 USB 恢复驱动器
 https://support.microsoft.com/zh-cn/help/4023512/surface-creating-and-using-a-usb-recovery-drive
 
+下载 Surface 的恢复映像
+https://support.microsoft.com/zh-cn/surfacerecoveryimage
+
 如何使用 Surface UEFI
 https://support.microsoft.com/zh-cn/help/4023531/surface-how-to-use-surface-uefi
 
