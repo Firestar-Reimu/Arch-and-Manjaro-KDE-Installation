@@ -735,17 +735,22 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 	yay -S cellwriter
 
+### **检查依赖关系**
+
+以树状图的形式展示某软件包的依赖关系：
+    pactree (package_name)
+
 ### **清理缓存**
 
-删除软件包时清理设置文件
-
-	yay -Rn (package_name)
-
-清理全部软件安装包
+清理全部软件安装包：
 
     yay -Scc
 
-清理无用的孤立软件包
+删除软件包时清理设置文件：
+
+	yay -Rn (package_name)
+
+清理无用的孤立软件包：
 
     yay -Rsn $(pacman -Qdtq)
 
