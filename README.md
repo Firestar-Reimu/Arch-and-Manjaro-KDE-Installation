@@ -428,6 +428,8 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 ## **下载软件**
 
+**能用包管理器的尽量用包管理器安装！**
+
 ### **PGP 密钥无法导入**
 
 如果安装软件时需要导入 PGP 密钥而发生 `gpg: 从公钥服务器接收失败：一般错误` 的问题，将 PGP 密钥复制下来并运行：
@@ -825,7 +827,7 @@ https://mirrors.tuna.tsinghua.edu.cn/help/AUR/
 SJTUG 软件源镜像服务
 https://mirrors.sjtug.sjtu.edu.cn/#/
 
-Manjaro 为包管理器 pacman和yaourt/yay 添加多线程下载
+Manjaro 为包管理器 pacman 和 yaourt/yay 添加多线程下载
 https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase&depth_1-utm_source=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase
 
 pacman 中的 Pac-Man
