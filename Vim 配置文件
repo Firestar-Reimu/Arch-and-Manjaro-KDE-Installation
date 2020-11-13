@@ -1,9 +1,13 @@
 " 插件安装
-call plug#begin('~/.vim/pack/rainbow_parentheses')
-Plug 'kien/rainbow_parentheses.vim'
+call plug#begin('~/.vim/pack/(plugin_name)')
+Plug '(developer_name)/(plugin_name).vim'
 call plug#end()
 " 禁用代码折叠
 set nofoldenable
+" 鼠标样式设置为竖线
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[5 q" "SR = REPLACE mode
+let &t_EI.="\e[5 q" "EI = NORMAL mode (ELSE)
 " 设置行尾为Unix模式
 " set fileformat=unix
 " 设置当文件被改动时自动载入
@@ -146,14 +150,10 @@ function! RunPython()
     if &filetype == 'python'
         if search("@profile")
             exec "AsyncRun kernprof -l -v %"
-            exec "copen"
-            exec "wincmd p"
         elseif search("set_trace()")
             exec "!~/.anaconda/bin/python %"
         else
             exec "AsyncRun -mode=term -pos=bottom ~/.anaconda/bin/python %"
-            exec "copen"
-            exec "wincmd p"
         endif
     endif
 endfunc
@@ -172,12 +172,3 @@ noremap <F7> :Autoformat<CR>
 au BufWrite * :Autoformat
 " vim-autopep8 设置
 let g:autopep8_max_line_length = 65536
-" vim-flake8 设置
-autocmd BufWritePost *.py call flake8#Flake8()
-" Asyncrun 设置
-
-" VimTeX 设置
-
-let g:tex_flavor='latex'
-let g:vimtex_view_general_viewer='okular'
-let g:vimtex_quickfix_mode=0
