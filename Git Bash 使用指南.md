@@ -5,7 +5,9 @@ git config --global user.email "(user_email)"
 kate .git-credentials
 ```
 写入如下语句：
+
     https://(user_name):(user_password)@github.com
+
 保存退出
 ```bash
 git config --global credential.helper store
