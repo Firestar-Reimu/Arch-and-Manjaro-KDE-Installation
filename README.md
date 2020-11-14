@@ -96,7 +96,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	Defaults editor=/usr/bin/nano
 
-在最后一行（空行）按 `a` 进入输入模式，加上这一行：
+在最后一行（空行）按 `i` 进入输入模式，加上这一行：
 
 	Defaults:(user_name) !authenticate
 
