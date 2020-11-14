@@ -4,6 +4,7 @@ Plug '(developer_name)/(plugin_name).vim'
 call plug#end()
 " 禁用代码折叠
 set nofoldenable
+let g:tex_conceal=""
 " 鼠标样式设置为竖线
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[5 q" "SR = REPLACE mode
