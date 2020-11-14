@@ -360,7 +360,7 @@ zsh主题选择：
 
 #### **grub 美化**
 
-参考以下网址：
+选择主题 Slaze ，下载地址如下：
 
 https://github.com/vinceliuice/grub2-themes
 
@@ -368,7 +368,7 @@ https://github.com/vinceliuice/grub2-themes
 
 	sudo ./install.sh -b -l -w -2
 
-删除多余启动条目请参考以下网址
+删除多余启动条目，请参考以下网址：
 
 Linux grub 删除多余启动条目
 https://blog.csdn.net/JackLiu16/article/details/80383969
@@ -745,6 +745,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 ### **检查依赖关系**
 
 以树状图的形式展示某软件包的依赖关系：
+
     pactree (package_name)
 
 ### **清理缓存**
@@ -819,9 +820,6 @@ https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
 Oh-My-Zsh 及主题、插件的安装与配置
 https://www.cnblogs.com/misfit/p/10694397.html
-
-Linux grub 引导界面（启动界面）美化
-https://zhuanlan.zhihu.com/p/94331255
 
 Linux grub 删除多余启动条目
 https://blog.csdn.net/JackLiu16/article/details/80383969
