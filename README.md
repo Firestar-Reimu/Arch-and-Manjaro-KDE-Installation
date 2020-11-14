@@ -362,8 +362,13 @@ zsh主题选择：
 
 参考以下网址：
 
-Linux grub 引导界面（启动界面）美化
-https://zhuanlan.zhihu.com/p/94331255
+https://github.com/vinceliuice/grub2-themes
+
+以 Slaze grub theme （2K，黑白图标） 为例，解压后在文件夹内执行：
+
+	sudo ./install.sh -b -l -w -2
+
+删除多余启动条目请参考以下网址
 
 Linux grub 删除多余启动条目
 https://blog.csdn.net/JackLiu16/article/details/80383969
