@@ -161,6 +161,25 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 	sudo pacman-mirrors -a -f -B unstable
 	sudo pacman -Syyuu
+	
+### **为 pacman 和 yay 添加多线程下载**
+
+执行下面的命令下载 axel
+
+	 yay -S axel
+
+编辑`/etc/pacman.conf`文件（在第21行）:
+
+    XferCommand = /usr/bin/axel -n 10 -o %o %u
+
+编辑`/etc/makepkg.conf`文件（在第11-16行）:
+
+    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
+          'ftp::/usr/bin/axel -n 10 -o %o %u'
+          'http::/usr/bin/axel -n 10 -o %o %u'
+          'https::/usr/bin/axel -n 10 -o %o %u'
+          'rsync::/usr/bin/rsync --no-motd -z %u %o'
+          'scp::/usr/bin/scp -C %u %o')
 
 ### **双系统时间不同步 + 24小时制**
 
