@@ -129,6 +129,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
 
 #### 安装 yay
+
 除了预装的 `pamac`，Manjaro 官方仓库中的 AUR 助手还有 `yay`
 
 	sudo pacman -S yay
@@ -532,21 +533,10 @@ gpg --keyserver p80.pool.sks-keyservers.net --recv-keys (pgp_key)
 
 ### **安装中文输入法**
 
-安装输入法软件：
+参考以下网址：
 
-    sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
-
-`manjaro-asian-input-support-fcitx` 提供了 `/etc/profile.d/input-support.sh`，其中包含了以下内容：
-
-	# https://wiki.archlinux.org/index.php/Fcitx
-	im=fcitx
-	export GTK_IM_MODULE=$im
-	export QT_IM_MODULE=$im
-	export XMODIFIERS=@im=$im
-
-因此无需再手动设置环境变量，但是需要重启生效
-
-Fcitx 配置 --> 附加组件 --> 云拼音 --> 下方的“配置” --> 云拼音来源改为“百度”
+ArchWiki -- Fcitx5 (简体中文)
+https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
 ### **安装其它软件**
 
@@ -728,7 +718,6 @@ https://docs.anaconda.com/anaconda/install/linux/
 	git clone https://github.com/tell-k/vim-autopep8.git ~/.vim/pack/vim-autopep8/start/vim-autopep8
 	vim -u NONE -c "helptags ~/.vim/pack/vim-autopep8/start/vim-autopep8/doc" -c q
 
-
 #### **Visual Studio Code 图标更改**
 
 如果图标美化后 Visual Studio Code 图标变成圆形，想恢复原图标，更改路径如下：
@@ -863,6 +852,9 @@ https://wiki.archlinux.org/index.php/Microsoft_fonts_(%E7%AE%80%E4%BD%93%E4%B8%A
 
 Archlinux 使用 Windows 字体及相关配置
 https://blog.csdn.net/sinat_33528967/article/details/93380729
+
+ArchWiki -- Fcitx5 (简体中文)
+https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
 比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合
 https://forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
