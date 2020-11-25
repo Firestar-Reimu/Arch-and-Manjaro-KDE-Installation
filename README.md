@@ -45,9 +45,9 @@ Security --> Secure Boot --> Disabled(第三个选项)
 
 https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
-使用 [Ventoy](https://ventoy.net) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可
+使用 [Rufus](https://rufus.ie/zh_CN.html) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有ISO/DD选项）
 
-或使用 [Rufus](https://rufus.ie/zh_CN.html) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有ISO/DD选项）
+或使用 [Ventoy](https://ventoy.net) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可（未验证，请谨慎尝试）
 
 ### **安装 Manjaro**
 
@@ -331,6 +331,8 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 参考以下网址
 
 https://forum.manjaro.org/t/kde/39610
+
+可以归纳为：切 tty，输入`killall plasmashell; plasmashell`，再回到原来的 tty，打开终端，执行 `plasmashell &`
 
 ## **美化**
 
