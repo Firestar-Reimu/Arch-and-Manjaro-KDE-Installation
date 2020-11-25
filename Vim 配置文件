@@ -63,6 +63,7 @@ set number
 " 历史记录数
 set history=1000
 " 禁止生成临时文件
+set noundofile
 set nobackup
 set noswapfile
 " 搜索忽略大小写
@@ -119,14 +120,12 @@ set smartindent
 " 高亮显示普通txt文件（需要txt.vim脚本）
 au BufRead,BufNewFile *  setfiletype txt
 " 自动补全
-:inoremap ( ()<ESC>i
-:inoremap ) <c-r>=ClosePair(')')<CR>
-:inoremap { {<CR>}<ESC>O
-:inoremap } <c-r>=ClosePair('}')<CR>
-:inoremap [ []<ESC>i
-:inoremap ] <c-r>=ClosePair(']')<CR>
-:inoremap " ""<ESC>i
-:inoremap ' ''<ESC>i
+:imap ( ()<ESC>
+:imap [ []<ESC>
+:imap { {}<ESC>
+:imap " ""<ESC>
+:imap ' ''<ESC>
+" 打开文件类型检测, 加了这句才可以用智能补全
 function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
         return "\<Right>"
@@ -135,7 +134,6 @@ function! ClosePair(char)
     endif
 endfunction
 filetype plugin indent on
-" 打开文件类型检测, 加了这句才可以用智能补全
 set completeopt=longest,menu
 " 启用鼠标
 set mouse=a
