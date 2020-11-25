@@ -324,7 +324,7 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 注意此时需要手动输入用户名和密码
 
-在命令行界面解决问题后，输入`startx`可以转换回图形化界面
+在命令行界面解决问题后，按快捷键`Ctrl+Alt+Fn+F1`可以转换回图形化界面
 
 ## **美化**
 
