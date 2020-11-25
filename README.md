@@ -326,6 +326,12 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 在命令行界面解决问题后，按快捷键`Ctrl+Alt+Fn+F1`可以转换回图形化界面
 
+### **打字时桌面卡死，鼠标可以移动，点击无效**
+
+参考以下网址
+
+https://forum.manjaro.org/t/kde/39610
+
 ## **美化**
 
 **一定要先美化再装软件！**
@@ -822,6 +828,9 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 Linux-Surface -- Installation and Setup
 https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
+
+Manjaro Forum -- 打字时 KDE 桌面卡死，鼠标可以移动，点击无效
+https://forum.manjaro.org/t/kde/39610
 
 Kde 桌面的 Mac 化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
