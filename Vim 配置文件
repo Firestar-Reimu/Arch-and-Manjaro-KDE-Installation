@@ -27,11 +27,12 @@ set nobackup
 :set makeprg=g++\ -Wall\ \ %
 " 自动保存
 set autowrite
-set ruler                   " 打开状态栏标尺
-set cursorline              " 突出显示当前行
-set magic                   " 设置魔术
-set guioptions-=T           " 隐藏工具栏
-set guioptions-=m           " 隐藏菜单栏
+set ruler                    " 打开状态栏标尺
+set cursorline
+:hi CursorLine ctermbg=White " 突出显示当前行
+set magic                    " 设置魔术
+set guioptions-=T            " 隐藏工具栏
+set guioptions-=m            " 隐藏菜单栏
 " 设置在状态行显示:的信息
 set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ [%c:%l/%L]%)\
 " 不要使用vi的键盘模式，而是vim自己的
@@ -125,7 +126,7 @@ au BufRead,BufNewFile *  setfiletype txt
 :imap { {}<ESC>
 :imap " ""<ESC>
 :imap ' ''<ESC>
-" 打开文件类型检测, 加了这句才可以用智能补全
+" 打开文件类型检测
 function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
         return "\<Right>"
