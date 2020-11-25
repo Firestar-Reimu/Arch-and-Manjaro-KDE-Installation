@@ -465,7 +465,7 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 如果安装软件时需要导入 PGP 密钥而发生 `gpg: 从公钥服务器接收失败：一般错误` 的问题，将 PGP 密钥复制下来并运行：
 
-gpg --keyserver p80.pool.sks-keyservers.net --recv-keys (pgp_key)
+	gpg --keyserver p80.pool.sks-keyservers.net --recv-keys (pgp_key)
 
 再重新安装软件即可
 
