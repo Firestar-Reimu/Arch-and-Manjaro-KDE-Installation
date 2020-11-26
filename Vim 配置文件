@@ -129,8 +129,6 @@ au BufRead,BufNewFile *  setfiletype txt
 imap { {}<LEFT>
 imap [ []<LEFT>
 imap ( ()<LEFT>
-imap ' ''<LEFT>
-imap " ""<LEFT>
 " 打开文件类型检测
 function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
