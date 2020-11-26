@@ -1,3 +1,7 @@
+" 下载插件
+call plug#begin('~/.vim/pack/rainbow_parentheses')
+Plug 'kien/rainbow_parentheses.vim'
+call plug#end()
 " 配色方案
 colorscheme desert
 " 自动保存
@@ -145,3 +149,36 @@ set selection=exclusive
 set selectmode=mouse,key
 " 不要 intro 文档
 set shm=I
+" Python 设置
+filetype plugin on
+map <F5> :call RunPython()<CR>
+function! RunPython()
+    exec "w"
+    if &filetype == 'python'
+        if search("@profile")
+            exec "AsyncRun kernprof -l -v %"
+        elseif search("set_trace()")
+            exec "!~/.anaconda/bin/python %"
+        else
+            exec "AsyncRun -mode=term -pos=bottom ~/.anaconda/bin/python %"
+        endif
+    endif
+endfunc
+" NERDTree设置
+map <F2> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
+" Rainbow Parenthsis 设置
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+let g:rbpt_max = 16
+" IndentLines 设置
+let g:indentLine_enabled = 1
+let g:indentLine_char = '¦'
+let g:indentLine_color_term = 240
+" vim-autoformat 设置
+noremap <F7> :Autoformat<CR>
+au BufWrite * :Autoformat
+" vim-autopep8 设置
+let g:autopep8_max_line_length = 65536
