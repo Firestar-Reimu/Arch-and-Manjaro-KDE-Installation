@@ -74,7 +74,7 @@ set nobackup
 set ruler
 " 突出显示当前行
 set cursorline
-:hi CursorLine ctermbg=White
+hi CursorLine term=NONE cterm=NONE guibg=NONE guifg=NONE
 " 设置魔术
 set magic
 " 隐藏工具栏
