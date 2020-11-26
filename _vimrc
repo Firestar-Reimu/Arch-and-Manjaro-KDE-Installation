@@ -148,7 +148,7 @@ set wildmenu
 " 使回格键（backspace）正常处理indent, eol, start等
 set backspace=2
 " 允许backspace和光标键跨越行边界
-set whichwrap+=<, >, h, l
+set whichwrap=<,>,[,]
 " 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
 set mouse=a
 set selection=exclusive
@@ -168,9 +168,11 @@ set smartindent
 " 高亮显示普通txt文件（需要txt.vim脚本）
 au BufRead,BufNewFile * setfiletype txt
 " 自动补全
-imap { {}<LEFT>
-imap [ []<LEFT>
-imap ( ()<LEFT>
+inoremap { {}<LEFT>
+inoremap [ []<LEFT>
+inoremap ( ()<LEFT>
+inoremap ' ''<LEFT>
+inoremap " ""<LEFT>
 " 打开文件类型检测
 function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
