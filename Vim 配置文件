@@ -1,7 +1,10 @@
 " 插件安装
-call plug#begin('~/.vim/pack/(plugin_name)')
-Plug '(developer_name)/(plugin_name).vim'
+call plug#begin('~/.vim/pack/rainbow_parentheses')
+Plug 'kien/rainbow_parentheses.vim'
 call plug#end()
+" 自动保存
+set autoread
+set autowrite
 " 禁用代码折叠
 set nofoldenable
 let g:tex_conceal=""
@@ -10,7 +13,7 @@ let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[5 q" "SR = REPLACE mode
 let &t_EI.="\e[5 q" "EI = NORMAL mode (ELSE)
 " 设置行尾为Unix模式
-" set fileformat=unix
+set fileformat=unix
 " 设置当文件被改动时自动载入
 set autoread
 " quickfix模式
@@ -25,15 +28,18 @@ set clipboard=unnamed
 set nobackup
 " make 运行
 :set makeprg=g++\ -Wall\ \ %
-" 自动保存
-set autowrite
-set ruler                    " 打开状态栏标尺
+" 打开状态栏标尺
+set ruler
+" 突出显示当前行
 set cursorline
-:hi CursorLine ctermbg=White " 突出显示当前行
-set magic                    " 设置魔术
-set guioptions-=T            " 隐藏工具栏
-set guioptions-=m            " 隐藏菜单栏
-" 设置在状态行显示:的信息
+:hi CursorLine ctermbg=White
+" 设置魔术
+set magic
+" 隐藏工具栏
+set guioptions-=T
+" 隐藏菜单栏
+set guioptions-=m
+" 设置在状态行显示的信息
 set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ [%c:%l/%L]%)\
 " 不要使用vi的键盘模式，而是vim自己的
 set nocompatible
@@ -64,7 +70,6 @@ set number
 " 历史记录数
 set history=1000
 " 禁止生成临时文件
-set noundofile
 set nobackup
 set noswapfile
 " 搜索忽略大小写
@@ -121,11 +126,11 @@ set smartindent
 " 高亮显示普通txt文件（需要txt.vim脚本）
 au BufRead,BufNewFile *  setfiletype txt
 " 自动补全
-:imap ( ()<ESC>
-:imap [ []<ESC>
-:imap { {}<ESC>
-:imap " ""<ESC>
-:imap ' ''<ESC>
+imap { {}<LEFT>
+imap [ []<LEFT>
+imap ( ()<LEFT>
+imap ' ''<LEFT>
+imap " ""<LEFT>
 " 打开文件类型检测
 function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
