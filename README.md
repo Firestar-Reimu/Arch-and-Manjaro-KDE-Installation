@@ -732,11 +732,21 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 程序启动器 --> 编辑应用程序 --> Visual Studio Code --> 点击图标更改 --> 其他图标
 
-#### **Visual Studio Code缩放比例**
+#### **Visual Studio Code 缩放比例**
 
 放大比例：`Ctrl+=`
 
 缩小比例：`Ctrl+-`
+
+#### **Visual Studio Code 的 C/C++ 环境配置**
+
+参考以下网址：
+
+基于 VS Code + MinGW-w64 的 C/C++ 简单环境配置
+https://zhuanlan.zhihu.com/p/77074009
+
+VS Code 之 C/C++程序的 Debug 功能简介
+https://zhuanlan.zhihu.com/p/85273055
 
 ### **能用上触控笔的软件**
 
