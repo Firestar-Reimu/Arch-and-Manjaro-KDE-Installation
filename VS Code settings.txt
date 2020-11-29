@@ -1,14 +1,14 @@
-// 下载扩展：Python, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++
+// 下载扩展：Python, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++, C/C++ Compile Run
 
 {
     "workbench.colorTheme": "Default Light+",
     "editor.fontSize": 16,
     "editor.fontFamily": "JetBrains Mono NL, Fira Code, SimSun",
-    "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06', 'zero'",
+    "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
     "debug.console.fontSize": 16,
     "markdown.preview.fontSize": 16,
     "terminal.integrated.fontSize": 16,
-    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe", // 根据实际情况更改！
     "editor.tokenColorCustomizations": {
         "comments": {
             // 设置字体样式 加粗 下划线 斜体等
@@ -20,21 +20,37 @@
         "variables": "#1874CD", // 变量名
         "strings": "#00aa00", // 字符串
         "functions": "#ff5500", // 函数名
-        "numbers": "#994400" // 数字
+        "numbers": "#994400", // 数字
     },
     "workbench.colorCustomizations": {
         "editor.selectionHighlightBackground": "#ffff99"
     },
-    "python.pythonPath": "D:\\Apps\\Anaconda\\python.exe",
-    "workbench.startupEditor": "newUntitledFile",
-    "files.autoSave": "onFocusChange",
-    "files.autoSaveDelay": 0,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 10000,
+    "files.associations": {
+        "*.json": "jsonc"
+    },
+    "window.zoomLevel": 0,
+    // C/C++
+    "C_Cpp.updateChannel": "Insiders",
+    // Git
+    "git.confirmSync": true,
+    "git.autofetch": true,
     "git.enableSmartCommit": true,
+    // Python
+    "python.pythonPath": "D:\\Apps\\Anaconda\\python.exe", // 根据实际情况更改！
+    "python.condaPath": "D:\\Apps\\Anaconda\\Scripts\\conda.exe", // 根据实际情况更改！
+    "python.linting.pylintArgs": [
+        "--generate-members"
+    ],
+    "jupyter.themeMatplotlibPlots": true,
+    "jupyter.sendSelectionToInteractiveWindow": true,
+    "python.showStartPage": false,
     // bracket-pair-colorizer-2
     "bracket-pair-colorizer-2.colors": [
         "#14B363",
         "#EE4000",
-        "#BA55D3"
+        "#BA55D3",
     ],
     "bracket-pair-colorizer-2.activeScopeCSS": [
         "borderStyle : solid",
@@ -79,7 +95,7 @@
             "name": "xelatex",
             "tools": [
                 "xelatex"
-            ]
+            ],
         },
         {
             "name": "pdflatex",
@@ -128,21 +144,10 @@
         "*.ist",
         "*.fls",
         "*.log",
-        "*.fdb_latexmk"
+        "*.fdb_latexmk",
     ],
     "latex-workshop.latex.pdfWatch.delay": 0,
     "editor.wordWrap": "on",
-    "python.dataScience.themeMatplotlibPlots": true,
-    "python.condaPath": "D:\\Apps\\Anaconda\\Scripts\\conda.exe",
-    "python.dataScience.sendSelectionToInteractiveWindow": true,
-    "python.linting.pylintArgs": [
-        "--generate-members"
-    ],
-    "git.confirmSync": true,
-    "git.autofetch": true,
-    "files.associations": {
-        "*.json": "jsonc"
-    },
-    "C_Cpp.updateChannel": "Insiders",
-    "window.zoomLevel": 0
+    "latex-workshop.message.update.show": false,
+    "debug.onTaskErrors": "showErrors",
 }
