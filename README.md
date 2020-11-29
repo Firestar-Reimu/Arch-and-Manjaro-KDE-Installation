@@ -663,7 +663,7 @@ Copies & Folders --> When sending messages, automatically --> 取消勾选 Place
 
 ### **Anaconda 安装**
 
-**运行 `conda` 时建议连接北京大学VPN**
+**运行 `conda` 时建议连接北京大学 VPN**
 
 #### **默认安装**
 
@@ -697,6 +697,11 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 	spyder (file_path)/(file_name)
 
+### **Vim 安装插件**
+
+	git clone https://github.com/tell-k/vim-autopep8.git ~/.vim/pack/vim-autopep8/start/vim-autopep8
+	vim -u NONE -c "helptags ~/.vim/pack/vim-autopep8/start/vim-autopep8/doc" -c q
+
 ### **Visual Studio Code 安装与配置**
 
 #### **Visual Studio Code 安装**
@@ -720,11 +725,6 @@ https://docs.anaconda.com/anaconda/install/linux/
 从最新的开源代码构建：
 
 	yay -S code-git
-	
-### **Vim 安装插件**
-
-	git clone https://github.com/tell-k/vim-autopep8.git ~/.vim/pack/vim-autopep8/start/vim-autopep8
-	vim -u NONE -c "helptags ~/.vim/pack/vim-autopep8/start/vim-autopep8/doc" -c q
 
 #### **Visual Studio Code 图标更改**
 
@@ -745,7 +745,9 @@ https://docs.anaconda.com/anaconda/install/linux/
 基于 VS Code + MinGW-w64 的 C/C++ 简单环境配置
 https://zhuanlan.zhihu.com/p/77074009
 
-VS Code 之 C/C++程序的 Debug 功能简介
+注意：下载插件 C/C++ Compile Run 后只要按 `Fn+F6` 即可编译运行 C/C++ 程序，但是不能调试。调试环境的配置请参考以下网址：
+
+VS Code 之 C/C++程序的 debug 功能简介
 https://zhuanlan.zhihu.com/p/85273055
 
 ### **能用上触控笔的软件**
