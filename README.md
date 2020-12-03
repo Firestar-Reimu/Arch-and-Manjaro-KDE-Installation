@@ -110,6 +110,16 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
     sudo pacman -Syyu
 
+### **终端输出语言为英语**
+
+在每一条命令前面添加：
+
+	LANG=C
+    
+例如:
+
+    LANG=C sudo pacman -Syyu
+
 ### **AUR**
 
 #### 安装 base-devel
