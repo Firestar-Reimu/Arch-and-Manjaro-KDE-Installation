@@ -1,14 +1,12 @@
-// 下载扩展：Python, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++, C/C++ Compile Run
-
+// 下载扩展：Python, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++
 {
-    "workbench.colorTheme": "Default Light+",
+    // 全局设置
     "editor.fontSize": 16,
     "editor.fontFamily": "JetBrains Mono NL, Fira Code, SimSun",
     "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
     "debug.console.fontSize": 16,
-    "markdown.preview.fontSize": 16,
     "terminal.integrated.fontSize": 16,
-    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe", // 根据实际情况更改！
+    "terminal.integrated.shell.windows": "/usr/bin/zsh",
     "editor.tokenColorCustomizations": {
         "comments": {
             // 设置字体样式 加粗 下划线 斜体等
@@ -16,41 +14,38 @@
             // 设置字体颜色
             "foreground": "#ff0000"
         }, // 注释
-        "keywords": "#900090", // 关键字
-        "variables": "#1874CD", // 变量名
+        "keywords": "#ff5500", // 关键字
+        "variables": "#dd55aa", // 变量名
         "strings": "#00aa00", // 字符串
-        "functions": "#ff5500", // 函数名
-        "numbers": "#994400", // 数字
+        "functions": "#0000ff", // 函数名
+        "numbers": "#994400" // 数字
     },
     "workbench.colorCustomizations": {
-        "editor.selectionHighlightBackground": "#ffff99"
+        "editor.selectionHighlightBackground": "#ffff55"
     },
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 10000,
+    "editor.wordWrap": "on",
+    "explorer.confirmDelete": false,
+    "workbench.startupEditor": "newUntitledFile",
+    "files.autoSave": "onFocusChange",
+    "files.autoSaveDelay": 0,
+    "git.enableSmartCommit": true,
+    "git.confirmSync": true,
+    "git.autofetch": true,
     "files.associations": {
         "*.json": "jsonc"
     },
     "window.zoomLevel": 0,
-    // C/C++
+    "terminal.integrated.inheritEnv": false,
+    "workbench.colorTheme": "Default Light+",
+    // C & C++
     "C_Cpp.updateChannel": "Insiders",
-    // Git
-    "git.confirmSync": true,
-    "git.autofetch": true,
-    "git.enableSmartCommit": true,
-    // Python
-    "python.pythonPath": "D:\\Apps\\Anaconda\\python.exe", // 根据实际情况更改！
-    "python.condaPath": "D:\\Apps\\Anaconda\\Scripts\\conda.exe", // 根据实际情况更改！
-    "python.linting.pylintArgs": [
-        "--generate-members"
-    ],
-    "jupyter.themeMatplotlibPlots": true,
-    "jupyter.sendSelectionToInteractiveWindow": true,
-    "python.showStartPage": false,
+    // Markdown
+    "markdown.preview.fontSize": 16,
     // bracket-pair-colorizer-2
     "bracket-pair-colorizer-2.colors": [
         "#14B363",
         "#EE4000",
-        "#BA55D3",
+        "#BA55D3"
     ],
     "bracket-pair-colorizer-2.activeScopeCSS": [
         "borderStyle : solid",
@@ -59,6 +54,7 @@
         "opacity: 0.5"
     ],
     // LaTeX
+    "latex-workshop.message.update.show": false,
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.tools": [
@@ -95,7 +91,7 @@
             "name": "xelatex",
             "tools": [
                 "xelatex"
-            ],
+            ]
         },
         {
             "name": "pdflatex",
@@ -144,10 +140,23 @@
         "*.ist",
         "*.fls",
         "*.log",
-        "*.fdb_latexmk",
+        "*.fdb_latexmk"
     ],
     "latex-workshop.latex.pdfWatch.delay": 0,
-    "editor.wordWrap": "on",
-    "latex-workshop.message.update.show": false,
-    "debug.onTaskErrors": "showErrors",
+    // Python & Jupyter
+    "python.linting.pylintArgs": [
+        "--generate-members"
+    ],
+    "python.formatting.autopep8Args": [
+        "--max-line-length=65536"
+    ],
+    "python.pythonPath": "/home/firestar/.anaconda/bin/python",
+    "jupyter.themeMatplotlibPlots": true,
+    "jupyter.sendSelectionToInteractiveWindow": true,
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
 }
