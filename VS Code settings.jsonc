@@ -39,6 +39,7 @@
     "window.zoomLevel": 0,
     "terminal.integrated.inheritEnv": false,
     "workbench.colorTheme": "Default Light+",
+    // 在“文件--首选项--键盘快捷方式”中将终端的复制与粘贴分别改为"Ctrl+C"和"Ctrl+V"
     // C & C++
     "C_Cpp.updateChannel": "Insiders",
     // Markdown
