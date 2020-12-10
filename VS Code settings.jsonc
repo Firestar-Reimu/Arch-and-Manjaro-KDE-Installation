@@ -7,6 +7,8 @@
     "debug.console.fontSize": 16,
     "terminal.integrated.fontSize": 16,
     "terminal.integrated.shell.windows": "/usr/bin/zsh",
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.cursorBlinking": true,
     "editor.tokenColorCustomizations": {
         "comments": {
             // 设置字体样式 加粗 下划线 斜体等
