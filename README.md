@@ -556,6 +556,12 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 ArchWiki -- Fcitx5 (简体中文)
 https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
+### **设置 Konsole 界面为英文**
+
+在`~/.bashrc`和`~/.zshrc`最后添加一行：
+
+	export LANG=C
+
 ### **安装其它软件**
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即pamac）中搜索安装，或者用 `pamac install` 安装
