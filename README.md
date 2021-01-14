@@ -31,11 +31,11 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 ### **进入 UEFI 设置**
 
-关闭 Surface，然后等待大约 10 秒钟以确保其处于关闭状态 
+关闭 Surface，然后等待大约 10 秒钟以确保其处于关闭状态
 
-长按 Surface 上的调高音量按钮，同时按下再松开电源按钮 
-    
-屏幕上会显示 Microsoft 或 Surface 徽标 继续按住调高音量按钮 显示 UEFI 屏幕后，松开此按钮 
+长按 Surface 上的调高音量按钮，同时按下再松开电源按钮
+
+屏幕上会显示 Microsoft 或 Surface 徽标 继续按住调高音量按钮 显示 UEFI 屏幕后，松开此按钮
 
 Security --> Secure Boot --> Disabled(第三个选项)
 
@@ -114,13 +114,9 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 ### **终端输出语言为英语**
 
-在每一条命令前面添加：
+在`~/.bashrc`和`~/.zshrc`最后添加一行：
 
-	LANG=C
-    
-例如:
-
-    LANG=C sudo pacman -Syyu
+	export LANG=C
 
 ### **AUR**
 
@@ -172,8 +168,8 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏。用下面的命令切换到 unstable 分支可以尽量跟进 Arch 的更新：
 
-	sudo pacman-mirrors -a -f -B unstable
-	sudo pacman -Syyuu
+	sudo pacman-mirrors --api --set-branch unstable
+	sudo pacman-mirrors --fasttrack 5 && sudo pacman -Syyu
 	
 ### **为 pacman 和 yay 添加多线程下载**
 
@@ -224,7 +220,11 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 	
 去掉`swapfc_enabled`前的注释并设置为`swapfc_enabled=1`，保存并关闭
 
-在终端输入`sudo systemctl enable --now systemd-swap`以启动`systemd-swap`服务
+在终端输入
+
+    sudo systemctl enable --now systemd-swap
+
+以启动`systemd-swap`服务
 
 **Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
 
@@ -244,7 +244,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 在终端中输入：
 
-    lsblk -f    
+    lsblk -f
 
 在输出结果中可以发现 Windows 的硬盘分区，每个分区有一段 `UUID` 的信息，应为16位十六进制数，右键选中复制下来 
 
@@ -258,6 +258,10 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
     UUID=A2668A50668A24DF                     /run/media/firestar/Data    ntfs-3g uid=firestar,gid=users,auto 0 0
 
 重启电脑后，即可自动挂载
+
+    mkdir ~/Data
+    sudo umount /dev/nvme0n1p4
+    sudo mount /dev/nvme0n1p4 ~/Data
 
 #### **如果文件系统突然变成只读**
 
@@ -281,7 +285,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 再重新挂载即可：
 
-    sudo mount /dev/nvme0n1p4 /run/media/firestar/Data
+    sudo mount /dev/nvme0n1p4 ~/Data
 
 ### **Linux-Surface 安装**
 
@@ -309,7 +313,7 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 首先要安装`bluez-utils`以启用`bluetoothctl`命令：
 
 	yay -S bluez-utils
-	
+
 然后参考以下网站：
 
 Arch Wiki -- 关于Logitech BLE鼠标的问题
@@ -445,10 +449,10 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 更改以下两处地方：
 
-    CPU_MIN_PERF_ON_AC=15
-    CPU_MAX_PERF_ON_AC=30
-    CPU_MIN_PERF_ON_BAT=15
-    CPU_MAX_PERF_ON_BAT=30
+    CPU_MIN_PERF_ON_AC=0
+    CPU_MAX_PERF_ON_AC=100
+    CPU_MIN_PERF_ON_BAT=0
+    CPU_MAX_PERF_ON_BAT=100
 
     CPU_BOOST_ON_AC=0
     CPU_BOOST_ON_BAT=0
@@ -558,12 +562,6 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 ArchWiki -- Fcitx5 (简体中文)
 https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
-### **设置 Konsole 界面为英文**
-
-在`~/.bashrc`和`~/.zshrc`最后添加一行：
-
-	export LANG=C
-
 ### **安装其它软件**
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即pamac）中搜索安装，或者用 `pamac install` 安装
@@ -620,7 +618,7 @@ https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%8
 更新 zsh 配置：
 
 	source ~/.zshrc
-	
+
 可以运行`tex -v`检查是否安装成功，若成功应显示（以 Tex Live 2020 为例）：
 
 	TeX 3.14159265 (TeX Live 2020)
