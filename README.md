@@ -4,17 +4,17 @@
 
 ```
 firestar@FIRESTAR
-OS: Manjaro 20.1 Mikah
-Kernel: x86_64 Linux 5.8.10-arch1-3-surface
-Uptime: 13m
-Packages: 1257
-Shell: zsh 5.8
+OS: Manjaro 20.2.1 Nibia
+Kernel: x86_64 Linux 5.10.6-arch1-1-surface
+Uptime: 32m
+Packages: 1213
+Shell: bash 5.1.0
 Resolution: 2736x1824
-DE: KDE 5.73.0 / Plasma 5.19.5
+DE: KDE 5.78.0 / Plasma 5.20.5
 WM: KWin
-GTK Theme: Mojave-light [GTK2/3]
-Icon Theme: Mojave-CT-Light
-Disk: 30G / 112G (29%)
+GTK Theme: Breath [GTK2/3]
+Icon Theme: breath2
+Disk: 110G / 241G (46%)
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
@@ -65,14 +65,15 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 继续按住调低音量按钮，释放按钮后，徽标下方将显示旋转圆点，按照屏幕说明从 U 盘启动
 
-#### **分区设置**
+#### **进入 Manjaro Hello 窗口开始安装**
 
-|     大小     |  文件系统  |   挂载点   |  标记  |
-| :---------: | :--------: | :-------: | :----: |
-|    >40GB    |    ext4    |     /     |  root  |
-|    260MB    |            | /boot/efi |        |
+语言选择“简体中文”
 
-**挂载`/boot/efi`时一定要选择“保留”而不是“格式化”**
+时区选择“Asia -- Shanghai”
+
+安装时选择“替代一个分区”，并点击之前空出来的空分区
+
+勾选“为管理员使用相同的密码”
 
 **使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件)**
 
@@ -88,22 +89,6 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
 Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
-### **sudo 免密码及更改默认编辑器为 nano**
-
-首先在终端中输入：
-
-	sudo visudo
-
-在开头的一个空行键入：
-
-	Defaults editor=/usr/bin/nano
-
-在最后一行（空行）按 `i` 进入输入模式，加上这一行：
-
-	Defaults:(user_name) !authenticate
-
-按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
-
 ### **官方软件源更改镜像**
 
     sudo pacman-mirrors -i -c China -m rank
@@ -112,11 +97,20 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
     sudo pacman -Syyu
 
+### **更改更新分支**
+
+用下面的命令可以切换到 testing 或 unstable 分支：
+
+	sudo pacman-mirrors --api --set-branch (branch)
+	sudo pacman-mirrors --fasttrack 5 && sudo pacman -Syyu
+
 ### **终端输出语言为英语**
 
-在`~/.bashrc`和`~/.zshrc`最后添加一行：
+在 `~/.bashrc` 的最后添加一行：
 
 	export LANG=C
+
+如果使用 zsh，则修改 `~/.zshrc` 即可
 
 ### **AUR**
 
@@ -138,7 +132,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 #### 安装 yay
 
-除了预装的 `pamac`，Manjaro 官方仓库中的 AUR 助手还有 `yay`
+除了预装的 `pamac`，Manjaro 官方仓库中的 AUR 助手还有 `yay`：
 
 	sudo pacman -S yay
 
@@ -159,36 +153,48 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 在 `/etc/pacman.conf` 文件末尾添加以下两行以启用上海交大镜像：
 
 	[archlinuxcn]
-
 	Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
+
+若使用清华镜像，则添加：
+
+	[archlinuxcn]
+	Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
 
 之后执行下面的命令安装 archlinuxcn-keyring 包导入 GPG key
 
 	sudo pacman -Sy archlinuxcn-keyring
 
-由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏。用下面的命令切换到 unstable 分支可以尽量跟进 Arch 的更新：
+由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏
 
-	sudo pacman-mirrors --api --set-branch unstable
-	sudo pacman-mirrors --fasttrack 5 && sudo pacman -Syyu
+建议切换到 testing 或 unstable 分支以尽量跟进 Arch 的更新
 	
-### **为 pacman 和 yay 添加多线程下载**
+### **下载 vim**
 
-执行下面的命令下载 axel
+建议先下载 vim，方便之后编辑各种文件：
 
-	 yay -S axel
+	sudo pacman -S vim
 
-编辑`/etc/pacman.conf`文件（在第21行）:
+### **更改 visudo 默认编辑器为 vim**
 
-    XferCommand = /usr/bin/axel -n 10 -o %o %u
+首先在终端中输入：
 
-编辑`/etc/makepkg.conf`文件（在第11-16行）:
+	sudo visudo
 
-    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
-          'ftp::/usr/bin/axel -n 10 -o %o %u'
-          'http::/usr/bin/axel -n 10 -o %o %u'
-          'https::/usr/bin/axel -n 10 -o %o %u'
-          'rsync::/usr/bin/rsync --no-motd -z %u %o'
-          'scp::/usr/bin/scp -C %u %o')
+在开头的一个空行键入：
+
+	Defaults editor=/usr/bin/vim
+
+按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
+
+### **sudo 免密码**
+
+在最后一行（空行）按 `i` 进入输入模式，加上这一行：
+
+	Defaults:(user_name) !authenticate
+
+进入命令模式，保存退出即可
+
+**注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
 
 ### **双系统时间不同步 + 24小时制**
 
@@ -198,27 +204,23 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 	sudo timedatectl set-local-rtc 1
 
+系统设置 --> 时间和日期 --> 自动设置时间和日期
+
 #### **Manjaro 设置24小时制**
 
-时钟点右键 --> 配置数字时钟 --> 时间显示 --> 24小时制
-
-### **自动连接 Wifi**
-
-确保 KDE 钱包开启即可，调整路径如下：
-
-应用 --> 系统 --> KWalletManager
+右键点击“数字时钟” --> 配置数字时钟 --> 时间显示 --> 24小时制
 
 ### **动态 Swap 文件设置**
 
-先下载`systemd-swap`软件包：
+先下载 `systemd-swap` 软件包：
 
 	yay -S systemd-swap
 
-编辑`/etc/systemd/swap.conf`:
+编辑 `/etc/systemd/swap.conf`:
 
-	kate /etc/systemd/swap.conf
+	sudo vim /etc/systemd/swap.conf
 	
-去掉`swapfc_enabled`前的注释并设置为`swapfc_enabled=1`，保存并关闭
+去掉 `swapfc_enabled` 前的注释并设置为 `swapfc_enabled=1` ，保存并关闭
 
 在终端输入
 
@@ -250,18 +252,14 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 接着就来修改系统文件：
 
-    kate /etc/fstab
+    sudo vim /etc/fstab
 
 在最后加入这两句：
 
-    UUID=8494B8C594B8BACE                     /run/media/firestar/System    ntfs-3g uid=firestar,gid=users,auto 0 0
-    UUID=A2668A50668A24DF                     /run/media/firestar/Data    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=8494B8C594B8BACE                     /home/firestar/System    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=A2668A50668A24DF                     /home/firestar/Data    ntfs-3g uid=firestar,gid=users,auto 0 0
 
 重启电脑后，即可自动挂载
-
-    mkdir ~/Data
-    sudo umount /dev/nvme0n1p4
-    sudo mount /dev/nvme0n1p4 ~/Data
 
 #### **如果文件系统突然变成只读**
 
@@ -287,7 +285,30 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
     sudo mount /dev/nvme0n1p4 ~/Data
 
-### **Linux-Surface 安装**
+### **调整文件夹名称为英文**
+
+    vim ~/.config/user-dirs.dirs
+    
+    XDG_DESKTOP_DIR="$HOME/Desktop"
+    XDG_DOCUMENTS_DIR="$HOME/Documents"
+    XDG_DOWNLOAD_DIR="$HOME/Downloads"
+    XDG_MUSIC_DIR="$HOME/Music"
+    XDG_PICTURES_DIR="$HOME/Pictures"
+    XDG_PUBLICSHARE_DIR="$HOME/Public"
+    XDG_TEMPLATES_DIR="$HOME/Templates"
+    XDG_VIDEOS_DIR="$HOME/Videos"
+
+### **Dolphin 在更新后删除文件/文件夹报错**
+
+如果出现以下错误：
+
+	无法创建输入输出后端。klauncher 回应：装入“/usr/lib/qt/plugins/kf5/kio/trash.so”时出错
+
+说明 Qt 还在内存中保留着旧版 Dolphin，此时可以重启/重新登录，或执行
+
+	dbus-launch dolphin
+
+### **Linux-Surface 内核安装**
 
 **安装和更新 Linux-Surface 需要登录北京大学 VPN**
 
@@ -296,32 +317,19 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 Linux-Surface -- Installation and Setup
 https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
-在终端中输入：
-
-	systemctl enable iptsd
-
-可以开机时自动启动触屏功能
+注意网页最后对 Firefox 和 Visual Studio Code 的进一步说明
 
 ### **SONY LE_WH-1000XM3 耳机连接**
 
-长按耳机电源键约7s即可进入配对模式，可以在蓝牙中配对。
+长按耳机电源键约7s即可进入配对模式，可以在蓝牙中配对
 
 ### **Logitech M590 鼠标的蓝牙连接**
 
-同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备。如果 Windows 系统被识别为设备1，需要按滚轮后的圆形按钮切换至设备2。并长按圆形按钮直到灯2快速闪烁进入配对模式。
-
-首先要安装`bluez-utils`以启用`bluetoothctl`命令：
-
-	yay -S bluez-utils
-
-然后参考以下网站：
-
-Arch Wiki -- 关于Logitech BLE鼠标的问题
-https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
+同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备。如果 Windows 系统被识别为设备1，需要按滚轮后的圆形按钮切换至设备2。并长按圆形按钮直到灯2快速闪烁进入配对模式
 
 ### **解决用 root 登录没有声音的问题**
 
-用 root 登录，并在`/root/.config/autostart/`下创建一个`pulseaudio.desktop`文件，写入：
+用 root 登录，并在 `/root/.config/autostart/` 下创建一个 `pulseaudio.desktop` 文件，写入：
 
 	[Desktop Entry]
 	Encoding=UTF-8
@@ -336,19 +344,23 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 ### **切换图形化界面和命令行界面**
 
-登录时默认进入的是图形化界面，有时候开机后黑屏是图形化界面显示不出来所致，此时可以按快捷键`Ctrl+Alt+Fn+(F2~F6)`进入`tty2 ~ tty6`的任何一个命令行界面
+登录时默认进入的是图形化界面，有时候开机后黑屏是图形化界面显示不出来所致，此时可以按快捷键 `Ctrl+Alt+Fn+(F2~F6)`进入`tty2 ~ tty6` 的任何一个命令行界面
 
 注意此时需要手动输入用户名和密码
 
-在命令行界面解决问题后，按快捷键`Ctrl+Alt+Fn+F1`可以转换回图形化界面
+在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回图形化界面
 
 ### **打字时桌面卡死，鼠标可以移动，点击无效**
 
-参考以下网址
+首先切换到命令行界面
 
-https://forum.manjaro.org/t/kde/39610
+输入
 
-可以归纳为：切 tty，输入`killall plasmashell; plasmashell`，再回到原来的 tty，打开终端，执行 `plasmashell &`
+	killall plasmashell
+
+再回到图形化界面，打开终端，执行
+
+	plasmashell &
 
 ## **美化**
 
@@ -370,7 +382,13 @@ https://forum.manjaro.org/t/kde/39610
 
 然后重启电脑
 
-#### **主题美化**
+### **开机登录美化**
+
+开机与关机 --> 登录屏幕（SDDM） --> McMojave sddm
+
+开机与关机 --> 欢迎屏幕 --> Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen
+
+#### **主题美化（可选）**
 
 **不要用全局主题！**
 
@@ -391,18 +409,20 @@ Latte-Dock 的推荐设置：
 
 外观：绝对大小 --> 96，背景大小 --> 10%
 
-#### **终端美化**
+#### **终端美化（可选）**
 
-参考以下网址：
+Konsole --> 设置 --> 编辑当前方案 --> 常规 --> 命令 --> `usr/bin/zsh`
+
+Oh-My-Zsh 安装可以参考以下网址：
 
 Oh-My-Zsh 及主题、插件的安装与配置
 https://www.cnblogs.com/misfit/p/10694397.html
 
-zsh主题选择：
+Oh-My-Zsh主题选择：
 
 	geoffgarside
 
-#### **grub 美化**
+#### **GRUB 美化**
 
 选择主题 Slaze ，下载地址如下：
 
@@ -412,18 +432,19 @@ https://github.com/vinceliuice/grub2-themes
 
 	sudo ./install.sh -b -l -w -2
 
-删除多余启动条目，请参考以下网址：
+删除多余启动条目，需要输入：
 
-Linux grub 删除多余启动条目
-https://blog.csdn.net/JackLiu16/article/details/80383969
+	sudo vim /boot/grub/grub.cfg
+
+然后删除整一段 `Advanced options of Manjaro`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager(on \dev\nvme0n1p1)` 改为 `Windows`
 
 #### **pacman 添加吃豆人彩蛋**
 
 编辑 /etc/pacman.conf
 
-	kate /etc/pacman.conf
+	sudo vim /etc/pacman.conf
 
-去掉`Color`前面的注释，并在下一行添加：
+去掉 `Color` 前面的注释，并在下一行添加：
 
 	ILoveCandy
 
@@ -435,26 +456,20 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 右上角 ··· --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V` 
 
-#### **Dolphin 图标大小和快捷键**
-
-右上角 ··· --> 配置键盘快捷键 --> 移至回收站改为 `Ctrl+D` ，删除改为 `Del`
-
-### **桌面设置**
-
-右键点击桌面 --> 配置桌面 ---> 位置 --> 自定义位置
-
 ### **调整 CPU 频率**
 
-    kate /etc/tlp.conf
+    sudo vim /etc/tlp.conf
 
-更改以下两处地方：
+若更改 CPU 频率，修改以下位置：
 
     CPU_MIN_PERF_ON_AC=0
     CPU_MAX_PERF_ON_AC=100
     CPU_MIN_PERF_ON_BAT=0
-    CPU_MAX_PERF_ON_BAT=100
+    CPU_MAX_PERF_ON_BAT=30
 
-    CPU_BOOST_ON_AC=0
+若更改 CPU 睿频设置，修改以下位置：
+
+    CPU_BOOST_ON_AC=1
     CPU_BOOST_ON_BAT=0
 
 **不需要高性能的时候可以关掉 turbo，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
@@ -500,13 +515,15 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
     cd /usr/share/fonts/winfonts/
     fc-cache -fv
     
-这样就可以安装微软雅黑、宋体、黑体等字体了 
+这样就可以安装微软雅黑、宋体、黑体等字体了
+
+**注意需要排除掉 MS Gothic、Yu Gothic 字体，因它们只有部分日文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日文字形）**
 
 ### **更改程序和终端默认中文字体为微软雅黑**
 
 输入命令：
 
-    kate /etc/fonts/conf.d/64-language-selector-prefer.conf
+    sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 
 并加入以下内容：
 
@@ -517,7 +534,6 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 	<alias>
 		<family>sans-serif</family>
 		<prefer>
-			<family>Microsoft YaHei UI</family>
 			<family>Noto Sans CJK SC</family>
 			<family>Noto Sans CJK TC</family>
 			<family>Noto Sans CJK HK</family>
@@ -528,12 +544,11 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 	<alias>
 		<family>serif</family>
 		<prefer>
-			<family>SimSun</family>
-			<family>Noto Sans CJK SC</family>
-			<family>Noto Sans CJK TC</family>
-			<family>Noto Sans CJK HK</family>
-			<family>Noto Sans CJK JP</family>
-			<family>Noto Sans CJK KR</family>
+			<family>Noto Serif CJK SC</family>
+			<family>Noto Serif CJK TC</family>
+			<family>Noto Serif CJK HK</family>
+			<family>Noto Serif CJK JP</family>
+			<family>Noto Serif CJK KR</family>
 		</prefer>
 	</alias>
 	<alias>
@@ -542,7 +557,6 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 			<family>JetBrains Mono NL</family>
 			<family>JetBrains Mono</family>
 			<family>Consolas</family>
-			<family>Microsoft YaHei UI</family>
 			<family>Noto Sans Mono CJK SC</family>
 			<family>Noto Sans Mono CJK TC</family>
 			<family>Noto Sans Mono CJK HK</family>
@@ -557,24 +571,21 @@ https://blog.csdn.net/JackLiu16/article/details/80383969
 
 ### **安装中文输入法**
 
-参考以下网址：
+推荐使用 Fcitx5:
 
-ArchWiki -- Fcitx5 (简体中文)
-https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+	yay -S fcitx5 manjaro-asian-input-support-fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idiom
 
 ### **安装其它软件**
 
-以下命令中的 `yay -S` 也可以在“添加/删除软件”（即pamac）中搜索安装，或者用 `pamac install` 安装
+以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装
 
-	yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
-	yay -S electron-netease-cloud-music
-	yay -S texstudio
-	yay -S stellarium
-	yay -S vim
+	yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts electron-netease-cloud-music texstudio stellarium geogebra lantern-bin
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
-很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码。例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框。
+很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码
+
+例如 sudo vim，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框
 
 #### **用 debtap 安装 .deb 包（不推荐）**
 
@@ -595,7 +606,13 @@ https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%8
 
 ### **安装 TeX Live**
 
-首先在[ TeX Live 下载地址](https://tug.org/texlive/acquire-netinstall.html)下载`install-tl-unx.tar.gz`
+#### **默认安装**
+
+	yay -S texlive-most texlive-lang
+
+#### **自定义安装**
+
+首先在 [TeX Live 下载地址](https://tug.org/texlive/acquire-netinstall.html) 下载 `install-tl-unx.tar.gz`
 
 打开终端，运行：
 
@@ -607,7 +624,7 @@ https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%8
 
 此过程大概需要40分钟，安装后需要将 TeX Live 添加到 PATH
 
-	kate ~/.zshrc
+	sudo vim ~/.bashrc
 	
 在最后添加以下语句：
 
@@ -615,11 +632,11 @@ https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%8
 	MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH; export MANPATH
 	INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH; export INFOPATH
 	
-更新 zsh 配置：
+更新 bash 配置：
 
-	source ~/.zshrc
+	source ~/.bashrc
 
-可以运行`tex -v`检查是否安装成功，若成功应显示（以 Tex Live 2020 为例）：
+可以运行 `tex -v` 检查是否安装成功，若成功应显示（以 Tex Live 2020 为例）：
 
 	TeX 3.14159265 (TeX Live 2020)
 	kpathsea version 6.3.2
@@ -651,6 +668,8 @@ Default Search Engine 改为 Bing
 
 System Intergration 全部设为默认并取消勾选
 
+Mail Content 勾选
+
 右键点击上方工具栏 Mail Toolbar，选择 Customize，自行配置即可
 
 #### **Thunderbird 帐号配置**
@@ -661,13 +680,11 @@ Server Settings --> Server Settings --> Check for new messages every `1` minutes
 
 Server Settings --> Server Settings --> When I delete a message --> Remove it immediately
 
-Copies & Folders --> When sending messages, automatically --> 取消勾选 Place a copy in
-
 ### **Git 配置用户名、邮箱及免密码设置**
 
 	git config --global user.name "(user_name)"
 	git config --global user.email "(user_email)"       
-	kate .git-credentials
+	sudo vim .git-credentials
 
 写入如下语句：
 
@@ -679,14 +696,6 @@ Copies & Folders --> When sending messages, automatically --> 取消勾选 Place
 
 ### **Anaconda 安装**
 
-**运行 `conda` 时建议连接北京大学 VPN**
-
-#### **默认安装**
-
-	yay -S anaconda
-
-#### **自定义安装**
-
 下载地址如下（官网下载速度极慢，选择清华镜像）：
 
 https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
@@ -697,6 +706,31 @@ https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
 
 Anaconda Documentation -- Installing on Linux
 https://docs.anaconda.com/anaconda/install/linux/
+
+输入以下命令：
+
+	sudo vim ~/.condarc
+
+修改 `.condarc` 以使用清华大学镜像源：
+
+```
+channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+```
 
 恢复之前的版本：
 
@@ -722,11 +756,11 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 #### **Visual Studio Code 安装**
 
-发行版维护者从开源代码构建的版本，可以用`code`命令打开：
+发行版维护者从开源代码构建的版本，可以用 `code` 命令打开：
 
 	yay -S code
 
-微软官方的二进制 release（包含部分私有的组件），同样可以用`code`命令打开（如果不介意私有组件而且不习惯“Code - OSS”的图标，个人推荐首选此项）：
+微软官方的二进制 release（包含部分私有的组件），同样可以用 `code` 命令打开（如果不介意私有组件而且不习惯“Code - OSS”的图标，个人推荐首选此项）：
 
 	yay -S visual-studio-code-bin
 
@@ -754,7 +788,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 缩小比例：`Ctrl+-`
 
-#### **Visual Studio Code 的 C/C++ 环境配置**
+#### **Visual Studio Code 的 C/C++ 环境配置（未测试）**
 
 参考以下网址：
 
@@ -766,7 +800,7 @@ https://zhuanlan.zhihu.com/p/77074009
 VS Code 之 C/C++程序的 debug 功能简介
 https://zhuanlan.zhihu.com/p/85273055
 
-### **能用上触控笔的软件**
+### **能用上触控笔的软件（可选）**
 
 #### **绘画**
 
@@ -805,6 +839,25 @@ https://zhuanlan.zhihu.com/p/85273055
 清理无用的孤立软件包：
 
     yay -Rsn $(pacman -Qdtq)
+
+### **为 pacman 和 yay 添加多线程下载（可选）**
+
+执行下面的命令下载 axel
+
+	 yay -S axel
+
+编辑 `/etc/pacman.conf` 文件（在第21行）:
+
+    XferCommand = /usr/bin/axel -n 10 -o %o %u
+
+编辑 `/etc/makepkg.conf` 文件（在第11-16行）:
+
+    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
+          'ftp::/usr/bin/axel -n 10 -o %o %u'
+          'http::/usr/bin/axel -n 10 -o %o %u'
+          'https::/usr/bin/axel -n 10 -o %o %u'
+          'rsync::/usr/bin/rsync --no-motd -z %u %o'
+          'scp::/usr/bin/scp -C %u %o')
 
 ### **重新开启 Secure Boot**
 
@@ -868,7 +921,7 @@ https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 Oh-My-Zsh 及主题、插件的安装与配置
 https://www.cnblogs.com/misfit/p/10694397.html
 
-Linux grub 删除多余启动条目
+Linux GRUB 删除多余启动条目
 https://blog.csdn.net/JackLiu16/article/details/80383969
 
 AUR 镜像使用帮助
@@ -882,6 +935,9 @@ https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wa
 
 pacman 中的 Pac-Man
 https://blog.csdn.net/lujun9972/article/details/79576024?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.channel_param
+
+Manjaro Forum - 打字时 kde 桌面卡死，鼠标可以移动，点击无效
+https://forum.manjaro.org/t/kde/39610
 
 Linux tar 命令总结
 http://www.linuxdiyf.com/linux/2903.html
