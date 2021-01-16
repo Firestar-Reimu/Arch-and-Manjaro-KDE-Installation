@@ -906,6 +906,9 @@ https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-ma
 双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读
 https://jakting.com/archives/ubuntu-rw-windows-files.html
 
+Arch Wiki -- XDG user directories
+https://wiki.archlinux.org/index.php/XDG_user_directories
+
 Arch Wiki -- 关于 Logitech BLE 鼠标的问题
 https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
 
