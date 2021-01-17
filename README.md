@@ -436,7 +436,7 @@ https://github.com/vinceliuice/grub2-themes
 
 	sudo vim /boot/grub/grub.cfg
 
-然后删除整一段 `Advanced options of Manjaro`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager(on \dev\nvme0n1p1)` 改为 `Windows`
+然后删除整一段 `submenu 'Manjaro Linux 的高级选项'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (在 /dev/nvme0n1p1)` 改为 `Windows`
 
 #### **pacman 添加吃豆人彩蛋**
 
