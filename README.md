@@ -695,7 +695,7 @@ Server Settings --> Server Settings --> When I delete a message --> Remove it im
 	git config --global credential.helper store
 
 
-### **Git 配置用户名、邮箱及免密码设置**
+### **hosts 文件设置**
 
 为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件和 `C:\Windows\System32\drivers\etc\hosts` 文件中添加如下语句：
 
