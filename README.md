@@ -777,8 +777,8 @@ custom_channels:
 
 ### **Vim 安装插件**
 
-	git clone https://github.com/tell-k/vim-autopep8.git ~/.vim/pack/vim-autopep8/start/vim-autopep8
-	vim -u NONE -c "helptags ~/.vim/pack/vim-autopep8/start/vim-autopep8/doc" -c q
+	git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
+	vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
 
 ### **Visual Studio Code 安装与配置**
 
@@ -804,7 +804,7 @@ custom_channels:
 
 	yay -S code-git
 
-#### **Visual Studio Code 图标更改**
+#### **Visual Studio Code 图标更改（可选）**
 
 如果图标美化后 Visual Studio Code 图标变成圆形，想恢复原图标，更改路径如下：
 
