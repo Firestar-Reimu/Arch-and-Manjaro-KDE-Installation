@@ -765,7 +765,7 @@ custom_channels:
 	conda list --revisions
 	conda install --revision (revision_number)
 
-注意：如果回滚到早期版本（revision_number 较小）之后又想回到某个高版本（revision_number 较大），必须要把两个版本中的版本都装一遍
+注意：如果回滚到早期版本（`revision_number` 较小）之后又想回到某个高版本（`revision_number` 较大），必须要把两个版本中的版本都装一遍
 
 打开 Anaconda Navigator 需要在终端中输入：
 
@@ -774,6 +774,10 @@ custom_channels:
 用 Spyder 打开某个文件需要在终端中输入：
 
 	spyder (file_path)/(file_name)
+
+#### **Spyder 配置**
+
+选择“自定义高分辨率”，并调整放大倍率为1.2
 
 ### **Vim 安装插件**
 
