@@ -724,11 +724,11 @@ Server Settings --> Server Settings --> When I delete a message --> Remove it im
 
 ### **Anaconda 安装**
 
-下载地址如下（官网下载速度极慢，选择清华镜像）：
+下载地址如下：
 
-https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
+[Anaconda 官网](https://www.anaconda.com/products/individual)
 
-点击网页第三列的 Date 按钮，使各版本按照时间从旧到新排列，在最底端可以找到最新版本
+[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/)（点击网页第三列的 Date 按钮，使各版本按照时间排列，选择最新版本）
 
 安装过程参考以下网址：
 
