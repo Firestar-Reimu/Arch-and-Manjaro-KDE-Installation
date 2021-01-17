@@ -108,7 +108,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 在 `~/.bashrc` 的最后添加一行：
 
-	export LANG=C
+	export LANG=en_US.UTF-8
 
 如果使用 zsh，则修改 `~/.zshrc` 即可
 
