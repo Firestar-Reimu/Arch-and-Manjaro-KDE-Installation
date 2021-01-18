@@ -1,20 +1,17 @@
-<font face="JetBrains Mono">
-
 # **在 Surface Pro 6 上安装 Manjaro 20 KDE Plasma + Windows 10 双系统的指南**
 
 ```
 firestar@FIRESTAR
 OS: Manjaro 20.2.1 Nibia
-Kernel: x86_64 Linux 5.10.6-arch1-1-surface
-Uptime: 32m
-Packages: 1213
-Shell: bash 5.1.0
+Kernel: x86_64 Linux 5.10.7-arch1-1-surface
+Uptime: 20m
+Packages: 1210
+Shell: zsh 5.8
 Resolution: 2736x1824
 DE: KDE 5.78.0 / Plasma 5.20.5
 WM: KWin
 GTK Theme: Breath [GTK2/3]
 Icon Theme: breath2
-Disk: 110G / 241G (46%)
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
@@ -329,7 +326,11 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
 ### **解决用 root 登录没有声音的问题**
 
-用 root 登录，并在 `/root/.config/autostart/` 下创建一个 `pulseaudio.desktop` 文件，写入：
+在 `/root/.config/autostart/` 下创建一个 `pulseaudio.desktop` 文件：
+
+	sudo vim /root/.config/autostart/pulseaudio.desktop
+
+写入：
 
 	[Desktop Entry]
 	Encoding=UTF-8
@@ -585,7 +586,7 @@ https://github.com/vinceliuice/grub2-themes
 
 很多 KDE 应用不支持直接以 root 的身份运行，但是在需要提权的时候会自动要求输入密码
 
-例如 sudo vim，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框
+例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框
 
 #### **用 debtap 安装 .deb 包（不推荐）**
 
@@ -624,7 +625,7 @@ https://github.com/vinceliuice/grub2-themes
 
 此过程大概需要40分钟，安装后需要将 TeX Live 添加到 PATH
 
-	sudo vim ~/.bashrc
+	vim ~/.bashrc
 	
 在最后添加以下语句：
 
@@ -737,7 +738,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 输入以下命令：
 
-	sudo vim ~/.condarc
+	vim ~/.condarc
 
 修改 `.condarc` 以使用清华大学镜像源：
 
@@ -758,6 +759,14 @@ custom_channels:
   menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
   pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
   simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+```
+
+若不用镜像源，改为：
+
+```
+channels:
+  - defaults
+ssl_verify: true
 ```
 
 恢复之前的版本：
@@ -891,7 +900,7 @@ https://zhuanlan.zhihu.com/p/85273055
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
 
-### **重新开启 Secure Boot**
+### **重新开启 Secure Boot（未测试）**
 
 如果想去掉开机时的红色上边框，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
 
@@ -1009,5 +1018,3 @@ https://wiki.archlinux.org/index.php/System_time#Time_standard
 
 ArchWiki -- Baloo
 https://wiki.archlinux.org/index.php/Baloo
-
-</font>
