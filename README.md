@@ -107,7 +107,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 	export LANG=en_US.UTF-8
 
-如果使用 zsh，则修改 `~/.zshrc` 即可
+如果使用 zsh，则去掉 `~/.zshrc` 中这一行的注释即可
 
 ### **AUR**
 
@@ -410,18 +410,50 @@ Latte-Dock 的推荐设置：
 
 外观：绝对大小 --> 96，背景大小 --> 10%
 
-#### **终端美化（可选）**
+#### **zsh 与 Oh-My-Zsh 配置（可选）**
 
 Konsole --> 设置 --> 编辑当前方案 --> 常规 --> 命令 --> `usr/bin/zsh`
 
-Oh-My-Zsh 安装可以参考以下网址：
+安装 Oh-My-Zsh，执行：
 
-Oh-My-Zsh 及主题、插件的安装与配置
-https://www.cnblogs.com/misfit/p/10694397.html
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-Oh-My-Zsh主题选择：
+安装插件，执行：
 
-	geoffgarside
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+
+编辑设置文件：
+
+	vim ~/.zshrc
+
+选择 Oh-My-Zsh 主题：
+
+	ZSH_THEME="geoffgarside"
+
+选择 Oh-My-Zsh 插件：
+
+	plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+更新 Oh-My-Zsh，执行：
+
+	omz update
+
+卸载 Oh-My-Zsh，执行:
+
+	uninstall_oh_my_zsh
+
+#### **如果遇到开关机的时候报错：\[FAILED] failed to start pkgfile database update**
+
+方法一：卸载 `manjaro-zsh-config`，这会卸载 `zsh` 及其所有依赖，然后重新安装 `zsh`
+
+方法二：执行：
+
+	sudo systemctl disable pkgfile-update.timer
+
+方法三：执行：
+
+	sudo systemctl mask pkgfile-update.timer
 
 #### **GRUB 美化**
 
