@@ -197,11 +197,15 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 #### **双系统时间不同步**
 
-可以在 Manjaro 上设置硬件时间为 localtime，与 Windows 保持一致
+在 Manjaro 上设置硬件时间为 UTC：
 
-    sudo timedatectl set-local-rtc 1
+    sudo timedatectl set-local-rtc 0
 
-系统设置 --> 时间和日期 --> 自动设置时间和日期
+并在 Windows 上设置硬件时间为 UTC，与 Manjaro 同步：
+
+    reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_QWORD /f
+
+这一步需要在 Powershell（管理员）中执行
 
 #### **Manjaro 设置24小时制**
 
@@ -973,6 +977,9 @@ https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E
 ArchWiki -- Sudo (简体中文)
 https://wiki.archlinux.org/index.php/Sudo_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
+Manjaro Wiki -- Switching Branches
+https://wiki.manjaro.org/index.php?title=Switching_Branches
+
 在 Mac 上用 Openconnect 连接 Pulse Secure VPN
 https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-mac/
 
@@ -982,6 +989,9 @@ https://jakting.com/archives/ubuntu-rw-windows-files.html
 Arch Wiki -- XDG user directories
 https://wiki.archlinux.org/index.php/XDG_user_directories
 
+ArchWiki -- Baloo
+https://wiki.archlinux.org/index.php/Baloo
+
 Arch Wiki -- 关于 Logitech BLE 鼠标的问题
 https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
 
@@ -990,6 +1000,9 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
 Manjaro Forum -- 打字时 KDE 桌面卡死，鼠标可以移动，点击无效
 https://forum.manjaro.org/t/kde/39610
+
+Arch Wiki -- System time（简体中文）
+https://wiki.archlinux.org/index.php/System_time_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
 Kde 桌面的 Mac 化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
@@ -1018,7 +1031,7 @@ https://forum.manjaro.org/t/kde/39610
 Linux tar 命令总结
 http://www.linuxdiyf.com/linux/2903.html
 
-ArchWiki -- Microsoft fonts (简体中文)
+ArchWiki -- Microsoft fonts（简体中文）
 https://wiki.archlinux.org/index.php/Microsoft_fonts_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
 Archlinux 使用 Windows 字体及相关配置
@@ -1041,12 +1054,3 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 恢复 Anaconda 环境, 卸载 Anaconda, 重装 Anaconda
 https://blog.csdn.net/wangweiwells/article/details/88374361
-
-Manjaro Wiki -- Switching Branches
-https://wiki.manjaro.org/index.php?title=Switching_Branches
-
-ArchWiki -- System time#Time standard
-https://wiki.archlinux.org/index.php/System_time#Time_standard
-
-ArchWiki -- Baloo
-https://wiki.archlinux.org/index.php/Baloo
