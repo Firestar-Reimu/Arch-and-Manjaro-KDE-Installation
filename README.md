@@ -328,6 +328,21 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
 同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备。如果 Windows 系统被识别为设备1，需要按滚轮后的圆形按钮切换至设备2。并长按圆形按钮直到灯2快速闪烁进入配对模式
 
+#### **如果鼠标配对后屏幕光标无法移动**
+
+首先要安装 `bluez-utils`：
+
+    yay -S bluez-utils
+
+在终端中输入：
+
+    bluetoothctl
+
+然后参考以下网站：
+
+Arch Wiki -- 关于Logitech BLE鼠标的问题
+https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
+
 ### **解决用 root 登录没有声音的问题**
 
 在 `/root/.config/autostart/` 下创建一个 `pulseaudio.desktop` 文件：
