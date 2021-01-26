@@ -94,17 +94,16 @@ set confirm
 " 自动缩进
 set autoindent
 set cindent
-" Tab键的宽度
+" tab键的宽度设置为4
 set tabstop=4
-set list lcs=tab:\¦\
+" 将tab 键显示为>---
+set list lcs=tab:>-
 " 统一缩进为4
 set softtabstop=4
 set shiftwidth=4
 " 用空格代替制表符
-set noexpandtab
-set ts=4
 set expandtab
-%retab!
+:retab
 " 在行和段开始处使用制表符
 set smarttab
 " 显示行号
