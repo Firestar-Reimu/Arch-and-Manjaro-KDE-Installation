@@ -1,7 +1,5 @@
-" 下载插件
-call plug#begin('~/.vim/pack/rainbow_parentheses')
-Plug 'kien/rainbow_parentheses.vim'
-call plug#end()
+" 基本设置
+
 " 配色方案
 colorscheme desert
 " 自动保存
@@ -54,9 +52,10 @@ set confirm
 " 自动缩进
 set autoindent
 set cindent
-" Tab键的宽度
+" tab键的宽度设置为4
 set tabstop=4
-set list lcs=tab:\¦\
+" 将tab 键显示为>---
+set list lcs=tab:>-
 " 统一缩进为4
 set softtabstop=4
 set shiftwidth=4
@@ -149,6 +148,13 @@ set selection=exclusive
 set selectmode=mouse,key
 " 不要 intro 文档
 set shm=I
+
+" 高级设置
+
+" 下载插件
+call plug#begin('~/.vim/pack/rainbow_parentheses')
+Plug 'kien/rainbow_parentheses.vim'
+call plug#end()
 " Python 设置
 filetype plugin on
 map <F5> :call RunPython()<CR>
