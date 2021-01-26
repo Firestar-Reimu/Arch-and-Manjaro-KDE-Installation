@@ -60,10 +60,8 @@ set list lcs=tab:>-
 set softtabstop=4
 set shiftwidth=4
 " 用空格代替制表符
-set noexpandtab
-set ts=4
 set expandtab
-%retab!
+:retab
 " 在行和段开始处使用制表符
 set smarttab
 " 显示行号
