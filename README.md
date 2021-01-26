@@ -1025,9 +1025,6 @@ https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wa
 pacman 中的 Pac-Man
 https://blog.csdn.net/lujun9972/article/details/79576024?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.channel_param
 
-Manjaro Forum - 打字时 kde 桌面卡死，鼠标可以移动，点击无效
-https://forum.manjaro.org/t/kde/39610
-
 Linux tar 命令总结
 http://www.linuxdiyf.com/linux/2903.html
 
