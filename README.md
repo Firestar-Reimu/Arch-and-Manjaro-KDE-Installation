@@ -772,6 +772,10 @@ Server Settings --> Server Settings --> When I delete a message --> Remove it im
 151.101.76.133 avatars8.githubusercontent.com
 ```
 
+IP 地址可以通过对域名 `ping` 得到，例如：
+
+    ping github.com
+
 ### **Anaconda 安装**
 
 下载地址如下：
