@@ -1074,6 +1074,9 @@ https://forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
 ArchWiki -- pacman (简体中文)
 https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
+修改 hosts 解决 GitHub 访问失败
+https://zhuanlan.zhihu.com/p/107334179
+
 Font size of mailbox is too small
 https://support.mozilla.org/zh-CN/questions/1297871
 
