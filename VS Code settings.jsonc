@@ -2,7 +2,7 @@
 {
     // 全局设置
     "editor.fontSize": 16,
-    "editor.fontFamily": "JetBrains Mono NL, Fira Code, SimSun",
+    "editor.fontFamily": "JetBrains Mono NL, Fira Code, Noto Sans CJK SC",
     "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
     "debug.console.fontSize": 16,
     "terminal.integrated.fontSize": 16,
