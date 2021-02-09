@@ -235,7 +235,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 按 `Fn+F12` 打开 Yakuake，输入：
 
-    sudo openconnect --user (student_ID) https://vpn.pku.edu.cn --juniper
+    sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
 
 之后点击窗口外任意位置或按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则VPN断开）
 
