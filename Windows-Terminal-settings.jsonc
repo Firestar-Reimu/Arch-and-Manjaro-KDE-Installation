@@ -8,7 +8,7 @@
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
-    "defaultProfile": "{361ecee9-3ad3-4465-b1dd-0cb1b47e76c4}",
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
 
     // You can add more global application settings here.
     // To learn more about global settings, visit https://aka.ms/terminal-global-settings
@@ -31,8 +31,9 @@
             "fontFace": "JetBrains Mono NL",
             "fontSize": 12,
             "useAcrylic": true,
-            "acrylicOpacity": 0.75,
-            "historySize": 10000
+            "acrylicOpacity": 0.8,
+            "historySize": 10000,
+            "colorScheme": "Tango Dark"
         },
         "list":
         [
@@ -51,14 +52,6 @@
                 "hidden": false
             },
             {
-                // Make changes here to the Anaconda Powershell Prompt profile. "guid"和"commandline"可参考以下网址：https://www.jianshu.com/p/fd9cf057ce70
-                "guid": "{361ecee9-3ad3-4465-b1dd-0cb1b47e76c4}",
-                "name": "Anaconda Powershell Prompt",
-                "commandline": "powershell.exe -ExecutionPolicy ByPass -NoExit -Command \"& \"D://Apps//Anaconda//shell//condabin//conda-hook.ps1\" ; conda activate \"D://Apps//Anaconda\" \"",
-                "icon": "D://Apps//Anaconda//Menu//Iconleak-Atrous-PSConsole.ico",
-                "hidden": false
-            },
-            {
                 "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
                 "hidden": false,
                 "name": "Azure Cloud Shell",
@@ -69,34 +62,6 @@
 
     // Add custom color schemes to this array.
     // To learn more about color schemes, visit https://aka.ms/terminal-color-schemes
-    "schemes": [
-        {
-            "name" : "Campbell",
-        
-            "cursorColor": "#000000",
-            "selectionBackground": "#f2e6f3",
-        
-            "background" : "#FFFFFF",
-            "foreground" : "#000000",
-        
-            "black" : "#0C0C0C",
-            "blue" : "#0037DA",
-            "cyan" : "#3A96DD",
-            "green" : "#13A10E",
-            "purple" : "#881798",
-            "red" : "#ff0000",
-            "white" : "#DDDDDD",
-            "yellow" : "#FF7700",
-            "brightBlack" : "#767676",
-            "brightBlue" : "#3B78FF",
-            "brightCyan" : "#61D6D6",
-            "brightGreen" : "#16C60C",
-            "brightPurple" : "#B4009E",
-            "brightRed" : "#FF5500",
-            "brightWhite" : "#F2F2F2",
-            "brightYellow" : "#FFAA00"
-        }
-    ],
 
     // Add custom keybindings to this array.
     // To unbind a key combination from your defaults.json, set the command to "unbound".
@@ -109,8 +74,8 @@
         { "command": {"action": "copy", "singleLine": false }, "keys": "ctrl+c" },
         { "command": "paste", "keys": "ctrl+v" },
 
-        // Press Ctrl+Shift+F to open the search box
-        { "command": "find", "keys": "ctrl+shift+f" },
+        // Press Ctrl+F to open the search box
+        { "command": "find", "keys": "ctrl+f" },
 
         // Press Alt+Shift+D to open a new pane.
         // - "split": "auto" makes this pane open in the direction that provides the most surface area.
