@@ -1,19 +1,27 @@
 # **在 Surface Pro 6 上安装 Manjaro 20 KDE Plasma + Windows 10 双系统的指南**
 
 ```
-firestar@FIRESTAR
-OS: Manjaro 20.2.1 Nibia
-Kernel: x86_64 Linux 5.10.7-arch1-1-surface
-Uptime: 20m
-Packages: 1210
-Shell: zsh 5.8
-Resolution: 2736x1824
-DE: KDE 5.78.0 / Plasma 5.20.5
-WM: KWin
-GTK Theme: Breath [GTK2/3]
-Icon Theme: breath2
-CPU: Intel Core i5-8250U @ 8x 3.4GHz
-GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+System:    Host: FIRESTAR 
+           Kernel: 5.10.13-arch1-1-surface x86_64 
+           bits: 64 
+           Desktop: KDE 
+           Plasma 5.20.5 
+           Distro: Manjaro Linux 
+Machine:   Type: Laptop 
+           System: Microsoft 
+           product: Surface Pro 6 
+           UEFI: Microsoft v: 235.3440.768 
+           date: 11.16.2020 
+Battery:   ID-1: BAT1
+CPU:       Info: Quad Core Intel Core i5-8250U [MT MCP] 
+           speed: 800 MHz 
+           min/max: 400/3400 MHz 
+Graphics:  Device-1: Intel UHD Graphics 620 driver: i915 v: kernel 
+           Display: x11 server: X.Org 1.20.10 driver: loaded: intel s-res: 2736x1824 
+           OpenGL: renderer: Mesa Intel UHD Graphics 620 (KBL GT2) v: 4.6 Mesa 20.3.4 
+Network:   Device-1: Marvell 88W8897 [AVASTAR] 802.11ac Wireless driver: mwifiex_pcie 
+           Device-2: Marvell Bluetooth and Wireless LAN Composite type: USB driver: btusb 
+Drives:    Local Storage: total: 238.47 GiB
 ```
 
 ## **Windows 的准备工作**
@@ -975,6 +983,24 @@ https://zhuanlan.zhihu.com/p/85273055
 
 具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Using_a_signed_boot_loader)
 
+### **获取设备信息**
+
+#### 简要信息
+
+在终端中输入：
+
+    screenfetch
+
+或者：
+
+    sudo inxi -b
+
+#### 详细信息
+
+在终端中输入：
+
+    sudo inxi -Fa
+
 ## **参考资料**
 
 BitLocker 恢复密钥
@@ -991,6 +1017,9 @@ https://support.microsoft.com/zh-cn/help/4023512/surface-creating-and-using-a-us
 
 下载 Surface 的恢复映像
 https://support.microsoft.com/zh-cn/surfacerecoveryimage
+
+下载 Windows 10 光盘映像
+https://www.microsoft.com/zh-cn/software-download/windows10ISO
 
 如何使用 Surface UEFI
 https://support.microsoft.com/zh-cn/help/4023531/surface-how-to-use-surface-uefi
