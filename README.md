@@ -839,6 +839,19 @@ custom_channels:
   simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
 ```
 
+若使用上海交大的镜像源（只能用于 64 位的 Linux 系统），改为：
+
+```
+default_channels:
+  - https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/r
+  - https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/main
+custom_channels:
+  conda-forge: https://mirrors.sjtug.sjtu.edu.cn/anaconda/cloud/
+  pytorch: https://mirrors.sjtug.sjtu.edu.cn/anaconda/cloud/
+channels:
+  - defaults
+```
+
 若不用镜像源，改为：
 
 ```
