@@ -51,6 +51,10 @@ Security --> Secure Boot --> Disabled(第三个选项)
 
 https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
 
+或者在 Github 上下载：
+
+https://github.com/manjaro/release-review
+
 使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有ISO/DD选项）
 
 或使用 [Ventoy](https://github.com/ventoy/Ventoy) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可（未验证，请谨慎尝试）
