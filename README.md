@@ -109,7 +109,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
     sudo pacman-mirrors -i -c China -m rank
 
-在广州建议用上海交大或阿里云的镜像，在北京建议用清华镜像，确认后输入：
+在北京建议用清华镜像（以下均以清华为例），在广州建议用上海交大的镜像，确认后输入：
 
     sudo pacman -Syyu
 
@@ -156,7 +156,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
     pamac install yay
 
-执行以下命令以启用清华的 AUR 反代:
+执行以下命令以启用清华的 AUR 反代（此处没有对应的北外 AUR 反代）:
 
     yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
 
@@ -166,12 +166,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **Arch Linux CN 软件源**
 
-在 `/etc/pacman.conf` 文件末尾添加以下两行以启用上海交大镜像：
-
-    [archlinuxcn]
-    Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
-
-若使用清华镜像，则添加：
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华镜像：
 
     [archlinuxcn]
     Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
