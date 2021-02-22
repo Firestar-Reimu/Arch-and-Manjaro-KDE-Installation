@@ -49,15 +49,21 @@ Security --> Secure Boot --> Disabled(第三个选项)
 
 在清华大学镜像中下载 Manjaro KDE 镜像，网址如下：
 
-https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/
+https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/kde/
 
 或者在 Github 上下载：
 
 https://github.com/manjaro/release-review
 
-使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有ISO/DD选项）
+在这里可以找到所有的发行版（包括[官方版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/)、[社区版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/)、[KDE-dev版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/kde-dev/)和每个版本对应的 minimal ISO）：
+
+https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
+
+使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有 ISO/DD 选项）
 
 或使用 [Ventoy](https://github.com/ventoy/Ventoy) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可（未验证，请谨慎尝试）
+
+**若清华大学镜像速度较慢（比如在广州），可以将 https://mirrors.tuna.tsinghua.edu.cn 改为北京外国语大学镜像 https://mirrors.bfsu.edu.cn/，下同**
 
 ### **安装 Manjaro**
 
@@ -73,7 +79,7 @@ https://github.com/manjaro/release-review
 
 长按 Surface 上的调低音量按钮，同时按下并释放 "电源" 按钮，屏幕上会显示 Microsoft 或 Surface 徽标
 
-继续按住调低音量按钮，释放按钮后，徽标下方将显示旋转圆点，按照屏幕说明从 U 盘启动
+继续按住调低音量按钮，释放按钮后，徽标下方将显示旋转圆点，按照屏幕说明从 USB 启动
 
 #### **进入 Manjaro Hello 窗口开始安装**
 
@@ -114,7 +120,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
     sudo pacman-mirrors --api --set-branch (branch)
     sudo pacman-mirrors --fasttrack 5 && sudo pacman -Syyu
 
-### **终端输出语言为英语**
+### **命令行界面输出语言为英语**
 
 在 `~/.bashrc` 的最后添加一行：
 
@@ -136,7 +142,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 #### 启用 pamac 的 AUR 支持
 
-添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用AUR支持
+添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用 AUR 支持
 
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
 
