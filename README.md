@@ -31,7 +31,7 @@ Drives:    Local Storage: total: 238.47 GiB
 
 控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 保存修改
 
-### **关闭 Bitlocker（Windows 10 家庭版无此选项）**
+### **关闭设备加密**
 
 开始菜单 --> 设置 --> 更新和安全 --> 设备加密 --> 关闭
 
@@ -66,8 +66,6 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
 **若清华大学镜像速度较慢（比如在广州），可以将 https://mirrors.tuna.tsinghua.edu.cn 改为北京外国语大学镜像 https://mirrors.bfsu.edu.cn/**
 
 ### **安装 Manjaro**
-
-**如果之前安装过 Manjaro， 需要使用 [EasyUEFI](https://www.easyuefi.com/index-us.html) 删除 Manjaro 开机启动项，并在“磁盘管理”中删除 Manjaro 磁盘（卷）**
 
 设置 --> 恢复 --> 立即重新启动 --> USB Storage
 
@@ -118,7 +116,8 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 用下面的命令可以切换到 testing 或 unstable 分支：
 
     sudo pacman-mirrors --api --set-branch (branch)
-    sudo pacman-mirrors --fasttrack 5 && sudo pacman -Syyu
+    sudo pacman-mirrors -i -c China -m rank
+    sudo pacman -Syyu
 
 ### **命令行界面输出语言为英语**
 
@@ -321,7 +320,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
     无法创建输入输出后端。klauncher 回应：装入“/usr/lib/qt/plugins/kf5/kio/trash.so”时出错
 
-说明 Qt 还在内存中保留着旧版 Dolphin，此时可以重启/重新登录，或执行
+说明 Qt 还在内存中保留着旧版 Dolphin，此时可以重启/重新登录，或执行：
 
     dbus-launch dolphin
 
@@ -334,7 +333,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 Linux-Surface -- Installation and Setup
 https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 
-注意网页最后对 Firefox 和 Visual Studio Code 的进一步说明
+**注意网页最后对 Firefox 和 Visual Studio Code 的进一步说明**
 
 ### **SONY LE_WH-1000XM3 耳机连接**
 
@@ -647,7 +646,7 @@ https://github.com/vinceliuice/grub2-themes
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装
 
-    yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts electron-netease-cloud-music texstudio stellarium geogebra lantern-bin wechat-uos
+    yay -S electron-netease-cloud-music texstudio stellarium geogebra lantern-bin wechat-uos
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -761,7 +760,6 @@ Server Settings --> Server Settings --> When I delete a message --> Remove it im
 保存退出
 
     git config --global credential.helper store
-
 
 ### **hosts 文件设置**
 
@@ -937,6 +935,12 @@ https://zhuanlan.zhihu.com/p/77074009
 VS Code 之 C/C++程序的 debug 功能简介
 https://zhuanlan.zhihu.com/p/85273055
 
+### **办公软件**
+
+选择 WPS：
+
+    yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+
 ### **能用上触控笔的软件（可选）**
 
 #### **绘画**
@@ -971,7 +975,7 @@ https://zhuanlan.zhihu.com/p/85273055
 
 删除软件包时清理设置文件：
 
-    yay -Rn (package_name)
+    yay -Rsn (package_name)
 
 清理无用的孤立软件包：
 
