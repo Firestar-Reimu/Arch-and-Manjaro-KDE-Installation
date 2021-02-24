@@ -1,28 +1,20 @@
 # **在 Surface Pro 6 上安装 Manjaro 20 KDE Plasma + Windows 10 双系统的指南**
 
 ```
-System:    Host: FIRESTAR
-           Kernel: 5.10.13-arch1-1-surface x86_64
-           bits: 64
-           Desktop: KDE
-           Plasma 5.20.5
-           Distro: Manjaro Linux
-Machine:   Type: Laptop
-           System: Microsoft
-           product: Surface Pro 6
-           UEFI: Microsoft
-           v: 235.3440.768
-           date: 11.16.2020
-Battery:   ID-1: BAT1
-CPU:       Info: Quad Core Intel Core i5-8250U [MT MCP]
-           speed: 800 MHz
-           min/max: 400/3400 MHz
-Graphics:  Device-1: Intel UHD Graphics 620 driver: i915 v: kernel
-           Display: x11 server: X.Org 1.20.10 driver: loaded: intel s-res: 2736x1824
-           OpenGL: renderer: Mesa Intel UHD Graphics 620 (KBL GT2) v: 4.6 Mesa 20.3.4
-Network:   Device-1: Marvell 88W8897 [AVASTAR] 802.11ac Wireless driver: mwifiex_pcie
-           Device-2: Marvell Bluetooth and Wireless LAN Composite type: USB driver: btusb
-Drives:    Local Storage: total: 238.47 GiB
+ ██████████████████  ████████     firestar@FIRESTAR
+ ██████████████████  ████████     OS: Manjaro 21.0 Ornara
+ ██████████████████  ████████     Kernel: x86_64 Linux 5.10.15-1-MANJARO
+ ██████████████████  ████████     Uptime: 13m
+ ████████            ████████     Packages: 1044
+ ████████  ████████  ████████     Shell: bash 5.1.0
+ ████████  ████████  ████████     Resolution: 2736x1824
+ ████████  ████████  ████████     DE: KDE 5.78.0 / Plasma 5.20.5
+ ████████  ████████  ████████     WM: KWin
+ ████████  ████████  ████████     GTK Theme: Breath [GTK2/3]
+ ████████  ████████  ████████     Icon Theme: breath2
+ ████████  ████████  ████████     Disk: 75G / 241G (32%)
+ ████████  ████████  ████████     CPU: Intel Core i5-8250U @ 8x 3.4GHz
+ ████████  ████████  ████████     GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
 ## **Windows 的准备工作**
