@@ -640,7 +640,13 @@ https://github.com/vinceliuice/grub2-themes
 
 推荐使用 Fcitx5:
 
-    yay -S fcitx5 manjaro-asian-input-support-fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idiom
+    yay -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool
+
+如果无法启动输入法，在系统设置 --> 区域设置 --> 输入法 --> 添加输入法中手动添加“拼音”
+
+可以添加词库：
+
+   yay -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idiom
 
 ### **安装其它软件**
 
