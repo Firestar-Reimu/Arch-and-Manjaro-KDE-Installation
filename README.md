@@ -254,7 +254,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **Linux 挂载 Windows 磁盘**
 
-**首先要确保 Bitlocker 已经关闭，这个时候一般来讲会自动显示出来，在 Dolphin 中点击即可挂载**
+**首先要确保设备加密已经关闭，这个时候一般来讲会自动显示出来，在 Dolphin 中点击即可挂载**
 
 **如果要挂载 C 盘请确保快速启动已经关闭**
 
@@ -723,6 +723,14 @@ https://github.com/vinceliuice/grub2-themes
 
 安装后即可在登录界面选择 Wayland 会话
 
+### **Firefox Developer Edition 设置**
+
+在 `~/.bashrc` 中添加一句：
+
+    alias firefox="firefox-developer-edition"
+
+这样就可以直接输入 `firefox` 以启动 Firefox Developer Edition
+
 ### **Thunderbird 美化与配置**
 
 #### **Thunderbird 美化**
@@ -1004,7 +1012,7 @@ https://zhuanlan.zhihu.com/p/85273055
 
 如果想去掉开机时的红色上边框，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
 
-具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Using_a_signed_boot_loader)
+具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
 
 ### **获取设备信息**
 
