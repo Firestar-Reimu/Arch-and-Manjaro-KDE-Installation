@@ -497,7 +497,7 @@ https://github.com/vinceliuice/grub2-themes
 
 以 Slaze grub theme （2K，黑白图标） 为例，解压后在文件夹内执行：
 
-    sudo ./install.sh -b -l -w -2
+    sudo ./install.sh -b -t slaze -i white -s 2k
 
 删除多余启动条目，需要输入：
 
