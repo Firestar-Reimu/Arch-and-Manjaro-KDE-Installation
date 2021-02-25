@@ -45,7 +45,9 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/kde/
 
 或者在 Github 上下载：
 
-https://github.com/manjaro/release-review
+https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
+
+https://github.com/manjaro/release-review/releases （所有官方版本）
 
 在这里可以找到所有的发行版（包括[官方版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/)、[社区版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/)、[KDE-dev版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/kde-dev/)和每个版本对应的 minimal ISO）：
 
