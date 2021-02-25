@@ -1,20 +1,19 @@
 # **在 Surface Pro 6 上安装 Manjaro 20 KDE Plasma + Windows 10 双系统的指南**
 
 ```
- ██████████████████  ████████     firestar@FIRESTAR
- ██████████████████  ████████     OS: Manjaro 21.0 Ornara
- ██████████████████  ████████     Kernel: x86_64 Linux 5.10.15-1-MANJARO
- ██████████████████  ████████     Uptime: 13m
- ████████            ████████     Packages: 1044
- ████████  ████████  ████████     Shell: bash 5.1.0
- ████████  ████████  ████████     Resolution: 2736x1824
- ████████  ████████  ████████     DE: KDE 5.78.0 / Plasma 5.20.5
- ████████  ████████  ████████     WM: KWin
- ████████  ████████  ████████     GTK Theme: Breath [GTK2/3]
- ████████  ████████  ████████     Icon Theme: breath2
- ████████  ████████  ████████     Disk: 75G / 241G (32%)
- ████████  ████████  ████████     CPU: Intel Core i5-8250U @ 8x 3.4GHz
- ████████  ████████  ████████     GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+firestar@FIRESTAR
+OS: Manjaro 21.0 Ornara
+Kernel: x86_64 Linux 5.11.1-1-MANJARO
+Uptime: 13m
+Shell: bash 5.1.0
+Resolution: 2736x1824
+DE: KDE 5.79.0 / Plasma 5.21.1
+WM: KWin
+GTK Theme: Breath [GTK2/3]
+Icon Theme: breath2
+Disk: 75G / 241G (32%)
+CPU: Intel Core i5-8250U @ 8x 3.4GHz
+GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
 ## **Windows 的准备工作**
@@ -646,7 +645,7 @@ https://github.com/vinceliuice/grub2-themes
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装
 
-    yay -S electron-netease-cloud-music texstudio stellarium geogebra lantern-bin wechat-uos
+    yay -S electron-netease-cloud-music texstudio stellarium geogebra lantern-bin typora
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -948,6 +947,20 @@ https://zhuanlan.zhihu.com/p/85273055
 选择 WPS：
 
     yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+
+### **微信**
+
+可以在 pamac 中搜索安装：
+
+极简版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，但是功能较少）：https://aur.archlinux.org/packages/wechat-uos
+
+功能较多，但依赖 deepin-wine 的版本：https://aur.archlinux.org/packages/com.qq.weixin.spark
+
+高分辨率适配调整：
+
+    WINEPREFIX=~/.deepinwine/Spark-WeChat deepin-wine5 winecfg
+
+Graphics --> Screen Resolution --> 192 dpi
 
 ### **能用上触控笔的软件（可选）**
 
