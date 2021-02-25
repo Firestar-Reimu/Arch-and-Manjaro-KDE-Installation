@@ -321,12 +321,38 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 **安装和更新 Linux-Surface 需要登录北京大学 VPN**
 
-参考以下网址：
+在终端中输入：
 
-Linux-Surface -- Installation and Setup
-https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
+    wget -qO - https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
+    | sudo pacman-key --add -
 
-**注意网页最后对 Firefox 和 Visual Studio Code 的进一步说明**
+如果出现错误，则需要先修改 hosts 文件，再操作
+
+接着输入：
+
+    sudo pacman-key --finger 56C464BAAC421453
+    sudo pacman-key --lsign-key 56C464BAAC421453
+
+在 /etc/pacman.conf 里面添加：
+
+    [linux-surface]
+    Server = https://pkg.surfacelinux.com/arch/
+
+然后下载：
+
+    sudo pacman -Sy
+    sudo pacman -S linux-surface linux-surface-headers iptsd
+
+启动触屏：
+
+    sudo systemctl enable iptsd
+
+#### 对 Firefox 和 Visual Studio Code 的进一步说明
+
+
+    Firefox is configured with the environment variable `MOZ_USE_XINPUT2=1`. You can enable it by copying that assignment into `/etc/environment` and restarting. This is only required if Firefox uses X11. If it uses Wayland, touch will work by default. To improve the zoom behaviour you can enable apz.allow_zoom in about:config.
+    Visual Studio Code uses the command-line switch `--touch-events`. One way to enable this is by editing `/usr/share/applications/code.desktop` and adding the switch to the `Exec` lines. This might also work for other Electron-based applications.
+
 
 ### **SONY LE_WH-1000XM3 耳机连接**
 
