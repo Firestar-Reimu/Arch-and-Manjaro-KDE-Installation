@@ -42,3 +42,19 @@ git push -u origin (branch_name)  # branch_name 默认写 master
 ```bash
 git ls-files -d | xargs echo -e | xargs git checkout --
 ```
+回退到上一个版本，只回退了commit的信息
+```bash
+git reset --soft^
+```
+回退到上一个版本，只保留源码，回退commit和index信息(默认方式)
+```bash
+git reset --mixed^
+```
+回退到 n 次提交之前
+```bash
+git reset --soft～n
+```
+彻底回退到某个版本，本地的源码也会变为上一个版本的内容，撤销的 commit 中所包含的更改被删除
+```bash
+git reset --hard^
+```
