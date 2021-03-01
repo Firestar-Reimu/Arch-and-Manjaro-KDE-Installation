@@ -19,9 +19,9 @@ cd (parent_folder_path)
 git clone (repository_URL)  # repository 的网址，例如 https://github.com/1900011604/(my_repository).git
 cd (repository_folder_path)
 ```
-在文件管理器中添加你要添加的文件
+在文件管理器中添加文件
 ```bash
-git add (file_path)/(file_name)  # 你要添加的文件
+git add (file_path)/(file_name)  # 需要添加的文件
 git commit -m 'add (file_name)'
 git push -u origin (branch_name)  # branch_name 默认写 master
 ```
@@ -46,13 +46,13 @@ git ls-files -d | xargs echo -e | xargs git checkout --
 ```bash
 git reset --soft^
 ```
-回退到上一个版本，只保留源码，回退commit和index信息(默认方式)
+回退到上一个版本，只保留源码，回退 commit 和 index 信息（默认方式）
 ```bash
 git reset --mixed^
 ```
 回退到 n 次提交之前
 ```bash
-git reset --soft～n
+git reset --soft~n
 ```
 彻底回退到某个版本，本地的源码也会变为上一个版本的内容，撤销的 commit 中所包含的更改被删除
 ```bash
