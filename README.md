@@ -516,7 +516,7 @@ https://github.com/vinceliuice/grub2-themes
 
 #### **pacman 添加吃豆人彩蛋**
 
-编辑 /etc/pacman.conf
+编辑 `/etc/pacman.conf`
 
     sudo vim /etc/pacman.conf
 
