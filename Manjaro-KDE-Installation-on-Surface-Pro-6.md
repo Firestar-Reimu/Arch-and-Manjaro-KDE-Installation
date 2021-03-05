@@ -296,7 +296,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **调整文件夹名称为英文**
 
-    vim ~/.config/user-dirs.dirs
+修改 `~/.config/user-dirs.dirs`，改为：
     
     XDG_DESKTOP_DIR="$HOME/Desktop"
     XDG_DOCUMENTS_DIR="$HOME/Documents"
