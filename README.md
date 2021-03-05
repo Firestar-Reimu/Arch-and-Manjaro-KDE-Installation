@@ -54,8 +54,6 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
 
 使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有 ISO/DD 选项）
 
-或使用 [Ventoy](https://github.com/ventoy/Ventoy) 制作启动盘，然后将下载的`.iso`文件复制到 USB 的第一个分区中即可（未验证，请谨慎尝试）
-
 **若清华大学镜像速度较慢（比如在广州），可以将 https://mirrors.tuna.tsinghua.edu.cn 改为北京外国语大学镜像 https://mirrors.bfsu.edu.cn/**
 
 ### **安装 Manjaro**
@@ -581,6 +579,10 @@ https://github.com/vinceliuice/grub2-themes
 ### **语言包**
 
 系统设置 --> 语言包 --> 右上角点击“已安装的软件包”安装语言包
+
+### Kate
+
+    yay -S aspell hspell libvoikko
 
 ### **安装微软字体**
 
