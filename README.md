@@ -438,7 +438,7 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 开机与关机 --> 登录屏幕（SDDM） --> McMojave sddm
 
-开机与关机 --> 欢迎屏幕 --> Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen
+外观 --> 欢迎屏幕 --> Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen
 
 #### **主题美化（可选）**
 
