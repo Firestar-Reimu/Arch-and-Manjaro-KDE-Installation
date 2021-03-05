@@ -263,8 +263,8 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 在最后加入这两行：
 
-    UUID=02A21C21A21C1BAB                     /home/firestar/System    ntfs-3g uid=firestar,gid=users,auto 0 0
-    UUID=A2668A50668A24DF                     /home/firestar/Data    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=02A21C21A21C1BAB                     /home/firestar/C:    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=A2668A50668A24DF                     /home/firestar/D:    ntfs-3g uid=firestar,gid=users,auto 0 0
 
 重启电脑后，即可自动挂载
 
@@ -300,7 +300,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
     
     XDG_DESKTOP_DIR="$HOME/Desktop"
     XDG_DOCUMENTS_DIR="$HOME/Documents"
-    XDG_DOWNLOAD_DIR="$HOME/Downloads"
+    XDG_DOWNLOAD_DIR="$HOME/Download"
     XDG_MUSIC_DIR="$HOME/Music"
     XDG_PICTURES_DIR="$HOME/Pictures"
     XDG_PUBLICSHARE_DIR="$HOME/Public"
@@ -350,7 +350,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 #### 对 Firefox 和 Visual Studio Code 的进一步说明
 
 
-    Firefox is configured with the environment variable `MOZ_USE_XINPUT2=1`. You can enable it by copying that assignment into `/etc/environment` and restarting. This is only required if Firefox uses X11. If it uses Wayland, touch will work by default. To improve the zoom behaviour you can enable apz.allow_zoom in about:config.
+    Firefox is configured with the environment variable `MOZ_USE_XINPUT2=1`. You can enable it by copying that assignment into `/etc/environment` and restarting. This is only required if Firefox uses X11. If it uses Wayland, touch will work by default. To improve the zoom behaviour you can enable apz.allow_zooming in about:config.
     Visual Studio Code uses the command-line switch `--touch-events`. One way to enable this is by editing `/usr/share/applications/code.desktop` and adding the switch to the `Exec` lines. This might also work for other Electron-based applications.
 
 
@@ -424,8 +424,6 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 系统设置 --> 用户账户 --> 图像
 
-**更改用户图标后要先点击“应用”再点击“确定”方可生效！**
-
 ### **桌面美化**
 
 屏幕分辨率是2736×1824，需要配置高分屏优化：
@@ -467,7 +465,7 @@ Latte-Dock 的推荐设置：
 
 Konsole --> 设置 --> 编辑当前方案 --> 常规 --> 命令 --> `usr/bin/zsh`
 
-安装 Oh-My-Zsh，执行：
+安装 Oh-My-Zsh，执行：（不推荐用包管理器安装）
 
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -498,15 +496,7 @@ Konsole --> 设置 --> 编辑当前方案 --> 常规 --> 命令 --> `usr/bin/zsh
 
 #### **如果遇到开关机的时候报错：\[FAILED] failed to start pkgfile database update**
 
-方法一：卸载 `manjaro-zsh-config`，这会卸载 `zsh` 及其所有依赖，然后重新安装 `zsh`
-
-方法二：执行：
-
-    sudo systemctl disable pkgfile-update.timer
-
-方法三：执行：
-
-    sudo systemctl mask pkgfile-update.timer
+卸载 `manjaro-zsh-config`，这会卸载 `zsh` 及其所有依赖，然后重新安装 `zsh` 和 `nerd-fonts-noto-sans-mono`
 
 #### **GRUB 美化**
 
@@ -570,7 +560,7 @@ https://github.com/vinceliuice/grub2-themes
 
 右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
 
-### **禁用 baloo**
+### **禁用 baloo（可选）**
 
 `baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
 
@@ -665,7 +655,7 @@ https://github.com/vinceliuice/grub2-themes
 
 可以添加词库：
 
-   yay -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idiom
+    yay -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idiom
 
 ### **安装其它软件**
 
@@ -913,7 +903,7 @@ ssl_verify: true
 
 #### **Spyder 配置**
 
-选择“自定义高分辨率”，并调整放大倍率为1.2
+选择“自定义高分辨率”，并调整放大倍率为 1.2
 
 ### **Vim 安装插件**
 
