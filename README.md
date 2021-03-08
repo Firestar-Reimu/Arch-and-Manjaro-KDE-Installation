@@ -20,7 +20,7 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 ### **关闭快速启动**
 
-控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 保存修改
+控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 关闭快速启动 --> 保存修改
 
 ### **关闭设备加密**
 
@@ -261,8 +261,8 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 在最后加入这两行：
 
-    UUID=02A21C21A21C1BAB                     /home/firestar/C:    ntfs-3g uid=firestar,gid=users,auto 0 0
-    UUID=A2668A50668A24DF                     /home/firestar/D:    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=(UUID)                     /home/firestar/C:    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=(UUID)                     /home/firestar/D:    ntfs-3g uid=firestar,gid=users,auto 0 0
 
 重启电脑后，即可自动挂载
 
@@ -270,11 +270,15 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 #### **如果文件系统突然变成只读**
 
-一般来讲是 Windows 进行了优化磁盘等操作导致的，下面以 Data 盘为例：
+一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，下面以 D: 盘为例：
+
+首先在 Windows 中关闭快速启动，重启电脑
+
+若不能解决问题，使用下面的方法：
 
 检查占用进程：
 
-    sudo fuser -m -u /dev/nvme0n1p4
+    sudo fuser -m -u /dev/nvme0n1p5
 
 可以看到数字，就是占用目录的进程 PID，终止进程：
 
@@ -282,15 +286,15 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 取消挂载：
 
-    sudo umount /dev/nvme0n1p4
+    sudo umount /dev/nvme0n1p5
 
 执行硬盘 NTFS 分区修复：
 
-    sudo ntfsfix /dev/nvme0n1p4
+    sudo ntfsfix /dev/nvme0n1p5
 
 再重新挂载即可：
 
-    sudo mount /dev/nvme0n1p4 ~/Data
+    sudo mount /dev/nvme0n1p4 ~/D:
 
 ### **调整文件夹名称为英文**
 
@@ -298,7 +302,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
     
     XDG_DESKTOP_DIR="$HOME/Desktop"
     XDG_DOCUMENTS_DIR="$HOME/Documents"
-    XDG_DOWNLOAD_DIR="$HOME/Download"
+    XDG_DOWNLOAD_DIR="$HOME/Downloads"
     XDG_MUSIC_DIR="$HOME/Music"
     XDG_PICTURES_DIR="$HOME/Pictures"
     XDG_PUBLICSHARE_DIR="$HOME/Public"
@@ -358,7 +362,11 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **Logitech M590 鼠标的蓝牙连接**
 
-同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备。如果 Windows 系统被识别为设备1，需要按滚轮后的圆形按钮切换至设备2。并长按圆形按钮直到灯2快速闪烁进入配对模式
+同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备
+
+如果 Windows 系统被识别为设备1，需要按滚轮后的圆形按钮切换至设备2
+
+长按圆形按钮直到灯2快速闪烁进入配对模式，可以在蓝牙中配对
 
 #### **如果鼠标配对后屏幕光标无法移动**
 
@@ -510,7 +518,7 @@ https://github.com/vinceliuice/grub2-themes
 
     sudo vim /boot/grub/grub.cfg
 
-然后删除整一段 `submenu 'Manjaro Linux 的高级选项'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (在 /dev/nvme0n1p1)` 改为 `Windows`
+然后删除整一段 `submenu 'Manjaro Linux 的高级选项'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
 
 #### **pacman 添加吃豆人彩蛋**
 
@@ -552,7 +560,7 @@ https://github.com/vinceliuice/grub2-themes
 
     sudo tlp start
 
-#### **显示 CPU 频率**
+#### **显示 CPU 频率（可选）**
 
 安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
 
@@ -580,7 +588,22 @@ https://github.com/vinceliuice/grub2-themes
 
 系统设置 --> 语言包 --> 右上角点击“已安装的软件包”安装语言包
 
-### Kate
+### **Kate 插件下载**
+
+在用命令行打开 Kate 编辑文件时若不想报如下错误：
+
+```
+kf.service.sycoca: The menu spec file contains a Layout or DefaultLayout tag without the mandatory Merge tag inside. Please fix your file.
+kf.sonnet.core: Sonnet: Unable to load plugin "/usr/lib/qt/plugins/kf5/sonnet/sonnet_aspell.so" Error: "Cannot load library /usr/lib/qt/plugins/kf5/sonnet/sonnet_aspell.so: (libaspell.so.15: cannot open shared object file: No such file or directory)"
+kf.sonnet.core: Sonnet: Unable to load plugin "/usr/lib/qt/plugins/kf5/sonnet/sonnet_hspell.so" Error: "Cannot load library /usr/lib/qt/plugins/kf5/sonnet/sonnet_hspell.so: (libhspell.so.0: cannot open shared object file: No such file or directory)"
+kf.sonnet.core: Sonnet: Unable to load plugin "/usr/lib/qt/plugins/kf5/sonnet/sonnet_voikko.so" Error: "Cannot load library /usr/lib/qt/plugins/kf5/sonnet/sonnet_voikko.so: (libvoikko.so.1: cannot open shared object file: No such file or directory)"
+kf.sonnet.core: No language dictionaries for the language: "C" trying to load en_US as default
+kf.kio.core: We got some errors while running testparm "Error loading services."
+kf.kio.core: We got some errors while running 'net usershare info'
+kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
+```
+
+需要下载插件：
 
     yay -S aspell hspell libvoikko
 
@@ -663,7 +686,7 @@ https://github.com/vinceliuice/grub2-themes
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装
 
-    yay -S electron-netease-cloud-music texstudio stellarium geogebra lantern-bin typora
+    yay -S electron-netease-cloud-music texstudio stellarium geogebra lantern-bin typora thunderbird
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -673,20 +696,20 @@ https://github.com/vinceliuice/grub2-themes
 
 #### **用 debtap 安装 .deb 包（不推荐）**
 
-首先要下载并更新debtap包：
+首先要下载并更新 debtap 包：
 
     yay -S debtap
     sudo debtap -u
 
-**运行 ```sudo debtap -u``` 时建议连接北京大学 VPN**
+**运行 `sudo debtap -u` 时建议连接北京大学 VPN**
 
-进入含有 ```.deb``` 安装包的文件夹，输入：
+进入含有 `.deb` 安装包的文件夹，输入：
 
     sudo debtap (package_name).deb
 
-系统会询问三个问题：文件名随便写，协议写 ```GPL``` 即可，编辑文件直接按 ```Enter``` 跳过 
+系统会询问三个问题：文件名随便写，协议写 `GPL` 即可，编辑文件直接按 `Enter` 跳过 
 
-此处会生成一个 ```tar.zst``` 包，双击打开（右键用“软件安装程序”打开）即可安装 
+此处会生成一个 `tar.zst` 包，双击打开（右键用“软件安装程序”打开）即可安装 
 
 ### **安装 TeX Live**
 
@@ -788,7 +811,7 @@ Server Settings --> Server Settings --> When I delete a message --> Remove it im
 
 ### **hosts 文件设置**
 
-为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件和 `C:\Windows\System32\drivers\etc\hosts` 文件中添加如下语句：
+为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件和 `C:\Windows\System32\drivers\etc\hosts` （这个路径是 Windows 格式，Linux 中斜杠要改为反斜杠）文件中添加如下语句：
 
 ```
 ## GitHub Start
@@ -867,7 +890,7 @@ custom_channels:
   simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
 ```
 
-若使用上海交大的镜像源（只能用于 64 位的 Linux 系统），改为：
+若使用上海交大的镜像源，改为：
 
 ```
 default_channels:
@@ -970,9 +993,9 @@ https://zhuanlan.zhihu.com/p/85273055
 
 可以在 pamac 中搜索安装：
 
-极简版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，但是功能较少）：https://aur.archlinux.org/packages/wechat-uos
+极简版（推荐，原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，但是功能较少，不支持截屏和“订阅号消息”）：https://aur.archlinux.org/packages/wechat-uos
 
-功能较多，但依赖 deepin-wine 的版本：https://aur.archlinux.org/packages/com.qq.weixin.spark
+功能较多，但依赖 deepin-wine ，且对截屏和收发文件的支持不佳的版本：https://aur.archlinux.org/packages/com.qq.weixin.spark
 
 高分辨率适配调整：
 
@@ -1062,6 +1085,12 @@ Graphics --> Screen Resolution --> 192 dpi
 在终端中输入：
 
     sudo inxi -Fa
+
+#### 命令行进程查看器
+
+在终端中输入：
+
+    htop
 
 ## **参考资料**
 
