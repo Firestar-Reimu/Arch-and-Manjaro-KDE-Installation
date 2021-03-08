@@ -224,7 +224,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 编辑 `/etc/systemd/swap.conf`:
 
     sudo vim /etc/systemd/swap.conf
-    
+
 去掉 `swapfc_enabled` 前的注释并设置为 `swapfc_enabled=1` ，保存并关闭
 
 在终端输入
@@ -615,7 +615,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
     sudo cp (win-font-path)/* /usr/share/fonts/winfonts/
     cd /usr/share/fonts/winfonts/
     fc-cache -fv
-    
+
 这样就可以安装微软雅黑、宋体、黑体等字体了
 
 **注意需要排除掉 MS Gothic、Yu Gothic 字体，因它们只有部分日文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日文字形）**
@@ -732,13 +732,13 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 此过程大概需要40分钟，安装后需要将 TeX Live 添加到 PATH
 
     vim ~/.bashrc
-    
+
 在最后添加以下语句：
 
     PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH; export PATH
     MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH; export MANPATH
     INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH; export INFOPATH
-    
+
 更新 bash 配置：
 
     source ~/.bashrc
@@ -754,7 +754,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
     For more information about these matters, see the file
     named COPYING and the TeX source.
     Primary author of TeX: D.E. Knuth.
-    
+
 ### **安装 KDE 的 Wayland 支持**
 
 与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题。目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
@@ -918,6 +918,10 @@ ssl_verify: true
 
 注意：如果回滚到早期版本（`revision_number` 较小）之后又想回到某个高版本（`revision_number` 较大），必须要把两个版本中的版本都装一遍
 
+删除所有旧版本的包：
+
+    conda clean -p
+
 打开 Anaconda Navigator 需要在终端中输入：
 
     anaconda-navigator
@@ -928,7 +932,37 @@ ssl_verify: true
 
 #### **Spyder 配置**
 
-选择“自定义高分辨率”，并调整放大倍率为 1.2
+通用 --> 显示器分辨率 --> 自定义高分辨率，并调整放大倍率为 1.2
+
+外观 --> 语法高亮主题 --> IDLE
+
+编辑选定的方案：
+
+文本：
+
+```
+普通文本 #000000, B
+注释：#ff0000
+字符串：#00aa00
+数值：#995500
+关键字：#ff7700, B
+内置：#990099
+定义：#0000ff
+实例：#ff55ff, B
+```
+
+高亮：
+
+```
+当前 Cell：#ffaaff
+当前行：#aaffff
+事件：#ffff00
+匹配圆括号：#99ff99
+不匹配圆括号：#ff9999
+链接：#55ff00
+```
+
+编辑器 --> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为100毫秒
 
 ### **Vim 安装插件**
 
