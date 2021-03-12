@@ -514,11 +514,13 @@ https://github.com/vinceliuice/grub2-themes
 
     sudo ./install.sh -b -t slaze -i white -s 2k
 
-删除多余启动条目，需要输入：
+删除多余启动条目，需要修改`/boot/grub/grub.cfg`
 
-    sudo vim /boot/grub/grub.cfg
+删除整一段 `submenu 'Manjaro Linux 的高级选项'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
 
-然后删除整一段 `submenu 'Manjaro Linux 的高级选项'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
+恢复默认的`/boot/grub/grub.cfg`需要输入：
+
+    echo GRUB_DISABLE_OS_PROBER=false | sudo tee -a /etc/default/grub && sudo update-grub
 
 #### **pacman 添加吃豆人彩蛋**
 
