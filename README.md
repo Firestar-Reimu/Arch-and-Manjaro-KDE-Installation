@@ -717,9 +717,13 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 #### **默认安装**
 
+**这种安装方式较快，但是一些命令（例如`tlmgr`）会无法使用**
+
     yay -S texlive-most texlive-lang
 
 #### **自定义安装**
+
+**这种安装方式较慢，但功能较为全面**
 
 首先在 [TeX Live 下载地址](https://tug.org/texlive/acquire-netinstall.html) 下载 `install-tl-unx.tar.gz`
 
