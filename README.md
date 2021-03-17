@@ -94,6 +94,102 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
 
 Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
+### **高分辨率设置**
+
+屏幕分辨率是2736×1824，需要配置高分屏优化：
+
+系统设置 --> 显示和监控 --> 显示配置 --> 分辨率 --> 全局缩放 --> 200%
+
+系统设置 --> 光标 --> 大小 --> 36
+
+然后重启电脑
+
+### **包管理器**
+
+Manjaro 常用的包管理器有 pacman、pamac 和 yay，其使用教程参考以下网址：
+
+Manjaro Wiki -- Pacman Overview
+https://wiki.manjaro.org/index.php/Pacman_Overview
+
+ArchWiki -- Pacman
+https://wiki.archlinux.org/index.php/Pacman
+
+Manjaro Wiki -- Pamac
+https://wiki.manjaro.org/index.php/Pamac
+
+GitHub -- Yay
+https://github.com/Jguer/yay
+
+其中 pacman 和 pamac 是预装的，“添加/删除软件”就是 pamac 的 GUI 版本，而 yay 需要自己下载：
+
+    sudo pacman -S yay
+
+yay 的命令一般和 pacman 一样，只是将 `sudo pacman` 替换成 `yay`
+
+硬件管理的包管理器是 mhwd 和 mhwd-kernel，其使用教程参考以下网址：
+
+Manjaro Wiki -- Manjaro Hardware Detection Overview
+https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview
+
+Manjaro Wiki -- Configure Graphics Cards
+https://wiki.manjaro.org/index.php/Configure_Graphics_Cards
+
+Manjaro Wiki -- Manjaro Kernels
+https://wiki.manjaro.org/index.php/Manjaro_Kernels
+
+#### **搜索软件包**
+
+在 `pamac` 上可以执行：
+
+    pamac search (package_name)
+
+#### **检查依赖关系**
+
+以树状图的形式展示某软件包的依赖关系：
+
+    pactree (package_name)
+
+#### **清理缓存**
+
+清理全部软件安装包：
+
+    yay -Scc
+
+或者：
+
+    pamac clean
+
+删除软件包时清理设置文件：
+
+    yay -Rn (package_name)
+
+清理无用的孤立软件包：
+
+    yay -Rsn $(pacman -Qdtq)
+
+或者：
+
+    pamac remove -o
+
+#### **为 pacman 和 yay 添加多线程下载（可选）**
+
+执行下面的命令下载 axel
+
+     yay -S axel
+
+编辑 `/etc/pacman.conf` 文件（在第21行）:
+
+    XferCommand = /usr/bin/axel -n 10 -o %o %u
+
+编辑 `/etc/makepkg.conf` 文件（在第11-16行）:
+
+    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
+          'ftp::/usr/bin/axel -n 10 -o %o %u'
+          'http::/usr/bin/axel -n 10 -o %o %u'
+          'https::/usr/bin/axel -n 10 -o %o %u'
+          'rsync::/usr/bin/rsync --no-motd -z %u %o'
+          'scp::/usr/bin/scp -C %u %o')
+
 ### **官方软件源更改镜像**
 
     sudo pacman-mirrors -i -c China -m rank
@@ -126,10 +222,6 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
     sudo pacman -S base-devel
 
-或
-
-    pamac install base-devel
-
 #### 启用 pamac 的 AUR 支持
 
 添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用 AUR 支持
@@ -137,14 +229,6 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
 
 #### 安装 yay
-
-除了预装的 `pamac`，Manjaro 官方仓库中的 AUR 助手还有 `yay`：
-
-    sudo pacman -S yay
-
-或
-
-    pamac install yay
 
 执行以下命令以启用清华的 AUR 反代（此处没有对应的北外 AUR 反代）:
 
@@ -174,6 +258,11 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 建议先下载 vim，方便之后编辑各种文件：
 
     sudo pacman -S vim
+
+#### **Vim 安装插件**
+
+    git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
+    vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
 
 ### **更改 visudo 默认编辑器为 vim**
 
@@ -215,6 +304,64 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 右键点击“数字时钟” --> 配置数字时钟 --> 时间显示 --> 24小时制
 
+### **Git 配置用户名、邮箱及免密码设置**
+
+    git config --global user.name "(user_name)"
+    git config --global user.email "(user_email)"       
+    sudo vim .git-credentials
+
+写入如下语句：
+
+    https://(user_name):(user_password)@github.com
+
+保存退出
+
+    git config --global credential.helper store
+
+### **hosts 文件设置**
+
+为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件和 `C:\Windows\System32\drivers\etc\hosts` （这个路径是 Windows 格式，Linux 中斜杠要改为反斜杠）文件中添加如下语句：
+
+```
+## GitHub Start
+140.82.113.4 github.com
+140.82.114.10 nodeload.github.com
+140.82.113.5 api.github.com
+140.82.114.10 codeload.github.com
+199.232.96.133 raw.github.com
+185.199.108.153 training.github.com
+185.199.108.153 assets-cdn.github.com
+185.199.108.153 documentcloud.github.com
+185.199.108.154 help.github.com
+
+185.199.108.153 githubstatus.com
+199.232.69.194 github.global.ssl.fastly.net
+
+185.199.110.133 raw.githubusercontent.com
+185.199.110.133 cloud.githubusercontent.com
+185.199.110.133 gist.githubusercontent.com
+185.199.110.133 marketplace-screenshots.githubusercontent.com
+185.199.110.133 repository-images.githubusercontent.com
+185.199.110.133 user-images.githubusercontent.com
+185.199.110.133 desktop.githubusercontent.com
+
+185.199.110.133 avatars.githubusercontent.com
+185.199.110.133 avatars0.githubusercontent.com
+185.199.110.133 avatars1.githubusercontent.com
+185.199.110.133 avatars2.githubusercontent.com
+185.199.110.133 avatars3.githubusercontent.com
+185.199.110.133 avatars4.githubusercontent.com
+185.199.110.133 avatars5.githubusercontent.com
+185.199.110.133 avatars6.githubusercontent.com
+185.199.110.133 avatars7.githubusercontent.com
+185.199.110.133 avatars8.githubusercontent.com
+## GitHub End
+```
+
+IP 地址可以通过对域名 `ping` 得到，例如：
+
+    ping github.com
+
 ### **动态 Swap 文件设置**
 
 先下载 `systemd-swap` 软件包：
@@ -232,8 +379,6 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
     sudo systemctl enable --now systemd-swap
 
 以启动`systemd-swap`服务
-
-**Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
 
 ### **连接北京大学 VPN**
 
@@ -412,15 +557,33 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 ### **打字时桌面卡死，鼠标可以移动，点击无效**
 
-首先切换到命令行界面
+可能是 `video-linux` 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
 
-输入
+Arch Wiki -- Cinnamon
+https://wiki.archlinux.org/index.php/Cinnamon#Installation
 
-    killall plasmashell
+Arch Wiki -- Intel Graphics
+https://wiki.archlinux.org/index.php/Intel_graphics#Installation
 
-再回到图形化界面，打开终端，执行
+KDE Community -- Plasma 5.9 Errata
+https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
-    plasmashell &
+解决办法：
+
+卸载 `xf86-video-intel` 和 `video-linux`：
+
+    yay -Rn xf86-video-intel
+    sudo mhwd -r pci video-linux
+
+下载 `video-modesetting`：
+
+    sudo mhwd -i pci video-modesetting
+
+重启后会发现许多窗口和图标变小，需要重新调整：
+
+系统设置 --> 外观 --> 图标 --> 配置图标大小 --> 48,32,32,48.48
+
+配置 Dolphin --> 视图模式 --> 默认图标大小 = 预览图标大小 = 128
 
 ## **美化**
 
@@ -430,21 +593,13 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 系统设置 --> 用户账户 --> 图像
 
-### **桌面美化**
-
-屏幕分辨率是2736×1824，需要配置高分屏优化：
-
-系统设置 --> 显示和监控 --> 显示配置 --> 分辨率 --> 全局缩放 --> 200%
-
-系统设置 --> 光标 --> 大小 --> 36
-
-然后重启电脑
-
 ### **开机登录美化**
 
 开机与关机 --> 登录屏幕（SDDM） --> McMojave sddm
 
-外观 --> 欢迎屏幕 --> Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen
+外观 --> 欢迎屏幕 --> ManjaroLogo Black 或者 Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen
+
+其中后面两个欢迎屏幕可能在 `video-modesetting` 里面有分辨率错误引起的显示问题，不推荐使用
 
 #### **主题美化（可选）**
 
@@ -540,7 +695,7 @@ https://github.com/vinceliuice/grub2-themes
 
 右上角 ··· --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V` 
 
-### **调整 CPU 频率**
+### **调整 CPU 频率（可选）**
 
     sudo vim /etc/tlp.conf
 
@@ -688,7 +843,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装
 
-    yay -S electron-netease-cloud-music texstudio stellarium geogebra lantern-bin typora thunderbird
+    yay -S texstudio stellarium geogebra lantern-bin typora thunderbird
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -733,9 +888,9 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 进入解压后的文件夹，运行：
 
-    sudo perl install-tl
+    sudo perl install-tl --repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet/
 
-此过程大概需要40分钟，安装后需要将 TeX Live 添加到 PATH
+安装后需要将 TeX Live 添加到 PATH
 
     vim ~/.bashrc
 
@@ -749,7 +904,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
     source ~/.bashrc
 
-可以运行 `tex -v` 检查是否安装成功，若成功应显示（以 Tex Live 2020 为例）：
+可以运行 `tex --version` 检查是否安装成功，若成功应显示（以 Tex Live 2020 为例）：
 
     TeX 3.14159265 (TeX Live 2020)
     kpathsea version 6.3.2
@@ -761,7 +916,9 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
     named COPYING and the TeX source.
     Primary author of TeX: D.E. Knuth.
 
-### **安装 KDE 的 Wayland 支持**
+还可以运行 `tlmgr --version` 检查是否安装成功
+
+### **安装 KDE 的 Wayland 支持（可选）**
 
 与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题。目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
 
@@ -800,64 +957,6 @@ Mail Content 勾选
 Server Settings --> Server Settings --> Check for new messages every `1` minutes
 
 Server Settings --> Server Settings --> When I delete a message --> Remove it immediately
-
-### **Git 配置用户名、邮箱及免密码设置**
-
-    git config --global user.name "(user_name)"
-    git config --global user.email "(user_email)"       
-    sudo vim .git-credentials
-
-写入如下语句：
-
-    https://(user_name):(user_password)@github.com
-
-保存退出
-
-    git config --global credential.helper store
-
-### **hosts 文件设置**
-
-为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件和 `C:\Windows\System32\drivers\etc\hosts` （这个路径是 Windows 格式，Linux 中斜杠要改为反斜杠）文件中添加如下语句：
-
-```
-## GitHub Start
-140.82.113.4 github.com
-140.82.114.10 nodeload.github.com
-140.82.113.5 api.github.com
-140.82.114.10 codeload.github.com
-199.232.96.133 raw.github.com
-185.199.108.153 training.github.com
-185.199.108.153 assets-cdn.github.com
-185.199.108.153 documentcloud.github.com
-185.199.108.154 help.github.com
-
-185.199.108.153 githubstatus.com
-199.232.69.194 github.global.ssl.fastly.net
-
-185.199.110.133 raw.githubusercontent.com
-185.199.110.133 cloud.githubusercontent.com
-185.199.110.133 gist.githubusercontent.com
-185.199.110.133 marketplace-screenshots.githubusercontent.com
-185.199.110.133 repository-images.githubusercontent.com
-185.199.110.133 user-images.githubusercontent.com
-185.199.110.133 desktop.githubusercontent.com
-
-185.199.110.133 avatars.githubusercontent.com
-185.199.110.133 avatars0.githubusercontent.com
-185.199.110.133 avatars1.githubusercontent.com
-185.199.110.133 avatars2.githubusercontent.com
-185.199.110.133 avatars3.githubusercontent.com
-185.199.110.133 avatars4.githubusercontent.com
-185.199.110.133 avatars5.githubusercontent.com
-185.199.110.133 avatars6.githubusercontent.com
-185.199.110.133 avatars7.githubusercontent.com
-185.199.110.133 avatars8.githubusercontent.com
-## GitHub End
-```
-
-IP 地址可以通过对域名 `ping` 得到，例如：
-
-    ping github.com
 
 ### **Anaconda 安装**
 
@@ -971,11 +1070,6 @@ ssl_verify: true
 
 编辑器 --> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为100毫秒
 
-### **Vim 安装插件**
-
-    git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
-    vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
-
 ### **Visual Studio Code 安装与配置**
 
 #### **Visual Studio Code 安装**
@@ -1032,17 +1126,56 @@ https://zhuanlan.zhihu.com/p/85273055
 
 ### **微信**
 
-可以在 pamac 中搜索安装：
+可以在 pamac 中搜索：
 
-极简版（推荐，原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，但是功能较少，不支持截屏和“订阅号消息”）：https://aur.archlinux.org/packages/wechat-uos
+    pamac search wechat
 
-功能较多，但依赖 deepin-wine ，且对截屏和收发文件的支持不佳的版本：https://aur.archlinux.org/packages/com.qq.weixin.spark
+极简版（推荐，原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，但是功能较少，不支持截屏和“订阅号消息”）：
+
+```
+wechat-uos                                                        2:2.0.0-1145141919    AUR 
+    UOS专业版微信 (迫真魔改版)
+```
+
+功能较多，但依赖 deepin-wine ，且对截屏和收发文件的支持不佳的版本：
+
+```
+com.qq.weixin.spark                                                           3.1.0.41spark0-2      AUR 
+    Tencent WeChat Client on Deepin Wine 5 (from Spark Store)
+
+```
 
 高分辨率适配调整：
 
     WINEPREFIX=~/.deepinwine/Spark-WeChat deepin-wine5 winecfg
 
 Graphics --> Screen Resolution --> 192 dpi
+
+### **网易云音乐**
+
+可以在 pamac 中搜索安装：
+
+    pamac search wechat
+
+极简版（原生适配高分辨率屏幕，但是功能较少，不支持歌词滚动和正在播放的曲子在歌单上标记）：
+
+```
+electron-netease-cloud-music                                                         0.9.26-1       AUR 
+    UNOFFICIAL client for music.163.com . Powered by Electron, Vue, and Muse-UI.
+```
+
+功能较多，对高分辨率适配不佳的版本：
+
+```
+netease-cloud-music-imflacfix                                            [Installed] 1.2.1-1        AUR 
+    Netease Cloud Music, converted from .deb package, with IBus input method and online SQ support
+```
+
+高分辨率适配调整：
+
+“开始”菜单 --> 右键点击“网易云音乐” --> 编辑应用程序 --> 应用程序 --> 命令
+
+添加启动参数 `--force-device-scale-factor=2`
 
 ### **能用上触控笔的软件（可选）**
 
@@ -1054,7 +1187,7 @@ Graphics --> Screen Resolution --> 192 dpi
 
     yay -S xournalpp
 
-### **屏幕键盘**
+### **屏幕键盘（可选）**
 
 目前最受欢迎的屏幕键盘应该是 OnBoard
 
@@ -1063,45 +1196,6 @@ Graphics --> Screen Resolution --> 192 dpi
 但 OnBoard 在 Wayland 上无法使用。如果需要在 Wayland 会话中使用屏幕键盘，推荐安装 CellWriter
 
     yay -S cellwriter
-
-### **检查依赖关系**
-
-以树状图的形式展示某软件包的依赖关系：
-
-    pactree (package_name)
-
-### **清理缓存**
-
-清理全部软件安装包：
-
-    yay -Scc
-
-删除软件包时清理设置文件：
-
-    yay -Rsn (package_name)
-
-清理无用的孤立软件包：
-
-    yay -Rsn $(pacman -Qdtq)
-
-### **为 pacman 和 yay 添加多线程下载（可选）**
-
-执行下面的命令下载 axel
-
-     yay -S axel
-
-编辑 `/etc/pacman.conf` 文件（在第21行）:
-
-    XferCommand = /usr/bin/axel -n 10 -o %o %u
-
-编辑 `/etc/makepkg.conf` 文件（在第11-16行）:
-
-    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
-          'ftp::/usr/bin/axel -n 10 -o %o %u'
-          'http::/usr/bin/axel -n 10 -o %o %u'
-          'https::/usr/bin/axel -n 10 -o %o %u'
-          'rsync::/usr/bin/rsync --no-motd -z %u %o'
-          'scp::/usr/bin/scp -C %u %o')
 
 ### **重新开启 Secure Boot（未测试）**
 
@@ -1132,6 +1226,14 @@ Graphics --> Screen Resolution --> 192 dpi
 在终端中输入：
 
     htop
+
+#### 内存大小
+
+在终端中输入：
+
+    free
+
+**Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
 
 ## **参考资料**
 
@@ -1168,6 +1270,27 @@ https://zhuanlan.zhihu.com/p/76608451
 Manjaro 安装后你需要这样做
 https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E6%96%B9%E6%BA%90
 
+Manjaro Wiki -- Pacman Overview
+https://wiki.manjaro.org/index.php/Pacman_Overview
+
+ArchWiki -- Pacman
+https://wiki.archlinux.org/index.php/Pacman
+
+Manjaro Wiki -- Pamac
+https://wiki.manjaro.org/index.php/Pamac
+
+GitHub -- Yay
+https://github.com/Jguer/yay
+
+Manjaro Wiki -- Manjaro Hardware Detection Overview
+https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview
+
+Manjaro Wiki -- Configure Graphics Cards
+https://wiki.manjaro.org/index.php/Configure_Graphics_Cards
+
+Manjaro Wiki -- Manjaro Kernels
+https://wiki.manjaro.org/index.php/Manjaro_Kernels
+
 ArchWiki -- Sudo (简体中文)
 https://wiki.archlinux.org/index.php/Sudo_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
@@ -1180,8 +1303,20 @@ https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-ma
 双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读
 https://jakting.com/archives/ubuntu-rw-windows-files.html
 
+修改 hosts 解决 GitHub 访问失败
+https://zhuanlan.zhihu.com/p/107334179
+
 Arch Wiki -- XDG user directories
 https://wiki.archlinux.org/index.php/XDG_user_directories
+
+Arch Wiki -- Cinnamon
+https://wiki.archlinux.org/index.php/Cinnamon#Installation
+
+Arch Wiki -- Intel Graphics
+https://wiki.archlinux.org/index.php/Intel_graphics#Installation
+
+KDE Community -- Plasma 5.9 Errata
+https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 ArchWiki -- Baloo
 https://wiki.archlinux.org/index.php/Baloo
@@ -1191,9 +1326,6 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 Linux-Surface -- Installation and Setup
 https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
-
-Manjaro Forum -- 打字时 KDE 桌面卡死，鼠标可以移动，点击无效
-https://forum.manjaro.org/t/kde/39610
 
 Arch Wiki -- System time（简体中文）
 https://wiki.archlinux.org/index.php/System_time_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
@@ -1216,9 +1348,6 @@ https://mirrors.sjtug.sjtu.edu.cn/#/
 Manjaro 为包管理器 pacman 和 yaourt/yay 添加多线程下载
 https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase&depth_1-utm_source=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase
 
-pacman 中的 Pac-Man
-https://blog.csdn.net/lujun9972/article/details/79576024?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.channel_param&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.channel_param
-
 Linux tar 命令总结
 http://www.linuxdiyf.com/linux/2903.html
 
@@ -1234,11 +1363,11 @@ https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%8
 比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合
 https://forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
 
-ArchWiki -- pacman (简体中文)
-https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+TeX Live Quick Install
+https://www.tug.org/texlive/quickinstall.html
 
-修改 hosts 解决 GitHub 访问失败
-https://zhuanlan.zhihu.com/p/107334179
+TeX Live Documentation -- TeXLive Installation
+https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#installation
 
 Font size of mailbox is too small
 https://support.mozilla.org/zh-CN/questions/1297871
@@ -1248,3 +1377,6 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 恢复 Anaconda 环境, 卸载 Anaconda, 重装 Anaconda
 https://blog.csdn.net/wangweiwells/article/details/88374361
+
+Linux Ate My RAM!
+https://www.linuxatemyram.com/
