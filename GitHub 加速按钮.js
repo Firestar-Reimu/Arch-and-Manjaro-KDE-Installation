@@ -2,11 +2,11 @@
 // @name         gh-proxy-buttons
 // @name:zh-CN   github加速按钮
 // @namespace    https://github.com/du33169/gh-proxy-buttons
-// @version      0.2
+// @version      1.0
 // @require      https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.min.js
 // @description  add a button beside github link(releases, files and repository url), click to get alternative url according to previously specified proxy.
 // @description:zh-CN  为github中的特定链接（releases、文件、项目地址）添加一个悬浮按钮，提供代理后的加速链接
-// @author       du33169
+// @author       1900011604
 // @match        *://github.com/*
 // @grant        none
 // @run-at       document-end
@@ -14,11 +14,8 @@
 (function () {
 	'use strict';
 
-	/*****************************代理设置******************************/
-	/**/                                                           /**/
-	/**/                                                           /**/
-	/**/  var proxy_url = 'https://gh-proxy.du33169.workers.dev/'; /**/
-	/**/                                                           /**/
+	/****************************代理设置*****************************/
+	/**/var proxy_url = 'https://gh-proxy.du33169.workers.dev/'; /**/
 	/*              备用： 'https://gh.api.99988866.xyz/';            */
 	/**************代理服务器地址可自行修改，末尾斜杠不可省略！**************/
 
@@ -27,7 +24,9 @@
 	function moveHere(e, originLink)//用于注册mouseenter事件,e为当前元素
 	{
 		if (document.getElementById('gh-proxy-button'))//如果已经产生按钮则返回，删去在Firefox会死循环（原因未知）
+		{
 			return;
+		}
 
 		//创建按钮对象,github中使用.btn的class可以为<a>标签加上按钮外观
 		var btn = document.createElement(e.tagName == "INPUT" ? 'button' : 'a');//对于仓库地址使用button以实现点击复制
@@ -71,9 +70,10 @@
 			setTimeout(function () {//setTimeout是个trick，确保在btn的mouseenter之后执行下述流程
 				if (!onbtn) {
 					e.parentNode.removeChild(btn);
-					if (open_log)
+					if (open_log) {
 						console.debug('[gh-proxy-buttons] mouseleave', originLink);
-					e.removeEventListener('mouseleave', emoveout);
+						e.removeEventListener('mouseleave', emoveout);
+					}
 				}
 			}, 3);
 		}
@@ -107,15 +107,15 @@
 		 span.d-none.d-md-flex.ml-2 get-repo details.position-relative.details-overlay.details-reset
 		 div.position-relative div.dropdown-menu.dropdown-menu-sw.p-0 div div.border-bottom.p-3 tab-container
 		 div div.input-group input.form-control.input-monospace.input-sm.bg-gray-light`
-	) == null)
+	) == null) {
 		console.error('url <input> not found');
+	}
 
 	function eventDelegation(e) {
 		// e.target 是事件触发的元素
 		//console.log(e.target);
 		if (e.target) {
-			if (open_log)
-				console.log('[gh-proxy-buttons] ' + e.target.tagName);
+			if (open_log) console.log('[gh-proxy-buttons] ' + e.target.tagName);
 			if (
 				e.target.tagName == 'A'
 
@@ -148,4 +148,4 @@
 	//document.querySelector('.repository-content').addEventListener("mouseover", eventDelegation);
 	//releases页面使用事件委托未成功，可能是冒泡机制问题
 
-})();
+});
