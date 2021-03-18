@@ -3,8 +3,7 @@
 // @name:zh-CN   GitHub 加速按钮
 // @namespace    https://github.com/1900011604/gh-proxy-buttons
 // @version      1.0
-// @require      https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.min.js
-// @description  add a button beside github link(releases,files and repository url), click to get alternative url according to previously specified proxy.
+// @description  add a button beside github link(releases, files and repository url), click to get alternative url according to previously specified proxy.
 // @description:zh-CN  为github中的特定链接（releases、文件、项目地址）添加一个悬浮按钮，提供代理后的加速链接
 // @author       1900011604
 // @match        *://github.com/*
@@ -21,11 +20,11 @@
 
 	var open_log = false;
 	console.log('[gh-proxy-buttons] processing...');
-	function moveHere(e, originLink)//用于注册mouseenter事件,e为当前元素
+	function moveHere(e, originLink)//用于注册mouseenter事件，e为当前元素
 	{
 		if (document.getElementById('gh-proxy-button')) return;//如果已经产生按钮则返回，删去在Firefox会死循环（原因未知）
 
-		//创建按钮对象,github中使用.btn的class可以为<a>标签加上按钮外观
+		//创建按钮对象，github中使用.btn的class可以为<a>标签加上按钮外观
 		var btn = document.createElement(e.tagName == "INPUT" ? 'button' : 'a');//对于仓库地址使用button以实现点击复制
 		btn.setAttribute('class', 'btn');
 		btn.id = "gh-proxy-button";
@@ -33,14 +32,6 @@
 		btn.style.position = "absolute";
 		btn.role = "button";
 		btn.innerText = "🚀";
-		if (e.tagName == "INPUT")//仓库地址input标签特殊处理，使用ClipboardJS实现点击复制
-		{
-			btn.innerText += "📄";
-			new ClipboardJS(btn);
-			btn.setAttribute('data-clipboard-text', proxy_url + originLink);
-			console.log('[gh-proxy-buttons] input url processed');
-		}
-		else btn.href = proxy_url + originLink;
 
 		e.parentNode.appendChild(btn);
 
@@ -52,7 +43,6 @@
 		if (open_log) console.debug('[gh-proxy-buttons] mousein');
 
 		//以下逻辑处理鼠标移出的情况
-
 		var onbtn = false;//鼠标移到btn上
 		btn.addEventListener('mouseenter', function () {
 			if (open_log) console.debug('[gh-proxy-buttons] onbtn');
@@ -108,7 +98,7 @@
     }
 
 	function eventDelegation(e) {
-		//e.target 是事件触发的元素
+		//e.target是事件触发的元素
 		//console.log(e.target);
 		if (e.target) {
 			if (open_log) console.log('[gh-proxy-buttons] ' + e.target.tagName);
