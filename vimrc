@@ -54,7 +54,7 @@ set autoindent
 set cindent
 " tab键的宽度设置为4
 set tabstop=4
-" 将tab 键显示为>---
+" 将tab键显示为“>---”
 set list lcs=tab:>-
 " 统一缩进为4
 set softtabstop=4
@@ -147,13 +147,9 @@ set selectmode=mouse,key
 " 不要 intro 文档
 set shm=I
 
-" 高级设置
+" 高级设置（未下载插件前不要复制这一段！）
 
-" 下载插件
-call plug#begin('~/.vim/pack/rainbow_parentheses')
-Plug 'kien/rainbow_parentheses.vim'
-call plug#end()
-" Python 设置
+" Python 设置（~/.anaconda/bin/python需要替换为自己的python安装位置）
 filetype plugin on
 map <F5> :call RunPython()<CR>
 function! RunPython()
