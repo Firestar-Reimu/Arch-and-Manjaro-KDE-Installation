@@ -14,13 +14,13 @@
 (function () {
 	'use strict';
 
-	/********************×***代理设置*******************************/
-	/**/                                                          /**/
-	/**/                                                          /**/
+	/*****************************代理设置******************************/
+	/**/                                                           /**/
+	/**/                                                           /**/
 	/**/  var proxy_url = 'https://gh-proxy.du33169.workers.dev/'; /**/
-	/**/                                                          /**/
-	/*            备用： 'https://gh.api.99988866.xyz/';            */
-	/*********代理服务器地址可自行修改，末尾斜杠不可省略！***********/
+	/**/                                                           /**/
+	/*              备用： 'https://gh.api.99988866.xyz/';            */
+	/**************代理服务器地址可自行修改，末尾斜杠不可省略！**************/
 
 	var open_log = false;
 	console.log('[gh-proxy-buttons] processing...');
@@ -89,7 +89,7 @@
 			if (open_log) console.log(aList[i].href);
 			aList[i].addEventListener('mouseenter',
 				function () {
-					moveHere(event.currentTarget, event.currentTarget.href);
+					moveHere(Event.currentTarget, Event.currentTarget.href);
 				});
 			++cnt;
 		}
