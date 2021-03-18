@@ -1,4 +1,4 @@
-// 下载扩展：Python, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++
+// 下载扩展：Python, Jupyter, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++
 {
     // 全局设置
     "editor.fontSize": 16,
@@ -6,12 +6,12 @@
     "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
     "debug.console.fontSize": 16,
     "terminal.integrated.fontSize": 16,
-    "terminal.integrated.shell.windows": "/usr/bin/zsh",
+    "terminal.integrated.shell.windows": "/usr/bin/bash", // Windows上要重新选择为powershell
     "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.cursorBlinking": true,
     "editor.tokenColorCustomizations": {
         "comments": {
-            // 设置字体样式 加粗 下划线 斜体等
+            // 设置字体样式：加粗、下划线、斜体等
             "fontStyle": "bold",
             // 设置字体颜色
             "foreground": "#ff0000"
@@ -39,7 +39,7 @@
     "window.zoomLevel": 0,
     "terminal.integrated.inheritEnv": false,
     "workbench.colorTheme": "Default Light+",
-    // 在“文件--首选项--键盘快捷方式”中将终端的复制与粘贴分别改为"Ctrl+C"和"Ctrl+V"
+    // 还需要在“文件--首选项--键盘快捷方式”中将终端的复制与粘贴分别改为"Ctrl+C"和"Ctrl+V"
     // C & C++
     "C_Cpp.updateChannel": "Insiders",
     // Markdown
