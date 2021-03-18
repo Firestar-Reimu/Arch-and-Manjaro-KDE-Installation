@@ -32,7 +32,7 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 长按 Surface 上的调高音量按钮，同时按下再松开电源按钮
 
-屏幕上会显示 Microsoft 或 Surface 徽标 继续按住调高音量按钮 显示 UEFI 屏幕后，松开此按钮
+屏幕上会显示 Microsoft 或 Surface 徽标，继续按住调高音量按钮，显示 UEFI 屏幕后，松开此按钮
 
 Security --> Secure Boot --> Disabled(第三个选项)
 
@@ -48,7 +48,7 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
 
 https://github.com/manjaro/release-review/releases （所有官方版本）
 
-在这里可以找到所有的发行版（包括[官方版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/)、[社区版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/)、[KDE-dev版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/kde-dev/)和每个版本对应的 minimal ISO）：
+在这里可以找到所有的发行版（包括[官方版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/)、[社区版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/)、[KDE-dev 版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/kde-dev/)和每个版本对应的 minimal ISO）：
 
 https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
 
@@ -66,7 +66,7 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
 
 将可启动 U 盘插入 Surface 上的 USB 端口
 
-长按 Surface 上的调低音量按钮，同时按下并释放 "电源" 按钮，屏幕上会显示 Microsoft 或 Surface 徽标
+长按 Surface 上的调低音量按钮，同时按下并释放“电源”按钮，屏幕上会显示 Microsoft 或 Surface 徽标
 
 继续按住调低音量按钮，释放按钮后，徽标下方将显示旋转圆点，按照屏幕说明从 USB 启动
 
@@ -966,7 +966,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 还可以运行 `tlmgr --version` 检查是否安装成功
 
-### **安装 KDE 的 Wayland 支持（可选）**
+### **安装 KDE 的 Wayland 支持（不推荐）**
 
 与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
 
@@ -982,17 +982,19 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 这样就可以直接输入 `firefox` 以启动 Firefox Developer Edition
 
-### **Thunderbird 美化与配置**
+### **Thunderbird 配置**
 
-#### **Thunderbird 美化**
+#### **Thunderbird 首选项配置**
 
 进入首选项界面调整显示：
 
-Thunderbird 起始页 --> 清空并取消勾选
+首选项 --> 常规 --> Thunderbird 起始页 --> 清空并取消勾选
 
-默认搜索引擎 --> 改为 Bing
+首选项 --> 常规 --> 默认搜索引擎 --> 改为 Bing
 
-右键点击上方工具栏 Mail Toolbar，选择 Customize，自行配置即可
+首选项 --> 隐私与安全 --> 邮件内容 --> 勾选“允许消息中的远程内容”
+
+右键点击上方邮件工具栏，选择“自定义”，自行配置即可
 
 #### **Thunderbird 帐号配置**
 
