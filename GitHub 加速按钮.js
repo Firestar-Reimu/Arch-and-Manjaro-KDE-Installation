@@ -3,7 +3,8 @@
 // @name:zh-CN   GitHub 加速按钮
 // @namespace    https://github.com/1900011604/gh-proxy-buttons
 // @version      1.0
-// @description  add a button beside github link(releases, files and repository url), click to get alternative url according to previously specified proxy.
+// @require      https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.min.js
+// @description  add a button beside github link(releases,files and repository url), click to get alternative url according to previously specified proxy.
 // @description:zh-CN  为github中的特定链接（releases、文件、项目地址）添加一个悬浮按钮，提供代理后的加速链接
 // @author       1900011604
 // @match        *://github.com/*
@@ -32,12 +33,13 @@
 		btn.style.position = "absolute";
 		btn.role = "button";
 		btn.innerText = "🚀";
+		btn.href = proxy_url + originLink;
 
 		e.parentNode.appendChild(btn);
 
 		//按钮位置在左上角
 		var padding = Math.min(20, e.offsetHeight / 2, e.offsetWidth / 4);
-		btn.style.top = (e.offsetTop - btn.offsetHeight + padding).toString() + 'px';
+		btn.style.top = (e.offsetTop - btn.offsetHeight + padding + 2).toString() + 'px';
 		btn.style.left = (e.offsetLeft - btn.offsetWidth + padding - 10).toString() + 'px';
 
 		if (open_log) console.debug('[gh-proxy-buttons] mousein');
