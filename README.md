@@ -3,15 +3,13 @@
 ```
 firestar@FIRESTAR
 OS: Manjaro 21.0 Ornara
-Kernel: x86_64 Linux 5.11.1-1-MANJARO
-Uptime: 13m
+Kernel: x86_64 Linux 5.11.6-arch1-1-surface
 Shell: bash 5.1.0
 Resolution: 2736x1824
-DE: KDE 5.79.0 / Plasma 5.21.1
+DE: KDE 5.80.0 / Plasma 5.21.3
 WM: KWin
 GTK Theme: Breath [GTK2/3]
 Icon Theme: breath2
-Disk: 75G / 241G (32%)
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
@@ -52,7 +50,7 @@ https://github.com/manjaro/release-review/releases （所有官方版本）
 
 https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
 
-使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可（现在已经没有 ISO/DD 选项）
+使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可
 
 **若清华大学镜像速度较慢（比如在广州），可以将 https://mirrors.tuna.tsinghua.edu.cn 改为北京外国语大学镜像 https://mirrors.bfsu.edu.cn/**
 
@@ -78,11 +76,9 @@ https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
 
 安装时选择“替代一个分区”，并点击之前空出来的空分区
 
+或者手动挂载空分区，挂载点设为 `/`，标记为 `root`，手动挂载 UEFI 分区（即第一个分区`dev/nvme0n1p1`，格式为 FAT32），不要格式化，挂载点设为 `/boot/efi`，标记为 `boot`
+
 勾选“为管理员使用相同的密码”
-
-**使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件)**
-
-**系统安装时 Office 一项选择 No Office Suite，在安装软件时再下载 WPS Office**
 
 ## **初始配置**
 
@@ -389,6 +385,8 @@ IP 地址可以通过对域名 `ping` 得到，例如：
     ping github.com
 
 ### **动态 Swap 文件设置**
+
+**使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件)**
 
 先下载 `systemd-swap` 软件包：
 
