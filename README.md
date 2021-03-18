@@ -104,6 +104,24 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 然后重启电脑
 
+### **快捷键配置**
+
+#### **Konsole 快捷键**
+
+设置 --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
+
+#### **Dolphin 快捷键**
+
+设置 --> 配置键盘快捷键
+
+Dolphin 的快捷键中，`Ctrl+D` 不是删除，删除只能用 `Del`（移动到回收站，在 Windows 上 `Del` 和 `Ctrl+D` 均可）以及 `Shift+Del`（彻底删除，Windows 上也可以）
+
+#### **全局快捷键**
+
+为打开方便，可以采用 i3wm 的默认快捷键打开 Konsole：
+
+系统设置 --> 快捷键 --> 添加应用程序 --> Konsole --> Konsole 的快捷键设为 `Meta+Return`（即“Windows 徽标键 + Enter 键”）
+
 ### **包管理器**
 
 Manjaro 常用的包管理器有 pacman、pamac 和 yay，其使用教程参考以下网址：
@@ -171,6 +189,12 @@ https://wiki.manjaro.org/index.php/Manjaro_Kernels
 
     pamac remove -o
 
+#### **从本地安装包安装软件**
+
+pacman 有从本地安装包安装软件的功能，只需输入：
+
+    sudo pacman -U (package_path)/(package_name)
+
 #### **为 pacman 和 yay 添加多线程下载（可选）**
 
 执行下面的命令下载 axel
@@ -206,14 +230,6 @@ https://wiki.manjaro.org/index.php/Manjaro_Kernels
     sudo pacman-mirrors -i -c China -m rank
     sudo pacman -Syyu
 
-### **命令行界面输出语言为英语**
-
-在 `~/.bashrc` 的最后添加一行：
-
-    export LANG=en_US.UTF-8
-
-如果使用 zsh，则去掉 `~/.zshrc` 中这一行的注释即可
-
 ### **AUR**
 
 #### 安装 base-devel
@@ -228,9 +244,9 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
 
-#### 安装 yay
+#### yay 反向代理配置
 
-执行以下命令以启用清华的 AUR 反代（此处没有对应的北外 AUR 反代）:
+执行以下命令以启用清华的 AUR 反向代理:
 
     yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
 
@@ -252,7 +268,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏
 
 建议切换到 testing 或 unstable 分支以尽量跟进 Arch 的更新
-    
+
 ### **下载 vim**
 
 建议先下载 vim，方便之后编辑各种文件：
@@ -285,6 +301,14 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 进入命令模式，保存退出即可
 
 **注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
+
+### **命令行界面输出语言为英语**
+
+在 `~/.bashrc` 的最后添加一行：
+
+    export LANG=en_US.UTF-8
+
+如果使用 zsh，则去掉 `~/.zshrc` 中这一行的注释即可
 
 ### **双系统时间不同步 + 24小时制**
 
@@ -585,6 +609,78 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 配置 Dolphin --> 视图模式 --> 默认图标大小 = 预览图标大小 = 128
 
+### **调整 CPU 频率（可选）**
+
+    sudo vim /etc/tlp.conf
+
+若更改 CPU 频率，修改以下位置：
+
+    CPU_MIN_PERF_ON_AC=0
+    CPU_MAX_PERF_ON_AC=100
+    CPU_MIN_PERF_ON_BAT=0
+    CPU_MAX_PERF_ON_BAT=30
+
+若更改 CPU 睿频设置，修改以下位置：
+
+    CPU_BOOST_ON_AC=1
+    CPU_BOOST_ON_BAT=0
+
+**不需要高性能的时候可以关掉 turbo，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
+
+保存、关闭，在终端中输入：
+
+    sudo tlp start
+
+#### **显示 CPU 频率（可选）**
+
+安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
+
+右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
+
+### **禁用 baloo（可选）**
+
+`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
+
+    balooctl disable
+
+### **重新开启 Secure Boot（未测试）**
+
+如果想去掉开机时的红色上边框，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
+
+具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
+
+### **获取设备信息**
+
+#### 简要信息
+
+在终端中输入：
+
+    screenfetch
+
+或者：
+
+    sudo inxi -b
+
+#### 详细信息
+
+在终端中输入：
+
+    sudo inxi -Fa
+
+#### 命令行进程查看器
+
+在终端中输入：
+
+    htop
+
+#### 内存大小
+
+在终端中输入：
+
+    free
+
+**Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
+
 ## **美化**
 
 **一定要先美化再装软件！**
@@ -688,46 +784,6 @@ https://github.com/vinceliuice/grub2-themes
     ILoveCandy
 
 即可添加吃豆人彩蛋
-
-### **快捷键配置**
-
-#### **Konsole 快捷键**
-
-右上角 ··· --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V` 
-
-### **调整 CPU 频率（可选）**
-
-    sudo vim /etc/tlp.conf
-
-若更改 CPU 频率，修改以下位置：
-
-    CPU_MIN_PERF_ON_AC=0
-    CPU_MAX_PERF_ON_AC=100
-    CPU_MIN_PERF_ON_BAT=0
-    CPU_MAX_PERF_ON_BAT=30
-
-若更改 CPU 睿频设置，修改以下位置：
-
-    CPU_BOOST_ON_AC=1
-    CPU_BOOST_ON_BAT=0
-
-**不需要高性能的时候可以关掉 turbo，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
-
-保存、关闭，在终端中输入：
-
-    sudo tlp start
-
-#### **显示 CPU 频率（可选）**
-
-安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
-
-右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
-
-### **禁用 baloo（可选）**
-
-`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
-
-    balooctl disable
 
 ## **下载软件**
 
@@ -843,7 +899,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装
 
-    yay -S texstudio stellarium geogebra lantern-bin typora thunderbird
+    yay -S texstudio stellarium geogebra lantern-bin typora thunderbird ds9
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -869,16 +925,6 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 此处会生成一个 `tar.zst` 包，双击打开（右键用“软件安装程序”打开）即可安装 
 
 ### **安装 TeX Live**
-
-#### **默认安装**
-
-**这种安装方式较快，但是一些命令（例如`tlmgr`）会无法使用**
-
-    yay -S texlive-most texlive-lang
-
-#### **自定义安装**
-
-**这种安装方式较慢，但功能较为全面**
 
 首先在 [TeX Live 下载地址](https://tug.org/texlive/acquire-netinstall.html) 下载 `install-tl-unx.tar.gz`
 
@@ -920,7 +966,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 ### **安装 KDE 的 Wayland 支持（可选）**
 
-与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题。目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
+与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
 
     yay -S plasma-wayland-session
 
@@ -940,31 +986,28 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 进入首选项界面调整显示：
 
-Startpage 清空并取消勾选
+Thunderbird 起始页 --> 清空并取消勾选
 
-Default Search Engine 改为 Bing
-
-System Intergration 全部设为默认并取消勾选
-
-Mail Content 勾选
+默认搜索引擎 --> 改为 Bing
 
 右键点击上方工具栏 Mail Toolbar，选择 Customize，自行配置即可
 
 #### **Thunderbird 帐号配置**
 
-点击邮箱帐号，配置 Account Settings 如下：
+点击邮箱帐号，配置“账户设置”如下：
 
-Server Settings --> Server Settings --> Check for new messages every `1` minutes
+服务器 --> 服务器设置 --> 每隔1分钟检查一次新消息
 
-Server Settings --> Server Settings --> When I delete a message --> Remove it immediately
+服务器 --> 服务器设置 --> 在删除消息时 --> 立即删除
 
-### **Anaconda 安装**
+### **Anaconda 安装与配置**
 
 下载地址如下：
 
-[Anaconda 官网](https://www.anaconda.com/products/individual)
+Anaconda Individual Edition
+https://www.anaconda.com/products/individual
 
-[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/)（点击网页第三列的 Date 按钮，使各版本按照时间排列，选择最新版本）
+或者在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/#)点击右侧的“获取下载链接”按钮，在“应用软件” --> Conda 里面选择
 
 安装过程参考以下网址：
 
@@ -1133,16 +1176,15 @@ https://zhuanlan.zhihu.com/p/85273055
 极简版（推荐，原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，但是功能较少，不支持截屏和“订阅号消息”）：
 
 ```
-wechat-uos                                                        2:2.0.0-1145141919    AUR 
+wechat-uos                                                                           2:2.0.0-1145141919    AUR 
     UOS专业版微信 (迫真魔改版)
 ```
 
 功能较多，但依赖 deepin-wine ，且对截屏和收发文件的支持不佳的版本：
 
 ```
-com.qq.weixin.spark                                                           3.1.0.41spark0-2      AUR 
+com.qq.weixin.spark                                                                  3.1.0.41spark0-2      AUR 
     Tencent WeChat Client on Deepin Wine 5 (from Spark Store)
-
 ```
 
 高分辨率适配调整：
@@ -1167,7 +1209,7 @@ electron-netease-cloud-music                                                    
 功能较多，对高分辨率适配不佳的版本：
 
 ```
-netease-cloud-music-imflacfix                                            [Installed] 1.2.1-1        AUR 
+netease-cloud-music-imflacfix                                                        1.2.1-1        AUR 
     Netease Cloud Music, converted from .deb package, with IBus input method and online SQ support
 ```
 
@@ -1196,44 +1238,6 @@ netease-cloud-music-imflacfix                                            [Instal
 但 OnBoard 在 Wayland 上无法使用。如果需要在 Wayland 会话中使用屏幕键盘，推荐安装 CellWriter
 
     yay -S cellwriter
-
-### **重新开启 Secure Boot（未测试）**
-
-如果想去掉开机时的红色上边框，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
-
-具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
-
-### **获取设备信息**
-
-#### 简要信息
-
-在终端中输入：
-
-    screenfetch
-
-或者：
-
-    sudo inxi -b
-
-#### 详细信息
-
-在终端中输入：
-
-    sudo inxi -Fa
-
-#### 命令行进程查看器
-
-在终端中输入：
-
-    htop
-
-#### 内存大小
-
-在终端中输入：
-
-    free
-
-**Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
 
 ## **参考资料**
 
@@ -1360,8 +1364,8 @@ https://blog.csdn.net/sinat_33528967/article/details/93380729
 ArchWiki -- Fcitx5 (简体中文)
 https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
-比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合
-https://forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
+Archived Manjaro Forum -- 比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合
+https://archived.forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
 
 TeX Live Quick Install
 https://www.tug.org/texlive/quickinstall.html
@@ -1378,5 +1382,5 @@ https://docs.anaconda.com/anaconda/install/linux/
 恢复 Anaconda 环境, 卸载 Anaconda, 重装 Anaconda
 https://blog.csdn.net/wangweiwells/article/details/88374361
 
-Linux Ate My RAM!
+Linux ate my RAM!
 https://www.linuxatemyram.com/
