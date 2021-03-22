@@ -936,9 +936,10 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
     sudo perl install-tl --repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet/
 
-安装后需要将 TeX Live 添加到 PATH
+安装后需要将 TeX Live 添加到 `~/.bashrc` 和 `~/.profile`
 
     vim ~/.bashrc
+    vim ~/.profile
 
 在最后添加以下语句：
 
@@ -946,9 +947,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
     MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH; export MANPATH
     INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH; export INFOPATH
 
-更新 bash 配置：
-
-    source ~/.bashrc
+注销再登录，这两个文件才会生效
 
 可以运行 `tex --version` 检查是否安装成功，若成功应显示（以 Tex Live 2020 为例）：
 
