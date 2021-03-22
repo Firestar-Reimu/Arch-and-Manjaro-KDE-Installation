@@ -699,12 +699,13 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 #### **主题美化（可选）**
 
-**不要用全局主题！**
-
 参考以下网址：
 
-Kde 桌面的 Mac 化
+KDE 桌面的 Mac 化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
+
+KDE 桌面美化指南
+https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/
 
 其中 Plasma 主题、GTK主题和图标主题分别选择：
     
@@ -1335,8 +1336,11 @@ https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
 Arch Wiki -- System time（简体中文）
 https://wiki.archlinux.org/index.php/System_time_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
-Kde 桌面的 Mac 化
+KDE 桌面的 Mac 化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
+
+KDE 桌面美化指南
+https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/
 
 Oh-My-Zsh 及主题、插件的安装与配置
 https://www.cnblogs.com/misfit/p/10694397.html
