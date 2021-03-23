@@ -102,6 +102,40 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 然后重启电脑
 
+### **切换到 `video-modesetting`**
+
+有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
+
+可能是 `video-linux` 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
+
+Arch Wiki -- Cinnamon
+https://wiki.archlinux.org/index.php/Cinnamon#Installation
+
+Arch Wiki -- Intel Graphics
+https://wiki.archlinux.org/index.php/Intel_graphics#Installation
+
+KDE Community -- Plasma 5.9 Errata
+https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
+
+解决办法：
+
+卸载 `xf86-video-intel` 和 `video-linux`：
+
+    yay -Rn xf86-video-intel
+    sudo mhwd -r pci video-linux
+
+下载 `video-modesetting`：
+
+    sudo mhwd -i pci video-modesetting
+
+重启后会发现许多窗口和图标变小，建议先调整全局缩放为100%，重新启动，再调至200%，再重启
+
+若不生效，则需要重新调整：
+
+系统设置 --> 外观 --> 图标 --> 配置图标大小 --> 48,32,32,48.48
+
+配置 Dolphin --> 视图模式 --> 默认图标大小 = 预览图标大小 = 128
+
 ### **快捷键配置**
 
 #### **Konsole 快捷键**
@@ -520,10 +554,9 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 #### 对 Firefox 和 Visual Studio Code 的进一步说明
 
+Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`
 
-    Firefox is configured with the environment variable `MOZ_USE_XINPUT2=1`. You can enable it by copying that assignment into `/etc/environment` and restarting. This is only required if Firefox uses X11. If it uses Wayland, touch will work by default. To improve the zoom behaviour you can enable apz.allow_zooming in about:config.
-    Visual Studio Code uses the command-line switch `--touch-events`. One way to enable this is by editing `/usr/share/applications/code.desktop` and adding the switch to the `Exec` lines. This might also work for other Electron-based applications.
-
+Visual Studio Code 启用触屏需要在 `/usr/share/applications/code.desktop` 的 `Exec` 一行加入命令 `--touch-events`，这对其它以 Electron 为基础开发的应用也可能有效
 
 ### **SONY LE_WH-1000XM3 耳机连接**
 
@@ -578,36 +611,6 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 注意此时需要手动输入用户名和密码
 
 在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回图形化界面
-
-### **打字时桌面卡死，鼠标可以移动，点击无效**
-
-可能是 `video-linux` 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
-
-Arch Wiki -- Cinnamon
-https://wiki.archlinux.org/index.php/Cinnamon#Installation
-
-Arch Wiki -- Intel Graphics
-https://wiki.archlinux.org/index.php/Intel_graphics#Installation
-
-KDE Community -- Plasma 5.9 Errata
-https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
-
-解决办法：
-
-卸载 `xf86-video-intel` 和 `video-linux`：
-
-    yay -Rn xf86-video-intel
-    sudo mhwd -r pci video-linux
-
-下载 `video-modesetting`：
-
-    sudo mhwd -i pci video-modesetting
-
-重启后会发现许多窗口和图标变小，需要重新调整：
-
-系统设置 --> 外观 --> 图标 --> 配置图标大小 --> 48,32,32,48.48
-
-配置 Dolphin --> 视图模式 --> 默认图标大小 = 预览图标大小 = 128
 
 ### **调整 CPU 频率（可选）**
 
