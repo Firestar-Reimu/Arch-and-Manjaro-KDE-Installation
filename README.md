@@ -128,7 +128,7 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
     sudo mhwd -i pci video-modesetting
 
-重启后会发现许多窗口和图标变小，建议先调整全局缩放为100%，重新启动，再调至200%，再重启
+**重启后会发现许多窗口和图标变小，建议先调整全局缩放为100%，重新启动，再调至200%，再重启**
 
 若不生效，则需要重新调整：
 
