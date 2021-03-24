@@ -187,6 +187,8 @@ https://wiki.manjaro.org/index.php/Configure_Graphics_Cards
 Manjaro Wiki -- Manjaro Kernels
 https://wiki.manjaro.org/index.php/Manjaro_Kernels
 
+这两个也可以在 Manjaro Settings Manager （GUI 版本）中使用
+
 #### **搜索软件包**
 
 在 `pamac` 上可以执行：
@@ -376,6 +378,11 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **hosts 文件设置**
 
+参考以下网址：
+
+修改 hosts 解决 GitHub 访问失败
+https://zhuanlan.zhihu.com/p/107334179
+
 为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件和 `C:\Windows\System32\drivers\etc\hosts` （这个路径是 Windows 格式，Linux 中斜杠要改为反斜杠）文件中添加如下语句：
 
 ```
@@ -558,9 +565,9 @@ Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`�
 
 Visual Studio Code 启用触屏需要在 `/usr/share/applications/code.desktop` 的 `Exec` 一行加入命令 `--touch-events`，这对其它以 Electron 为基础开发的应用也可能有效
 
-### **SONY LE_WH-1000XM3 耳机连接**
+### **SONY WH-1000XM3 耳机连接**
 
-长按耳机电源键约7s即可进入配对模式，可以在蓝牙中配对
+长按耳机电源键约7秒即可进入配对模式，可以在蓝牙中配对
 
 ### **Logitech M590 鼠标的蓝牙连接**
 
@@ -628,7 +635,7 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
     CPU_BOOST_ON_AC=1
     CPU_BOOST_ON_BAT=0
 
-**不需要高性能的时候可以关掉 turbo，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
+**不需要高性能的时候可以关闭睿频，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
 
 保存、关闭，在终端中输入：
 
@@ -1178,7 +1185,7 @@ https://zhuanlan.zhihu.com/p/85273055
 
     pamac search wechat
 
-极简版（推荐，原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，但是功能较少，不支持截屏和“订阅号消息”）：
+极简版（推荐，原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，对收发文件的支持较好，但是功能较少，不支持截屏和“订阅号消息”）：
 
 ```
 wechat-uos                                                                           2:2.0.0-1145141919    AUR 
@@ -1232,7 +1239,10 @@ netease-cloud-music-imflacfix                                                   
 
 #### **手写笔记**
 
+可以选择 Xournal++ 或者 Write
+
     yay -S xournalpp
+    yay -S write_stylus
 
 ### **屏幕键盘（可选）**
 
