@@ -535,7 +535,7 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 在终端中输入：
 
-    wget -qO - https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
+    curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
     | sudo pacman-key --add -
 
 如果出现错误，则需要先修改 hosts 文件，再操作
