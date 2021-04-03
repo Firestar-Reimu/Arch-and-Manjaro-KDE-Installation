@@ -947,6 +947,11 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
     sudo perl install-tl --repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet/
 
+CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大学镜像需要在命令行中执行：
+
+    tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+    tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
+
 安装后需要将 TeX Live 添加到 `~/.bashrc` 和 `~/.profile`
 
     vim ~/.bashrc
