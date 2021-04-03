@@ -504,7 +504,7 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 再重新挂载即可：
 
-    sudo mount /dev/nvme0n1p4 ~/D:
+    sudo mount /dev/nvme0n1p5 ~/D:
 
 ### **调整文件夹名称为英文**
 
@@ -545,7 +545,7 @@ IP 地址可以通过对域名 `ping` 得到，例如：
     sudo pacman-key --finger 56C464BAAC421453
     sudo pacman-key --lsign-key 56C464BAAC421453
 
-在 /etc/pacman.conf 里面添加：
+在 `/etc/pacman.conf` 里面添加：
 
     [linux-surface]
     Server = https://pkg.surfacelinux.com/arch/
@@ -558,12 +558,6 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 启动触屏：
 
     sudo systemctl enable iptsd
-
-#### 对 Firefox 和 Visual Studio Code 的进一步说明
-
-Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`
-
-Visual Studio Code 启用触屏需要在 `/usr/share/applications/code.desktop` 的 `Exec` 一行加入命令 `--touch-events`，这对其它以 Electron 为基础开发的应用也可能有效
 
 ### **SONY WH-1000XM3 耳机连接**
 
@@ -937,15 +931,17 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 ### **安装 TeX Live**
 
-首先在 [TeX Live 下载地址](https://tug.org/texlive/acquire-netinstall.html) 下载 `install-tl-unx.tar.gz`
+首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 ISO 镜像
 
 打开终端，运行：
 
-    tar -xzvf install-tl-unx.tar.gz
+    sudo mount -t iso9660 -o ro,loop,noauto /(texlive_path)/texlive.iso /mnt
 
-进入解压后的文件夹，运行：
+进入镜像文件夹，运行：
 
-    sudo perl install-tl --repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet/
+    perl install-tl -gui
+
+即可在图形界面下载 TeX Live
 
 CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大学镜像需要在命令行中执行：
 
@@ -994,6 +990,8 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
     alias firefox="firefox-developer-edition"
 
 这样就可以直接输入 `firefox` 以启动 Firefox Developer Edition
+
+**Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`**
 
 ### **Thunderbird 配置**
 
@@ -1154,6 +1152,10 @@ ssl_verify: true
 
     yay -S code-git
 
+#### **Visual Studio Code 启用触屏**
+
+Visual Studio Code 启用触屏需要在 `/usr/share/applications/code.desktop` 的 `Exec` 一行加入命令 `--touch-events`，这对其它以 Electron 为基础开发的应用也可能有效
+
 #### **Visual Studio Code 图标更改（可选）**
 
 如果图标美化后 Visual Studio Code 图标变成圆形，想恢复原图标，更改路径如下：
@@ -1230,7 +1232,7 @@ netease-cloud-music-imflacfix                                                   
     Netease Cloud Music, converted from .deb package, with IBus input method and online SQ support
 ```
 
-高分辨率适配调整：
+如果高分辨率不适配，按照如下方法调整：
 
 “开始”菜单 --> 右键点击“网易云音乐” --> 编辑应用程序 --> 应用程序 --> 命令
 
