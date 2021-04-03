@@ -5,18 +5,7 @@
     "editor.fontFamily": "JetBrains Mono NL, Fira Code, Noto Sans CJK SC",
     "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
     "editor.renderWhitespace": "boundary",
-    "debug.console.fontSize": 16,
-    "terminal.integrated.fontSize": 16,
-    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", // Linux上直接用"/usr/bin/bash"且不需要11-17行的配置
-    "terminal.integrated.profiles.windows": {
-        "PowerShell": {
-            "source": "PowerShell",
-            "args": ["-NoLogo"],
-            "overrideName": true
-        },
-    },
-    "terminal.integrated.cursorStyle": "line",
-    "terminal.integrated.cursorBlinking": true,
+    "editor.wordWrap": "on",
     "editor.tokenColorCustomizations": {
         "comments": {
             // 设置字体样式：加粗、下划线、斜体等
@@ -30,12 +19,25 @@
         "functions": "#0000ff", // 函数名
         "numbers": "#994400" // 数字
     },
+    "debug.console.fontSize": 16,
+    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", // Linux上直接用"/usr/bin/bash"，不需要11-17行的配置
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": ["-NoLogo"],
+            "overrideName": true
+        },
+    },
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.inheritEnv": false,
     "workbench.colorCustomizations": {
         "editor.selectionHighlightBackground": "#ffff55"
     },
-    "editor.wordWrap": "on",
-    "explorer.confirmDelete": false,
     "workbench.startupEditor": "newUntitledFile",
+    "workbench.colorTheme": "Default Light+",
+    "explorer.confirmDelete": false,
     "files.autoSave": "onFocusChange",
     "files.autoSaveDelay": 0,
     "git.enableSmartCommit": true,
@@ -45,14 +47,8 @@
         "*.json": "jsonc"
     },
     "window.zoomLevel": 0,
-    "terminal.integrated.inheritEnv": false,
-    "workbench.colorTheme": "Default Light+",
-    // 还需要在“文件--首选项--键盘快捷方式”中将终端的复制与粘贴分别改为"Ctrl+C"和"Ctrl+V"
-    // C & C++
-    "C_Cpp.updateChannel": "Insiders",
-    // Markdown
-    "markdown.preview.fontSize": 16,
-    // bracket-pair-colorizer-2
+    // Linux上还需要在“文件--首选项--键盘快捷方式”中将终端的复制与粘贴分别改为"Ctrl+C"和"Ctrl+V"
+    // Bracket Pair Colorizer 2
     "bracket-pair-colorizer-2.colors": [
         "#14B363",
         "#EE4000",
@@ -161,7 +157,7 @@
     "python.formatting.autopep8Args": [
         "--max-line-length=65536"
     ],
-    "python.pythonPath": "/home/firestar/.anaconda/bin/python",
+    "python.pythonPath": "/home/firestar/.anaconda/bin/python", // Windows上要自行配置
     "jupyter.themeMatplotlibPlots": true,
     "jupyter.sendSelectionToInteractiveWindow": true,
     "workbench.editorAssociations": [
@@ -169,8 +165,5 @@
             "viewType": "jupyter.notebook.ipynb",
             "filenamePattern": "*.ipynb"
         }
-    ],
-    "terminal.integrated.shellArgs.windows": [
-        "-NoLogo"
     ]
 }
