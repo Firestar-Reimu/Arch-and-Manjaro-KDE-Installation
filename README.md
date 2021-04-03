@@ -695,11 +695,9 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 ### **开机登录美化**
 
-开机与关机 --> 登录屏幕（SDDM） --> McMojave sddm
+开机与关机 --> 登录屏幕（SDDM） --> McMojave sddm 或者 Fluent
 
 外观 --> 欢迎屏幕 --> ManjaroLogo Black 或者 Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen
-
-其中后面两个欢迎屏幕可能在 `video-modesetting` 里面有分辨率错误引起的显示问题，不推荐使用
 
 #### **主题美化（可选）**
 
@@ -904,7 +902,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装
 
-    yay -S texstudio stellarium geogebra lantern-bin typora thunderbird ds9
+    yay -S texstudio stellarium typora
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -951,7 +949,6 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 安装后需要将 TeX Live 添加到 `~/.bashrc` 和 `~/.profile`
 
     vim ~/.bashrc
-    vim ~/.profile
 
 在最后添加以下语句：
 
@@ -959,13 +956,11 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
     MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH; export MANPATH
     INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH; export INFOPATH
 
-注销再登录，这两个文件才会生效
+可以运行 `tex --version` 检查是否安装成功，若成功应显示（以 Tex Live 2021 为例）：
 
-可以运行 `tex --version` 检查是否安装成功，若成功应显示（以 Tex Live 2020 为例）：
-
-    TeX 3.14159265 (TeX Live 2020)
-    kpathsea version 6.3.2
-    Copyright 2020 D.E. Knuth.
+    TeX 3.141592653 (TeX Live 2021)
+    kpathsea version 6.3.3
+    Copyright 2021 D.E. Knuth.
     There is NO warranty.  Redistribution of this software is
     covered by the terms of both the TeX copyright and
     the Lesser GNU General Public License.
