@@ -4,10 +4,17 @@
     "editor.fontSize": 16,
     "editor.fontFamily": "JetBrains Mono NL, Fira Code, Noto Sans CJK SC",
     "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
-    "editor.renderWhitespace": "boundary"
+    "editor.renderWhitespace": "boundary",
     "debug.console.fontSize": 16,
     "terminal.integrated.fontSize": 16,
-    "terminal.integrated.shell.windows": "/usr/bin/bash", // Windows上要重新选择为powershell
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", // Linux上直接用"/usr/bin/bash"且不需要11-17行的配置
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": ["-NoLogo"],
+            "overrideName": true
+        },
+    },
     "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.cursorBlinking": true,
     "editor.tokenColorCustomizations": {
@@ -163,4 +170,7 @@
             "filenamePattern": "*.ipynb"
         }
     ],
+    "terminal.integrated.shellArgs.windows": [
+        "-NoLogo"
+    ]
 }
