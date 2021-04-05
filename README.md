@@ -929,7 +929,9 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 ### **安装 TeX Live**
 
-首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 ISO 镜像
+推荐从 ISO 以图形界面方式安装 TeX Live
+
+首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO
 
 其次要检查是否安装 tcl 和 tk：
 
@@ -943,14 +945,16 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
     sudo perl install-tl -gui
 
-即可在图形界面下载 TeX Live
+即可在图形界面下载 TeX Live（如果不加 `sudo` 则只能将其安装到 `/home/(user_name)/` 下的文件夹且无法勾选 Create symlinks in standard directories: 一项），高级设置需要点击左下角的 Advanced 按钮
 
-**记住勾选 Create symlinks in standard directories: 一项**
+TEXDIR 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
+
+**记住勾选 Create symlinks in standard directories 一项（自动添加到 PATH），Specify directories 选择默认文件夹即可，之后不需要自己添加 PATH**
 
 CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大学镜像需要在命令行中执行：
 
-    tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
-    tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
+    sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+    sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 
 可以运行 `tex --version` 检查是否安装成功，若成功应显示（以 Tex Live 2021 为例）：
 
@@ -964,7 +968,7 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
     named COPYING and the TeX source.
     Primary author of TeX: D.E. Knuth.
 
-还可以运行 `tlmgr --version` 检查是否安装成功
+还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc ctex`）检查是否安装成功
 
 ### **安装 KDE 的 Wayland 支持（不推荐）**
 
@@ -1142,10 +1146,6 @@ ssl_verify: true
 从最新的开源代码构建：
 
     yay -S code-git
-
-#### **Visual Studio Code 启用触屏**
-
-Visual Studio Code 启用触屏需要在 `/usr/share/applications/code.desktop` 的 `Exec` 一行加入命令 `--touch-events`，这对其它以 Electron 为基础开发的应用也可能有效
 
 #### **Visual Studio Code 图标更改（可选）**
 
@@ -1383,7 +1383,10 @@ https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%8
 Archived Manjaro Forum -- 比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合
 https://archived.forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
 
-TeX Live Quick Install
+Acquiring TeX Live as an ISO image
+https://www.tug.org/texlive/acquire-iso.html
+
+TeX Live - Quick install
 https://www.tug.org/texlive/quickinstall.html
 
 TeX Live Documentation -- TeXLive Installation
