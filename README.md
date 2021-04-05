@@ -931,30 +931,26 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 ISO 镜像
 
+其次要检查是否安装 tcl 和 tk：
+
+    yay -S tcl tk
+
 打开终端，运行：
 
     sudo mount -t iso9660 -o ro,loop,noauto /(texlive_path)/texlive.iso /mnt
 
 进入镜像文件夹，运行：
 
-    perl install-tl -gui
+    sudo perl install-tl -gui
 
 即可在图形界面下载 TeX Live
+
+**记住勾选 Create symlinks in standard directories: 一项**
 
 CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大学镜像需要在命令行中执行：
 
     tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
     tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
-
-安装后需要将 TeX Live 添加到 `~/.bashrc` 和 `~/.profile`
-
-    vim ~/.bashrc
-
-在最后添加以下语句：
-
-    PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH; export PATH
-    MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH; export MANPATH
-    INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH; export INFOPATH
 
 可以运行 `tex --version` 检查是否安装成功，若成功应显示（以 Tex Live 2021 为例）：
 
