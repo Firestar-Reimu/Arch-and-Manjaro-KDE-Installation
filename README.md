@@ -653,6 +653,8 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
 
+## **一些有用的命令总结**
+
 ### **获取设备信息**
 
 #### 简要信息
@@ -682,6 +684,12 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 在终端中输入：
 
     free
+
+### **转换格式**
+
+批量将图片从 PNG 格式转换为 JPG 格式：
+
+    ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 
 **Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
 
