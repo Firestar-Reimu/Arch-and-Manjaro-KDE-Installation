@@ -1075,7 +1075,7 @@ ssl_verify: true
     conda list --revisions
     conda install --revision (revision_number)
 
-注意：如果回滚到早期版本（`revision_number` 较小）之后又想回到某个高版本（`revision_number` 较大），必须要把两个版本中的版本都装一遍
+**如果回滚到早期版本（`revision_number` 较小）之后又想回到某个高版本（`revision_number` 较大），必须要把两个版本中的版本都装一遍**
 
 删除所有旧版本的包：
 
