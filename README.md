@@ -1213,9 +1213,16 @@ Graphics --> Screen Resolution --> 192 dpi
 
 ### **网易云音乐**
 
-可以在 pamac 中搜索安装：
+可以在 pamac 中搜索：
 
-    pamac search wechat
+    pamac search netease-cloud-music
+
+功能较多的版本：
+
+```
+netease-cloud-music-imflacfix                                                        1.2.1-1        AUR 
+    Netease Cloud Music, converted from .deb package, with IBus input method and online SQ support
+```
 
 极简版（原生适配高分辨率屏幕，但是功能较少，不支持歌词滚动和正在播放的曲子在歌单上标记）：
 
@@ -1223,19 +1230,6 @@ Graphics --> Screen Resolution --> 192 dpi
 electron-netease-cloud-music                                                         0.9.26-1       AUR 
     UNOFFICIAL client for music.163.com . Powered by Electron, Vue, and Muse-UI.
 ```
-
-功能较多，对高分辨率适配不佳的版本：
-
-```
-netease-cloud-music-imflacfix                                                        1.2.1-1        AUR 
-    Netease Cloud Music, converted from .deb package, with IBus input method and online SQ support
-```
-
-如果高分辨率不适配，按照如下方法调整：
-
-“开始”菜单 --> 右键点击“网易云音乐” --> 编辑应用程序 --> 应用程序 --> 命令
-
-添加启动参数 `--force-device-scale-factor=2`
 
 ### **能用上触控笔的软件（可选）**
 
