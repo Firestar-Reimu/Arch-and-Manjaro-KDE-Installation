@@ -2,8 +2,8 @@
 
 ```
 firestar@FIRESTAR
-OS: Manjaro 21.0 Ornara
-Kernel: x86_64 Linux 5.11.6-arch1-1-surface
+OS: Manjaro 21.0.1 Ornara
+Kernel: x86_64 Linux 5.11.10-arch1-1-surface
 Shell: bash 5.1.0
 Resolution: 2736x1824
 DE: KDE 5.80.0 / Plasma 5.21.3
@@ -36,19 +36,17 @@ Security --> Secure Boot --> Disabled(第三个选项)
 
 ### **制作启动盘**
 
-在清华大学镜像中下载 Manjaro KDE 镜像，网址如下：
+从 Manjaro 官网上下载：
 
-https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/kde/
+https://manjaro.org/downloads/official/kde/ （KDE Plasma 版本）
+
+https://manjaro.org/get-manjaro/ （所有官方版本）
 
 或者在 Github 上下载：
 
 https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
 
 https://github.com/manjaro/release-review/releases （所有官方版本）
-
-在这里可以找到所有的发行版（包括[官方版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro/)、[社区版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/)、[KDE-dev 版](https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/manjaro-community/kde-dev/)和每个版本对应的 minimal ISO）：
-
-https://mirrors.tuna.tsinghua.edu.cn/osdn/storage/g/m/ma/
 
 使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可
 
@@ -703,7 +701,7 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 ### **开机登录美化**
 
-开机与关机 --> 登录屏幕（SDDM） --> McMojave sddm 或者 Fluent
+开机与关机 --> 登录屏幕（SDDM） --> Fluent
 
 外观 --> 欢迎屏幕 --> ManjaroLogo Black 或者 Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen
 
@@ -881,7 +879,6 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
         <prefer>
             <family>JetBrains Mono NL</family>
             <family>JetBrains Mono</family>
-            <family>Consolas</family>
             <family>Noto Sans Mono CJK SC</family>
             <family>Noto Sans Mono CJK TC</family>
             <family>Noto Sans Mono CJK HK</family>
@@ -904,7 +901,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 可以添加词库：
 
-    yay -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idiom
+    yay -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
 
 ### **安装其它软件**
 
@@ -939,7 +936,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 推荐从 ISO 以图形界面方式安装 TeX Live
 
-首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO
+首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 texlive.iso
 
 其次要检查是否安装 tcl 和 tk：
 
@@ -1176,7 +1173,7 @@ https://zhuanlan.zhihu.com/p/77074009
 
 注意：下载插件 C/C++ Compile Run 后只要按 `Fn+F6` 即可编译运行 C/C++ 程序，但是不能调试。调试环境的配置请参考以下网址：
 
-VS Code 之 C/C++程序的 debug 功能简介
+VS Code 之 C/C++ 程序的 debug 功能简介
 https://zhuanlan.zhihu.com/p/85273055
 
 ### **办公软件**
