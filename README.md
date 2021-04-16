@@ -899,9 +899,17 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 如果无法启动输入法，在系统设置 --> 区域设置 --> 输入法 --> 添加输入法中手动添加“拼音”
 
+对应的 git 版本为：
+
+    yay -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+
 可以添加词库：
 
     yay -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
+
+一个稳定的替代版本是 Fcitx 4.2.9：
+
+    yay -S fcitx
 
 ### **安装其它软件**
 
