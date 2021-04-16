@@ -907,9 +907,17 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
     yay -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
 
-一个稳定的替代版本是 Fcitx 4.2.9：
+一个稳定的替代版本是 Fcitx 4.2.9.8-1：
 
-    yay -S fcitx
+    yay -S fcitx-im fcitx-configtool fcitx-sunpinyin manjaro-asian-input-support-fcitx
+
+可以配合 googlepinyin 或 sunpinyin 使用，即执行：
+
+    yay -S fcitx-googlepinyin
+
+或者
+
+    yay -S sunpinyin
 
 ### **安装其它软件**
 
