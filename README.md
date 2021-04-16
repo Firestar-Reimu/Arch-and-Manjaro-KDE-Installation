@@ -1,4 +1,4 @@
-# **在 Surface Pro 6 上安装 Manjaro 20 KDE Plasma + Windows 10 双系统的指南**
+# **在 Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 10 双系统的指南**
 
 ```
 firestar@FIRESTAR
