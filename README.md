@@ -254,6 +254,8 @@ pacman 有从本地安装包安装软件的功能，只需输入：
 
     sudo pacman -Syyu
 
+**北京大学开源镜像站已经上线，输入 `sudo vim /etc/pacman.d/mirrorlist` 并将 `mirrors.tuna.tsinghua.edu.cn` 改为 `mirrors.pku.edu.cn`**
+
 ### **更改更新分支**
 
 用下面的命令可以切换到 testing 或 unstable 分支：
