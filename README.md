@@ -964,17 +964,57 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 ### **安装 TeX Live**
 
-推荐从 ISO 以图形界面方式安装 TeX Live，下面以 TeX Live 2021 为例
+推荐从 ISO 安装 TeX Live，下面以 TeX Live 2021 为例
 
 首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 texlive.iso
-
-其次要检查是否安装 tcl 和 tk：
-
-    yay -S tcl tk
 
 打开终端，运行：
 
     sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive2021.iso /mnt
+
+#### **使用配置文件安装**
+
+首先创建一个 `texlive.profile` 配置文件：
+
+```
+selected_scheme scheme-full
+TEXDIR /home/firestar/.texlive/2021
+TEXMFCONFIG ~/.texlive2021/texmf-config
+TEXMFHOME ~/texmf
+TEXMFLOCAL /home/firestar/.texlive/texmf-local
+TEXMFSYSCONFIG /home/firestar/.texlive/2021/texmf-config
+TEXMFSYSVAR /home/firestar/.texlive/2021/texmf-var
+TEXMFVAR ~/.texlive2021/texmf-var
+binary_x86_64-linux 1
+instopt_adjustpath 1
+instopt_adjustrepo 1
+instopt_letter 1
+instopt_portable 0
+instopt_write18_restricted 1
+tlpdbopt_autobackup 1
+tlpdbopt_backupdir tlpkg/backups
+tlpdbopt_create_formats 1
+tlpdbopt_desktop_integration 1
+tlpdbopt_file_assocs 1
+tlpdbopt_generate_updmap 0
+tlpdbopt_install_docfiles 1
+tlpdbopt_install_srcfiles 1
+tlpdbopt_post_code 1
+tlpdbopt_sys_bin /usr/local/bin
+tlpdbopt_sys_info /usr/local/info
+tlpdbopt_sys_man /usr/local/man
+tlpdbopt_w32_multi_user 1
+```
+
+进入镜像文件夹，运行：
+
+    sudo perl install-tl --profile=(profile_path)/texlive.profile
+
+#### **使用图形界面安装**
+
+首先要检查是否安装 tcl 和 tk：
+
+    yay -S tcl tk
 
 进入镜像文件夹，运行：
 
@@ -984,7 +1024,9 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 **记住勾选 Create symlinks in standard directories 一项（自动添加到 PATH），Specify directories 选择默认文件夹即可，之后不需要自己添加 PATH**
 
-如果无法启动图形界面，则运行：
+#### **使用命令行界面安装**
+
+进入镜像文件夹，运行：
 
     sudo perl install-tl -gui text
 
