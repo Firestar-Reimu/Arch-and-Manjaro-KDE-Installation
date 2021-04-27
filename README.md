@@ -375,7 +375,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
     git config --global credential.helper store
 
-### **hosts 文件设置**
+### **hosts 文件设置（可选）**
 
 参考以下网址：
 
@@ -517,6 +517,8 @@ IP 地址可以通过对域名 `ping` 得到，例如：
     XDG_PUBLICSHARE_DIR="$HOME/Public"
     XDG_TEMPLATES_DIR="$HOME/Templates"
     XDG_VIDEOS_DIR="$HOME/Videos"
+
+并在 Dolphin 中按照上面的说明更改文件名
 
 ### **Dolphin 在更新后删除文件/文件夹报错**
 
@@ -900,7 +902,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 如果无法启动输入法，在系统设置 --> 区域设置 --> 输入法 --> 添加输入法中手动添加“拼音”
 
-对应的 git 版本为：
+对应的 git 版本为：（需要使用 Arch LinuxCN 源）
 
     yay -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
 
@@ -951,7 +953,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 ### **安装 TeX Live**
 
-推荐从 ISO 以图形界面方式安装 TeX Live
+推荐从 ISO 以图形界面方式安装 TeX Live,下面以 TeX Live 2021 为例
 
 首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 texlive.iso
 
@@ -961,7 +963,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 打开终端，运行：
 
-    sudo mount -t iso9660 -o ro,loop,noauto /(texlive_path)/texlive.iso /mnt
+    sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive2021.iso /mnt
 
 进入镜像文件夹，运行：
 
@@ -969,9 +971,19 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 即可在图形界面下载 TeX Live（如果不加 `sudo` 则只能将其安装到 `/home/(user_name)/` 下的文件夹且无法勾选 Create symlinks in standard directories: 一项），高级设置需要点击左下角的 Advanced 按钮
 
-TEXDIR 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
-
 **记住勾选 Create symlinks in standard directories 一项（自动添加到 PATH），Specify directories 选择默认文件夹即可，之后不需要自己添加 PATH**
+
+如果无法启动图形界面，则运行：
+
+    sudo perl install-tl -gui text
+
+用大写字母命令控制安装：
+
+    D --> 1 --> 输入要安装 TeX Live 的位置（TEXDIR） --> R
+    O --> P --> L --> 都选择默认位置（按 Enter） --> R
+    I
+
+TEXDIR 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
 
 CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大学镜像需要在命令行中执行：
 
@@ -1004,7 +1016,7 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 
 在 `~/.bashrc` 中添加一句：
 
-    alias firefox="firefox-developer-edition"
+    alias firefox='firefox-developer-edition'
 
 这样就可以直接输入 `firefox` 以启动 Firefox Developer Edition
 
@@ -1032,16 +1044,18 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 
 服务器 --> 服务器设置 --> 在删除消息时 --> 立即删除
 
-### **Anaconda 安装与配置**
+### **Miniconda 安装与配置**
+
+Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
 
 下载地址如下：
 
-Anaconda Individual Edition
-https://www.anaconda.com/products/individual
+Miniconda -- Conda documentation
+https://docs.conda.io/en/latest/miniconda.html
 
 或者在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/#)点击右侧的“获取下载链接”按钮，在“应用软件” --> Conda 里面选择
 
-安装过程参考以下网址：
+安装过程参考以下网址：（Miniconda 和 Anaconda 安装步骤相同）
 
 Anaconda Documentation -- Installing on Linux
 https://docs.anaconda.com/anaconda/install/linux/
@@ -1050,38 +1064,18 @@ https://docs.anaconda.com/anaconda/install/linux/
 
     vim ~/.condarc
 
-修改 `.condarc` 以使用清华大学镜像源：
+修改 `.condarc` 以使用北京大学镜像源：
 
 ```
 channels:
-  - defaults
+    - defaults
 show_channel_urls: true
 default_channels:
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+    - https://mirrors.pku.edu.cn/anaconda/pkgs/main
+    - https://mirrors.pku.edu.cn/anaconda/pkgs/r
 custom_channels:
-  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-```
-
-若使用上海交大的镜像源，改为：
-
-```
-default_channels:
-  - https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/r
-  - https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/main
-custom_channels:
-  conda-forge: https://mirrors.sjtug.sjtu.edu.cn/anaconda/cloud/
-  pytorch: https://mirrors.sjtug.sjtu.edu.cn/anaconda/cloud/
-channels:
-  - defaults
+    conda-forge: https://mirrors.pku.edu.cn/anaconda/cloud
+    pytorch: https://mirrors.pku.edu.cn/anaconda/cloud
 ```
 
 若不用镜像源，改为：
@@ -1091,6 +1085,14 @@ channels:
   - defaults
 ssl_verify: true
 ```
+
+下载所需要的包：
+
+    conda install numpy scipy matplotlib
+
+Spyder 推荐使用 4.2.5 （Spyder 5 对高分辨率支持不佳）
+
+#### **Conda 常用命令**
 
 下载包：
 
@@ -1111,9 +1113,9 @@ ssl_verify: true
 
     conda clean -p
 
-打开 Anaconda Navigator 需要在终端中输入：
+列出所有下载的包：
 
-    anaconda-navigator
+    conda list
 
 用 Spyder 打开某个文件需要在终端中输入：
 
@@ -1121,7 +1123,7 @@ ssl_verify: true
 
 #### **Spyder 配置**
 
-通用 --> 显示器分辨率 --> 普通
+通用 --> 显示器分辨率 --> 启用自动高分辨率
 
 外观 --> 语法高亮主题 --> IDLE
 
