@@ -713,14 +713,14 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 KDE 桌面的 Mac 化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
-KDE 桌面美化指南
-https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/
-
 其中 Plasma 主题、GTK主题和图标主题分别选择：
     
     Plasma Theme: Mojave-CT
     GTK Theme: Mojave-light-alt [GTK2/3]
-    Icon Theme: Mojave-CT-Light
+    Icon Theme: La Capitaine
+
+KDE 桌面美化指南
+https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/
 
 Latte-Dock 的推荐设置：
 
