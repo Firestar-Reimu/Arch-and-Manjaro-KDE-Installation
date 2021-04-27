@@ -2,7 +2,7 @@
 
 ```
 firestar@FIRESTAR
-OS: Manjaro 21.0.1 Ornara
+OS: Manjaro 21.0.2 Ornara
 Kernel: x86_64 Linux 5.11.10-arch1-1-surface
 Shell: bash 5.1.0
 Resolution: 2736x1824
@@ -302,6 +302,36 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 建议切换到 testing 或 unstable 分支以尽量跟进 Arch 的更新
 
+### **Linux-Surface 内核安装**
+
+**安装和更新 Linux-Surface 需要登录北京大学 VPN**
+
+在终端中输入：
+
+    curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
+    | sudo pacman-key --add -
+
+如果出现错误，则需要先修改 hosts 文件，再操作
+
+接着输入：
+
+    sudo pacman-key --finger 56C464BAAC421453
+    sudo pacman-key --lsign-key 56C464BAAC421453
+
+在 `/etc/pacman.conf` 里面添加：
+
+    [linux-surface]
+    Server = https://pkg.surfacelinux.com/arch/
+
+然后下载：
+
+    sudo pacman -Sy
+    sudo pacman -S linux-surface linux-surface-headers iptsd
+
+启动触屏：
+
+    sudo systemctl enable iptsd
+
 ### **下载 vim**
 
 建议先下载 vim，方便之后编辑各种文件：
@@ -529,36 +559,6 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 说明 Qt 还在内存中保留着旧版 Dolphin，此时可以重启/重新登录，或执行：
 
     dbus-launch dolphin
-
-### **Linux-Surface 内核安装**
-
-**安装和更新 Linux-Surface 需要登录北京大学 VPN**
-
-在终端中输入：
-
-    curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
-    | sudo pacman-key --add -
-
-如果出现错误，则需要先修改 hosts 文件，再操作
-
-接着输入：
-
-    sudo pacman-key --finger 56C464BAAC421453
-    sudo pacman-key --lsign-key 56C464BAAC421453
-
-在 `/etc/pacman.conf` 里面添加：
-
-    [linux-surface]
-    Server = https://pkg.surfacelinux.com/arch/
-
-然后下载：
-
-    sudo pacman -Sy
-    sudo pacman -S linux-surface linux-surface-headers iptsd
-
-启动触屏：
-
-    sudo systemctl enable iptsd
 
 ### **SONY WH-1000XM3 耳机连接**
 
