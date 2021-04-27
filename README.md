@@ -1093,6 +1093,14 @@ channels:
 ssl_verify: true
 ```
 
+下载包：
+
+    conda install (package_name)
+
+下载特定版本的包：
+
+    conda install (package_name)=(version_number)
+
 恢复之前的版本：
 
     conda list --revisions
