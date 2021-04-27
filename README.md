@@ -119,7 +119,6 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 卸载 `xf86-video-intel` 和 `video-linux`：
 
-    yay -Rn xf86-video-intel
     sudo mhwd -r pci video-linux
 
 下载 `video-modesetting`：
