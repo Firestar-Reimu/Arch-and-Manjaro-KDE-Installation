@@ -843,7 +843,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 **注意需要排除掉 MS Gothic、Yu Gothic 字体，因它们只有部分日文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日文字形）**
 
-### **更改程序和终端默认中文字体为微软雅黑**
+### **更改程序和终端默认中文字体**
 
 输入命令：
 
