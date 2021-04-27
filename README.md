@@ -100,11 +100,11 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 然后重启电脑
 
-### **切换到 `video-modesetting`**
+### **切换到 video-modesetting**
 
 有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
 
-可能是 `video-linux` 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
+可能是 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
 
 Arch Wiki -- Cinnamon
 https://wiki.archlinux.org/index.php/Cinnamon#Installation
@@ -117,11 +117,11 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 解决办法：
 
-卸载 `xf86-video-intel` 和 `video-linux`：
+卸载 video-linux：
 
     sudo mhwd -r pci video-linux
 
-下载 `video-modesetting`：
+下载 video-modesetting：
 
     sudo mhwd -i pci video-modesetting
 
