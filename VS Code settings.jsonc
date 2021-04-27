@@ -27,7 +27,7 @@
             "source": "PowerShell",
             "args": ["-NoLogo"],
             "overrideName": true
-        },
+        }
     },
     "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.cursorBlinking": true,
