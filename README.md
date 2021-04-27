@@ -255,9 +255,9 @@ pacman 有从本地安装包安装软件的功能，只需输入：
 
 **北京大学开源镜像站已经上线，输入 `sudo vim /etc/pacman.d/mirrorlist` 并将 `mirrors.tuna.tsinghua.edu.cn` 改为 `mirrors.pku.edu.cn`**
 
-### **更改更新分支**
+### **选择更新分支并更改镜像**
 
-用下面的命令可以切换到 testing 或 unstable 分支：
+更新分支可以选择 stable/testing/unstable，在北京建议用清华镜像（以下均以清华为例），在广州建议用上海交大的镜像：
 
     sudo pacman-mirrors --api --set-branch (branch)
     sudo pacman-mirrors -i -c China -m rank
@@ -953,7 +953,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 ### **安装 TeX Live**
 
-推荐从 ISO 以图形界面方式安装 TeX Live,下面以 TeX Live 2021 为例
+推荐从 ISO 以图形界面方式安装 TeX Live，下面以 TeX Live 2021 为例
 
 首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 texlive.iso
 
