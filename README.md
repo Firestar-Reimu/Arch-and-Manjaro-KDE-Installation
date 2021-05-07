@@ -228,25 +228,6 @@ pacman 有从本地安装包安装软件的功能，只需输入：
 
     sudo pacman -U (package_path)/(package_name)
 
-#### **为 pacman 和 yay 添加多线程下载（可选）**
-
-执行下面的命令下载 axel
-
-     yay -S axel
-
-编辑 `/etc/pacman.conf` 文件（在第21行）:
-
-    XferCommand = /usr/bin/axel -n 10 -o %o %u
-
-编辑 `/etc/makepkg.conf` 文件（在第11-16行）:
-
-    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
-          'ftp::/usr/bin/axel -n 10 -o %o %u'
-          'http::/usr/bin/axel -n 10 -o %o %u'
-          'https::/usr/bin/axel -n 10 -o %o %u'
-          'rsync::/usr/bin/rsync --no-motd -z %u %o'
-          'scp::/usr/bin/scp -C %u %o')
-
 ### **官方软件源更改镜像**
 
     sudo pacman-mirrors -i -c China -m rank
@@ -658,6 +639,25 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 `baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
 
     balooctl disable
+
+### **为 pacman 和 yay 添加多线程下载（可选）**
+
+执行下面的命令下载 axel
+
+     yay -S axel
+
+编辑 `/etc/pacman.conf` 文件（在第21行）:
+
+    XferCommand = /usr/bin/axel -n 10 -o %o %u
+
+编辑 `/etc/makepkg.conf` 文件（在第11-16行）:
+
+    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
+          'ftp::/usr/bin/axel -n 10 -o %o %u'
+          'http::/usr/bin/axel -n 10 -o %o %u'
+          'https::/usr/bin/axel -n 10 -o %o %u'
+          'rsync::/usr/bin/rsync --no-motd -z %u %o'
+          'scp::/usr/bin/scp -C %u %o')
 
 ### **重新开启 Secure Boot（未测试）**
 
