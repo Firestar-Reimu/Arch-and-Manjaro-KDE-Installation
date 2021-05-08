@@ -191,7 +191,7 @@ https://wiki.manjaro.org/index.php/Manjaro_Kernels
 
     sudo pacman -Syyu
 
-**北京大学开源镜像站已经上线，输入 `sudo vim /etc/pacman.d/mirrorlist` 并将 `mirrors.tuna.tsinghua.edu.cn` 改为 `mirrors.pku.edu.cn`**
+**北京大学开源镜像站已经上线，可以在 `sudo pacman-mirrors` 中找到**
 
 ### **选择更新分支并更改镜像**
 
