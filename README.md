@@ -220,6 +220,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 执行以下命令以启用清华的 AUR 反向代理:
 
     yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
+    yay -Syyu
 
 修改的配置文件位于 `~/.config/yay/config.json` ，还可通过以下命令查看修改过的配置：
 
@@ -235,6 +236,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 之后执行下面的命令安装 archlinuxcn-keyring 包导入 GPG key
 
     sudo pacman -Sy archlinuxcn-keyring
+    sudo pacman -Syyu
 
 由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏
 
