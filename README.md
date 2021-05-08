@@ -920,15 +920,17 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 一个稳定的替代版本是 Fcitx 4.2.9.8-1：
 
-    yay -S fcitx-im fcitx-configtool fcitx-sunpinyin manjaro-asian-input-support-fcitx
+    yay -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
 
 可以配合 googlepinyin 或 sunpinyin 使用，即执行：
 
     yay -S fcitx-googlepinyin
 
-或者
+或者：（`yay -S sunpinyin`也可以）
 
-    yay -S sunpinyin
+    yay -S fcitx-sunpinyin
+
+**安装输入法之后需要重启电脑才能生效**
 
 ### **安装其它软件**
 
@@ -942,7 +944,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 例如 Kate，可以先用普通用户的身份打开文件，保存时如果需要 root 权限就会弹出密码输入框
 
-#### **用 debtap 安装 .deb 包（不推荐）**
+#### **用 debtap 安装 `.deb` 包（不推荐）**
 
 首先要下载并更新 debtap 包：
 
