@@ -158,6 +158,9 @@ Manjaro 常用的包管理器有 pacman、pamac 和 yay，其使用教程参考�
 Manjaro Wiki -- Pacman Overview
 https://wiki.manjaro.org/index.php/Pacman_Overview
 
+Manjaro Wiki -- Pacman-mirrors
+https://wiki.manjaro.org/index.php/Pacman-mirrors
+
 ArchWiki -- Pacman
 https://wiki.archlinux.org/index.php/Pacman
 
@@ -185,6 +188,63 @@ Manjaro Wiki -- Manjaro Kernels
 https://wiki.manjaro.org/index.php/Manjaro_Kernels
 
 这两个也可以在 Manjaro Settings Manager （GUI 版本）中使用
+
+### **官方软件源更改镜像**
+
+    sudo pacman-mirrors -i -c China
+
+在北京建议用清华镜像（以下均以清华为例），在广州建议用上海交大的镜像，确认后输入：
+
+    sudo pacman -Syyu
+
+**北京大学开源镜像站已经上线，输入 `sudo vim /etc/pacman.d/mirrorlist` 并将 `mirrors.tuna.tsinghua.edu.cn` 改为 `mirrors.pku.edu.cn`**
+
+### **选择更新分支并更改镜像**
+
+更新分支可以选择 stable/testing/unstable，在北京建议用清华镜像（以下均以清华为例），在广州建议用上海交大的镜像：
+
+    sudo pacman-mirrors --api --set-branch (branch)
+    sudo pacman-mirrors -i -c China
+    sudo pacman -Syyu
+
+### **AUR**
+
+#### 安装 base-devel
+
+AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软件包而不将它们写入构建依赖。为了避免在构建过程中出现一些奇怪的错误，建议先安装 `base-devel`：
+
+    sudo pacman -S base-devel
+
+#### 启用 pamac 的 AUR 支持
+
+添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用 AUR 支持
+
+然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
+
+#### yay 反向代理配置
+
+执行以下命令以启用清华的 AUR 反向代理:
+
+    yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
+
+修改的配置文件位于 `~/.config/yay/config.json` ，还可通过以下命令查看修改过的配置：
+
+    yay -P -g
+
+### **Arch Linux CN 软件源**
+
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华镜像：
+
+    [archlinuxcn]
+    Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+
+之后执行下面的命令安装 archlinuxcn-keyring 包导入 GPG key
+
+    sudo pacman -Sy archlinuxcn-keyring
+
+由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏
+
+建议切换到 testing 或 unstable 分支以尽量跟进 Arch 的更新
 
 #### **搜索软件包**
 
@@ -227,63 +287,6 @@ https://wiki.manjaro.org/index.php/Manjaro_Kernels
 pacman 有从本地安装包安装软件的功能，只需输入：
 
     sudo pacman -U (package_path)/(package_name)
-
-### **官方软件源更改镜像**
-
-    sudo pacman-mirrors -i -c China -m rank
-
-在北京建议用清华镜像（以下均以清华为例），在广州建议用上海交大的镜像，确认后输入：
-
-    sudo pacman -Syyu
-
-**北京大学开源镜像站已经上线，输入 `sudo vim /etc/pacman.d/mirrorlist` 并将 `mirrors.tuna.tsinghua.edu.cn` 改为 `mirrors.pku.edu.cn`**
-
-### **选择更新分支并更改镜像**
-
-更新分支可以选择 stable/testing/unstable，在北京建议用清华镜像（以下均以清华为例），在广州建议用上海交大的镜像：
-
-    sudo pacman-mirrors --api --set-branch (branch)
-    sudo pacman-mirrors -i -c China -m rank
-    sudo pacman -Syyu
-
-### **AUR**
-
-#### 安装 base-devel
-
-AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软件包而不将它们写入构建依赖。为了避免在构建过程中出现一些奇怪的错误，建议先安装 `base-devel`：
-
-    sudo pacman -S base-devel
-
-#### 启用 pamac 的 AUR 支持
-
-添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用 AUR 支持
-
-然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
-
-#### yay 反向代理配置
-
-执行以下命令以启用清华的 AUR 反向代理:
-
-    yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
-
-修改的配置文件位于 `~/.config/yay/config.json` ，还可通过以下命令查看修改过的配置：
-
-    yay -P -g
-
-### **Arch Linux CN 软件源**
-
-在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华镜像：
-
-    [archlinuxcn]
-    Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
-
-之后执行下面的命令安装 archlinuxcn-keyring 包导入 GPG key
-
-    sudo pacman -Sy archlinuxcn-keyring
-
-由于 Manjaro 的更新滞后于 Arch，使用 archlinuxcn 仓库可能会出现“部分更新”的情况，导致某些软件包损坏
-
-建议切换到 testing 或 unstable 分支以尽量跟进 Arch 的更新
 
 ### **Linux-Surface 内核安装**
 
@@ -913,7 +916,7 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 如果无法启动输入法，在系统设置 --> 区域设置 --> 输入法 --> 添加输入法中手动添加“拼音”
 
-对应的 git 版本为：（需要使用 Arch LinuxCN 源）
+对应的 git 版本为：（需要使用 Arch Linux CN 源）
 
     yay -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
 
