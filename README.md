@@ -1,5 +1,7 @@
 # **在 Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 10 双系统的指南**
 
+去除Windows体验版水印：bcdedit /set testsigning off
+
 ```
 firestar@FIRESTAR
 OS: Manjaro 21.0.2 Ornara
