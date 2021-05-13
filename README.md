@@ -1,7 +1,5 @@
 # **在 Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 10 双系统的指南**
 
-去除Windows体验版水印：bcdedit /set testsigning off
-
 ```
 firestar@FIRESTAR
 OS: Manjaro 21.0.2 Ornara
@@ -101,33 +99,6 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 系统设置 --> 光标 --> 大小 --> 36
 
 然后重启电脑
-
-### **切换到 video-modesetting**
-
-有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
-
-可能是 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
-
-Arch Wiki -- Cinnamon
-https://wiki.archlinux.org/index.php/Cinnamon#Installation
-
-Arch Wiki -- Intel Graphics
-https://wiki.archlinux.org/index.php/Intel_graphics#Installation
-
-KDE Community -- Plasma 5.9 Errata
-https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
-
-解决办法：
-
-卸载 video-linux：
-
-    sudo mhwd -r pci video-linux
-
-下载 video-modesetting：
-
-    sudo mhwd -i pci video-modesetting
-
-**重启后会发现许多窗口和图标变小，建议先调整全局缩放为100%，重新启动，再调至200%，再重启**
 
 ### **快捷键配置**
 
@@ -256,6 +227,13 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
     pactree (package_name)
 
+#### **降级软件包**
+
+在 `/var/cache/pacman/pkg/` 中找到旧软件包，双击打开安装实现手动降级，参考以下网址：
+
+Downgrading Packages -- ArchWiki
+https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+
 #### **清理缓存**
 
 清理全部软件安装包：
@@ -285,6 +263,33 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 pacman 有从本地安装包安装软件的功能，只需输入：
 
     sudo pacman -U (package_path)/(package_name)
+
+### **切换到 video-modesetting**
+
+有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
+
+可能是 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
+
+Arch Wiki -- Cinnamon
+https://wiki.archlinux.org/index.php/Cinnamon#Installation
+
+Arch Wiki -- Intel Graphics
+https://wiki.archlinux.org/index.php/Intel_graphics#Installation
+
+KDE Community -- Plasma 5.9 Errata
+https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
+
+解决办法：
+
+卸载 video-linux：
+
+    sudo mhwd -r pci video-linux
+
+下载 video-modesetting：
+
+    sudo mhwd -i pci video-modesetting
+
+**重启后会发现许多窗口和图标变小，建议先调整全局缩放为100%，重新启动，再调至200%，再重启**
 
 ### **Linux-Surface 内核安装**
 
@@ -660,11 +665,21 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
 
+### **关闭启动时的系统信息**
+
+参考以下网址：
+
+Silent Boot -- ArchWiki
+https://wiki.archlinux.org/title/Silent_boot
+
 ### **重新开启 Secure Boot（未测试）**
 
 如果想去掉开机时的红色上边框，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
 
-具体教程参见：[Secure Boot - ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
+具体教程参考以下网址：
+
+Secure Boot -- ArchWiki
+https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows
 
 ## **一些有用的命令总结**
 
@@ -697,6 +712,10 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 在终端中输入：
 
     free
+
+#### 上一次关机的系统日志
+
+    journalctl -rb -1
 
 ### **转换格式**
 
