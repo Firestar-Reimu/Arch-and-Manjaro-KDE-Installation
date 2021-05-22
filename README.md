@@ -1079,6 +1079,30 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc ctex`）检查是否安装成功
 
+### **TeXstudio 配置**
+
+帮助 --> 检查 LaTeX 安装信息
+
+如果能检测到 LaTeX，说明 TeX Live 安装成功，开始设置
+
+选项 --> 设置 TeXstudio
+
+首先在左下角勾选“显示高级选项”
+
+菜单 --> 数学 --> `\frac{}{}` --> `\frac{%|}{}`
+
+菜单 --> 数学 --> `\frac{}{}` --> `\frac{%|}{}`
+
+编辑器 --> 显示行号 --> 所有行号
+
+编辑器 --> 取消勾选“行内检查”
+
+高级编辑器 --> 换行 --> 窗口边界处换行
+
+高级编辑器 --> 自动保存所有文件 --> 1分钟
+
+补全 --> 取消勾选“输入参数”
+
 ### **安装 KDE 的 Wayland 支持（不推荐）**
 
 与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
@@ -1280,9 +1304,9 @@ https://zhuanlan.zhihu.com/p/77074009
 VS Code 之 C/C++ 程序的 debug 功能简介
 https://zhuanlan.zhihu.com/p/85273055
 
-### **办公软件**
+### **WPS 安装**
 
-选择 WPS：
+运行：
 
     yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 
