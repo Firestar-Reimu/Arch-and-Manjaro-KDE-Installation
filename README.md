@@ -2,14 +2,14 @@
 
 ```
 firestar@FIRESTAR
-OS: Manjaro 21.0.2 Ornara
-Kernel: x86_64 Linux 5.11.10-arch1-1-surface
-Shell: bash 5.1.0
+OS: Manjaro 21.0.4 Ornara
+Kernel: x86_64 Linux 5.12.5-arch1-1-surface
+Shell: bash 5.1.8
 Resolution: 2736x1824
-DE: KDE 5.80.0 / Plasma 5.21.3
+DE: KDE 5.82.0 / Plasma 5.21.5
 WM: KWin
-GTK Theme: Breath [GTK2/3]
-Icon Theme: breath2
+GTK Theme: Mojave-light-alt [GTK2/3]
+Icon Theme: la-capitaine-icon-theme
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
