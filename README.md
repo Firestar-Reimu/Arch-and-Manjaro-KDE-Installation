@@ -102,21 +102,30 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 ### **快捷键配置**
 
-#### **Konsole 快捷键**
-
-设置 --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
-
-#### **Dolphin 快捷键**
-
-设置 --> 配置键盘快捷键
-
-Dolphin 的快捷键中，`Ctrl+D` 不是删除，删除只能用 `Del`（移动到回收站，在 Windows 上 `Del` 和 `Ctrl+D` 均可）以及 `Shift+Del`（彻底删除，Windows 上也可以）
-
 #### **全局快捷键**
 
 为打开方便，可以采用 i3wm 的默认快捷键打开 Konsole：
 
 系统设置 --> 快捷键 --> 添加应用程序 --> Konsole --> Konsole 的快捷键设为 `Meta+Return`（即“Windows 徽标键 + Enter 键”）
+
+#### **Konsole 快捷键**
+
+设置 --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
+
+### **选择镜像并更改更新分支**
+
+选择镜像：（建议选择上海交大的镜像，其更新频率最高）
+
+    sudo pacman-mirrors -i -c China
+
+更改更新分支：（更新分支 `(branch)` 可以选择 stable/testing/unstable）
+
+    sudo pacman-mirrors --api --set-branch (branch)
+    sudo pacman -Syyu
+
+一个简洁的替代版（但不能自己选择镜像，只能按照访问速度从高到低排列）：
+
+    sudo pacman-mirrors --geoip --api --set-branch testing && sudo pacman -Syyu
 
 ### **包管理器**
 
@@ -155,24 +164,6 @@ Manjaro Wiki -- Manjaro Kernels
 https://wiki.manjaro.org/index.php/Manjaro_Kernels
 
 这两个也可以在 Manjaro Settings Manager （GUI 版本）中使用
-
-### **官方软件源更改镜像**
-
-    sudo pacman-mirrors -i -c China
-
-在北京建议用清华镜像（以下均以清华为例），在广州建议用上海交大的镜像，确认后输入：
-
-    sudo pacman -Syyu
-
-**北京大学开源镜像站已经上线，可以在 `sudo pacman-mirrors` 中找到**
-
-### **选择更新分支并更改镜像**
-
-更新分支可以选择 stable/testing/unstable，在北京建议用清华镜像（以下均以清华为例），在广州建议用上海交大的镜像：
-
-    sudo pacman-mirrors --api --set-branch (branch)
-    sudo pacman-mirrors -i -c China
-    sudo pacman -Syyu
 
 ### **AUR**
 
@@ -312,9 +303,9 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
     [linux-surface]
     Server = https://pkg.surfacelinux.com/arch/
 
-然后下载：
+然后更新软件库并下载：
 
-    sudo pacman -Sy
+    sudo pacman -Syyu
     sudo pacman -S linux-surface linux-surface-headers iptsd
 
 启动触屏：
@@ -326,11 +317,6 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 建议先下载 vim，方便之后编辑各种文件：
 
     sudo pacman -S vim
-
-#### **Vim 安装插件**
-
-    git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
-    vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
 
 ### **更改 visudo 默认编辑器为 vim**
 
@@ -1093,11 +1079,15 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 
 菜单 --> 数学 --> `\frac{}{}` --> `\frac{%|}{}`
 
+快捷键 --> 数学 --> 数学字体格式 --> 罗马字体 --> 当前快捷键 --> `Alt+Shift+R`
+
+编辑器 --> 缩进模式 --> 自动增加或减少缩进
+
+编辑器 --> 缩进模式 --> 勾选“将缩进替换为空格”和“将文本中的制表符（Tab）替换为空格”
+
 编辑器 --> 显示行号 --> 所有行号
 
 编辑器 --> 取消勾选“行内检查”
-
-高级编辑器 --> 换行 --> 窗口边界处换行
 
 高级编辑器 --> 自动保存所有文件 --> 1分钟
 
@@ -1256,6 +1246,13 @@ Spyder 推荐使用 4.2.5 （Spyder 5 对高分辨率支持不佳）：
 
 编辑器 --> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为100毫秒
 
+### **Vim 安装插件**
+
+执行：
+
+    git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
+    vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
+
 ### **Visual Studio Code 安装与配置**
 
 #### **Visual Studio Code 安装**
@@ -1291,6 +1288,10 @@ Spyder 推荐使用 4.2.5 （Spyder 5 对高分辨率支持不佳）：
 放大比例：`Ctrl+=`
 
 缩小比例：`Ctrl+-`
+
+#### **Visual Studio Code 启用触屏**
+
+更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效
 
 #### **Visual Studio Code 的 C/C++ 环境配置（未测试）**
 
