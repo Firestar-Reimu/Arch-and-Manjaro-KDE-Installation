@@ -1,6 +1,4 @@
-// 下载扩展：Python, Jupyter, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++
 {
-    // 全局设置
     "editor.fontSize": 16,
     "editor.fontFamily": "JetBrains Mono NL, Fira Code, Noto Sans CJK SC",
     "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
@@ -10,18 +8,18 @@
         "comments": {
             "fontStyle": "bold",
             "foreground": "#ff0000"
-        }, // 注释
+        },
         "keywords": {
             "fontStyle": "bold",
             "foreground": "#ff5500"
-        }, // 关键字
-        "variables": "#dd55aa", // 变量名
-        "strings": "#00aa00", // 字符串
+        },
+        "variables": "#dd55aa",
+        "strings": "#00aa00",
         "functions": {
             "fontStyle": "bold",
             "foreground": "#0000ff"
-        }, // 函数名
-        "numbers": "#994400" // 数字
+        },
+        "numbers": "#994400"
     },
     "debug.console.fontSize": 16,
     "terminal.integrated.profiles.windows": {
@@ -52,8 +50,6 @@
         "*.json": "jsonc"
     },
     "window.zoomLevel": 0,
-    // Linux上还需要在“文件--首选项--键盘快捷方式”中将终端的复制与粘贴分别改为"Ctrl+C"和"Ctrl+V"
-    // Bracket Pair Colorizer 2
     "bracket-pair-colorizer-2.colors": [
         "#14B363",
         "#EE4000",
@@ -65,7 +61,6 @@
         "borderColor : {color}",
         "opacity: 0.5"
     ],
-    // LaTeX
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.tools": [
@@ -154,13 +149,13 @@
         "*.fdb_latexmk"
     ],
     "latex-workshop.latex.pdfWatch.delay": 0,
-    // Python & Jupyter
     "python.linting.pylintArgs": [
         "--generate-members"
     ],
     "python.formatting.autopep8Args": [
         "--max-line-length=65536"
     ],
+    "python.pythonPath": "/home/firestar/.miniconda/bin/python",
     "jupyter.themeMatplotlibPlots": true,
     "jupyter.sendSelectionToInteractiveWindow": true,
     "workbench.editorAssociations": [
