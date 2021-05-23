@@ -1191,7 +1191,7 @@ ssl_verify: true
 
     conda install numpy scipy matplotlib
 
-Spyder 推荐使用 4.2.5 （Spyder 5 对高分辨率支持不佳）：
+Spyder 推荐使用 4.2.5 （Spyder 5.0.0 对高分辨率支持不佳）：
 
     conda install spyder=4.2.5
 
@@ -1288,6 +1288,8 @@ Spyder 推荐使用 4.2.5 （Spyder 5 对高分辨率支持不佳）：
 从最新的开源代码构建：
 
     yay -S code-git
+
+下载扩展：Python, Jupyter, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++
 
 #### **Visual Studio Code 图标更改（可选）**
 
