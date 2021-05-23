@@ -458,13 +458,21 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 以启动`systemd-swap`服务
 
-### **连接北京大学 VPN**
+### **连接北京大学校园网**
+
+#### **命令行连接 PKU WiFi**
+
+连接校园网 WiFi 可以使用脚本 pkuipgw，可以在[北大未名BBS](https://bbs.pku.edu.cn/v2/post-read-single.php?bid=13&type=0&postid=14139459)上下载
+
+#### **命令行连接 PKU VPN**
 
 按 `Fn+F12` 打开 Yakuake，输入：
 
     sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
 
-之后点击窗口外任意位置或按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则VPN断开）
+输入密码即可连接
+
+之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则VPN断开）
 
 ### **Linux 挂载 Windows 磁盘**
 
