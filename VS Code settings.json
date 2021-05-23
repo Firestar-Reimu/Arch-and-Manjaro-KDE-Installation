@@ -8,27 +8,32 @@
     "editor.wordWrap": "on",
     "editor.tokenColorCustomizations": {
         "comments": {
-            // 设置字体样式：加粗、下划线、斜体等
             "fontStyle": "bold",
-            // 设置字体颜色
             "foreground": "#ff0000"
         }, // 注释
-        "keywords": "#ff5500", // 关键字
+        "keywords": {
+            "fontStyle": "bold",
+            "foreground": "#ff5500"
+        }, // 关键字
         "variables": "#dd55aa", // 变量名
         "strings": "#00aa00", // 字符串
-        "functions": "#0000ff", // 函数名
+        "functions": {
+            "fontStyle": "bold",
+            "foreground": "#0000ff"
+        }, // 函数名
         "numbers": "#994400" // 数字
     },
     "debug.console.fontSize": 16,
-    "terminal.integrated.fontSize": 16,
-    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", // Linux上直接用"/usr/bin/bash"，不需要11-17行的配置
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
             "source": "PowerShell",
-            "args": ["-NoLogo"],
+            "args": [
+                "-NoLogo"
+            ],
             "overrideName": true
         }
     },
+    "terminal.integrated.fontSize": 16,
     "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.inheritEnv": false,
@@ -61,7 +66,6 @@
         "opacity: 0.5"
     ],
     // LaTeX
-    "latex-workshop.message.update.show": false,
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.tools": [
@@ -157,7 +161,6 @@
     "python.formatting.autopep8Args": [
         "--max-line-length=65536"
     ],
-    "python.pythonPath": "/home/firestar/.anaconda/bin/python", // Windows上要自行配置
     "jupyter.themeMatplotlibPlots": true,
     "jupyter.sendSelectionToInteractiveWindow": true,
     "workbench.editorAssociations": [
