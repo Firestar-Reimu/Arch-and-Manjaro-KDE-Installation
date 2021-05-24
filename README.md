@@ -492,8 +492,8 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 在最后加入这两行：
 
-    UUID=(UUID)                     /home/firestar/C:    ntfs-3g uid=firestar,gid=users,auto 0 0
-    UUID=(UUID)                     /home/firestar/D:    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=(UUID)                     /home/firestar/C    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=(UUID)                     /home/firestar/D    ntfs-3g uid=firestar,gid=users,auto 0 0
 
 重启电脑后，即可自动挂载
 
@@ -525,7 +525,7 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 再重新挂载即可：
 
-    sudo mount /dev/nvme0n1p5 ~/D:
+    sudo mount /dev/nvme0n1p5 ~/D
 
 ### **调整文件夹名称为英文**
 
@@ -951,9 +951,9 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 ### **安装其它软件**
 
-以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装
+以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装（需要使用 AUR 软件仓库）
 
-    yay -S texstudio stellarium typora v2ray qv2ray geogebra telegram vlc thunderbird
+    yay -S texstudio stellarium typora v2ray qv2ray geogebra telegram-desktop vlc thunderbird qbittorrent baidunetdisk-bin
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -987,44 +987,6 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 打开终端，运行：
 
     sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive2021.iso /mnt
-
-#### **使用配置文件安装**
-
-首先创建一个 `texlive.profile` 配置文件：
-
-```
-selected_scheme scheme-full
-TEXDIR /home/firestar/.texlive/2021
-TEXMFCONFIG ~/.texlive2021/texmf-config
-TEXMFHOME ~/texmf
-TEXMFLOCAL /home/firestar/.texlive/texmf-local
-TEXMFSYSCONFIG /home/firestar/.texlive/2021/texmf-config
-TEXMFSYSVAR /home/firestar/.texlive/2021/texmf-var
-TEXMFVAR ~/.texlive2021/texmf-var
-binary_x86_64-linux 1
-instopt_adjustpath 1
-instopt_adjustrepo 1
-instopt_letter 1
-instopt_portable 0
-instopt_write18_restricted 1
-tlpdbopt_autobackup 1
-tlpdbopt_backupdir tlpkg/backups
-tlpdbopt_create_formats 1
-tlpdbopt_desktop_integration 1
-tlpdbopt_file_assocs 1
-tlpdbopt_generate_updmap 0
-tlpdbopt_install_docfiles 1
-tlpdbopt_install_srcfiles 1
-tlpdbopt_post_code 1
-tlpdbopt_sys_bin /usr/local/bin
-tlpdbopt_sys_info /usr/local/info
-tlpdbopt_sys_man /usr/local/man
-tlpdbopt_w32_multi_user 1
-```
-
-进入镜像文件夹，运行：
-
-    sudo perl install-tl --profile=(profile_path)/texlive.profile
 
 #### **使用图形界面安装**
 
@@ -1273,7 +1235,7 @@ Spyder 推荐使用 4.2.5 （Spyder 5.0.0 对高分辨率支持不佳）：
 
     yay -S code
 
-微软官方的二进制 release（包含部分私有的组件），同样可以用 `code` 命令打开（如果不介意私有组件而且不习惯“Code - OSS”的图标，个人推荐首选此项）：
+微软官方的二进制 release（包含部分私有的组件），同样可以用 `code` 命令打开（如果不介意私有组件而且不习惯 Code - OSS 的图标，个人推荐首选此项）：
 
     yay -S visual-studio-code-bin
 
