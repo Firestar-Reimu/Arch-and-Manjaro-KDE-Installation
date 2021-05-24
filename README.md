@@ -70,11 +70,15 @@ https://github.com/manjaro/release-review/releases （所有官方版本）
 
 时区选择“Asia -- Shanghai”
 
+键盘设置选择“Chinese -- Default”
+
 安装时选择“替代一个分区”，并点击之前空出来的空分区
 
 或者手动挂载空分区，挂载点设为 `/`，标记为 `root`，手动挂载 UEFI 分区（即第一个分区`dev/nvme0n1p1`，格式为 FAT32），不要格式化，挂载点设为 `/boot/efi`，标记为 `boot`
 
-勾选“为管理员使用相同的密码”
+用户名建议全部用小写字母并与登录时的用户名一致
+
+设置密码，并勾选“为管理员使用相同的密码”
 
 ## **初始配置**
 
@@ -905,8 +909,6 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
     <alias>
         <family>monospace</family>
         <prefer>
-            <family>JetBrains Mono NL</family>
-            <family>JetBrains Mono</family>
             <family>Noto Sans Mono CJK SC</family>
             <family>Noto Sans Mono CJK TC</family>
             <family>Noto Sans Mono CJK HK</family>
@@ -943,9 +945,11 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
     yay -S fcitx-googlepinyin
 
-或者：（`yay -S sunpinyin`也可以）
+或者：
 
     yay -S fcitx-sunpinyin
+
+也可以用 `yay -S sunpinyin` 安装 Sunpinyin
 
 **安装输入法之后需要重启电脑才能生效**
 
