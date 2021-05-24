@@ -1281,6 +1281,26 @@ https://zhuanlan.zhihu.com/p/77074009
 VS Code 之 C/C++ 程序的 debug 功能简介
 https://zhuanlan.zhihu.com/p/85273055
 
+### **Typora 设置**
+
+#### **源代码模式**
+
+更改 `/usr/share/typora/resources/style/base-control.css`：
+
+找到 `.CodeMirror.cm-s-typora-default div.CodeMirror-cursor` 一行，将光标宽度改为 `1px`，颜色改为 `#000000`
+
+找到 `#typora-source .CodeMirror-lines` 一行，将 `max-width` 改为 `1200px`
+
+更改 `/usr/share/typora/resources/style/base.css`：
+
+找到 `:root` 一行，将 `font-family` 改成自己想要的等宽字体
+
+#### **实时显示模式**
+
+在 `/home/(user_name)/.config/Typora/themes/` 中自己写一个 CSS 文件（可以复制其中一个默认主题，重命名后更改）
+
+找到 `#write` 一行，将 `max-width` 改为 `1200px`
+
 ### **WPS 安装**
 
 运行：
