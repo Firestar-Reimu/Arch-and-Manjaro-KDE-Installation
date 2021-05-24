@@ -394,7 +394,7 @@ https://tuna.moe/help/ntp/
 修改 hosts 解决 GitHub 访问失败
 https://zhuanlan.zhihu.com/p/107334179
 
-为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件和 `C:\Windows\System32\drivers\etc\hosts` （这个路径是 Windows 格式，Linux 中斜杠要改为反斜杠）文件中添加如下语句：
+为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件中添加如下语句：
 
 ```
 ## GitHub Start
@@ -431,6 +431,8 @@ https://zhuanlan.zhihu.com/p/107334179
 185.199.110.133 avatars8.githubusercontent.com
 ## GitHub End
 ```
+
+Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠）
 
 IP 地址可以通过对域名 `ping` 得到，例如：
 
