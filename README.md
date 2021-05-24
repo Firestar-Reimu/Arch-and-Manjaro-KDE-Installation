@@ -32,7 +32,7 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 屏幕上会显示 Microsoft 或 Surface 徽标，继续按住调高音量按钮，显示 UEFI 屏幕后，松开此按钮
 
-Security --> Secure Boot --> Disabled(第三个选项)
+Security --> Secure Boot --> Disabled（第三个选项）
 
 ### **制作启动盘**
 
