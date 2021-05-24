@@ -50,8 +50,6 @@ https://github.com/manjaro/release-review/releases （所有官方版本）
 
 使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可
 
-**若清华大学镜像速度较慢（比如在广州），可以将 https://mirrors.tuna.tsinghua.edu.cn 改为北京外国语大学镜像 https://mirrors.bfsu.edu.cn/**
-
 ### **安装 Manjaro**
 
 设置 --> 恢复 --> 立即重新启动 --> USB Storage
