@@ -7,7 +7,7 @@
     "editor.tokenColorCustomizations": {
         "comments": {
             "fontStyle": "bold",
-            "foreground": "#ff0000"
+            "foreground": "#999999"
         },
         "keywords": {
             "fontStyle": "bold",
@@ -19,7 +19,7 @@
             "fontStyle": "bold",
             "foreground": "#0000ff"
         },
-        "numbers": "#994400"
+        "numbers": "#aa0000"
     },
     "debug.console.fontSize": 16,
     "terminal.integrated.profiles.windows": {
