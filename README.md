@@ -60,9 +60,11 @@ https://github.com/manjaro/release-review/releases （所有官方版本）
 
 将可启动 U 盘插入 Surface 上的 USB 端口
 
-长按 Surface 上的调低音量按钮，同时按下并释放“电源”按钮，屏幕上会显示 Microsoft 或 Surface 徽标
+长按 Surface 上的调低音量按钮，同时按下并释放电源按钮，屏幕上会显示 Microsoft 或 Surface 徽标
 
-继续按住调低音量按钮，释放按钮后，徽标下方将显示旋转圆点，按照屏幕说明从 USB 启动
+继续按住调低音量按钮，释放按钮后，徽标下方将显示旋转圆点，进入 UEFI 界面
+
+在 UEFI 界面内从 USB 启动
 
 #### **进入 Manjaro Hello 窗口开始安装**
 
