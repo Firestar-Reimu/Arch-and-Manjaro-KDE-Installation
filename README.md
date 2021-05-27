@@ -775,7 +775,18 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
 ## **美化**
 
-**一定要先美化再装软件！**
+### **自定义壁纸**
+
+桌面壁纸可以在 [pling.com](https://www.pling.com/) 下载，专门为 Manjaro 定制的壁纸可以在这里找到：
+
+Wallpapers Manjaro -- pling.com
+https://www.pling.com/browse/cat/309/order/latest/
+
+默认的壁纸保存位置为 `/usr/share/wallpapers/`
+
+还可以使用包管理器（pacman/yay/pamac）下载壁纸，用“添加/删除软件”或 `pamac search wallpaper` 查找
+
+右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
 ### **添加用户图标**
 
