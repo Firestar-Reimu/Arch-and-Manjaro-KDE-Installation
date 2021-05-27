@@ -322,6 +322,24 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
     sudo pacman -S vim
 
+### **GNU nano 配置**
+
+nano 的配置文件在 `/etc/nanorc`，可以通过注释掉设置选项配置文件：
+
+注释掉 `set linenumbers` 可以显示行号
+
+注释掉 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
+
+注释掉 `set tabstospaces` 可以将 Tab 转换为空格
+
+注释掉 `set matchbrackets "(<[{)>]}"` 可以匹配括号
+
+注释掉 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
+
+注释掉所有的 `Key bindings` 选项可以启用更常用的快捷键设定
+
+**用 nano 编辑后保存的步骤是 `Ctrl+W` (Write Out) --> `Enter` --> `Ctrl+Q` (Exit)，如果用默认的快捷键设置，则为 `Ctrl+O` (Write Out) --> `Enter` --> `Ctrl+X` (Exit)**
+
 ### **更改 visudo 默认编辑器为 vim**
 
 首先在终端中输入：
@@ -378,6 +396,43 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 TUNA NTP (网络授时) 服务使用说明
 https://tuna.moe/help/ntp/
+
+### **关闭启动时的系统信息**
+
+参考以下网址：
+
+Silent Boot -- ArchWiki
+https://wiki.archlinux.org/title/Silent_boot
+
+主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段
+
+编辑 Kernel parameters：
+
+    sudo vim /etc/default/grub
+
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 一行中将 `quiet` 改为 `quiet loglevel=3`
+
+编辑 fsck:
+
+    sudo vim /etc/mkinitcpio.conf
+
+在 `HOOKS` 一行中将 `udev` 改为 `systemd`，保存后执行：
+
+    sudo mkinitcpio -P
+
+再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
+
+    sudo systemctl edit --full systemd-fsck-root.service
+    sudo systemctl edit --full systemd-fsck@.service
+
+分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardOutput` 如下：
+
+    StandardOutput=null
+    StandardError=journal+console
+
+最后执行
+
+    sudo update-grub
 
 ### **Git 配置用户名、邮箱及免密码设置**
 
@@ -664,13 +719,6 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
           'https::/usr/bin/axel -n 10 -o %o %u'
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
-
-### **关闭启动时的系统信息**
-
-参考以下网址：
-
-Silent Boot -- ArchWiki
-https://wiki.archlinux.org/title/Silent_boot
 
 ### **重新开启 Secure Boot（未测试）**
 
