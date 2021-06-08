@@ -259,11 +259,11 @@ pacman 有从本地安装包安装软件的功能，只需输入：
 
     sudo pacman -U (package_path)/(package_name)
 
-### **切换到 video-modesetting**
+### **切换到 video-modesetting（可选）**
 
 有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
 
-可能是 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
+可能是默认的 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
 
 Arch Wiki -- Cinnamon
 https://wiki.archlinux.org/index.php/Cinnamon#Installation
