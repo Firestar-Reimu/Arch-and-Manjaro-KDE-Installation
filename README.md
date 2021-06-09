@@ -1222,9 +1222,9 @@ Spyder 推荐使用 4.2.5 （Spyder 5.0.0 对高分辨率支持不佳）：
 
     conda install spyder=4.2.5
 
-其它可下载的包可以在以下网站查询：
+各个操作系统平台上可下载的包可以在以下网站查询：
 
-Anaconda Documentation -- Anaconda Packages
+Anaconda Documentation -- Anaconda Package Lists
 https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 #### **Conda 常用命令**
