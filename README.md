@@ -1216,7 +1216,7 @@ ssl_verify: true
 
 下载所需要的包：
 
-    conda install numpy scipy matplotlib
+    conda install numpy scipy matplotlib astropy
 
 Spyder 推荐使用 4.2.5 （Spyder 5.0.0 对高分辨率支持不佳）：
 
@@ -1236,6 +1236,14 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 下载特定版本的包：
 
     conda install (package_name)=(version_number)
+
+更新包：
+
+    conda update (package_name)
+
+更新所有包：
+
+    conda update --all
 
 恢复之前的版本：
 
