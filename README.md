@@ -1347,6 +1347,12 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效
 
+#### **Visual Studio Code 更改 LaTeX Workshop 插件的快捷键**
+
+在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/snippets/latex.json` 中更改即可
+
+若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybinding.json`
+
 #### **Visual Studio Code 的 C/C++ 环境配置（未测试）**
 
 参考以下网址：
@@ -1379,7 +1385,7 @@ https://zhuanlan.zhihu.com/p/85273055
 
 找到 `#write` 一行，将 `max-width` 改为 `1200px`
 
-### **WPS 安装**
+### **WPS 安装（可选）**
 
 运行：
 
