@@ -935,6 +935,16 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 **注意需要排除掉 MS Gothic、Yu Gothic 字体，因它们只有部分日文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日文字形）**
 
+### **安装 Google Noto 字体**
+
+所有语言字体的下载地址如下：
+
+Google Noto Fonts
+https://www.google.com/get/noto/
+
+中文（CJK）字体的下载地址如下：
+https://www.google.com/get/noto/help/cjk/
+
 ### **更改程序和终端默认中文字体**
 
 输入命令：
