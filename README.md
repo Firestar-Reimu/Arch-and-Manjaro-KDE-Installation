@@ -771,6 +771,12 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
     ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 
+### **批量更改文件名**
+
+批量将文件名中的空格改成下划线：
+
+    for file in *; do mv -n "$file" `echo $file | tr ' ' '_'`; done
+
 **Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
 
 ## **美化**
