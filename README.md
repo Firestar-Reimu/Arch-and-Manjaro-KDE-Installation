@@ -1092,7 +1092,7 @@ https://www.google.com/get/noto/help/cjk/
 用大写字母命令控制安装：
 
     D --> 1 --> 输入要安装 TeX Live 的位置（TEXDIR） --> R
-    O --> P --> L --> 都选择默认位置（按 Enter） --> R
+    O --> L --> 都选择默认位置（按 Enter） --> R
     I
 
 TEXDIR 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
@@ -1232,11 +1232,7 @@ ssl_verify: true
 
 下载所需要的包：
 
-    conda install numpy scipy matplotlib astropy
-
-Spyder 推荐使用 4.2.5 （Spyder 5.0.0 对高分辨率支持不佳）：
-
-    conda install spyder=4.2.5
+    conda install numpy scipy matplotlib astropy spyder jupyter
 
 各个操作系统平台上可下载的包可以在以下网站查询：
 
