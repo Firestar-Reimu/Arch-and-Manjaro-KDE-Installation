@@ -1,6 +1,6 @@
 :root {
     --base-font-size: 16px;
-    --highlight-color: rgb(0, 160, 160);
+    --highlight-color: rgb(0, 0, 255);
     --text-color: #333;
     --headings-color: #262a30;
     --export-font-size: 13px;
@@ -18,6 +18,7 @@ body,
     font-weight: 400;
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
+    max-width: 1200px
     /* letter-spacing: -0.5px; */
 }
 
@@ -176,7 +177,7 @@ a {
     color: var(--highlight-color);
     text-decoration: none;
     font-weight: bold;
-    transition-duration: 0.5s;
+    transition-duration: 0s;
 }
 
 a:hover {
@@ -536,7 +537,7 @@ p.mathjax-block,
     color: #fff;
     -webkit-box-shadow: none;
     box-shadow: none;
-    transition-duration: .2s;
+    transition-duration: 0s;
 }
 
 .searchpanel-search-option-btn {
@@ -572,7 +573,7 @@ p.mathjax-block,
     margin: 5px;
     text-decoration: none;
     transition-delay: 0s;
-    transition-duration: .2s;
+    transition-duration: 0s;
     transition-timing-function: ease-in-out
 }
 
