@@ -158,11 +158,5 @@
     ],
     "python.pythonPath": "/home/firestar/.miniconda/bin/python",
     "jupyter.themeMatplotlibPlots": true,
-    "jupyter.sendSelectionToInteractiveWindow": true,
-    "workbench.editorAssociations": [
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ]
+    "jupyter.sendSelectionToInteractiveWindow": true
 }
