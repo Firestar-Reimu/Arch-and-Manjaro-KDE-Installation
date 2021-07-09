@@ -1384,11 +1384,20 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效
 
-#### **Visual Studio Code 更改 LaTeX Workshop 插件的快捷键**
+#### **Visual Studio Code 添加快捷键**
 
-在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/snippets/latex.json` 中更改即可
+若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybinding.json`，可以按 `Ctrl+K Ctrl+S` 开启设置
 
-若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybinding.json`
+例如，若想在 LaTeX Workshop 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
+
+```
+{
+    "key": "ctrl+m ctrl+f",
+    "command": "editor.action.insertSnippet",
+    "args": { "snippet": "\\frac{$1}{$2}$0" },
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+}
+```
 
 #### **Visual Studio Code 的 C/C++ 环境配置（未测试）**
 
