@@ -2,14 +2,14 @@
 
 ```
 firestar@FIRESTAR
-OS: Manjaro 21.0.4 Ornara
-Kernel: x86_64 Linux 5.12.5-arch1-1-surface
+OS: Manjaro 21.1.0 Pahvo
+Kernel: x86_64 Linux 5.12.14-arch1-1-surface
 Shell: bash 5.1.8
 Resolution: 2736x1824
-DE: KDE 5.82.0 / Plasma 5.21.5
+DE: KDE 5.83.0 / Plasma 5.22.3
 WM: KWin
-GTK Theme: Mojave-light-alt [GTK2/3]
-Icon Theme: la-capitaine-icon-theme
+GTK Theme: Breath [GTK2/3]
+Icon Theme: breeze
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
@@ -112,7 +112,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 系统设置 --> 快捷键 --> 添加应用程序 --> Konsole --> Konsole 的快捷键设为 `Meta+Return`（即“Windows 徽标键 + Enter 键”）
 
-#### **Konsole 快捷键**
+#### **Konsole/Yakuake 快捷键**
 
 设置 --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
 
@@ -288,14 +288,12 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 ### **Linux-Surface 内核安装**
 
-**安装和更新 Linux-Surface 需要登录北京大学 VPN**
-
 在终端中输入：
 
     curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
     | sudo pacman-key --add -
 
-如果出现错误，则需要先修改 hosts 文件，再操作
+如果出现错误或没有响应，一般是网络问题，可以先配置好 VPN 再装内核
 
 接着输入：
 
@@ -324,19 +322,19 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 ### **GNU nano 配置**
 
-nano 的配置文件在 `/etc/nanorc`，可以通过注释掉设置选项配置文件：
+nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
 
-注释掉 `set linenumbers` 可以显示行号
+取消注释 `set linenumbers` 可以显示行号
 
-注释掉 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
+取消注释 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
 
-注释掉 `set tabstospaces` 可以将 Tab 转换为空格
+取消注释 `set tabstospaces` 可以将 Tab 转换为空格
 
-注释掉 `set matchbrackets "(<[{)>]}"` 可以匹配括号
+取消注释 `set matchbrackets "(<[{)>]}"` 可以匹配括号
 
-注释掉 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
+取消注释 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
 
-注释掉所有的 `Key bindings` 选项可以启用更常用的快捷键设定
+取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
 
 **用 nano 编辑后保存的步骤是 `Ctrl+W` (Write Out) --> `Enter` --> `Ctrl+Q` (Exit)，如果用默认的快捷键设置，则为 `Ctrl+O` (Write Out) --> `Enter` --> `Ctrl+X` (Exit)**
 
@@ -458,39 +456,44 @@ https://zhuanlan.zhihu.com/p/107334179
 为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件中添加如下语句：
 
 ```
-## GitHub Start
+# Github Hosts
+# Update 20210707
+# domain: github.com
 140.82.113.4 github.com
-140.82.114.10 nodeload.github.com
-140.82.113.5 api.github.com
-140.82.114.10 codeload.github.com
-199.232.96.133 raw.github.com
+140.82.113.9 nodeload.github.com
+140.82.114.5 api.github.com
+140.82.113.9 codeload.github.com
+185.199.108.133 raw.github.com
 185.199.108.153 training.github.com
 185.199.108.153 assets-cdn.github.com
 185.199.108.153 documentcloud.github.com
 185.199.108.154 help.github.com
 
+# domain: githubstatus.com
 185.199.108.153 githubstatus.com
+
+# domain: fastly.net
 199.232.69.194 github.global.ssl.fastly.net
 
-185.199.110.133 raw.githubusercontent.com
-185.199.110.133 cloud.githubusercontent.com
-185.199.110.133 gist.githubusercontent.com
-185.199.110.133 marketplace-screenshots.githubusercontent.com
-185.199.110.133 repository-images.githubusercontent.com
-185.199.110.133 user-images.githubusercontent.com
-185.199.110.133 desktop.githubusercontent.com
-
-185.199.110.133 avatars.githubusercontent.com
-185.199.110.133 avatars0.githubusercontent.com
-185.199.110.133 avatars1.githubusercontent.com
-185.199.110.133 avatars2.githubusercontent.com
-185.199.110.133 avatars3.githubusercontent.com
-185.199.110.133 avatars4.githubusercontent.com
-185.199.110.133 avatars5.githubusercontent.com
-185.199.110.133 avatars6.githubusercontent.com
-185.199.110.133 avatars7.githubusercontent.com
-185.199.110.133 avatars8.githubusercontent.com
-## GitHub End
+# domain: githubusercontent.com
+185.199.108.133 raw.githubusercontent.com
+185.199.108.133 cloud.githubusercontent.com
+185.199.108.133 gist.githubusercontent.com
+185.199.108.133 marketplace-screenshots.githubusercontent.com
+185.199.108.133 repository-images.githubusercontent.com
+185.199.108.133 user-images.githubusercontent.com
+185.199.108.133 desktop.githubusercontent.com
+185.199.108.133 avatars.githubusercontent.com
+185.199.108.133 avatars0.githubusercontent.com
+185.199.108.133 avatars1.githubusercontent.com
+185.199.108.133 avatars2.githubusercontent.com
+185.199.108.133 avatars3.githubusercontent.com
+185.199.108.133 avatars4.githubusercontent.com
+185.199.108.133 avatars5.githubusercontent.com
+185.199.108.133 avatars6.githubusercontent.com
+185.199.108.133 avatars7.githubusercontent.com
+185.199.108.133 avatars8.githubusercontent.com
+# End of the section
 ```
 
 Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠）
@@ -521,11 +524,23 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 ### **连接北京大学校园网**
 
-#### **命令行连接 PKU WiFi**
+#### **命令行连接 PKU Wi-Fi**
 
-连接校园网 WiFi 可以使用脚本 pkuipgw，可以在[北大未名BBS](https://bbs.pku.edu.cn/v2/post-read-single.php?bid=13&type=0&postid=14139459)上下载
+方法一：命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
+
+方法二：使用 `nmcli`，输入：
+
+    nmcli device wifi connect PKU
+
+通用的操作是：
+
+    nmcli device wifi connect (SSID) password (Wi-Fi_passowrd)
+
+注意这里的 SSID 是 Wi-Fi 的名称（如 PKU 或 TP-LINK_XXX），不是 IP 地址或 MAC 地址
 
 #### **命令行连接 PKU VPN**
+
+此处需要一直打开终端，故推荐使用 Yakuake
 
 按 `Fn+F12` 打开 Yakuake，输入：
 
@@ -533,7 +548,7 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 输入密码即可连接
 
-之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则VPN断开）
+之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则 VPN 断开）
 
 ### **Linux 挂载 Windows 磁盘**
 
@@ -617,6 +632,10 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 长按耳机电源键约7秒即可进入配对模式，可以在蓝牙中配对
 
+如果声音效果不好、经常有爆裂声，考虑删除设备重新进行蓝牙配对，或执行：
+
+    sudo pacman -Rsu pulseaudio-bluetooth pulseaudio-equalizer pulseaudio-jack pulseaudio-lirc pulseaudio-rtp pulseaudio-zeroconf
+
 ### **Logitech M590 鼠标的蓝牙连接**
 
 同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备
@@ -626,6 +645,8 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 长按圆形按钮直到灯2快速闪烁进入配对模式，可以在蓝牙中配对
 
 #### **如果鼠标配对后屏幕光标无法移动**
+
+一般可以直接删除设备重新配对，如果失败则按照下面步骤操作：
 
 首先要安装 `bluez-utils`：
 
@@ -800,11 +821,11 @@ https://www.pling.com/browse/cat/309/order/latest/
 
 ### **开机登录美化**
 
-开机与关机 --> 登录屏幕（SDDM） --> Fluent
+开机与关机 --> 登录屏幕（SDDM） --> Breeze 或者 Fluent
 
-外观 --> 欢迎屏幕 --> ManjaroLogo Black 或者 Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen
+外观 --> 欢迎屏幕 --> Plasma 5 Manjaro Splashscreen White Blur 或者 Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen 或者 ManjaroLogo Black
 
-#### **主题美化（可选）**
+#### **主题 Mac 风格美化（可选）**
 
 参考以下网址：
 
@@ -893,6 +914,14 @@ https://github.com/vinceliuice/grub2-themes
 
 即可添加吃豆人彩蛋
 
+### **安装 KDE 的 Wayland 支持（不推荐）**
+
+与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
+
+    yay -S plasma-wayland-session
+
+安装后即可在登录界面选择 Wayland 会话
+
 ## **下载软件**
 
 **能用包管理器的尽量用包管理器安装！**
@@ -939,9 +968,13 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 
 这样就可以安装微软雅黑、宋体、黑体等字体了
 
-**注意需要排除掉 MS Gothic、Yu Gothic 字体，因它们只有部分日文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日文字形）**
+**注意需要排除掉 MS Gothic、Yu Gothic 和 Malgun Gothic 字体，因它们只有部分日/韩文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日/韩文字形）**
 
 ### **安装 Google Noto 字体**
+
+命令行安装：
+
+    yay -S noto-fonts noto-fonts-cjk
 
 所有语言字体的下载地址如下：
 
@@ -1034,7 +1067,7 @@ https://www.google.com/get/noto/help/cjk/
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装（需要使用 AUR 软件仓库）
 
-    yay -S texstudio stellarium typora v2ray qv2ray geogebra telegram-desktop vlc thunderbird qbittorrent baidunetdisk-bin
+    yay -S geogebra stellarium typora v2ray qv2ray vlc thunderbird qbittorrent baidunetdisk-bin
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
@@ -1116,7 +1149,7 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc ctex`）检查是否安装成功
 
-### **TeXstudio 配置**
+### **TeXstudio 配置（可选）**
 
 帮助 --> 检查 LaTeX 安装信息
 
@@ -1147,14 +1180,6 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 高级编辑器 --> 破解/变通 --> 取消勾选“自动选择最佳显示选项”，并勾选“禁用字符宽度缓存”和“关闭固定位置模式”
 
 补全 --> 取消勾选“输入参数”
-
-### **安装 KDE 的 Wayland 支持（不推荐）**
-
-与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
-
-    yay -S plasma-wayland-session
-
-安装后即可在登录界面选择 Wayland 会话
 
 ### **Firefox Developer Edition 设置**
 
@@ -1325,7 +1350,7 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
     yay -S code
 
-微软官方的二进制 release（包含部分私有的组件），同样可以用 `code` 命令打开（如果不介意私有组件而且不习惯 Code - OSS 的图标，个人推荐首选此项）：
+微软官方的二进制包（包含部分私有的组件），同样可以用 `code` 命令打开（如果不介意私有组件而且不习惯 Code - OSS 的图标，个人推荐首选此项）：
 
     yay -S visual-studio-code-bin
 
@@ -1377,7 +1402,7 @@ https://zhuanlan.zhihu.com/p/77074009
 VS Code 之 C/C++ 程序的 debug 功能简介
 https://zhuanlan.zhihu.com/p/85273055
 
-### **Typora 设置**
+### **Typora 美化**
 
 #### **源代码模式**
 
@@ -1391,11 +1416,17 @@ https://zhuanlan.zhihu.com/p/85273055
 
 找到 `:root` 一行，将 `font-family` 改成自己想要的等宽字体
 
-#### **实时显示模式**
+#### **主题渲染模式**
 
 在 `/home/(user_name)/.config/Typora/themes/` 中自己写一个 CSS 文件（可以复制其中一个默认主题，重命名后更改）
 
 找到 `#write` 一行，将 `max-width` 改为 `1200px`
+
+### **SAOImageDS9 安装**
+
+推荐选择二进制包 `ds9-bin`：
+
+    yay -S ds9-bin
 
 ### **WPS 安装（可选）**
 
@@ -1435,14 +1466,14 @@ Graphics --> Screen Resolution --> 192 dpi
 
     pamac search netease-cloud-music
 
-功能较多的版本：
+功能较多的版本（目前使用起来有些卡顿）：
 
 ```
 netease-cloud-music-imflacfix                                                        1.2.1-1        AUR 
     Netease Cloud Music, converted from .deb package, with IBus input method and online SQ support
 ```
 
-极简版（原生适配高分辨率屏幕，但是功能较少，不支持歌词滚动和正在播放的曲子在歌单上标记）：
+极简版（流畅且原生适配高分辨率屏幕，但是功能较少，不支持歌词滚动和正在播放的曲子在歌单上标记）：
 
 ```
 electron-netease-cloud-music                                                         0.9.26-1       AUR 
@@ -1542,6 +1573,9 @@ https://jakting.com/archives/ubuntu-rw-windows-files.html
 
 修改 hosts 解决 GitHub 访问失败
 https://zhuanlan.zhihu.com/p/107334179
+
+Manjaro Linux Forum -- Connect to internet from command-line as a beginner 
+https://forum.manjaro.org/t/howto-connect-to-internet-from-command-line-as-a-beginner/
 
 Arch Wiki -- XDG user directories
 https://wiki.archlinux.org/index.php/XDG_user_directories
