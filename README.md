@@ -634,7 +634,8 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 如果声音效果不好、经常有爆裂声，考虑删除设备重新进行蓝牙配对，或执行：
 
-    sudo pacman -Rsu pulseaudio-bluetooth pulseaudio-equalizer pulseaudio-jack pulseaudio-lirc pulseaudio-rtp pulseaudio-zeroconf
+    sudo pacman -Rsu pulseaudio pulseaudio-ctl pulseaudio-qt pulseaudio-bluetooth pulseaudio-equalizer pulseaudio-jack pulseaudio-lirc pulseaudio-rtp pulseaudio-zeroconf
+    sudo pacman -S pipewire-pulse
 
 ### **Logitech M590 鼠标的蓝牙连接**
 
