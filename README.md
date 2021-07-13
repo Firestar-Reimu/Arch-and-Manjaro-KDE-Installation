@@ -637,6 +637,18 @@ IP 地址可以通过对域名 `ping` 得到，例如：
     sudo pacman -Rsu pulseaudio pulseaudio-ctl pulseaudio-qt pulseaudio-bluetooth pulseaudio-equalizer pulseaudio-jack pulseaudio-lirc pulseaudio-rtp pulseaudio-zeroconf
     sudo pacman -S pipewire-pulse
 
+下载完成后执行：
+
+    systemctl --user enable --now pipewire-media-session.service
+    systemctl --user status pipewire.service
+
+并重新配对蓝牙耳机，调节蓝牙耳机音量（不要忘记上下滑动右侧耳机外壳面板可以调节音量）
+
+更多信息可参考以下网址：
+
+ArchWiki -- Pipewire
+https://wiki.archlinux.org/title/PipeWire
+
 ### **Logitech M590 鼠标的蓝牙连接**
 
 同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备
@@ -847,6 +859,8 @@ Latte-Dock 的推荐设置：
 行为：位置 --> 底部，可见性 --> 自动隐藏，延迟 --> 显示 --> none
 
 外观：绝对大小 --> 96，背景大小 --> 10%
+
+**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”**
 
 #### **zsh 与 Oh-My-Zsh 配置（可选）**
 
@@ -1061,6 +1075,8 @@ https://www.google.com/get/noto/help/cjk/
     yay -S fcitx-sunpinyin
 
 也可以用 `yay -S sunpinyin` 安装 Sunpinyin
+
+这个输入法有一个缺点是无法输入顿号，只能输入反斜杠，目前尚未找到解决办法
 
 **安装输入法之后需要重启电脑才能生效**
 
