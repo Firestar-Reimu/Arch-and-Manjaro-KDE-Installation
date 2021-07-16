@@ -522,34 +522,6 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 以启动`systemd-swap`服务
 
-### **连接北京大学校园网**
-
-#### **命令行连接 PKU Wi-Fi**
-
-方法一：命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
-
-方法二：使用 `nmcli`，输入：
-
-    nmcli device wifi connect PKU
-
-通用的操作是：
-
-    nmcli device wifi connect (SSID) password (Wi-Fi_passowrd)
-
-注意这里的 SSID 是 Wi-Fi 的名称（如 PKU 或 TP-LINK_XXX），不是 IP 地址或 MAC 地址
-
-#### **命令行连接 PKU VPN**
-
-此处需要一直打开终端，故推荐使用 Yakuake
-
-按 `Fn+F12` 打开 Yakuake，输入：
-
-    sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
-
-输入密码即可连接
-
-之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则 VPN 断开）
-
 ### **Linux 挂载 Windows 磁盘**
 
 **首先要确保设备加密已经关闭，这个时候一般来讲会自动显示出来，在 Dolphin 中点击即可挂载**
@@ -789,6 +761,12 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
     htop
 
+#### 命令行音量调节器
+
+在终端中输入：
+
+    alsamixer
+
 #### 内存大小
 
 在终端中输入：
@@ -798,6 +776,34 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 #### 上一次关机的系统日志
 
     journalctl -rb -1
+
+### **连接北京大学校园网**
+
+#### **命令行连接 PKU Wi-Fi**
+
+方法一：命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
+
+方法二：使用 `nmcli`，输入：
+
+    nmcli device wifi connect PKU
+
+通用的操作是：
+
+    nmcli device wifi connect (SSID) password (Wi-Fi_passowrd)
+
+注意这里的 SSID 是 Wi-Fi 的名称（如 PKU 或 TP-LINK_XXX），不是 IP 地址或 MAC 地址
+
+#### **命令行连接 PKU VPN**
+
+此处需要一直打开终端，故推荐使用 Yakuake
+
+按 `Fn+F12` 打开 Yakuake，输入：
+
+    sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
+
+输入密码即可连接
+
+之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则 VPN 断开）
 
 ### **转换格式**
 
