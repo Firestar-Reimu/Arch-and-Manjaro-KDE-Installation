@@ -621,6 +621,10 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 ArchWiki -- Pipewire
 https://wiki.archlinux.org/title/PipeWire
 
+而 Manjaro 默认安装的选项是：
+
+    pipewire pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-ctl pulseaudio-equalizer pulseaudio-jack pulseaudio-lirc pulseaudio-qt pulseaudio-rtp pulseaudio-zeroconf lib32-libpulse
+
 ### **Logitech M590 鼠标的蓝牙连接**
 
 同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备
@@ -1081,8 +1085,6 @@ https://www.google.com/get/noto/help/cjk/
     yay -S fcitx-sunpinyin
 
 也可以用 `yay -S sunpinyin` 安装 Sunpinyin
-
-这个输入法有一个缺点是无法输入顿号，只能输入反斜杠，目前尚未找到解决办法
 
 **安装输入法之后需要重启电脑才能生效**
 
