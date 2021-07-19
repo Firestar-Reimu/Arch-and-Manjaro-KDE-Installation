@@ -500,7 +500,7 @@ Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` �
 
 IP 地址可以通过对域名 `ping` 得到，例如：
 
-    ping github.com
+    ping -c 5 github.com
 
 ### **动态 Swap 文件设置**
 
