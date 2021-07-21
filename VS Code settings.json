@@ -5,6 +5,7 @@
     "editor.renderWhitespace": "boundary",
     "editor.wordWrap": "on",
     "editor.maxTokenizationLineLength": 4294967296,
+    "editor.multiCursorModifier": "ctrlCmd",
     "editor.tokenColorCustomizations": {
         "comments": {
             "fontStyle": "bold",
@@ -51,17 +52,6 @@
         "*.json": "jsonc"
     },
     "window.zoomLevel": 0,
-    "bracket-pair-colorizer-2.colors": [
-        "#14B363",
-        "#EE4000",
-        "#BA55D3"
-    ],
-    "bracket-pair-colorizer-2.activeScopeCSS": [
-        "borderStyle : solid",
-        "borderWidth : 1px",
-        "borderColor : {color}",
-        "opacity: 0.5"
-    ],
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.tools": [
@@ -126,7 +116,7 @@
         }
     ],
     "latex-workshop.view.pdf.viewer": "tab",
-    "editor.multiCursorModifier": "ctrlCmd",
+    "latex-workshop.latex.pdfWatch.delay": 0,
     "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.latex.clean.fileTypes": [
         "*.aux",
@@ -149,7 +139,6 @@
         "*.log",
         "*.fdb_latexmk"
     ],
-    "latex-workshop.latex.pdfWatch.delay": 0,
     "python.linting.pylintArgs": [
         "--generate-members"
     ],
