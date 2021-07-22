@@ -1391,7 +1391,13 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
     yay -S code-git
 
-下载扩展：Python, Jupyter, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Bracket Pair Colorizer 2, Latex Workshop, C/C++
+下载扩展：Python, Jupyter, Markdown All in One, Chinese (Simplified) Language Pack for Visual Studio Code, Rainbow Brackets, Latex Workshop, C/C++
+
+扩展保存在 `~/.vscode/extensions/`，例如更改 Rainbow Brackets 的括号配色可以修改 `~/.vscode/extensions/2gua.rainbow-brackets-0.0.6/out/src/` 的文件：
+
+    var roundBracketsColor = ["#ff5500", "#cc0066", "#00aa66", "#ff9999"];
+    var squareBracketsColor = ["#33ccff", "#8080ff", "#0077aa"];
+    var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 
 #### **Visual Studio Code 图标更改（可选）**
 
