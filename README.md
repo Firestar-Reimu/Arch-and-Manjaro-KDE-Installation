@@ -1238,7 +1238,21 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 
 服务器 --> 服务器设置 --> 在删除消息时 --> 立即删除
 
-### **Miniconda 安装与配置**
+### **Python 安装与配置**
+
+Manjaro 预装了 Python，但没有安装包管理器，可以使用 `pip` 或 `conda`（即安装 Miniconda）
+
+#### **pip 安装**
+
+在终端中输入：
+
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
+
+即可安装 pip，此时不建议安装 conda，pip 下载包的命令是：
+
+    pip install (package_name)
+
+#### **Miniconda 安装与配置**
 
 Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
 
