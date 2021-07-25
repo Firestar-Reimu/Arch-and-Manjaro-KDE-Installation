@@ -2,14 +2,14 @@
 
 ```
 firestar@FIRESTAR
-OS: Manjaro 21.1.0 Pahvo
-Kernel: x86_64 Linux 5.12.14-arch1-1-surface
+OS: Manjaro 21.1 Pahvo
+Kernel: x86_64 Linux 5.13.4-1-MANJARO
 Shell: bash 5.1.8
 Resolution: 2736x1824
-DE: KDE 5.83.0 / Plasma 5.22.3
+DE: KDE 5.84.0 / Plasma 5.22.3
 WM: KWin
 GTK Theme: Breath [GTK2/3]
-Icon Theme: breeze
+Icon Theme: breath2
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
@@ -122,14 +122,22 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
     sudo pacman-mirrors -i -c China
 
-更改更新分支：（更新分支 `(branch)` 可以选择 stable/testing/unstable）
+更新分支 `(branch)` 可以选择 stable/testing/unstable，更改更新分支的命令为：
 
     sudo pacman-mirrors --api --set-branch (branch)
     sudo pacman -Syyu
 
+获取更新分支的命令为：
+
+    sudo pacman-mirrors --get-branch
+
+选择镜像并更改更新分支的命令即为：
+
+    sudo pacman-mirrors --api --set-branch (branch) -i -c China
+
 一个简洁的替代版（但不能自己选择镜像，只能按照访问速度从高到低排列）：
 
-    sudo pacman-mirrors --geoip --api --set-branch testing && sudo pacman -Syyu
+    sudo pacman-mirrors --geoip --api --set-branch (branch) && sudo pacman -Syyu
 
 ### **包管理器**
 
@@ -286,7 +294,7 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 **重启后会发现许多窗口和图标变小，建议先调整全局缩放为100%，重新启动，再调至200%，再重启**
 
-### **Linux-Surface 内核安装**
+### **Linux-Surface 内核安装（可选）**
 
 在终端中输入：
 
@@ -314,6 +322,8 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
     sudo systemctl enable iptsd
 
+**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.13.4-1-MANJARO，该内核已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
+
 ### **下载 vim**
 
 建议先下载 vim，方便之后编辑各种文件：
@@ -340,7 +350,7 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 
 ### **更改 visudo 默认编辑器为 vim**
 
-首先在终端中输入：
+Manjaro 中 visudo 的默认编辑器是 vi，若要改为 vim，则首先在终端中输入：
 
     sudo visudo
 
@@ -349,6 +359,10 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
     Defaults editor=/usr/bin/vim
 
 按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
+
+如果想临时使用 vim 作为编辑器，则输入：
+
+    sudo EDITOR=vim visudo
 
 ### **sudo 免密码**
 
@@ -600,7 +614,7 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
     dbus-launch dolphin
 
-### **SONY WH-1000XM3 耳机连接**
+### **SONY WH-1000XM3 耳机的蓝牙连接**
 
 长按耳机电源键约7秒即可进入配对模式，可以在蓝牙中配对
 
@@ -1252,6 +1266,10 @@ Manjaro 预装了 Python，但没有安装包管理器，可以使用 `pip` 或 
 
     pip install (package_name)
 
+这里不建议安装 spyder 和 jupyter notebook，安装最基本的包即可：
+
+    conda install numpy scipy matplotlib astropy autopep8
+
 #### **Miniconda 安装与配置**
 
 Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
@@ -1488,7 +1506,7 @@ https://zhuanlan.zhihu.com/p/85273055
 
     yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 
-### **微信**
+### **微信安装**
 
 可以在 pamac 中搜索：
 
@@ -1514,7 +1532,7 @@ com.qq.weixin.spark                                                             
 
 Graphics --> Screen Resolution --> 192 dpi
 
-### **网易云音乐**
+### **网易云音乐安装**
 
 可以在 pamac 中搜索：
 
@@ -1533,6 +1551,39 @@ netease-cloud-music-imflacfix                                                   
 electron-netease-cloud-music                                                         0.9.26-1       AUR 
     UNOFFICIAL client for music.163.com . Powered by Electron, Vue, and Muse-UI.
 ```
+
+### **Geant4 安装**
+
+#### **从源代码安装 Geant4**
+
+从官网上下载源代码压缩包：
+
+Geant4 -- Download
+https://geant4.web.cern.ch/support/download
+
+进入解压后的文件夹，若要将 Geant4 安装在 `(Geant4_directory)`，例如 `~/Geant4`，执行：
+
+    mkdir build
+    cd ./build
+    cmake -DCMAKE_INSTALL_PREFIX=(Geant4_directory) -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_USE_QT=ON -DGEANT4_INSTALL_DATA=ON -DGEANT4_BUILD_MULTITHREADED=ON ..
+    make -j8
+    make install -j8
+
+之后在 `~/.bashrc` 中添加一行：
+
+    source (Geant4_directory)/bin/geant4.sh
+
+#### **检验是否安装成功**
+
+打开 `(Geant4_directory)/share/Geant4-(version_number)/examples/basic/B1`，执行：
+
+    mkdir build
+    cd ./build
+    cmake ..
+    make -j8
+    ./exampleB1
+
+如果出现图形交互界面，说明安装成功
 
 ### **能用上触控笔的软件（可选）**
 
@@ -1711,6 +1762,15 @@ https://docs.anaconda.com/anaconda/install/linux/
 
 恢复 Anaconda 环境, 卸载 Anaconda, 重装 Anaconda
 https://blog.csdn.net/wangweiwells/article/details/88374361
+
+Geant4 -- Building and Installing from Source
+https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html
+
+Geant4 -- Postinstall Setup
+https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html
+
+Geant4 基础 -- 准备与安装
+https://zhuanlan.zhihu.com/p/135917392
 
 Linux ate my RAM!
 https://www.linuxatemyram.com/
