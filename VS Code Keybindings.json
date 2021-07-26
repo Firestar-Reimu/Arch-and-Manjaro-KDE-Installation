@@ -13,7 +13,8 @@
         "key": "ctrl+n",
         "command": "latex-workshop.shortcut.textnormal",
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },{
+    },
+    {
         "key": "ctrl+r",
         "command": "latex-workshop.shortcut.textrm",
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
