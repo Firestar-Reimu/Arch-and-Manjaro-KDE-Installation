@@ -1425,7 +1425,7 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 下载扩展：Python（会自动下载 Pylance 和 Jupyter），Markdown All in One，Latex Workshop，C/C++，Rainbow Brackets
 
-扩展保存在 `~/.vscode/extensions/`，例如更改 Rainbow Brackets 的括号配色可以修改 `~/.vscode/extensions/2gua.rainbow-brackets-0.0.6/out/src/` 的文件：
+扩展保存在 `~/.vscode/extensions/`，例如更改 Rainbow Brackets 的括号配色可以修改文件 `~/.vscode/extensions/2gua.rainbow-brackets-0.0.6/out/src/extension.js`：
 
     var roundBracketsColor = ["#ff5500", "#cc0066", "#00aa66", "#ff9999"];
     var squareBracketsColor = ["#33ccff", "#8080ff", "#0077aa"];
