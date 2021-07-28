@@ -1025,7 +1025,11 @@ https://www.google.com/get/noto/help/cjk/
 
 ### **更改程序和终端默认中文字体**
 
-输入命令：
+安装的 Noto Sans CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字字形与规范中文不符
+
+这是因为每个程序中可以设置不同的默认字体，而这些字体的属性由 fontconfig 控制，其使用顺序是据地区代码以 A-Z 字母表顺序成默认排序，由于 `ja` 在 `zh` 之前，故优先显示日文字形
+
+解决方法是手动修改字体设置文件：
 
     sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 
@@ -1069,6 +1073,8 @@ https://www.google.com/get/noto/help/cjk/
 ```
 
 保存退出即可
+
+另一种处理方法是只安装简体中文字体，比如 Noto Sans SC（注意没有 CJK）
 
 ### **安装中文输入法**
 
