@@ -1,6 +1,6 @@
 {
     "editor.fontSize": 16,
-    "editor.fontFamily": "JetBrains Mono NL, Fira Code, Noto Sans Mono CJK SC",
+    "editor.fontFamily": "JetBrains Mono NL, Noto Sans Mono CJK SC, Consolas",
     "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
     "editor.renderWhitespace": "boundary",
     "editor.wordWrap": "on",
