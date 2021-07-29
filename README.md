@@ -1,4 +1,4 @@
-# **在 Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 10 双系统的指南**
+# **在 Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
 
 ```
 firestar@FIRESTAR
@@ -995,6 +995,12 @@ kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
 需要下载插件：
 
     yay -S aspell hspell libvoikko
+
+### **字体安装**
+
+Manjaro 支持直接右键安装 TTF 和 OTF 字体，系统字体安装的默认文件夹为 `/usr/share/fonts`
+
+**注意不管是 Windows 还是 Manjaro Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\user_name\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
 
 ### **安装微软字体**
 
