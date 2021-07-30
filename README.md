@@ -618,27 +618,6 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 长按耳机电源键约7秒即可进入配对模式，可以在蓝牙中配对
 
-如果声音效果不好、经常有爆裂声，考虑删除设备重新进行蓝牙配对，或执行：
-
-    sudo pacman -Rsu pulseaudio pulseaudio-ctl pulseaudio-qt pulseaudio-bluetooth pulseaudio-equalizer pulseaudio-jack pulseaudio-lirc pulseaudio-rtp pulseaudio-zeroconf
-    sudo pacman -S pipewire-pulse
-
-下载完成后执行：
-
-    systemctl --user enable --now pipewire-media-session.service
-    systemctl --user status pipewire.service
-
-并重新配对蓝牙耳机，调节蓝牙耳机音量（不要忘记上下滑动右侧耳机外壳面板可以调节音量）
-
-更多信息可参考以下网址：
-
-ArchWiki -- Pipewire
-https://wiki.archlinux.org/title/PipeWire
-
-而 Manjaro 默认安装的选项是：
-
-    pipewire pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-ctl pulseaudio-equalizer pulseaudio-jack pulseaudio-lirc pulseaudio-qt pulseaudio-rtp pulseaudio-zeroconf lib32-libpulse
-
 ### **Logitech M590 鼠标的蓝牙连接**
 
 同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备
