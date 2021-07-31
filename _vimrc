@@ -188,3 +188,5 @@ set selection=exclusive
 set selectmode=mouse,key
 " 不要 intro 文档
 set shm=I
+" 设置Visual Block模式的快捷键为Ctrl+Shift+V，以防与粘贴（Ctrl+V）冲突
+:command! VisualBlock execute "normal! \<C-S-v>"
