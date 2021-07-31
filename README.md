@@ -296,6 +296,8 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 ### **Linux-Surface 内核安装（可选）**
 
+**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.13.4-1-MANJARO，该内核已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
+
 在终端中输入：
 
     curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
@@ -321,8 +323,6 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 启动触屏：
 
     sudo systemctl enable iptsd
-
-**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.13.4-1-MANJARO，该内核已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
 
 ### **下载 vim**
 
@@ -382,7 +382,7 @@ Manjaro 中 visudo 的默认编辑器是 vi，若要改为 vim，则首先在终
 
 如果使用 zsh，则去掉 `~/.zshrc` 中这一行的注释即可
 
-### **双系统时间不同步 + 24小时制**
+### **时间设置**
 
 #### **双系统时间不同步**
 
@@ -398,7 +398,7 @@ Manjaro 中 visudo 的默认编辑器是 vi，若要改为 vim，则首先在终
 
 这一步需要在 Powershell（管理员）中执行
 
-#### **Manjaro 设置24小时制**
+#### **Manjaro 数字时钟设置24小时制**
 
 右键点击“数字时钟” --> 配置数字时钟 --> 时间显示 --> 24小时制
 
@@ -841,7 +841,19 @@ https://www.pling.com/browse/cat/309/order/latest/
 
 外观 --> 欢迎屏幕 --> Plasma 5 Manjaro Splashscreen White Blur 或者 Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen 或者 ManjaroLogo Black
 
-#### **主题 Mac 风格美化（可选）**
+#### **SDDM 时间显示调整为24小时制**
+
+更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 中的 `Qt.formatTime` 一行：
+
+    text: Qt.formatTime(timeSource.data["Local"]["DateTime"])
+
+将其改为：
+
+    text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "hh:mm:ss")
+
+保存重启即可
+
+### **主题 Mac 风格美化（可选）**
 
 参考以下网址：
 
@@ -898,11 +910,9 @@ Konsole --> 设置 --> 编辑当前方案 --> 常规 --> 命令 --> `usr/bin/zsh
 
     uninstall_oh_my_zsh
 
-#### **如果遇到开关机的时候报错：\[FAILED] failed to start pkgfile database update**
+**如果遇到开关机的时候报错：`\[FAILED] failed to start pkgfile database update`，卸载 `manjaro-zsh-config`，这会卸载 `zsh` 及其所有依赖，然后重新安装 `zsh`
 
-卸载 `manjaro-zsh-config`，这会卸载 `zsh` 及其所有依赖，然后重新安装 `zsh` 和 `nerd-fonts-noto-sans-mono`
-
-#### **GRUB 美化**
+### **GRUB 美化**
 
 选择主题 Slaze ，下载地址如下：
 
@@ -920,7 +930,7 @@ https://github.com/vinceliuice/grub2-themes
 
     echo GRUB_DISABLE_OS_PROBER=false | sudo tee -a /etc/default/grub && sudo update-grub
 
-#### **pacman 添加吃豆人彩蛋**
+### **pacman 添加吃豆人彩蛋**
 
 编辑 `/etc/pacman.conf`
 
