@@ -1452,7 +1452,7 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 #### **Visual Studio Code 添加快捷键**
 
-若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybinding.json`，可以按 `Ctrl+K Ctrl+S` 开启设置
+若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybinding.json`，可以在 Visual Studio Code 中按 `Ctrl+K Ctrl+S` 开启设置
 
 例如，若想在 LaTeX Workshop 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
 
@@ -1464,6 +1464,30 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
     "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
 }
 ```
+
+#### **Latex Workshop 插件设置**
+
+若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `/home/firestar/.vscode/extensions/james-yu.latex-workshop-8.19.2/data/commands.json` 中找到：
+
+```
+"[": {
+    "command": "[",
+    "snippet": "[${1}\\]",
+    "detail": "display math \\[ ... \\]"
+  },
+```
+
+改为：
+
+```
+"[": {
+    "command": "[",
+    "snippet": "[\n${1}\n\\]",
+    "detail": "display math \\[ ... \\]"
+  },
+```
+
+重启 Visual Studio Code 即可生效
 
 #### **Visual Studio Code 的 C/C++ 环境配置（未测试）**
 
