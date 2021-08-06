@@ -1489,18 +1489,6 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 重启 Visual Studio Code 即可生效
 
-#### **Visual Studio Code 的 C/C++ 环境配置（未测试）**
-
-参考以下网址：
-
-基于 VS Code + MinGW-w64 的 C/C++ 简单环境配置
-https://zhuanlan.zhihu.com/p/77074009
-
-注意：下载插件 C/C++ Compile Run 后只要按 `Fn+F6` 即可编译运行 C/C++ 程序，但是不能调试。调试环境的配置请参考以下网址：
-
-VS Code 之 C/C++ 程序的 debug 功能简介
-https://zhuanlan.zhihu.com/p/85273055
-
 ### **Typora 美化**
 
 #### **源代码模式**
