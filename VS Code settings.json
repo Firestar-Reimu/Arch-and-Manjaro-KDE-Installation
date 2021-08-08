@@ -1,11 +1,10 @@
 {
     "editor.fontSize": 16,
-    "editor.fontFamily": "JetBrains Mono NL, Noto Sans Mono CJK SC, Consolas",
-    "editor.fontLigatures": "'ss01', 'ss03', 'ss04', 'ss05', 'ss06'",
+    "editor.fontFamily": "JetBrains Mono NL, Noto Mono, Noto Sans Mono CJK SC, Consolas", 
+    "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'onum'",
     "editor.renderWhitespace": "boundary",
     "editor.wordWrap": "on",
     "editor.maxTokenizationLineLength": 4294967296,
-    "editor.multiCursorModifier": "ctrlCmd",
     "editor.tokenColorCustomizations": {
         "comments": {
             "fontStyle": "bold",
@@ -24,6 +23,7 @@
         "numbers": "#aa0000"
     },
     "debug.console.fontSize": 16,
+    "debug.onTaskErrors": "showErrors",
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
             "source": "PowerShell",
@@ -43,15 +43,15 @@
     "workbench.startupEditor": "newUntitledFile",
     "workbench.colorTheme": "Default Light+",
     "explorer.confirmDelete": false,
+    "security.workspace.trust.untrustedFiles": "open",
     "files.autoSave": "onFocusChange",
     "files.autoSaveDelay": 0,
     "files.associations": {
         "*.json": "jsonc"
     },
     "git.enableSmartCommit": true,
-    "git.confirmSync": true,
+    "git.confirmSync": false,
     "git.autofetch": true,
-    "window.zoomLevel": 0,
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.tools": [
@@ -115,9 +115,6 @@
             ]
         }
     ],
-    "latex-workshop.view.pdf.viewer": "tab",
-    "latex-workshop.latex.pdfWatch.delay": 0,
-    "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.latex.clean.fileTypes": [
         "*.aux",
         "*.bbl",
@@ -139,13 +136,17 @@
         "*.log",
         "*.fdb_latexmk"
     ],
-    "python.pythonPath": "/home/firestar/.miniconda/bin/python",
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.bind.enter.key": false,
+    "latex-workshop.latex.pdfWatch.delay": 0,
+    "latex-workshop.view.pdf.viewer": "tab",
     "python.linting.pylintArgs": [
         "--generate-members"
     ],
     "python.formatting.autopep8Args": [
         "--max-line-length=65536"
     ],
+    "python.pythonPath": "/home/firestar/.miniconda/bin/python",
     "jupyter.themeMatplotlibPlots": true,
-    "jupyter.sendSelectionToInteractiveWindow": true
+    "jupyter.sendSelectionToInteractiveWindow": true,
 }
