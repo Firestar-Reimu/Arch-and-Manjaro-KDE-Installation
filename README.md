@@ -54,9 +54,9 @@ https://github.com/manjaro/release-review/releases （所有官方版本）
 
 注意启动盘要用 USB，如果用移动硬盘会无法被识别
 
-推荐使用 [Etcher](https://www.balena.io/etcher/)，在 Linux（下载 Appimage）和 Windows（下载 EXE 可执行文件）上均能使用，刻录约需 4min
+推荐使用 [Etcher](https://www.balena.io/etcher/)，在 Linux（下载 Appimage）和 Windows（下载 EXE 可执行文件）上均能使用
 
-Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度更快，但无法在 Linux 上使用
+Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当，但无法在 Linux 上使用
 
 ### **安装 Manjaro**
 
