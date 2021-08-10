@@ -36,6 +36,8 @@ Security --> Secure Boot --> Disabled（第三个选项）
 
 ### **制作启动盘**
 
+#### 下载系统 ISO 镜像
+
 从 Manjaro 官网上下载：
 
 https://manjaro.org/downloads/official/kde/ （KDE Plasma 版本）
@@ -48,7 +50,13 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
 
 https://github.com/manjaro/release-review/releases （所有官方版本）
 
-使用 [Rufus](https://github.com/pbatard/rufus) 刻录启动盘（注意启动盘如果用移动硬盘会无法被识别），直接选中镜像点确定即可
+#### 刻录启动盘
+
+注意启动盘要用 USB，如果用移动硬盘会无法被识别
+
+推荐使用 [Etcher](https://www.balena.io/etcher/)，在 Linux（下载 Appimage）和 Windows（下载 EXE 可执行文件）上均能使用，刻录约需 4min
+
+Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度更快，但无法在 Linux 上使用
 
 ### **安装 Manjaro**
 
