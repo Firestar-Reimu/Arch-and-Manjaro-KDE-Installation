@@ -810,7 +810,21 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
 之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则 VPN 断开）
 
-### **转换格式**
+### **查看并转换编码**
+
+查看编码的命令为：
+
+    file -i (file_name)
+
+其中 `charset` 一栏的输出即为文件编码
+
+转换编码可以使用系统预装的 `iconv`，方法为：
+
+    iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
+
+该方法适合对文本文件转换编码，对 ZIP 压缩包和 PDF 文件等二进制文件则无法使用
+
+### **转换图片格式**
 
 批量将图片从 PNG 格式转换为 JPG 格式：
 
@@ -823,6 +837,12 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
     for file in *; do mv -n "$file" `echo $file | tr ' ' '_'`; done
 
 **Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
+
+### **命令行解压 ZIP 压缩包**
+
+建议使用系统预装的 `unar`，因为它可以自动检测文件编码（系统右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
+
+    unar (file_name).zip
 
 ## **美化**
 
