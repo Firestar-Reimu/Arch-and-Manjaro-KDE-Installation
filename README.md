@@ -2,11 +2,11 @@
 
 ```
 firestar@FIRESTAR
-OS: Manjaro 21.1 Pahvo
-Kernel: x86_64 Linux 5.13.4-1-MANJARO
+OS: Manjaro 21.1.0 Pahvo
+Kernel: x86_64 Linux 5.13.8-1-MANJARO
 Shell: bash 5.1.8
 Resolution: 2736x1824
-DE: KDE 5.84.0 / Plasma 5.22.3
+DE: KDE 5.84.0 / Plasma 5.22.4
 WM: KWin
 GTK Theme: Breath [GTK2/3]
 Icon Theme: breath2
@@ -824,6 +824,8 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
 该方法适合对文本文件转换编码，对 ZIP 压缩包和 PDF 文件等二进制文件则无法使用
 
+`iconv` 支持的编码格式可以用 `iconv -l` 查看
+
 ### **转换图片格式**
 
 批量将图片从 PNG 格式转换为 JPG 格式：
@@ -1495,7 +1497,7 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 #### **Latex Workshop 插件设置**
 
-若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `/home/firestar/.vscode/extensions/james-yu.latex-workshop-8.19.2/data/commands.json` 中找到：
+若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `/home/firestar/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到：
 
 ```
 "[": {
