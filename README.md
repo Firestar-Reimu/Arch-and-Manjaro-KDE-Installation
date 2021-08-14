@@ -569,9 +569,9 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 **如果需要格式化 C 或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
 
-#### **如果文件系统突然变成只读**
+#### **如果 Windows 磁盘突然变成只读**
 
-一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，下面以 D: 盘为例：
+一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，下面以 D: 盘（用 `lsblk -f` 查询可以得知其编号为 `/dev/nvme0n1p4`）为例：
 
 首先在 Windows 中关闭快速启动，重启电脑
 
@@ -579,23 +579,27 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 检查占用进程：
 
-    sudo fuser -m -u /dev/nvme0n1p5
+    sudo fuser -m -u /dev/nvme0n1p4
 
 可以看到数字，就是占用目录的进程 PID，终止进程：
 
     sudo kill (PID_number)
 
-取消挂载：
+卸载 D: 盘：
 
-    sudo umount /dev/nvme0n1p5
+    sudo umount /dev/nvme0n1p4
 
 执行硬盘 NTFS 分区修复：
 
-    sudo ntfsfix /dev/nvme0n1p5
+    sudo ntfsfix /dev/nvme0n1p4
 
 再重新挂载即可：
 
-    sudo mount /dev/nvme0n1p5 ~/D
+    sudo mount /dev/nvme0n1p4 ~/D
+
+如果在 Dolphin 中已经成功卸载 D: 盘，则直接执行：
+
+    sudo ntfsfix /dev/nvme0n1p4 && sudo mount /dev/nvme0n1p4 ~/D
 
 ### **调整文件夹名称为英文**
 
