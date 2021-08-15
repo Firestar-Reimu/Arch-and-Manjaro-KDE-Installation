@@ -1,6 +1,6 @@
 {
     "editor.fontSize": 16,
-    "editor.fontFamily": "JetBrains Mono NL, Noto Mono, Noto Sans Mono CJK SC, Consolas", 
+    "editor.fontFamily": "JetBrains Mono NL, Noto Mono, Noto Sans Mono CJK SC, Consolas",
     "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'onum'",
     "editor.renderWhitespace": "boundary",
     "editor.wordWrap": "on",
@@ -66,16 +66,6 @@
             ]
         },
         {
-            "name": "pdflatex",
-            "command": "pdflatex",
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "%DOCFILE%"
-            ]
-        },
-        {
             "name": "bibtex",
             "command": "bibtex",
             "args": [
@@ -91,9 +81,10 @@
             ]
         },
         {
-            "name": "pdflatex",
+            "name": "xe->xe",
             "tools": [
-                "pdflatex"
+                "xelatex",
+                "xelatex"
             ]
         },
         {
@@ -105,16 +96,8 @@
                 "xelatex"
             ]
         },
-        {
-            "name": "pdf->bib->pdf->pdf",
-            "tools": [
-                "pdflatex",
-                "bibtex",
-                "pdflatex",
-                "pdflatex"
-            ]
-        }
     ],
+    "latex-workshop.latex.recipe.default": "lastUsed",
     "latex-workshop.latex.clean.fileTypes": [
         "*.aux",
         "*.bbl",
@@ -134,11 +117,16 @@
         "*.ist",
         "*.fls",
         "*.log",
+        "*.nav",
+        "*.snm",
         "*.fdb_latexmk"
     ],
     "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.bind.enter.key": false,
+    "latex-workshop.latex.watch.delay": 0,
+    "latex-workshop.latex.watch.interval": 0,
     "latex-workshop.latex.pdfWatch.delay": 0,
+    "latex-workshop.view.pdf.tab.openDelay": 0,
     "latex-workshop.view.pdf.viewer": "tab",
     "python.linting.pylintArgs": [
         "--generate-members"
