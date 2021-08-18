@@ -873,7 +873,9 @@ https://www.pling.com/browse/cat/309/order/latest/
 
 开机与关机 --> 登录屏幕（SDDM） --> Breeze 或者 Fluent
 
-外观 --> 欢迎屏幕 --> Plasma 5 Manjaro Splashscreen White Blur 或者 Snowy Night Miku 或者 Manjaro Linux Reflection Splashscreen 或者 ManjaroLogo Black
+外观 --> 欢迎屏幕 --> Snowy Night Miku、Manjaro Linux Reflection Splashscreen、ManjaroLogo Black、Plasma 5 Manjaro Splashscreen White Blur
+
+**现在新设计的登录屏幕（SDDM）和欢迎屏幕已经非常美观且改进了翻译问题，最方便的方法就是登录屏幕（SDDM）选择 Breath 2，欢迎屏幕选择 Breath2 2021**
 
 #### **SDDM 时间显示调整为24小时制**
 
@@ -909,7 +911,7 @@ Latte-Dock 的推荐设置：
 
 外观：绝对大小 --> 96，背景大小 --> 10%
 
-**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”**
+**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 Manjaro 新官方主题 Breath2 2021（也有深浅搭配和深色主题可选）或 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”**
 
 #### **zsh 与 Oh-My-Zsh 配置（可选）**
 
