@@ -1,4 +1,4 @@
-# **在 Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
+# **在 ThinkPad X13 Gen 2 Intel/Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
 
 ```
 firestar@FIRESTAR
@@ -24,7 +24,11 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 开始菜单 --> 设置 --> 更新和安全 --> 设备加密 --> 关闭
 
-### **进入 UEFI 设置**
+### **ThinkPad: 进入 UEFI 设置**
+
+启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `F12` 选择启动位置。
+
+### **Surface: 进入 UEFI 设置**
 
 关闭 Surface，然后等待大约 10 秒钟以确保其处于关闭状态
 
