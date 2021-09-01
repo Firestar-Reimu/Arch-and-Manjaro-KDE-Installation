@@ -3,7 +3,7 @@
     --text-color: #333333;
     --select-text-bg-color: #B5D6FC;
     --select-text-font-color: auto;
-    --monospace: "JetBrains Mono NL","Noto Mono",Consolas,monospace;
+    --monospace: "JetBrains Mono NL","Noto Sans CJK SC",Consolas,monospace;
     --title-bar-height: 20px
 }
 

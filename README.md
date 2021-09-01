@@ -16,17 +16,19 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 ## **Windows 的准备工作**
 
+## **为 Manjaro 系统分区**
+
+右键点击开始菜单，选择”磁盘管理”，分出一块空分区，其大小建议不小于64GB
+
 ### **关闭快速启动**
 
-控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 关闭快速启动 --> 保存修改
-
-### **关闭设备加密**
-
-开始菜单 --> 设置 --> 更新和安全 --> 设备加密 --> 关闭
+Windows 工具 –> 控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 关闭快速启动 --> 保存修改
 
 ### **ThinkPad: 进入 UEFI 设置**
 
-启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `F12` 选择启动位置。
+启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `F1` 进入 UEFI 设置
+
+Security --> Secure Boot --> Off
 
 ### **Surface: 进入 UEFI 设置**
 
@@ -62,7 +64,15 @@ https://github.com/manjaro/release-review/releases （所有官方版本）
 
 Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当且支持 Windows 和 Linux 系统镜像，但无法在 Linux 上使用（只提供 Windows 版 EXE 可执行文件），Github 项目地址在 https://github.com/pbatard/rufus
 
-### **安装 Manjaro**
+### **ThinkPad：安装 Manjaro**
+
+设置 --> 恢复 --> 立即重新启动 --> USB HDD
+
+或按照以下步骤直接从 USB 启动:
+
+启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `F12` 选择启动位置为 USB HDD
+
+### **Surface：安装 Manjaro**
 
 设置 --> 恢复 --> 立即重新启动 --> USB Storage
 
@@ -147,12 +157,6 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
     sudo pacman-mirrors --api --set-branch (branch) -i -c China
 
-一个简洁的替代版（但不能自己选择镜像，只能按照访问速度从高到低排列）：
-
-    sudo pacman-mirrors --geoip --api --set-branch (branch) && sudo pacman -Syyu
-
-### **包管理器**
-
 Manjaro 常用的包管理器有 pacman、pamac 和 yay，其使用教程参考以下网址：
 
 Manjaro Wiki -- Pacman Overview
@@ -216,10 +220,9 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 ### **Arch Linux CN 软件源**
 
-在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华镜像：
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用上海交大镜像：
 
-    [archlinuxcn]
-    Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+    Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
 
 之后执行下面的命令安装 archlinuxcn-keyring 包导入 GPG key
 
@@ -306,7 +309,7 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 **重启后会发现许多窗口和图标变小，建议先调整全局缩放为100%，重新启动，再调至200%，再重启**
 
-### **Linux-Surface 内核安装（可选）**
+### **Surface：Linux-Surface 内核安装（可选）**
 
 **Manjaro 官方支持的最新的内核是 x86_64 Linux 5.13.4-1-MANJARO，该内核已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
 
@@ -335,6 +338,8 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 启动触屏：
 
     sudo systemctl enable iptsd
+
+**Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`；Visual Studio Code 启用触屏需要更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效**
 
 ### **下载 vim**
 
@@ -575,11 +580,11 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
 #### **如果 Windows 磁盘突然变成只读**
 
-一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，下面以 D: 盘（用 `lsblk -f` 查询可以得知其编号为 `/dev/nvme0n1p4`）为例：
+**首先检查 Windows 中是否关闭了快速启动**
 
-首先在 Windows 中关闭快速启动，重启电脑
+关闭快速启动（Windows 工具 –> 控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 关闭快速启动 --> 保存修改）并重启电脑
 
-若不能解决问题，使用下面的方法：
+一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，若关闭快速启动不能解决问题，使用下面的方法，以 `D:` 盘（用 `lsblk -f` 查询可以得知其编号为 `/dev/nvme0n1p4`）为例：
 
 检查占用进程：
 
@@ -589,7 +594,7 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
     sudo kill (PID_number)
 
-卸载 D: 盘：
+卸载 `D:` 盘：
 
     sudo umount /dev/nvme0n1p4
 
@@ -601,7 +606,7 @@ IP 地址可以通过对域名 `ping` 得到，例如：
 
     sudo mount /dev/nvme0n1p4 ~/D
 
-如果在 Dolphin 中已经成功卸载 D: 盘，则直接执行：
+如果在 Dolphin 中已经成功卸载 `D:` 盘，则直接执行：
 
     sudo ntfsfix /dev/nvme0n1p4 && sudo mount /dev/nvme0n1p4 ~/D
 
@@ -854,6 +859,10 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
     unar (file_name).zip
 
+### **设置命令别名**
+
+在 `~/.bashrc` 中添加一句 `alias (new_command)=(old-command)`，这样直接输入 `new_command` 即等效于输入 `old_command`
+
 ## **美化**
 
 ### **自定义壁纸**
@@ -901,7 +910,6 @@ KDE 桌面的 Mac 化
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
 其中 Plasma 主题、GTK主题和图标主题分别选择：
-    
     Plasma Theme: Mojave-CT
     GTK Theme: Mojave-light-alt [GTK2/3]
     Icon Theme: La Capitaine
@@ -915,7 +923,7 @@ Latte-Dock 的推荐设置：
 
 外观：绝对大小 --> 96，背景大小 --> 10%
 
-**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 Manjaro 新官方主题 Breath2 2021（也有深浅搭配和深色主题可选）或 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”**
+**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 Manjaro 新官方主题 Breath2 2021（也有深浅搭配和深色主题可选）或 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”，背景透明度选择20%**
 
 #### **zsh 与 Oh-My-Zsh 配置（可选）**
 
@@ -954,13 +962,13 @@ Konsole --> 设置 --> 编辑当前方案 --> 常规 --> 命令 --> `usr/bin/zsh
 
 ### **GRUB 美化**
 
-选择主题 Slaze ，下载地址如下：
+选择主题 grub2-themes ，下载地址如下：
 
 https://github.com/vinceliuice/grub2-themes
 
-以 Slaze grub theme （2K，黑白图标） 为例，解压后在文件夹内执行：
+以 Vimix grub theme （2K，黑白图标） 为例，解压后在文件夹内执行：
 
-    sudo ./install.sh -b -t slaze -i white -s 2k
+    sudo ./install.sh -b -t vimix -i white -s 2k
 
 删除多余启动条目，需要修改`/boot/grub/grub.cfg`
 
@@ -1109,7 +1117,7 @@ https://www.google.com/get/noto/help/cjk/
 
 保存退出即可
 
-另一种处理方法是只安装简体中文字体，比如 Noto Sans SC（注意没有 CJK）
+**另一种处理方法是只安装简体中文字体，比如 Noto Sans SC（注意没有 CJK）**
 
 ### **安装中文输入法**
 
@@ -1260,16 +1268,6 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 高级编辑器 --> 破解/变通 --> 取消勾选“自动选择最佳显示选项”，并勾选“禁用字符宽度缓存”和“关闭固定位置模式”
 
 补全 --> 取消勾选“输入参数”
-
-### **Firefox Developer Edition 设置**
-
-在 `~/.bashrc` 中添加一句：
-
-    alias firefox='firefox-developer-edition'
-
-这样就可以直接输入 `firefox` 以启动 Firefox Developer Edition
-
-**Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`**
 
 ### **Thunderbird 配置**
 
@@ -1486,15 +1484,11 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 缩小比例：`Ctrl+-`
 
-#### **Visual Studio Code 启用触屏**
-
-更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效
-
-#### **Visual Studio Code 添加快捷键**
+#### **Visual Studio Code 设置快捷键**
 
 若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybinding.json`，可以在 Visual Studio Code 中按 `Ctrl+K Ctrl+S` 开启设置
 
-例如，若想在 LaTeX Workshop 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
+例如，若想在 LaTeX Workshop 里面添加 `frac` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
 
 ```
 {
@@ -1533,15 +1527,15 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 #### **源代码模式**
 
-更改 `/usr/share/typora/resources/style/base-control.css`：
+更改 `/usr/share/typora/resources/style/base-control.css`：（在 Windows 中则是 `C:\Program Files\Typora\resources\style\base-control.css`）
 
 找到 `.CodeMirror.cm-s-typora-default div.CodeMirror-cursor` 一行，将光标宽度改为 `1px`，颜色改为 `#000000`
 
 找到 `#typora-source .CodeMirror-lines` 一行，将 `max-width` 改为 `1200px`
 
-更改 `/usr/share/typora/resources/style/base.css`：
+更改 `/usr/share/typora/resources/style/base.css`：（在 Windows 中则是 `C:\Program Files\Typora\resources\style\base.css`）
 
-找到 `:root` 一行，将 `font-family` 改成自己想要的等宽字体
+找到 `:root` 一行，将 `font-family` 改成自己想要的字体
 
 #### **主题渲染模式**
 
@@ -1570,14 +1564,14 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 极简版（推荐，原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，对收发文件的支持较好，但是功能较少，不支持截屏和“订阅号消息”）：
 
 ```
-wechat-uos                                                                           2:2.0.0-1145141919    AUR 
+wechat-uos
     UOS专业版微信 (迫真魔改版)
 ```
 
 功能较多，但依赖 deepin-wine ，且对截屏和收发文件的支持不佳的版本：
 
 ```
-com.qq.weixin.spark                                                                  3.1.0.41spark0-2      AUR 
+com.qq.weixin.spark
     Tencent WeChat Client on Deepin Wine 5 (from Spark Store)
 ```
 
@@ -1596,14 +1590,14 @@ Graphics --> Screen Resolution --> 192 dpi
 功能较多的版本（目前使用起来有些卡顿）：
 
 ```
-netease-cloud-music-imflacfix                                                        1.2.1-1        AUR 
+netease-cloud-music-imflacfix
     Netease Cloud Music, converted from .deb package, with IBus input method and online SQ support
 ```
 
 极简版（流畅且原生适配高分辨率屏幕，但是功能较少，不支持歌词滚动和正在播放的曲子在歌单上标记）：
 
 ```
-electron-netease-cloud-music                                                         0.9.26-1       AUR 
+electron-netease-cloud-music
     UNOFFICIAL client for music.163.com . Powered by Electron, Vue, and Muse-UI.
 ```
 
@@ -1640,7 +1634,7 @@ https://geant4.web.cern.ch/support/download
 
 如果出现图形交互界面，说明安装成功
 
-### **能用上触控笔的软件（可选）**
+### **Surface：能用上触控笔的软件（可选）**
 
 #### **绘画**
 
@@ -1653,7 +1647,7 @@ https://geant4.web.cern.ch/support/download
     yay -S xournalpp
     yay -S write_stylus
 
-### **屏幕键盘（可选）**
+### **Surface：屏幕键盘（可选）**
 
 目前最受欢迎的屏幕键盘应该是 OnBoard
 
@@ -1671,9 +1665,6 @@ https://account.microsoft.com/devices/recoverykey?refd=account.microsoft.com
 Windows 10 如何关闭快速启动
 https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html
 
-Win 10 如何关闭设备加密？关闭 BitLocker 加密图文教程
-http://www.w10zj.com/Win10xy/Win10yh_8892.html
-
 创建和使用 Surface 的 USB 恢复驱动器
 https://support.microsoft.com/zh-cn/help/4023512/surface-creating-and-using-a-usb-recovery-drive
 
@@ -1689,7 +1680,7 @@ https://support.microsoft.com/zh-cn/help/4023531/surface-how-to-use-surface-uefi
 Win 10 环境下安装 Manjaro KDE（双系统） 
 https://www.cnblogs.com/Jaywhen-xiang/p/11561661.html
 
-Manjaro 20 KDE配置心得
+Manjaro 20 KDE 配置心得
 https://blog.csdn.net/weixin_40293491/article/details/107526553
 
 Manjaro 安装体验小结
