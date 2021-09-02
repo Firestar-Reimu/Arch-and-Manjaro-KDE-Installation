@@ -1,5 +1,4 @@
 {
-    "$schema": "https://aka.ms/terminal-profiles-schema",
     "actions": [
         {
             "command": {
@@ -70,22 +69,22 @@
             "background": "#FFFFFF",
             "foreground": "#000000",
             "selectionBackground": "#CCCCCC",
-            "black": "#000000",
-            "blue": "#0000AA",
-            "cyan": "#55AAFF",
-            "green": "#00AA00",
-            "purple": "#990099",
-            "red": "#FF0000",
-            "white": "#CCCCCC",
-            "yellow": "#FFAA00",
-            "brightBlack": "#777777",
-            "brightBlue": "#0077FF",
-            "brightCyan": "#66DDDD",
-            "brightGreen": "#00FF00",
-            "brightPurple": "#BB00BB",
-            "brightRed": "#EE5555",
-            "brightWhite": "#EEEEEE",
-            "brightYellow": "#FFFF00"
+            "black": "#EEEEEE",
+            "blue": "#FFAA00",
+            "cyan": "#FF0000",
+            "green": "#990099",
+            "purple": "#00AA00",
+            "red": "#55AAFF",
+            "white": "#000000",
+            "yellow": "#0000AA",
+            "brightBlack": "#FFFFFF",
+            "brightBlue": "#FFFF00",
+            "brightCyan": "#EE5555",
+            "brightGreen": "#BB00BB",
+            "brightPurple": "#00FF00",
+            "brightRed": "#66DDDD",
+            "brightWhite": "#777777",
+            "brightYellow": "#0077FF"
         }
     ],
     "theme": "light"
