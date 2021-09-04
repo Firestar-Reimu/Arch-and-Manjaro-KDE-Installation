@@ -2,11 +2,11 @@
 
 ```
 firestar@FIRESTAR
-OS: Manjaro 21.1.0 Pahvo
-Kernel: x86_64 Linux 5.13.8-1-MANJARO
+OS: Manjaro 21.1.1 Pahvo
+Kernel: x86_64 Linux 5.14.0-0-MANJARO
 Shell: bash 5.1.8
 Resolution: 2736x1824
-DE: KDE 5.84.0 / Plasma 5.22.4
+DE: KDE 5.85.0 / Plasma 5.22.5
 WM: KWin
 GTK Theme: Breath [GTK2/3]
 Icon Theme: breath2
@@ -311,7 +311,7 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 ### **Surface：Linux-Surface 内核安装（可选）**
 
-**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.13.4-1-MANJARO，该内核已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
+**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.14.0-0-MANJARO，该内核已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
 
 在终端中输入：
 
