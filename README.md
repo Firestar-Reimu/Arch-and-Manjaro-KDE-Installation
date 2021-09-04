@@ -888,6 +888,11 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
 在 `~/.bashrc` 中添加一句 `alias (new_command)=(old-command)`，这样直接输入 `new_command` 即等效于输入 `old_command`
 
+### **从 Tikz 生成 SVG 图像**
+
+    pdflatex --output-format=dvi (file_name).tex
+    dvisvgm --zoom=-1 --exact --font-format=woff (file_name).dvi
+
 ## **美化**
 
 ### **自定义壁纸**
