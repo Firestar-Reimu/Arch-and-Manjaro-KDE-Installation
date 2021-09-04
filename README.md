@@ -1,9 +1,10 @@
 # **在 ThinkPad X13 Gen 2 Intel/Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
 
+ThinkPad 系统信息：
 ```
 firestar@FIRESTAR
 OS: Manjaro 21.1.1 Pahvo
-Kernel: x86_64 Linux 5.14.0-0-MANJARO
+Kernel: x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface
 Shell: bash 5.1.8
 Resolution: 2736x1824
 DE: KDE 5.85.0 / Plasma 5.22.5
@@ -14,7 +15,22 @@ CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
-**说明：Surface 专有部分从2021.9.5起不再更新，内核终止于 x86_64 Linux 5.14.0-0-MANJARO/**
+Surface 系统信息：
+```
+firestar@FIRESTAR
+OS: Manjaro 21.1.1 Pahvo
+Kernel: x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface
+Shell: bash 5.1.8
+Resolution: 2736x1824
+DE: KDE 5.85.0 / Plasma 5.22.5
+WM: KWin
+GTK Theme: Breath [GTK2/3]
+Icon Theme: breath2
+CPU: Intel Core i5-8250U @ 8x 3.4GHz
+GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+```
+
+**说明：Surface 专有部分从2021.9.5起不再更新，内核终止于 x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface**
 
 ## **Windows 的准备工作**
 
@@ -313,14 +329,14 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 ### **Surface：Linux-Surface 内核安装（可选）**
 
-**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.14.0-0-MANJARO，该内核已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
+**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.14.0-0-MANJARO，从 Linux 5.13-MANJARO 开始已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
 
 在终端中输入：
 
     curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
     | sudo pacman-key --add -
 
-如果出现错误或没有响应，一般是网络问题，可以先配置好 VPN 再装内核
+如果出现错误或没有响应，一般是网络问题，可能要等待几分钟，建议先配置好 VPN 再装内核
 
 接着输入：
 
@@ -340,6 +356,11 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 启动触屏：
 
     sudo systemctl enable iptsd
+
+启动相机参考以下网址：（相机功能仍在开发中，可能出现配置失败的情况）
+
+Linux-Surface -- Camera Support
+https://github.com/linux-surface/linux-surface/wiki/Camera-Support
 
 **Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`；Visual Studio Code 启用触屏需要更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效**
 
