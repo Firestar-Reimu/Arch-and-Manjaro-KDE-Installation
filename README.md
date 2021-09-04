@@ -14,6 +14,8 @@ CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
+**说明：Surface 专有部分从2021.9.5起不再更新，内核终止于 x86_64 Linux 5.14.0-0-MANJARO/**
+
 ## **Windows 的准备工作**
 
 ### **为 Manjaro 系统分区**
