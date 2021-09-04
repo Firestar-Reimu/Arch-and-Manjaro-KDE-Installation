@@ -4,15 +4,15 @@ ThinkPad 系统信息：
 ```
 firestar@FIRESTAR
 OS: Manjaro 21.1.1 Pahvo
-Kernel: x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface
+Kernel: x86_64 Linux 5.14.0-0-MANJARO
 Shell: bash 5.1.8
-Resolution: 2736x1824
+Resolution: 2560x1600
 DE: KDE 5.85.0 / Plasma 5.22.5
 WM: KWin
-GTK Theme: Breath [GTK2/3]
+GTK Theme: Breeze [GTK2/3]
 Icon Theme: breath2
-CPU: Intel Core i5-8250U @ 8x 3.4GHz
-GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
+GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
 ```
 
 Surface 系统信息：
@@ -136,7 +136,7 @@ Suspend：挂起，Reboot：重启，Shutdown：关机，Logout：注销
 
 ### **高分辨率设置**
 
-屏幕分辨率是2736×1824，需要配置高分屏优化：
+ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是2736×1824，需要配置高分屏优化：
 
 系统设置 --> 显示和监控 --> 显示配置 --> 分辨率 --> 全局缩放 --> 200%
 
@@ -361,6 +361,8 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 Linux-Surface -- Camera Support
 https://github.com/linux-surface/linux-surface/wiki/Camera-Support
+
+KDE 上原生的相机应用是 Kamoso，也可以使用 GNOME 上的相机应用 Cheese
 
 **Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`；Visual Studio Code 启用触屏需要更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效**
 
