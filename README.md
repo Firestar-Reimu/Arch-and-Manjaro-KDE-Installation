@@ -30,7 +30,7 @@ CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
-**说明：Surface 专有部分从2021.9.5起不再更新，内核终止于 x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface**
+**说明：Surface 专有部分自2021.9.5起不再更新，内核终止于 x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface**
 
 ## **Windows 的准备工作**
 
@@ -501,20 +501,6 @@ https://wiki.archlinux.org/title/Silent_boot
 
 再重启即可
 
-### **Git 配置用户名、邮箱及免密码设置**
-
-    git config --global user.name "(user_name)"
-    git config --global user.email "(user_email)"       
-    sudo vim .git-credentials
-
-写入如下语句：
-
-    https://(user_name):(user_password)@github.com
-
-保存退出
-
-    git config --global credential.helper store
-
 ### **hosts 文件设置（可选）**
 
 参考以下网址：
@@ -737,12 +723,39 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 ### **重新开启 Secure Boot（未测试）**
 
-如果想去掉开机时的红色上边框，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
+如果想在开启 Secure Boot 的情况下登录进 Manjaro Linux，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
 
 具体教程参考以下网址：
 
 Secure Boot -- ArchWiki
 https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows
+
+### **Git 配置用户名、邮箱**
+
+配置用户名、邮箱：
+
+    git config --global user.name "(user_name)"
+    git config --global user.email "(user_email)"
+
+保存退出
+
+    git config --global credential.helper store
+
+Git 使用教程参考以下网址：
+
+菜鸟教程 -- Git教程
+https://www.runoob.com/git/git-tutorial.html
+
+### 使用 SSH 连接到 Github
+
+推荐使用 SSH 连接到 Github，其安全性更高，访问速度较快且更加稳定
+
+配置参考以下网址：
+
+Github Docs -- 使用 SSH 连接到 Github
+https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh
+
+注意 Linux 上和 Windows 上要用不同的密钥
 
 ## **一些有用的命令总结**
 
@@ -1147,7 +1160,7 @@ https://www.google.com/get/noto/help/cjk/
 
 以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装（需要使用 AUR 软件仓库）
 
-    yay -S geogebra stellarium typora v2ray qv2ray vlc thunderbird qbittorrent baidunetdisk-bin
+    yay -S geogebra stellarium typora v2ray qv2ray-dev-git vlc thunderbird qbittorrent baidunetdisk-bin
 
 **如果用 `yay -S nautilus` 安装了 nautilus 则用 `sudo nautilus` 就可以访问没有权限粘贴/删除的文件夹（不推荐）**
 
