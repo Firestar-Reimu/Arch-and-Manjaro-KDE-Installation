@@ -479,7 +479,7 @@ https://wiki.archlinux.org/title/Silent_boot
     sudo systemctl edit --full systemd-fsck-root.service
     sudo systemctl edit --full systemd-fsck@.service
 
-分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardOutput` 如下：
+分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
 
     StandardOutput=null
     StandardError=journal+console
@@ -487,6 +487,19 @@ https://wiki.archlinux.org/title/Silent_boot
 最后执行
 
     sudo update-grub
+
+### **关闭重启时的 watchdog 提示**
+
+创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
+
+    blacklist iTCO_wdt
+    blacklist iTCO_vendor_support
+
+这样可以屏蔽掉不需要的驱动，保存后执行：
+
+    sudo update-grub
+
+再重启即可
 
 ### **Git 配置用户名、邮箱及免密码设置**
 
@@ -509,54 +522,7 @@ https://wiki.archlinux.org/title/Silent_boot
 修改 hosts 解决 GitHub 访问失败
 https://zhuanlan.zhihu.com/p/107334179
 
-为了防止 DNS 污染导致 GitHub 图片打不开，需要在 `/etc/hosts` 文件中添加如下语句：
-
-```
-# Github Hosts
-# Update 20210707
-# domain: github.com
-140.82.113.4 github.com
-140.82.113.9 nodeload.github.com
-140.82.114.5 api.github.com
-140.82.113.9 codeload.github.com
-185.199.108.133 raw.github.com
-185.199.108.153 training.github.com
-185.199.108.153 assets-cdn.github.com
-185.199.108.153 documentcloud.github.com
-185.199.108.154 help.github.com
-
-# domain: githubstatus.com
-185.199.108.153 githubstatus.com
-
-# domain: fastly.net
-199.232.69.194 github.global.ssl.fastly.net
-
-# domain: githubusercontent.com
-185.199.108.133 raw.githubusercontent.com
-185.199.108.133 cloud.githubusercontent.com
-185.199.108.133 gist.githubusercontent.com
-185.199.108.133 marketplace-screenshots.githubusercontent.com
-185.199.108.133 repository-images.githubusercontent.com
-185.199.108.133 user-images.githubusercontent.com
-185.199.108.133 desktop.githubusercontent.com
-185.199.108.133 avatars.githubusercontent.com
-185.199.108.133 avatars0.githubusercontent.com
-185.199.108.133 avatars1.githubusercontent.com
-185.199.108.133 avatars2.githubusercontent.com
-185.199.108.133 avatars3.githubusercontent.com
-185.199.108.133 avatars4.githubusercontent.com
-185.199.108.133 avatars5.githubusercontent.com
-185.199.108.133 avatars6.githubusercontent.com
-185.199.108.133 avatars7.githubusercontent.com
-185.199.108.133 avatars8.githubusercontent.com
-# End of the section
-```
-
-Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠）
-
-IP 地址可以通过对域名 `ping` 得到，例如：
-
-    ping -c 5 github.com
+需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠）
 
 ### **动态 Swap 文件设置**
 
@@ -820,7 +786,15 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
     journalctl -rb -1
 
-### **连接北京大学校园网**
+### **网络设置**
+
+#### **ping 命令**
+
+IP 地址和连接情况可以通过对域名 `ping` 得到，例如：
+
+    ping -c (count_number) (website_destination)
+
+表示对网站域名 `(website_destination)` 发送 `(count_number)` 次 `ping` 连通请求
 
 #### **命令行连接 PKU Wi-Fi**
 
@@ -1047,20 +1021,7 @@ https://github.com/vinceliuice/grub2-themes
 
 ### **Kate 插件下载**
 
-在用命令行打开 Kate 编辑文件时若不想报如下错误：
-
-```
-kf.service.sycoca: The menu spec file contains a Layout or DefaultLayout tag without the mandatory Merge tag inside. Please fix your file.
-kf.sonnet.core: Sonnet: Unable to load plugin "/usr/lib/qt/plugins/kf5/sonnet/sonnet_aspell.so" Error: "Cannot load library /usr/lib/qt/plugins/kf5/sonnet/sonnet_aspell.so: (libaspell.so.15: cannot open shared object file: No such file or directory)"
-kf.sonnet.core: Sonnet: Unable to load plugin "/usr/lib/qt/plugins/kf5/sonnet/sonnet_hspell.so" Error: "Cannot load library /usr/lib/qt/plugins/kf5/sonnet/sonnet_hspell.so: (libhspell.so.0: cannot open shared object file: No such file or directory)"
-kf.sonnet.core: Sonnet: Unable to load plugin "/usr/lib/qt/plugins/kf5/sonnet/sonnet_voikko.so" Error: "Cannot load library /usr/lib/qt/plugins/kf5/sonnet/sonnet_voikko.so: (libvoikko.so.1: cannot open shared object file: No such file or directory)"
-kf.sonnet.core: No language dictionaries for the language: "C" trying to load en_US as default
-kf.kio.core: We got some errors while running testparm "Error loading services."
-kf.kio.core: We got some errors while running 'net usershare info'
-kf.kio.core: "Can't load /etc/samba/smb.conf - run testparm to debug it\n"
-```
-
-需要下载插件：
+下载 Kate 插件：
 
     yay -S aspell hspell libvoikko
 
@@ -1338,7 +1299,7 @@ Manjaro 预装了 Python，但没有安装包管理器，可以使用 `pip` 或 
 
 这里不建议安装 spyder 和 jupyter notebook，安装最基本的包即可：
 
-    conda install numpy scipy matplotlib astropy autopep8
+    pip install numpy scipy matplotlib astropy autopep8
 
 #### **Miniconda 安装与配置**
 
@@ -1351,7 +1312,7 @@ https://docs.conda.io/en/latest/miniconda.html
 
 或者在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/#)点击右侧的“获取下载链接”按钮，在“应用软件” --> Conda 里面选择
 
-安装过程参考以下网址：（Miniconda 和 Anaconda 安装步骤相同）
+安装过程参考以下网址：（Miniconda 和 Anaconda 的安装步骤相同）
 
 Anaconda Documentation -- Installing on Linux
 https://docs.anaconda.com/anaconda/install/linux/
@@ -1366,7 +1327,7 @@ https://docs.anaconda.com/anaconda/install/linux/
 channels:
     - defaults
 show_channel_urls: true
-default_channels:
+批评:
     - https://mirrors.pku.edu.cn/anaconda/pkgs/main
     - https://mirrors.pku.edu.cn/anaconda/pkgs/r
 custom_channels:
@@ -1495,13 +1456,7 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 下载扩展：Python（会自动下载 Pylance 和 Jupyter），Markdown All in One，Latex Workshop，C/C++，Rainbow Brackets
 
-扩展保存在 `~/.vscode/extensions/`，例如更改 Rainbow Brackets 的括号配色可以修改文件 `~/.vscode/extensions/2gua.rainbow-brackets-0.0.6/out/src/extension.js`：
-
-    var roundBracketsColor = ["#ff5500", "#cc0066", "#00aa66", "#ff9999"];
-    var squareBracketsColor = ["#33ccff", "#8080ff", "#0077aa"];
-    var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
-
-重启 Visual Studio Code 即可生效
+扩展保存在 `~/.vscode/extensions/` 文件夹内
 
 #### **Visual Studio Code 图标更改（可选）**
 
@@ -1519,7 +1474,9 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybinding.json`，可以在 Visual Studio Code 中按 `Ctrl+K Ctrl+S` 开启设置
 
-例如，若想在 LaTeX Workshop 里面添加 `frac` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
+#### **Latex Workshop 插件设置**
+
+若想在 LaTeX Workshop 里面添加 `frac` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
 
 ```
 {
@@ -1529,8 +1486,6 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
     "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
 }
 ```
-
-#### **Latex Workshop 插件设置**
 
 若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `/home/firestar/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到：
 
@@ -1551,6 +1506,16 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
     "detail": "display math \\[ ... \\]"
   },
 ```
+
+重启 Visual Studio Code 即可生效
+
+#### **Rainbow Brackets 插件设置**
+
+更改 Rainbow Brackets 的括号配色可以修改文件 `~/.vscode/extensions/2gua.rainbow-brackets-0.0.6/out/src/extension.js`：
+
+    var roundBracketsColor = ["#ff5500", "#cc0066", "#00aa66", "#ff9999"];
+    var squareBracketsColor = ["#33ccff", "#8080ff", "#0077aa"];
+    var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 
 重启 Visual Studio Code 即可生效
 
