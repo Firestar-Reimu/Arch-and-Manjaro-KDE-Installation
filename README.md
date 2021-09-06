@@ -746,7 +746,7 @@ Git 使用教程参考以下网址：
 菜鸟教程 -- Git教程
 https://www.runoob.com/git/git-tutorial.html
 
-### 使用 SSH 连接到 Github
+### **使用 SSH 连接到 Github**
 
 推荐使用 SSH 连接到 Github，其安全性更高，访问速度较快且更加稳定
 
@@ -754,6 +754,8 @@ https://www.runoob.com/git/git-tutorial.html
 
 Github Docs -- 使用 SSH 连接到 Github
 https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh
+
+其中生成新 SSH 密钥时提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
 
 注意 Linux 上和 Windows 上要用不同的密钥
 
