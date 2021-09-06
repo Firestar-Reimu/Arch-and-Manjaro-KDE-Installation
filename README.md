@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # **在 ThinkPad X13 Gen 2 Intel/Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
 
 ThinkPad 系统信息：
