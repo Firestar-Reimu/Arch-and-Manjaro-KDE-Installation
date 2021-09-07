@@ -702,7 +702,7 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
     balooctl disable
 
-### **为 pacman 和 yay 添加多线程下载（可选）**
+### **为 pacman 和 yay 启用多线程下载（可选）**
 
 执行下面的命令下载 axel
 
@@ -720,6 +720,8 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
           'https::/usr/bin/axel -n 10 -o %o %u'
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
+
+**注意启用多线程下载后可能会使得某些软件包无法下载**
 
 ### **重新开启 Secure Boot（未测试）**
 
