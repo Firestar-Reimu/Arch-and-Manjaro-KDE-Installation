@@ -721,7 +721,7 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
 
-**注意启用多线程下载后可能会使得某些软件包无法下载**
+**注意某些软件包如`rider`和`qqmusic-bin`等下载源不支持axel，启用多线程下载后可能会导致构建失败**
 
 ### **重新开启 Secure Boot（未测试）**
 
