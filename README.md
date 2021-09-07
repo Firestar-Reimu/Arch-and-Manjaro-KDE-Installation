@@ -721,6 +721,10 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
           'rsync::/usr/bin/rsync --no-motd -z %u %o'
           'scp::/usr/bin/scp -C %u %o')
 
+> 警告：更改 `/etc/makepkg.conf` 文件后，yay可能无法下载如`rider`和`qqmusic`等下载源不支持axel的文件从而导致构建失败，请谨慎使用！
+>
+
+
 ### **重新开启 Secure Boot（未测试）**
 
 如果想在开启 Secure Boot 的情况下登录进 Manjaro Linux，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
