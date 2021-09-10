@@ -1398,21 +1398,15 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 若想在 LaTeX Workshop 里面添加 `frac` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
 
-```
-{    "key": "ctrl+m ctrl+f",    "command": "editor.action.insertSnippet",    "args": { "snippet": "\\frac{$1}{$2}$0" },    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"}
-```
+    {    "key": "ctrl+m ctrl+f",    "command": "editor.action.insertSnippet",    "args": { "snippet": "\\frac{$1}{$2}$0" },    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"}
 
 若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `/home/firestar/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到：
 
-```
-"[": {    "command": "[",    "snippet": "[${1}\\]",    "detail": "display math \\[ ... \\]"  },
-```
+    "[": {    "command": "[",    "snippet": "[${1}\\]",    "detail": "display math \\[ ... \\]"  },
 
 改为：
 
-```
-"[": {    "command": "[",    "snippet": "[\n${1}\n\\]",    "detail": "display math \\[ ... \\]"  },
-```
+    "[": {    "command": "[",    "snippet": "[\n${1}\n\\]",    "detail": "display math \\[ ... \\]"  },
 
 重启 Visual Studio Code 即可生效
 
@@ -1496,11 +1490,17 @@ Graphics --> Screen Resolution --> 192 dpi
 
 ### **音乐软件安装**
 
-网易云音乐安装：
+#### **网易云音乐**
 
     yay -S netease-cloud-music
 
-QQ 音乐安装：
+#### **QQ 音乐**
+
+亮色主题：
+
+    yay -S qqmusic-appimage
+
+暗色主题：
 
     yay -S qqmusic-bin
 
