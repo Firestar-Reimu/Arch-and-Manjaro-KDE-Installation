@@ -1,6 +1,14 @@
+---
+title: Manjaro KDE 安装指南
+date: 2021-09-08 00:48:38
+tags: Manjaro
+category: Linux
+---
+
 # **在 ThinkPad X13 Gen 2 Intel/Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
 
 ThinkPad 系统信息：
+
 ```
 firestar@FIRESTAR
 OS: Manjaro 21.1.1 Pahvo
@@ -16,6 +24,7 @@ GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
 ```
 
 Surface 系统信息：
+
 ```
 firestar@FIRESTAR
 OS: Manjaro 21.1.1 Pahvo
@@ -229,8 +238,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 执行以下命令以启用清华的 AUR 反向代理:
 
-    yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
-    yay -Syyu
+    yay --aururl "https://aur.tuna.tsinghua.edu.cn" --saveyay -Syyu
 
 修改的配置文件位于 `~/.config/yay/config.json` ，还可通过以下命令查看修改过的配置：
 
@@ -244,8 +252,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 
 之后执行下面的命令安装 archlinuxcn-keyring 包导入 GPG key
 
-    sudo pacman -Sy archlinuxcn-keyring
-    sudo pacman -Syyu
+    sudo pacman -Sy archlinuxcn-keyringsudo pacman -Syyu
 
 由于 Manjaro 的更新滞后于 Arch，使用 Arch Linux CN 仓库可能会出现“部分更新”的情况，导致某些软件包损坏
 
@@ -333,25 +340,21 @@ https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
 在终端中输入：
 
-    curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \
-    | sudo pacman-key --add -
+    curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \| sudo pacman-key --add -
 
 如果出现错误或没有响应，一般是网络问题，可能要等待几分钟，建议先配置好 VPN 再装内核
 
 接着输入：
 
-    sudo pacman-key --finger 56C464BAAC421453
-    sudo pacman-key --lsign-key 56C464BAAC421453
+    sudo pacman-key --finger 56C464BAAC421453sudo pacman-key --lsign-key 56C464BAAC421453
 
 在 `/etc/pacman.conf` 里面添加：
 
-    [linux-surface]
-    Server = https://pkg.surfacelinux.com/arch/
+    [linux-surface]Server = https://pkg.surfacelinux.com/arch/
 
 然后更新软件库并下载：
 
-    sudo pacman -Syyu
-    sudo pacman -S linux-surface linux-surface-headers iptsd
+    sudo pacman -Syyusudo pacman -S linux-surface linux-surface-headers iptsd
 
 启动触屏：
 
@@ -476,13 +479,11 @@ https://wiki.archlinux.org/title/Silent_boot
 
 再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
 
-    sudo systemctl edit --full systemd-fsck-root.service
-    sudo systemctl edit --full systemd-fsck@.service
+    sudo systemctl edit --full systemd-fsck-root.servicesudo systemctl edit --full systemd-fsck@.service
 
 分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
 
-    StandardOutput=null
-    StandardError=journal+console
+    StandardOutput=nullStandardError=journal+console
 
 最后执行
 
@@ -492,8 +493,7 @@ https://wiki.archlinux.org/title/Silent_boot
 
 创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
 
-    blacklist iTCO_wdt
-    blacklist iTCO_vendor_support
+    blacklist iTCO_wdtblacklist iTCO_vendor_support
 
 这样可以屏蔽掉不需要的驱动，保存后执行：
 
@@ -548,8 +548,7 @@ https://zhuanlan.zhihu.com/p/107334179
 
 在最后加入这两行：
 
-    UUID=(UUID)                     /home/firestar/C    ntfs-3g uid=firestar,gid=users,auto 0 0
-    UUID=(UUID)                     /home/firestar/D    ntfs-3g uid=firestar,gid=users,auto 0 0
+    UUID=(UUID)                     /home/firestar/C    ntfs-3g uid=firestar,gid=users,auto 0 0UUID=(UUID)                     /home/firestar/D    ntfs-3g uid=firestar,gid=users,auto 0 0
 
 重启电脑后，即可自动挂载
 
@@ -591,14 +590,8 @@ https://zhuanlan.zhihu.com/p/107334179
 
 修改 `~/.config/user-dirs.dirs`，改为：
     
-    XDG_DESKTOP_DIR="$HOME/Desktop"
-    XDG_DOCUMENTS_DIR="$HOME/Documents"
-    XDG_DOWNLOAD_DIR="$HOME/Downloads"
-    XDG_MUSIC_DIR="$HOME/Music"
-    XDG_PICTURES_DIR="$HOME/Pictures"
-    XDG_PUBLICSHARE_DIR="$HOME/Public"
-    XDG_TEMPLATES_DIR="$HOME/Templates"
-    XDG_VIDEOS_DIR="$HOME/Videos"
+
+    XDG_DESKTOP_DIR="$HOME/Desktop"XDG_DOCUMENTS_DIR="$HOME/Documents"XDG_DOWNLOAD_DIR="$HOME/Downloads"XDG_MUSIC_DIR="$HOME/Music"XDG_PICTURES_DIR="$HOME/Pictures"XDG_PUBLICSHARE_DIR="$HOME/Public"XDG_TEMPLATES_DIR="$HOME/Templates"XDG_VIDEOS_DIR="$HOME/Videos"
 
 并在 Dolphin 中按照上面的说明更改文件名
 
@@ -649,14 +642,7 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 写入：
 
-    [Desktop Entry]
-    Encoding=UTF-8
-    Type=Application
-    Name=pulseaudio
-    Exec=pulseaudio --start --log-target=syslog
-    StartupNotify=false
-    Terminal=true
-    Hidden=false
+    [Desktop Entry]Encoding=UTF-8Type=ApplicationName=pulseaudioExec=pulseaudio --start --log-target=syslogStartupNotify=falseTerminal=trueHidden=false
 
 保存退出即可
 
@@ -674,15 +660,11 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 若更改 CPU 频率，修改以下位置：
 
-    CPU_MIN_PERF_ON_AC=0
-    CPU_MAX_PERF_ON_AC=100
-    CPU_MIN_PERF_ON_BAT=0
-    CPU_MAX_PERF_ON_BAT=30
+    CPU_MIN_PERF_ON_AC=0CPU_MAX_PERF_ON_AC=100CPU_MIN_PERF_ON_BAT=0CPU_MAX_PERF_ON_BAT=30
 
 若更改 CPU 睿频设置，修改以下位置：
 
-    CPU_BOOST_ON_AC=1
-    CPU_BOOST_ON_BAT=0
+    CPU_BOOST_ON_AC=1CPU_BOOST_ON_BAT=0
 
 **不需要高性能的时候可以关闭睿频，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
 
@@ -714,12 +696,7 @@ https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_
 
 编辑 `/etc/makepkg.conf` 文件（在第11-16行）:
 
-    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
-          'ftp::/usr/bin/axel -n 10 -o %o %u'
-          'http::/usr/bin/axel -n 10 -o %o %u'
-          'https::/usr/bin/axel -n 10 -o %o %u'
-          'rsync::/usr/bin/rsync --no-motd -z %u %o'
-          'scp::/usr/bin/scp -C %u %o')
+    DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'      'ftp::/usr/bin/axel -n 10 -o %o %u'      'http::/usr/bin/axel -n 10 -o %o %u'      'https::/usr/bin/axel -n 10 -o %o %u'      'rsync::/usr/bin/rsync --no-motd -z %u %o'      'scp::/usr/bin/scp -C %u %o')
 
 **注意某些软件包如`rider`和`qqmusic-bin`等下载源不支持axel，启用多线程下载后可能会导致构建失败**
 
@@ -736,8 +713,7 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 
 配置用户名、邮箱：
 
-    git config --global user.name "(user_name)"
-    git config --global user.email "(user_email)"
+    git config --global user.name "(user_name)"git config --global user.email "(user_email)"
 
 保存退出
 
@@ -957,8 +933,7 @@ Konsole --> 设置 --> 编辑当前方案 --> 常规 --> 命令 --> `usr/bin/zsh
 
 安装插件，执行：
 
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-    git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlightinggit clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 
 编辑设置文件：
 
@@ -1052,10 +1027,7 @@ Manjaro 支持直接右键安装 TTF 和 OTF 字体，系统字体安装的默�
 
 安装方法如下：
 
-    sudo mkdir /usr/share/fonts/winfonts
-    sudo cp (win-font-path)/* /usr/share/fonts/winfonts/
-    cd /usr/share/fonts/winfonts/
-    fc-cache -fv
+    sudo mkdir /usr/share/fonts/winfontssudo cp (win-font-path)/* /usr/share/fonts/winfonts/cd /usr/share/fonts/winfonts/fc-cache -fv
 
 这样就可以安装微软雅黑、宋体、黑体等字体了
 
@@ -1088,40 +1060,7 @@ https://www.google.com/get/noto/help/cjk/
 并加入以下内容：
 
 ```
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-    <alias>
-        <family>sans-serif</family>
-        <prefer>
-            <family>Noto Sans CJK SC</family>
-            <family>Noto Sans CJK TC</family>
-            <family>Noto Sans CJK HK</family>
-            <family>Noto Sans CJK JP</family>
-            <family>Noto Sans CJK KR</family>
-        </prefer>
-    </alias>
-    <alias>
-        <family>serif</family>
-        <prefer>
-            <family>Noto Serif CJK SC</family>
-            <family>Noto Serif CJK TC</family>
-            <family>Noto Serif CJK HK</family>
-            <family>Noto Serif CJK JP</family>
-            <family>Noto Serif CJK KR</family>
-        </prefer>
-    </alias>
-    <alias>
-        <family>monospace</family>
-        <prefer>
-            <family>Noto Sans Mono CJK SC</family>
-            <family>Noto Sans Mono CJK TC</family>
-            <family>Noto Sans Mono CJK HK</family>
-            <family>Noto Sans Mono CJK JP</family>
-            <family>Noto Sans Mono CJK KR</family>
-        </prefer>
-    </alias>
-</fontconfig>
+<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig>    <alias>        <family>sans-serif</family>        <prefer>            <family>Noto Sans CJK SC</family>            <family>Noto Sans CJK TC</family>            <family>Noto Sans CJK HK</family>            <family>Noto Sans CJK JP</family>            <family>Noto Sans CJK KR</family>        </prefer>    </alias>    <alias>        <family>serif</family>        <prefer>            <family>Noto Serif CJK SC</family>            <family>Noto Serif CJK TC</family>            <family>Noto Serif CJK HK</family>            <family>Noto Serif CJK JP</family>            <family>Noto Serif CJK KR</family>        </prefer>    </alias>    <alias>        <family>monospace</family>        <prefer>            <family>Noto Sans Mono CJK SC</family>            <family>Noto Sans Mono CJK TC</family>            <family>Noto Sans Mono CJK HK</family>            <family>Noto Sans Mono CJK JP</family>            <family>Noto Sans Mono CJK KR</family>        </prefer>    </alias></fontconfig>
 ```
 
 保存退出即可
@@ -1176,8 +1115,7 @@ https://www.google.com/get/noto/help/cjk/
 
 首先要下载并更新 debtap 包：
 
-    yay -S debtap
-    sudo debtap -u
+    yay -S debtapsudo debtap -u
 
 **运行 `sudo debtap -u` 时建议连接北京大学 VPN**
 
@@ -1221,28 +1159,17 @@ https://www.google.com/get/noto/help/cjk/
 
 用大写字母命令控制安装：
 
-    D --> 1 --> 输入要安装 TeX Live 的位置（TEXDIR） --> R
-    O --> L --> 都选择默认位置（按 Enter） --> R
-    I
+    D --> 1 --> 输入要安装 TeX Live 的位置（TEXDIR） --> RO --> L --> 都选择默认位置（按 Enter） --> RI
 
 TEXDIR 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
 
 CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大学镜像需要在命令行中执行：
 
-    sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
-    sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
+    sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnetsudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 
 可以运行 `tex --version` 检查是否安装成功，若成功应显示（以 Tex Live 2021 为例）：
 
-    TeX 3.141592653 (TeX Live 2021)
-    kpathsea version 6.3.3
-    Copyright 2021 D.E. Knuth.
-    There is NO warranty.  Redistribution of this software is
-    covered by the terms of both the TeX copyright and
-    the Lesser GNU General Public License.
-    For more information about these matters, see the file
-    named COPYING and the TeX source.
-    Primary author of TeX: D.E. Knuth.
+    TeX 3.141592653 (TeX Live 2021)kpathsea version 6.3.3Copyright 2021 D.E. Knuth.There is NO warranty.  Redistribution of this software iscovered by the terms of both the TeX copyright andthe Lesser GNU General Public License.For more information about these matters, see the filenamed COPYING and the TeX source.Primary author of TeX: D.E. Knuth.
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc ctex`）检查是否安装成功
 
@@ -1341,23 +1268,13 @@ https://docs.anaconda.com/anaconda/install/linux/
 修改 `.condarc` 以使用北京大学镜像源：
 
 ```
-channels:
-    - defaults
-show_channel_urls: true
-批评:
-    - https://mirrors.pku.edu.cn/anaconda/pkgs/main
-    - https://mirrors.pku.edu.cn/anaconda/pkgs/r
-custom_channels:
-    conda-forge: https://mirrors.pku.edu.cn/anaconda/cloud
-    pytorch: https://mirrors.pku.edu.cn/anaconda/cloud
+channels:    - defaultsshow_channel_urls: true批评:    - https://mirrors.pku.edu.cn/anaconda/pkgs/main    - https://mirrors.pku.edu.cn/anaconda/pkgs/rcustom_channels:    conda-forge: https://mirrors.pku.edu.cn/anaconda/cloud    pytorch: https://mirrors.pku.edu.cn/anaconda/cloud
 ```
 
 若不用镜像源，改为：
 
 ```
-channels:
-  - defaults
-ssl_verify: true
+channels:  - defaultsssl_verify: true
 ```
 
 下载所需要的包：
@@ -1389,8 +1306,7 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 恢复之前的版本：
 
-    conda list --revisions
-    conda install --revision (revision_number)
+    conda list --revisionsconda install --revision (revision_number)
 
 **如果回滚到早期版本（`revision_number` 较小）之后又想回到某个高版本（`revision_number` 较大），必须要把两个版本中的版本都装一遍**
 
@@ -1417,25 +1333,13 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 文本：
 
 ```
-普通文本 #000000
-注释：#999999, B
-字符串：#00aa00
-数值：#aa0000
-关键字：#ff5500, B
-内置：#990099
-定义：#0000ff
-实例：#ff55ff, B
+普通文本 #000000注释：#999999, B字符串：#00aa00数值：#aa0000关键字：#ff5500, B内置：#990099定义：#0000ff实例：#ff55ff, B
 ```
 
 高亮：
 
 ```
-当前 Cell：#ffaaff
-当前行：#aaffff
-事件：#ffff00
-匹配圆括号：#99ff99
-不匹配圆括号：#ff9999
-链接：#55ff00
+当前 Cell：#ffaaff当前行：#aaffff事件：#ffff00匹配圆括号：#99ff99不匹配圆括号：#ff9999链接：#55ff00
 ```
 
 编辑器 --> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为100毫秒
@@ -1444,8 +1348,7 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 执行：
 
-    git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
-    vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
+    git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
 
 ### **Visual Studio Code 安装与配置**
 
@@ -1496,32 +1399,19 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 若想在 LaTeX Workshop 里面添加 `frac` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
 
 ```
-{
-    "key": "ctrl+m ctrl+f",
-    "command": "editor.action.insertSnippet",
-    "args": { "snippet": "\\frac{$1}{$2}$0" },
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-}
+{    "key": "ctrl+m ctrl+f",    "command": "editor.action.insertSnippet",    "args": { "snippet": "\\frac{$1}{$2}$0" },    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"}
 ```
 
 若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `/home/firestar/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到：
 
 ```
-"[": {
-    "command": "[",
-    "snippet": "[${1}\\]",
-    "detail": "display math \\[ ... \\]"
-  },
+"[": {    "command": "[",    "snippet": "[${1}\\]",    "detail": "display math \\[ ... \\]"  },
 ```
 
 改为：
 
 ```
-"[": {
-    "command": "[",
-    "snippet": "[\n${1}\n\\]",
-    "detail": "display math \\[ ... \\]"
-  },
+"[": {    "command": "[",    "snippet": "[\n${1}\n\\]",    "detail": "display math \\[ ... \\]"  },
 ```
 
 重启 Visual Studio Code 即可生效
@@ -1530,9 +1420,7 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 更改 Rainbow Brackets 的括号配色可以修改文件 `~/.vscode/extensions/2gua.rainbow-brackets-0.0.6/out/src/extension.js`：
 
-    var roundBracketsColor = ["#ff5500", "#cc0066", "#00aa66", "#ff9999"];
-    var squareBracketsColor = ["#33ccff", "#8080ff", "#0077aa"];
-    var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
+    var roundBracketsColor = ["#ff5500", "#cc0066", "#00aa66", "#ff9999"];var squareBracketsColor = ["#33ccff", "#8080ff", "#0077aa"];var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 
 重启 Visual Studio Code 即可生效
 
@@ -1562,6 +1450,14 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
     yay -S ds9-bin
 
+### **Github Desktop 安装（可选）**
+
+推荐选择二进制包 `github-desktop-bin`：
+
+    yay -S github-desktop-bin
+
+登录时要创建一个密钥环，密钥设为 Github 密码即可
+
 ### **WPS 安装（可选）**
 
 运行：
@@ -1570,49 +1466,43 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 ### **微信安装**
 
-可以在 pamac 中搜索：
+极简版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，且对大文件传输的支持不佳）：
 
-    pamac search wechat
+    yay -S wechat-uos
 
-极简版（推荐，原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行，对收发文件的支持较好，但是功能较少，不支持截屏和“订阅号消息”）：
+功能较多，和最新的 Windows 电脑版同步更新，但依赖 deepin-wine，且暂不支持“截屏时隐藏当前窗口”的版本：
 
-```
-wechat-uos
-    UOS专业版微信 (迫真魔改版)
-```
+    yay -S deepin-wine-wechat
 
-功能较多，但依赖 deepin-wine ，且对截屏和收发文件的支持不佳的版本：
+#### deepin-wine-wechat 高分辨率适配调整：
 
-```
-com.qq.weixin.spark
-    Tencent WeChat Client on Deepin Wine 5 (from Spark Store)
-```
-
-高分辨率适配调整：
-
-    WINEPREFIX=~/.deepinwine/Spark-WeChat deepin-wine5 winecfg
+用命令 `/opt/apps/com.qq.weixin.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于200%的放大率：
 
 Graphics --> Screen Resolution --> 192 dpi
 
-### **网易云音乐安装**
+其余基于 Deepin Wine 的软件（如腾讯会议）也是类似的处理方法，将 `com.qq.weixin.deepin` 换成对应的文件夹名称即可（都在 `/opt/apps/` 目录下）
 
-可以在 pamac 中搜索：
+### **会议软件安装**
 
-    pamac search netease-cloud-music
+腾讯会议：
 
-功能较多的版本（目前使用起来有些卡顿）：
+    yay -S com.tencent.deepin.meeting
 
-```
-netease-cloud-music-imflacfix
-    Netease Cloud Music, converted from .deb package, with IBus input method and online SQ support
-```
+高分辨率适配调整：
 
-极简版（流畅且原生适配高分辨率屏幕，但是功能较少，不支持歌词滚动和正在播放的曲子在歌单上标记）：
+用命令 `/opt/apps/com.tencent.meeting.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于200%的放大率：
 
-```
-electron-netease-cloud-music
-    UNOFFICIAL client for music.163.com . Powered by Electron, Vue, and Muse-UI.
-```
+Graphics --> Screen Resolution --> 192 dpi
+
+### **音乐软件安装**
+
+网易云音乐安装：
+
+    yay -S netease-cloud-music
+
+QQ 音乐安装：
+
+    yay -S qqmusic-bin
 
 ### **Geant4 安装**
 
@@ -1625,11 +1515,7 @@ https://geant4.web.cern.ch/support/download
 
 进入解压后的文件夹，若要将 Geant4 安装在 `(Geant4_directory)`，例如 `~/Geant4`，执行：
 
-    mkdir build
-    cd ./build
-    cmake -DCMAKE_INSTALL_PREFIX=(Geant4_directory) -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_USE_QT=ON -DGEANT4_INSTALL_DATA=ON -DGEANT4_BUILD_MULTITHREADED=ON ..
-    make -j8
-    make install -j8
+    mkdir buildcd ./buildcmake -DCMAKE_INSTALL_PREFIX=(Geant4_directory) -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_USE_QT=ON -DGEANT4_INSTALL_DATA=ON -DGEANT4_BUILD_MULTITHREADED=ON ..make -j8make install -j8
 
 之后在 `~/.bashrc` 中添加一行：
 
@@ -1639,11 +1525,7 @@ https://geant4.web.cern.ch/support/download
 
 打开 `(Geant4_directory)/share/Geant4-(version_number)/examples/basic/B1`，执行：
 
-    mkdir build
-    cd ./build
-    cmake ..
-    make -j8
-    ./exampleB1
+    mkdir buildcd ./buildcmake ..make -j8./exampleB1
 
 如果出现图形交互界面，说明安装成功
 
@@ -1657,8 +1539,7 @@ https://geant4.web.cern.ch/support/download
 
 可以选择 Xournal++ 或者 Write
 
-    yay -S xournalpp
-    yay -S write_stylus
+    yay -S xournalppyay -S write_stylus
 
 ### **Surface：屏幕键盘（可选）**
 
