@@ -87,7 +87,8 @@ h6 {
 }
 
 #write code {
-    color: var(#eee);
+    background: #eee;
+    color: #555;
 }
 
 p {
