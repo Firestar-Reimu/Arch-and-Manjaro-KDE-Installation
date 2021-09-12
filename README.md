@@ -467,7 +467,7 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 
 取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
 
-**用 nano 编辑后保存的步骤是 `Ctrl+W` (Write Out) --> `Enter` --> `Ctrl+Q` (Exit)，如果用默认的快捷键设置，则为 `Ctrl+O` (Write Out) --> `Enter` --> `Ctrl+X` (Exit)**
+**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） --> `Enter` --> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） --> `Enter` --> `Ctrl+X` （Exit）**
 
 ### **更改 visudo 默认编辑器为 vim**
 
@@ -1456,14 +1456,14 @@ sudo debtap (package_name).deb
 
 ### **安装 TeX Live**
 
-推荐从 ISO 安装 TeX Live，下面以 TeX Live 2021 为例
+推荐从 ISO 安装 TeX Live
 
-首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 texlive.iso
+首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
 
 打开终端，运行：
 
 ```bash
-sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive2021.iso /mnt
+sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 ```
 
 #### **使用图形界面安装**
@@ -1505,17 +1505,7 @@ sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/t
 sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 ```
 
-可以运行 `tex --version` 检查是否安装成功，若成功应显示（以 Tex Live 2021 为例）：
-
-    TeX 3.141592653 (TeX Live 2021)
-    kpathsea version 6.3.3
-    Copyright 2021 D.E. Knuth.
-    There is NO warranty.  Redistribution of this software is
-    covered by the terms of both the TeX copyright and
-    the Lesser GNU General Public License.
-    For more information about these matters, see the file
-    named COPYING and the TeX source.
-    Primary author of TeX: D.E. Knuth.
+可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc ctex`）检查是否安装成功
 
