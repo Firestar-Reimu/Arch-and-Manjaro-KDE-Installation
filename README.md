@@ -3,8 +3,8 @@
 ThinkPad 系统信息：
 
 ```
-OS: Manjaro 21.1.1 Pahvo
-Kernel: x86_64 Linux 5.14.0-0-MANJARO
+OS: Manjaro 21.1.2 Pahvo
+Kernel: x86_64 Linux 5.14.2-1-MANJARO
 Shell: bash 5.1.8
 Resolution: 2560x1600
 DE: KDE 5.85.0 / Plasma 5.22.5
@@ -64,17 +64,13 @@ Security --> Secure Boot --> Disabled（第三个选项）
 
 从 Manjaro 官网上下载：
 
-
 https://manjaro.org/downloads/official/kde/ （KDE Plasma 版本）
-
 
 https://manjaro.org/get-manjaro/ （所有官方版本）
 
 或者在 Github 上下载：
 
-
 https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
-
 
 https://github.com/manjaro/release-review/releases （所有官方版本）
 
@@ -195,26 +191,21 @@ Manjaro 常用的包管理器有 pacman、pamac 和 yay，其使用教程参考�
 
 Manjaro Wiki -- Pacman Overview
 
-
 https://wiki.manjaro.org/index.php/Pacman_Overview
 
 Manjaro Wiki -- Pacman-mirrors
-
 
 https://wiki.manjaro.org/index.php/Pacman-mirrors
 
 ArchWiki -- Pacman
 
-
 https://wiki.archlinux.org/index.php/Pacman
 
 Manjaro Wiki -- Pamac
 
-
 https://wiki.manjaro.org/index.php/Pamac
 
 GitHub -- Yay
-
 
 https://github.com/Jguer/yay
 
@@ -230,16 +221,13 @@ yay 的命令一般和 pacman 一样，只是将 `sudo pacman` 替换成 `yay`
 
 Manjaro Wiki -- Manjaro Hardware Detection Overview
 
-
 https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview
 
 Manjaro Wiki -- Configure Graphics Cards
 
-
 https://wiki.manjaro.org/index.php/Configure_Graphics_Cards
 
 Manjaro Wiki -- Manjaro Kernels
-
 
 https://wiki.manjaro.org/index.php/Manjaro_Kernels
 
@@ -315,7 +303,6 @@ pactree (package_name)
 
 Downgrading Packages -- ArchWiki
 
-
 https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
 
 #### **清理缓存**
@@ -368,16 +355,13 @@ sudo pacman -U (package_path)/(package_name)
 
 Arch Wiki -- Cinnamon
 
-
 https://wiki.archlinux.org/index.php/Cinnamon#Installation
 
 Arch Wiki -- Intel Graphics
 
-
 https://wiki.archlinux.org/index.php/Intel_graphics#Installation
 
 KDE Community -- Plasma 5.9 Errata
-
 
 https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
@@ -825,6 +809,83 @@ Hidden=false
 
 在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回图形化界面
 
+### **网络设置**
+
+#### **ping 命令**
+
+IP 地址和连接情况可以通过对域名 `ping` 得到，例如：
+
+```bash
+ping -c (count_number) (website_destination)
+```
+
+表示对网站域名 `(website_destination)` 发送 `(count_number)` 次 `ping` 连通请求
+
+#### **命令行连接 PKU Wi-Fi**
+
+方法一：命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
+
+方法二：使用 `nmcli`，输入：
+
+```bash
+nmcli device wifi connect PKU
+```
+
+通用的操作是：
+
+```bash
+nmcli device wifi connect (SSID) password (student_passowrd)
+```
+
+注意这里的 SSID 是 Wi-Fi 的名称（如 PKU 或 TP-LINK_XXX），不是 IP 地址或 MAC 地址
+
+#### **命令行连接 PKU VPN**
+
+此处需要一直打开终端，故推荐使用 Yakuake
+
+按 `Fn+F12` 打开 Yakuake，输入：
+
+```bash
+sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
+```
+
+输入密码即可连接
+
+之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则 VPN 断开）
+
+#### **图形化界面连接 PKU Secure**
+
+Wi-Fi 安全 --> 安全 --> 企业 WPA/WPA2
+
+Wi-Fi 安全 --> 认证 --> 受保护的 EAP（PEAP）
+
+PEAP 版本 --> 自动
+
+内部认证 --> MSCHAPv2
+
+输入用户名、密码即可连接
+
+#### **命令行连接 PKU Secure**
+
+首先进入 `nmcli` 配置：
+
+```bash
+nmcli connection edit PKU\ Secure
+```
+
+在 `nmcli` 界面内输入：
+
+```
+set wifi-sec.key-mgmt wpa-eap
+set ipv4.method auto
+set 802-1x.eap peap
+set 802-1x.phase2-auth mschapv2
+set 802-1x.identity (student_ID)
+set 802-1x.password (student_password)
+save
+activate
+```
+
 ### **调整 CPU 频率（可选）**
 
 ```bash
@@ -1007,50 +1068,6 @@ free
 journalctl -rb -1
 ```
 
-### **网络设置**
-
-#### **ping 命令**
-
-IP 地址和连接情况可以通过对域名 `ping` 得到，例如：
-
-```bash
-ping -c (count_number) (website_destination)
-```
-
-表示对网站域名 `(website_destination)` 发送 `(count_number)` 次 `ping` 连通请求
-
-#### **命令行连接 PKU Wi-Fi**
-
-方法一：命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
-
-方法二：使用 `nmcli`，输入：
-
-```bash
-nmcli device wifi connect PKU
-```
-
-通用的操作是：
-
-```bash
-nmcli device wifi connect (SSID) password (Wi-Fi_passowrd)
-```
-
-注意这里的 SSID 是 Wi-Fi 的名称（如 PKU 或 TP-LINK_XXX），不是 IP 地址或 MAC 地址
-
-#### **命令行连接 PKU VPN**
-
-此处需要一直打开终端，故推荐使用 Yakuake
-
-按 `Fn+F12` 打开 Yakuake，输入：
-
-```bash
-sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
-```
-
-输入密码即可连接
-
-之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则 VPN 断开）
-
 ### **查看并转换编码**
 
 查看编码的命令为：
@@ -1215,7 +1232,6 @@ vim ~/.zshrc
 ### **GRUB 美化**
 
 选择主题 grub2-themes ，下载地址如下：
-
 
 https://github.com/vinceliuice/grub2-themes
 
@@ -1758,7 +1774,7 @@ vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
 
 #### **Visual Studio Code 安装**
 
-发行版维护者从开源代码构建的版本，可以用 `code` 命令打开：
+发行版维护者从开源代码构建的版本，可以用 `code` 命令打开（缺点是图标被重新设计过，且更新落后于微软官方版）：
 
 ```bash
 yay -S code
@@ -1788,7 +1804,7 @@ yay -S vscodium-bin
 yay -S code-git
 ```
 
-下载扩展：Python（会自动下载 Pylance 和 Jupyter），Markdown All in One，Latex Workshop，C/C++，Rainbow Brackets
+下载扩展：Python（会自动下载 Pylance、Jupyter 和 Jupyter Keymap），Markdown All in One，LaTeX Workshop，C/C++，Rainbow Brackets
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
 
@@ -1797,6 +1813,8 @@ yay -S code-git
 如果图标美化后 Visual Studio Code 图标变成圆形，想恢复原图标，更改路径如下：
 
 程序启动器 --> 编辑应用程序 --> Visual Studio Code --> 点击图标更改 --> 其他图标
+
+其图标位置在 `/usr/share/icons/visual-studio-code.png`
 
 #### **Visual Studio Code 缩放比例**
 
