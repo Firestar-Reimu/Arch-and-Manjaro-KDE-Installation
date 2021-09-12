@@ -1494,7 +1494,9 @@ sudo perl install-tl -gui text
 
 用大写字母命令控制安装：
 
-    D --> 1 --> 输入要安装 TeX Live 的位置（TEXDIR） --> RO --> L --> 都选择默认位置（按 Enter） --> RI
+    D --> 1 --> 输入要安装 TeX Live 的位置（TEXDIR） --> R
+    O --> P --> L --> 都选择默认位置（按 Enter） --> R
+    I
 
 TEXDIR 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
 
@@ -1685,7 +1687,8 @@ conda update --all
 恢复之前的版本：
 
 ```bash
-conda list --revisionsconda install --revision (revision_number)
+conda list --revisions
+conda install --revision (revision_number)
 ```
 
 **如果回滚到早期版本（`revision_number` 较小）之后又想回到某个高版本（`revision_number` 较大），必须要把两个版本中的版本都装一遍**
@@ -1818,7 +1821,7 @@ yay -S code-git
 }
 ```
 
-若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `/home/firestar/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到：
+若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到：
 
 ```json
 "[": {
@@ -1833,7 +1836,7 @@ yay -S code-git
 ```json
 "[": {
     "command": "[",
-    "snippet": "[\n    ${1}    \n\\]",
+    "snippet": "[\n    ${1}\n\\]",
     "detail": "display math \\[ ... \\]"
   },
 ```
