@@ -139,5 +139,5 @@
     ],
     "python.pythonPath": "/home/firestar/.miniconda/bin/python",
     "jupyter.themeMatplotlibPlots": true,
-    "jupyter.sendSelectionToInteractiveWindow": true,
+    "jupyter.sendSelectionToInteractiveWindow": true
 }
