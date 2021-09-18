@@ -30,25 +30,25 @@ CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
-**说明：Surface 专有部分自2021.9.5起不再更新，内核终止于 x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface**
+**说明：Surface 专有部分自 2021.9.5 起不再更新，内核终止于 x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface**
 
 ## **Windows 的准备工作**
 
 ### **为 Manjaro 系统分区**
 
-右键点击开始菜单，选择”磁盘管理”，分出一块空分区，建议不小于64GB
+右键点击开始菜单，选择”磁盘管理”，分出一块空分区，建议不小于 64GB
 
 ### **关闭快速启动**
 
 Windows 工具 –> 控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 关闭快速启动 --> 保存修改
 
-### **ThinkPad: 进入 UEFI 设置**
+### **ThinkPad: UEFI 设置**
 
 启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `F1` 进入 UEFI 设置
 
 Security --> Secure Boot --> Off
 
-### **Surface: 进入 UEFI 设置**
+### **Surface: UEFI 设置**
 
 关闭 Surface，然后等待大约 10 秒钟以确保其处于关闭状态
 
@@ -57,6 +57,18 @@ Security --> Secure Boot --> Off
 屏幕上会显示 Microsoft 或 Surface 徽标，继续按住调高音量按钮，显示 UEFI 屏幕后，松开此按钮
 
 Security --> Secure Boot --> Disabled（第三个选项）
+
+Boot Configuration --> Configure boot device order 中可以调整和删除启动顺序
+
+具体参考下列网址：
+
+如何使用 Surface UEFI
+
+https://support.microsoft.com/zh-cn/surface/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-surface-uefi-df2c8942-dfa0-859d-4394-95f45eb1c3f9
+
+### 删除多余的 Windows 启动项
+
+如果在电脑上装有多个 Windows，则系统只会选择其中一个在 Windows Boot Manager 中启动，若要删除多余的启动项，在 Windows 的“系统配置”（搜索框中输入 `msconfig` 或在“Windows 工具”中选择）的“引导”页面即可删除
 
 ### **制作启动盘**
 
@@ -74,11 +86,11 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
 
 https://github.com/manjaro/release-review/releases （所有官方版本）
 
-#### **刻录启动盘**
+#### **刻录 USB 启动盘**
 
-注意启动盘要用 USB，如果用移动硬盘会无法被识别
+推荐使用 [Ventoy](https://www.ventoy.net/cn/index.html)，可以在 Windows/Linux 上使用，方法是下载安装包后解压、安装到 USB 上，之后直接将 ISO 镜像拷贝到 USB 中即可选择镜像文件进行登录系统，支持多个系统镜像登录
 
-推荐使用 [Etcher](https://www.balena.io/etcher/)，在 Linux（下载 Appimage 或从 AUR 上用包管理器下载 `balena-etcher`）和 Windows（下载 EXE 可执行文件）上均能使用（但无法刻录 Windows 系统镜像），Github 项目地址在 https://github.com/balena-io/etcher
+Linux 上也可以使用 [Etcher](https://www.balena.io/etcher/)，在 Linux（下载 Appimage 或从 AUR 上用包管理器下载 `balena-etcher`）和 Windows（下载 EXE 可执行文件）上均能使用（但无法刻录 Windows 系统镜像），Github 项目地址在 https://github.com/balena-io/etcher
 
 Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当且支持 Windows 和 Linux 系统镜像，但无法在 Linux 上使用（只提供 Windows 版 EXE 可执行文件），Github 项目地址在 https://github.com/pbatard/rufus
 
@@ -136,7 +148,7 @@ Sleep：睡眠，Suspend：挂起，Reboot：重启，Shutdown：关机，Logout
 
 ### **高分辨率设置**
 
-ThinkPad 的屏幕分辨率是2560×1600，而 Surface 的屏幕分辨率是2736×1824，需要配置高分屏优化：
+ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是 2736×1824，需要配置高分屏优化：
 
 系统设置 --> 显示和监控 --> 显示配置 --> 分辨率 --> 全局缩放 --> 200%
 
@@ -379,7 +391,7 @@ sudo mhwd -r pci video-linux
 sudo mhwd -i pci video-modesetting
 ```
 
-**重启后会发现许多窗口和图标变小，建议先调整全局缩放为100%，重新启动，再调至200%，再重启**
+**重启后会发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启**
 
 ### **Surface：Linux-Surface 内核安装（可选）**
 
@@ -511,9 +523,9 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 
 这一步需要在 Powershell（管理员）中执行
 
-#### **Manjaro 数字时钟设置24小时制**
+#### **Manjaro 数字时钟设置 24 小时制**
 
-右键点击“数字时钟” --> 配置数字时钟 --> 时间显示 --> 24小时制
+右键点击“数字时钟” --> 配置数字时钟 --> 时间显示 --> 24 小时制
 
 #### **添加 TUNA 网络授时服务**
 
@@ -539,7 +551,7 @@ https://wiki.archlinux.org/title/Silent_boot
 sudo vim /etc/default/grub
 ```
 
-将 `GRUB_CMDLINE_LINUX_DEFAULT` 的值改为 `"quiet loglevel=3 udev.log_priority=3"` 
+将 `GRUB_CMDLINE_LINUX_DEFAULT` 的值改为 `"quiet loglevel=3 udev.log_priority=3"`
 
 编辑 fsck:
 
@@ -597,7 +609,7 @@ https://zhuanlan.zhihu.com/p/107334179
 
 ### **动态 Swap 文件设置**
 
-**使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件)**
+**使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](<https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件>)**
 
 先下载 `systemd-swap` 软件包：
 
@@ -715,6 +727,47 @@ sudo mount /dev/(partition_name) (mount_path)/(mount_folder)
 sudo ntfsfix /dev/(partition_name) && sudo mount /dev/(partition_name)(mount_path)/(mount_folder)
 ```
 
+### **系统分区改变导致时进入 GRUB Rescue 模式**
+
+此时会在开机时显示如下内容而无法进入选择系统的界面：
+
+```
+error: no such partition.
+Entering rescue mode...
+grub rescue>
+```
+
+此时执行 `ls`，显示如下：
+
+```
+((hd_number)) ((hd_number),(gpt_number))
+```
+
+其中硬盘编号 `(hd_number)` 从小到大排列（最小值为 0），分区编号 `(gpt_number)` 从大到小排列（最小值为 1）
+
+找到安装 Manjaro 的分区`((hd_number),(gpt_number))`，此时执行 `ls((hd_number),(gpt_number))`应该能看到 Manjaro 根目录下的所有文件和文件夹
+
+手动修改启动分区所在的位置：
+
+```bash
+set prefix=((hd_number),(gpt_number))/boot/grub
+```
+
+执行：
+
+```bash
+insmod normal
+normal
+```
+
+即可进入 GRUB 界面，从这里登录 Manjaro 系统，登录后执行：
+
+```
+sudo update-grub
+```
+
+以修复启动项
+
 ### **调整文件夹名称为英文**
 
 修改 `~/.config/user-dirs.dirs`，改为：
@@ -746,15 +799,15 @@ dbus-launch dolphin
 
 ### **SONY WH-1000XM3 耳机的蓝牙连接**
 
-长按耳机电源键约7秒即可进入配对模式，可以在蓝牙中配对
+长按耳机电源键约 7 秒即可进入配对模式，可以在蓝牙中配对
 
 ### **Logitech M590 鼠标的蓝牙连接**
 
 同一台电脑的 Windows 系统和 Manjaro 系统在鼠标上会被识别为两个设备
 
-如果 Windows 系统被识别为设备1，需要按滚轮后的圆形按钮切换至设备2
+如果 Windows 系统被识别为设备 1，需要按滚轮后的圆形按钮切换至设备 2
 
-长按圆形按钮直到灯2快速闪烁进入配对模式，可以在蓝牙中配对
+长按圆形按钮直到灯 2 快速闪烁进入配对模式，可以在蓝牙中配对
 
 #### **如果鼠标配对后屏幕光标无法移动**
 
@@ -774,7 +827,7 @@ bluetoothctl
 
 然后参考以下网站：
 
-Arch Wiki -- 关于Logitech BLE鼠标的问题
+Arch Wiki -- 关于 Logitech BLE 鼠标的问题
 
 https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
 
@@ -934,11 +987,11 @@ balooctl disable
  yay -S axel
 ```
 
-编辑 `/etc/pacman.conf` 文件（在第21行）:
+编辑 `/etc/pacman.conf` 文件（在第 21 行）:
 
     XferCommand = /usr/bin/axel -n 10 -o %o %u
 
-编辑 `/etc/makepkg.conf` 文件（在第11-16行）:
+编辑 `/etc/makepkg.conf` 文件（在第 11-16 行）:
 
     DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
     'ftp::/usr/bin/axel -n 10 -o %o %u'
@@ -970,7 +1023,7 @@ git config --global user.email "(user_email)"
 
 Git 使用教程参考以下网址：
 
-菜鸟教程 -- Git教程
+菜鸟教程 -- Git 教程
 
 https://www.runoob.com/git/git-tutorial.html
 
@@ -1146,7 +1199,7 @@ https://www.pling.com/browse/cat/309/order/latest/
 
 **现在新设计的登录屏幕（SDDM）和欢迎屏幕已经非常美观且改进了翻译问题，最方便的方法就是登录屏幕（SDDM）选择 Breath 2，欢迎屏幕选择 Breath2 2021**
 
-#### **SDDM 时间显示调整为24小时制**
+#### **SDDM 时间显示调整为 24 小时制**
 
 更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 中的 `Qt.formatTime` 一行：
 
@@ -1166,10 +1219,10 @@ KDE 桌面的 Mac 化
 
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
-其中 Plasma 主题、GTK主题和图标主题分别选择：
-    Plasma Theme: Mojave-CT
-    GTK Theme: Mojave-light-alt [GTK2/3]
-    Icon Theme: La Capitaine
+其中 Plasma 主题、GTK 主题和图标主题分别选择：
+Plasma Theme: Mojave-CT
+GTK Theme: Mojave-light-alt [GTK2/3]
+Icon Theme: La Capitaine
 
 KDE 桌面美化指南
 
@@ -1181,7 +1234,7 @@ Latte-Dock 的推荐设置：
 
 外观：绝对大小 --> 96，背景大小 --> 10%
 
-**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 Manjaro 新官方主题 Breath2 2021（也有深浅搭配和深色主题可选）或 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”，背景透明度选择20%**
+**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 Manjaro 新官方主题 Breath2 2021（也有深浅搭配和深色主题可选）或 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”，背景透明度选择 20%**
 
 #### **配置桌面小部件**
 
@@ -1289,6 +1342,14 @@ gpg --keyserver p80.pool.sks-keyservers.net --recv-keys (pgp_key)
 
 再重新安装软件即可
 
+### **安装软件后在开始菜单中找不到图标**
+
+执行命令：
+
+```
+sudo update-desktop-database
+```
+
 ### **语言包**
 
 系统设置 --> 语言包 --> 右上角点击“已安装的软件包”安装语言包
@@ -1360,7 +1421,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 <fontconfig>
     <alias>
         <family>sans-serif</family>
-        <prefer>            
+        <prefer>
             <family>Noto Sans CJK SC</family>
             <family>Noto Sans CJK TC</family>
             <family>Noto Sans CJK HK</family>
@@ -1466,9 +1527,9 @@ sudo debtap -u
 sudo debtap (package_name).deb
 ```
 
-系统会询问三个问题：文件名随便写，协议写 `GPL` 即可，编辑文件直接按 `Enter` 跳过 
+系统会询问三个问题：文件名随便写，协议写 `GPL` 即可，编辑文件直接按 `Enter` 跳过
 
-此处会生成一个 `tar.zst` 包，双击打开（右键用“软件安装程序”打开）即可安装 
+此处会生成一个 `tar.zst` 包，双击打开（右键用“软件安装程序”打开）即可安装
 
 ### **安装 TeX Live**
 
@@ -1559,7 +1620,7 @@ yay -S texstudio
 
 编辑器 --> 取消勾选“行内检查”
 
-高级编辑器 --> 自动保存所有文件 --> 1分钟
+高级编辑器 --> 自动保存所有文件 --> 1 分钟
 
 高级编辑器 --> 破解/变通 --> 取消勾选“自动选择最佳显示选项”，并勾选“禁用字符宽度缓存”和“关闭固定位置模式”
 
@@ -1583,7 +1644,7 @@ yay -S texstudio
 
 点击邮箱帐号，配置“账户设置”如下：
 
-服务器 --> 服务器设置 --> 每隔1分钟检查一次新消息
+服务器 --> 服务器设置 --> 每隔 1 分钟检查一次新消息
 
 服务器 --> 服务器设置 --> 在删除消息时 --> 立即删除
 
@@ -1753,7 +1814,7 @@ conda list
 链接：#55ff00
 ```
 
-编辑器 --> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为100毫秒
+编辑器 --> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为 100 毫秒
 
 用 Spyder 打开某个文件需要在终端中输入：
 
@@ -1804,7 +1865,7 @@ yay -S vscodium-bin
 yay -S code-git
 ```
 
-下载扩展：Python（会自动下载 Pylance、Jupyter 和 Jupyter Keymap），Markdown All in One，LaTeX Workshop，C/C++，Rainbow Brackets
+下载扩展：Python（会自动下载 Pylance、Jupyter 和 Jupyter Keymap），Markdown All in One，LaTeX Workshop，C/C++，Rainbow Brackets，Prettier - Code formatter
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
 
@@ -1832,10 +1893,10 @@ yay -S code-git
 
 ```json
 {
-    "key": "ctrl+m ctrl+f",
-    "command": "editor.action.insertSnippet",
-    "args": { "snippet": "\\frac{$1}{$2}$0" },
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  "key": "ctrl+m ctrl+f",
+  "command": "editor.action.insertSnippet",
+  "args": { "snippet": "\\frac{$1}{$2}$0" },
+  "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
 }
 ```
 
@@ -1935,7 +1996,7 @@ yay -S deepin-wine-wechat
 
 #### **deepin-wine-wechat 高分辨率适配调整**
 
-用命令 `/opt/apps/com.qq.weixin.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于200%的放大率：
+用命令 `/opt/apps/com.qq.weixin.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于 200%的放大率：
 
 Graphics --> Screen Resolution --> 192 dpi
 
@@ -1951,7 +2012,7 @@ yay -S com.tencent.deepin.meeting
 
 高分辨率适配调整：
 
-用命令 `/opt/apps/com.tencent.meeting.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于200%的放大率：
+用命令 `/opt/apps/com.tencent.meeting.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于 200%的放大率：
 
 Graphics --> Screen Resolution --> 192 dpi
 
@@ -2068,7 +2129,7 @@ https://www.microsoft.com/zh-cn/software-download/windows10ISO
 
 https://support.microsoft.com/zh-cn/help/4023531/surface-how-to-use-surface-uefi
 
-Win 10 环境下安装 Manjaro KDE（双系统） 
+Win 10 环境下安装 Manjaro KDE（双系统）
 
 https://www.cnblogs.com/Jaywhen-xiang/p/11561661.html
 
@@ -2132,7 +2193,7 @@ https://jakting.com/archives/ubuntu-rw-windows-files.html
 
 https://zhuanlan.zhihu.com/p/107334179
 
-Manjaro Linux Forum -- Connect to internet from command-line as a beginner 
+Manjaro Linux Forum -- Connect to internet from command-line as a beginner
 
 https://forum.manjaro.org/t/howto-connect-to-internet-from-command-line-as-a-beginner/
 

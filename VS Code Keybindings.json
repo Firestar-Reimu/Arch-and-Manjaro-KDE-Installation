@@ -1,45 +1,45 @@
 [
-    {
-        "key": "ctrl+b",
-        "command": "latex-workshop.shortcut.textbf",
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },
-    {
-        "key": "ctrl+i",
-        "command": "latex-workshop.shortcut.textit",
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },
-    {
-        "key": "ctrl+n",
-        "command": "latex-workshop.shortcut.textnormal",
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },
-    {
-        "key": "ctrl+r",
-        "command": "latex-workshop.shortcut.textrm",
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },
-    {
-        "key": "ctrl+t",
-        "command": "latex-workshop.shortcut.texttt",
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },
-    {
-        "key": "ctrl+m ctrl+f",
-        "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\frac{$1}{$2}$0" },
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },
-    {
-        "key": "ctrl+d ctrl+f",
-        "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\dfrac{$1}{$2}$0" },
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },
-    {
-        "key": "ctrl+m ctrl+p",
-        "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\partial" },
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    }
+  {
+    "key": "ctrl+b",
+    "command": "latex-workshop.shortcut.textbf",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "ctrl+i",
+    "command": "latex-workshop.shortcut.textit",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "ctrl+n",
+    "command": "latex-workshop.shortcut.textnormal",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "ctrl+r",
+    "command": "latex-workshop.shortcut.textrm",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "ctrl+t",
+    "command": "latex-workshop.shortcut.texttt",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "ctrl+m ctrl+f",
+    "command": "editor.action.insertSnippet",
+    "args": { "snippet": "\\frac{$1}{$2}$0" },
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "ctrl+d ctrl+f",
+    "command": "editor.action.insertSnippet",
+    "args": { "snippet": "\\dfrac{$1}{$2}$0" },
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "ctrl+m ctrl+p",
+    "command": "editor.action.insertSnippet",
+    "args": { "snippet": "\\partial" },
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  }
 ]
