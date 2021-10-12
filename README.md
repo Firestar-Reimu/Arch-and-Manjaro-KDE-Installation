@@ -40,13 +40,13 @@ GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 
 ### **关闭快速启动**
 
-Windows 工具 –> 控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 关闭快速启动 --> 保存修改
+Windows 工具 –> 控制面板 >>> 电源选项 >>> 选择电源按钮的功能 >>> 更改当前不可用的设置 >>> 关闭快速启动 >>> 保存修改
 
 ### **ThinkPad: UEFI 设置**
 
 启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `F1` 进入 UEFI 设置
 
-Security --> Secure Boot --> Off
+Security >>> Secure Boot >>> Off
 
 ### **Surface: UEFI 设置**
 
@@ -56,9 +56,9 @@ Security --> Secure Boot --> Off
 
 屏幕上会显示 Microsoft 或 Surface 徽标，继续按住调高音量按钮，显示 UEFI 屏幕后，松开此按钮
 
-Security --> Secure Boot --> Disabled（第三个选项）
+Security >>> Secure Boot >>> Disabled（第三个选项）
 
-Boot Configuration --> Configure boot device order 中可以调整和删除启动顺序
+Boot Configuration >>> Configure boot device order 中可以调整和删除启动顺序
 
 具体参考下列网址：
 
@@ -96,7 +96,7 @@ Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当�
 
 ### **ThinkPad：安装 Manjaro**
 
-设置 --> 恢复 --> 立即重新启动 --> USB HDD
+设置 >>> 恢复 >>> 立即重新启动 >>> USB HDD
 
 或按照以下步骤直接从 USB 启动:
 
@@ -104,7 +104,7 @@ Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当�
 
 ### **Surface：安装 Manjaro**
 
-设置 --> 恢复 --> 立即重新启动 --> USB Storage
+设置 >>> 恢复 >>> 立即重新启动 >>> USB Storage
 
 或按照以下步骤直接从 USB 启动:
 
@@ -138,9 +138,9 @@ Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当�
 
 ### **电源与开机设置**
 
-系统设置 --> 电源管理 --> 节能 --> 勾选“按键事件处理” --> 合上笔记本盖时 --> 选择“关闭屏幕” --> 勾选“即使已连接外部显示器”
+系统设置 >>> 电源管理 >>> 节能 >>> 勾选“按键事件处理” >>> 合上笔记本盖时 >>> 选择“关闭屏幕” >>> 勾选“即使已连接外部显示器”
 
-系统设置 --> 开机与关机 --> 桌面会话 --> 登入时 --> 选择“以空会话启动”
+系统设置 >>> 开机与关机 >>> 桌面会话 >>> 登入时 >>> 选择“以空会话启动”
 
 #### **与电源管理相关的常见英文名词**
 
@@ -150,9 +150,9 @@ Sleep：睡眠，Suspend：挂起，Reboot：重启，Shutdown：关机，Logout
 
 ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是 2736×1824，需要配置高分屏优化：
 
-系统设置 --> 显示和监控 --> 显示配置 --> 分辨率 --> 全局缩放 --> 200%
+系统设置 >>> 显示和监控 >>> 显示配置 >>> 分辨率 >>> 全局缩放 >>> 200%
 
-系统设置 --> 光标 --> 大小 --> 36
+系统设置 >>> 光标 >>> 大小 >>> 36
 
 然后重启电脑
 
@@ -162,11 +162,11 @@ ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是 27
 
 为打开方便，可以采用 i3wm 的默认快捷键打开 Konsole：
 
-系统设置 --> 快捷键 --> 添加应用程序 --> Konsole --> Konsole 的快捷键设为 `Meta+Return`（即“Windows 徽标键 + Enter 键”）
+系统设置 >>> 快捷键 >>> 添加应用程序 >>> Konsole >>> Konsole 的快捷键设为 `Meta+Return`（即“Windows 徽标键 + Enter 键”）
 
 #### **Konsole/Yakuake 快捷键**
 
-设置 --> 配置键盘快捷键 --> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
+设置 >>> 配置键盘快捷键 >>> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
 
 ### **选择镜像并更改更新分支**
 
@@ -257,7 +257,7 @@ sudo pacman -S base-devel
 
 #### **启用 pamac 的 AUR 支持**
 
-添加/删除软件 --> 右上角 ··· --> 首选项 --> AUR --> 启用 AUR 支持
+添加/删除软件 >>> 右上角 ··· >>> 首选项 >>> AUR >>> 启用 AUR 支持
 
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
 
@@ -463,7 +463,7 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 
 取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
 
-**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） --> `Enter` --> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） --> `Enter` --> `Ctrl+X` （Exit）**
+**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >>> `Enter` >>> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >>> `Enter` >>> `Ctrl+X` （Exit）**
 
 ### **更改 visudo 默认编辑器为 vim**
 
@@ -507,7 +507,7 @@ sudo EDITOR=vim visudo
 
 #### **双系统时间不同步**
 
-系统设置 --> 时间和日期 --> 自动设置时间和日期
+系统设置 >>> 时间和日期 >>> 自动设置时间和日期
 
 在 Manjaro 上设置硬件时间为 UTC：
 
@@ -525,7 +525,7 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 
 #### **Manjaro 数字时钟设置 24 小时制**
 
-右键点击“数字时钟” --> 配置数字时钟 --> 时间显示 --> 24 小时制
+右键点击“数字时钟” >>> 配置数字时钟 >>> 时间显示 >>> 24 小时制
 
 #### **添加 TUNA 网络授时服务**
 
@@ -687,7 +687,7 @@ sudo vim /etc/fstab
 
 **首先检查 Windows 中是否关闭了快速启动**
 
-关闭快速启动（Windows 工具 –> 控制面板 --> 电源选项 --> 选择电源按钮的功能 --> 更改当前不可用的设置 --> 关闭快速启动 --> 保存修改）并重启电脑
+关闭快速启动（Windows 工具 –> 控制面板 >>> 电源选项 >>> 选择电源按钮的功能 >>> 更改当前不可用的设置 >>> 关闭快速启动 >>> 保存修改）并重启电脑
 
 一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，若关闭快速启动不能解决问题，使用下面的方法：
 
@@ -908,13 +908,13 @@ sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
 
 #### **图形化界面连接 PKU Secure**
 
-Wi-Fi 安全 --> 安全 --> 企业 WPA/WPA2
+Wi-Fi 安全 >>> 安全 >>> 企业 WPA/WPA2
 
-Wi-Fi 安全 --> 认证 --> 受保护的 EAP（PEAP）
+Wi-Fi 安全 >>> 认证 >>> 受保护的 EAP（PEAP）
 
-PEAP 版本 --> 自动
+PEAP 版本 >>> 自动
 
-内部认证 --> MSCHAPv2
+内部认证 >>> MSCHAPv2
 
 输入用户名、密码即可连接
 
@@ -1051,7 +1051,7 @@ ssh-add ~/.ssh/id_ed25519
 
 #### **新增 SSH 密钥到 GitHub 帐户**
 
-通过 `cat ~/.ssh/id_ed25519.pub` 查看公钥并复制到 Github 账户下的“设置 --> SSH and GPG keys”中
+通过 `cat ~/.ssh/id_ed25519.pub` 查看公钥并复制到 Github 账户下的“设置 >>> SSH and GPG keys”中
 
 #### **测试 SSH 连接**
 
@@ -1189,13 +1189,13 @@ https://www.pling.com/browse/cat/309/order/latest/
 
 ### **添加用户图标**
 
-系统设置 --> 用户账户 --> 图像
+系统设置 >>> 用户账户 >>> 图像
 
 ### **开机登录美化**
 
-开机与关机 --> 登录屏幕（SDDM） --> Breeze 或者 Fluent
+开机与关机 >>> 登录屏幕（SDDM） >>> Breeze 或者 Fluent
 
-外观 --> 欢迎屏幕 --> Snowy Night Miku、Manjaro Linux Reflection Splashscreen、ManjaroLogo Black、Plasma 5 Manjaro Splashscreen White Blur
+外观 >>> 欢迎屏幕 >>> Snowy Night Miku、Manjaro Linux Reflection Splashscreen、ManjaroLogo Black、Plasma 5 Manjaro Splashscreen White Blur
 
 **现在新设计的登录屏幕（SDDM）和欢迎屏幕已经非常美观且改进了翻译问题，最方便的方法就是登录屏幕（SDDM）选择 Breath 2，欢迎屏幕选择 Breath2 2021**
 
@@ -1230,21 +1230,21 @@ https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E
 
 Latte-Dock 的推荐设置：
 
-行为：位置 --> 底部，可见性 --> 自动隐藏，延迟 --> 显示 --> none
+行为：位置 >>> 底部，可见性 >>> 自动隐藏，延迟 >>> 显示 >>> none
 
-外观：绝对大小 --> 96，背景大小 --> 10%
+外观：绝对大小 >>> 96，背景大小 >>> 10%
 
 **不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 Manjaro 新官方主题 Breath2 2021（也有深浅搭配和深色主题可选）或 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”，背景透明度选择 20%**
 
 #### **配置桌面小部件**
 
-右键点击桌面 --> 添加部件 --> 获取新部件 --> 下载新 Plasma 部件
+右键点击桌面 >>> 添加部件 >>> 获取新部件 >>> 下载新 Plasma 部件
 
 在这里可以下载桌面小部件，并在“添加部件”处添加，例如 Simple System Monitor
 
 #### **zsh 与 Oh-My-Zsh 配置（可选）**
 
-Konsole --> 设置 --> 编辑当前方案 --> 常规 --> 命令 --> `usr/bin/zsh`
+Konsole >>> 设置 >>> 编辑当前方案 >>> 常规 >>> 命令 >>> `usr/bin/zsh`
 
 安装 Oh-My-Zsh，执行：（不推荐用包管理器安装）
 
@@ -1352,7 +1352,7 @@ sudo update-desktop-database
 
 ### **语言包**
 
-系统设置 --> 语言包 --> 右上角点击“已安装的软件包”安装语言包
+系统设置 >>> 语言包 >>> 右上角点击“已安装的软件包”安装语言包
 
 ### **Kate 插件下载**
 
@@ -1464,7 +1464,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 yay -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool
 ```
 
-如果无法启动输入法，在系统设置 --> 区域设置 --> 输入法 --> 添加输入法中手动添加“拼音”
+如果无法启动输入法，在系统设置 >>> 区域设置 >>> 输入法 >>> 添加输入法中手动添加“拼音”
 
 对应的 git 版本为：（需要使用 Arch Linux CN 源）
 
@@ -1571,8 +1571,8 @@ sudo perl install-tl -gui text
 
 用大写字母命令控制安装：
 
-    D --> 1 --> 输入要安装 TeX Live 的位置（TEXDIR） --> R
-    O --> P --> L --> 都选择默认位置（按 Enter） --> R
+    D >>> 1 >>> 输入要安装 TeX Live 的位置（TEXDIR） >>> R
+    O >>> P >>> L >>> 都选择默认位置（按 Enter） >>> R
     I
 
 TEXDIR 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
@@ -1596,35 +1596,35 @@ sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 yay -S texstudio
 ```
 
-帮助 --> 检查 LaTeX 安装信息
+帮助 >>> 检查 LaTeX 安装信息
 
 如果能检测到 LaTeX，说明 TeX Live 安装成功，开始设置
 
-选项 --> 设置 TeXstudio
+选项 >>> 设置 TeXstudio
 
 首先在左下角勾选“显示高级选项”
 
-常规 --> 会话 --> 取消勾选“启动时恢复上一次会话”（可选）
+常规 >>> 会话 >>> 取消勾选“启动时恢复上一次会话”（可选）
 
-菜单 --> 数学 --> `\frac{}{}` --> `\frac{%|}{}`
+菜单 >>> 数学 >>> `\frac{}{}` >>> `\frac{%|}{}`
 
-菜单 --> 数学 --> `\frac{}{}` --> `\frac{%|}{}`
+菜单 >>> 数学 >>> `\frac{}{}` >>> `\frac{%|}{}`
 
-快捷键 --> 数学 --> 数学字体格式 --> 罗马字体 --> 当前快捷键 --> `Alt+Shift+R`
+快捷键 >>> 数学 >>> 数学字体格式 >>> 罗马字体 >>> 当前快捷键 >>> `Alt+Shift+R`
 
-编辑器 --> 缩进模式 --> 自动增加或减少缩进
+编辑器 >>> 缩进模式 >>> 自动增加或减少缩进
 
-编辑器 --> 缩进模式 --> 勾选“将缩进替换为空格”和“将文本中的制表符（Tab）替换为空格”
+编辑器 >>> 缩进模式 >>> 勾选“将缩进替换为空格”和“将文本中的制表符（Tab）替换为空格”
 
-编辑器 --> 显示行号 --> 所有行号
+编辑器 >>> 显示行号 >>> 所有行号
 
-编辑器 --> 取消勾选“行内检查”
+编辑器 >>> 取消勾选“行内检查”
 
-高级编辑器 --> 自动保存所有文件 --> 1 分钟
+高级编辑器 >>> 自动保存所有文件 >>> 1 分钟
 
-高级编辑器 --> 破解/变通 --> 取消勾选“自动选择最佳显示选项”，并勾选“禁用字符宽度缓存”和“关闭固定位置模式”
+高级编辑器 >>> 破解/变通 >>> 取消勾选“自动选择最佳显示选项”，并勾选“禁用字符宽度缓存”和“关闭固定位置模式”
 
-补全 --> 取消勾选“输入参数”
+补全 >>> 取消勾选“输入参数”
 
 ### **Thunderbird 配置**
 
@@ -1632,11 +1632,11 @@ yay -S texstudio
 
 进入首选项界面调整显示：
 
-首选项 --> 常规 --> Thunderbird 起始页 --> 清空并取消勾选
+首选项 >>> 常规 >>> Thunderbird 起始页 >>> 清空并取消勾选
 
-首选项 --> 常规 --> 默认搜索引擎 --> 改为 Bing
+首选项 >>> 常规 >>> 默认搜索引擎 >>> 改为 Bing
 
-首选项 --> 隐私与安全 --> 邮件内容 --> 勾选“允许消息中的远程内容”
+首选项 >>> 隐私与安全 >>> 邮件内容 >>> 勾选“允许消息中的远程内容”
 
 右键点击上方邮件工具栏，选择“自定义”，自行配置即可
 
@@ -1644,9 +1644,9 @@ yay -S texstudio
 
 点击邮箱帐号，配置“账户设置”如下：
 
-服务器 --> 服务器设置 --> 每隔 1 分钟检查一次新消息
+服务器 >>> 服务器设置 >>> 每隔 1 分钟检查一次新消息
 
-服务器 --> 服务器设置 --> 在删除消息时 --> 立即删除
+服务器 >>> 服务器设置 >>> 在删除消息时 >>> 立即删除
 
 ### **Python 安装与配置**
 
@@ -1682,7 +1682,7 @@ Miniconda -- Conda documentation
 
 https://docs.conda.io/en/latest/miniconda.html
 
-或者在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/#)点击右侧的“获取下载链接”按钮，在“应用软件” --> Conda 里面选择
+或者在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/#)点击右侧的“获取下载链接”按钮，在“应用软件” >>> Conda 里面选择
 
 安装过程参考以下网址：（Miniconda 和 Anaconda 的安装步骤相同）
 
@@ -1784,9 +1784,9 @@ conda list
 
 #### **Spyder 配置**
 
-通用 --> 显示器分辨率 --> 普通
+通用 >>> 显示器分辨率 >>> 普通
 
-外观 --> 语法高亮主题 --> IDLE
+外观 >>> 语法高亮主题 >>> IDLE
 
 编辑选定的方案：
 
@@ -1814,7 +1814,7 @@ conda list
 链接：#55ff00
 ```
 
-编辑器 --> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为 100 毫秒
+编辑器 >>> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为 100 毫秒
 
 用 Spyder 打开某个文件需要在终端中输入：
 
@@ -1873,7 +1873,7 @@ yay -S code-git
 
 如果图标美化后 Visual Studio Code 图标变成圆形，想恢复原图标，更改路径如下：
 
-程序启动器 --> 编辑应用程序 --> Visual Studio Code --> 点击图标更改 --> 其他图标
+程序启动器 >>> 编辑应用程序 >>> Visual Studio Code >>> 点击图标更改 >>> 其他图标
 
 其图标位置在 `/usr/share/icons/visual-studio-code.png`
 
@@ -1893,10 +1893,10 @@ yay -S code-git
 
 ```json
 {
-  "key": "ctrl+m ctrl+f",
-  "command": "editor.action.insertSnippet",
-  "args": { "snippet": "\\frac{$1}{$2}$0" },
-  "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+    "key": "ctrl+m ctrl+f",
+    "command": "editor.action.insertSnippet",
+    "args": { "snippet": "\\frac{$1}{$2}$0" },
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
 }
 ```
 
@@ -1998,7 +1998,7 @@ yay -S deepin-wine-wechat
 
 用命令 `/opt/apps/com.qq.weixin.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于 200%的放大率：
 
-Graphics --> Screen Resolution --> 192 dpi
+Graphics >>> Screen Resolution >>> 192 dpi
 
 其余基于 Deepin Wine 的软件（如腾讯会议）也是类似的处理方法，将 `com.qq.weixin.deepin` 换成对应的文件夹名称即可（都在 `/opt/apps/` 目录下）
 
@@ -2014,7 +2014,7 @@ yay -S com.tencent.deepin.meeting
 
 用命令 `/opt/apps/com.tencent.meeting.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于 200%的放大率：
 
-Graphics --> Screen Resolution --> 192 dpi
+Graphics >>> Screen Resolution >>> 192 dpi
 
 ### **音乐软件安装**
 

@@ -1,125 +1,125 @@
 {
-  "editor.fontSize": 16,
-  "editor.fontFamily": "JetBrains Mono NL, Noto Mono, Noto Sans Mono CJK SC, Consolas",
-  "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'onum'",
-  "editor.detectIndentation": false,
-  "editor.insertSpaces": true,
-  "editor.tabSize": 4,
-  "editor.renderWhitespace": "boundary",
-  "editor.wordWrap": "on",
-  "editor.maxTokenizationLineLength": 4294967296,
-  "editor.tokenColorCustomizations": {
-    "comments": {
-      "fontStyle": "bold",
-      "foreground": "#999999"
+    "editor.fontSize": 16,
+    "editor.fontFamily": "JetBrains Mono NL, Noto Mono, Noto Sans Mono CJK SC, Consolas",
+    "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'onum'",
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.renderWhitespace": "boundary",
+    "editor.wordWrap": "on",
+    "editor.maxTokenizationLineLength": 4294967296,
+    "editor.tokenColorCustomizations": {
+        "comments": {
+            "fontStyle": "bold",
+            "foreground": "#999999"
+        },
+        "keywords": {
+            "fontStyle": "bold",
+            "foreground": "#ff5500"
+        },
+        "variables": "#dd55aa",
+        "strings": "#00aa00",
+        "functions": {
+            "fontStyle": "bold",
+            "foreground": "#0000ff"
+        },
+        "numbers": "#aa0000"
     },
-    "keywords": {
-      "fontStyle": "bold",
-      "foreground": "#ff5500"
+    "debug.console.fontSize": 16,
+    "debug.onTaskErrors": "showErrors",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": ["-NoLogo"],
+            "overrideName": true
+        }
     },
-    "variables": "#dd55aa",
-    "strings": "#00aa00",
-    "functions": {
-      "fontStyle": "bold",
-      "foreground": "#0000ff"
+    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.inheritEnv": false,
+    "workbench.colorCustomizations": {
+        "editor.selectionHighlightBackground": "#ffff55"
     },
-    "numbers": "#aa0000"
-  },
-  "debug.console.fontSize": 16,
-  "debug.onTaskErrors": "showErrors",
-  "terminal.integrated.profiles.windows": {
-    "PowerShell": {
-      "source": "PowerShell",
-      "args": ["-NoLogo"],
-      "overrideName": true
-    }
-  },
-  "terminal.integrated.fontSize": 16,
-  "terminal.integrated.cursorStyle": "line",
-  "terminal.integrated.cursorBlinking": true,
-  "terminal.integrated.inheritEnv": false,
-  "workbench.colorCustomizations": {
-    "editor.selectionHighlightBackground": "#ffff55"
-  },
-  "workbench.startupEditor": "newUntitledFile",
-  "workbench.colorTheme": "Default Light+",
-  "explorer.confirmDelete": false,
-  "security.workspace.trust.untrustedFiles": "open",
-  "files.autoSave": "onFocusChange",
-  "files.autoSaveDelay": 0,
-  "files.associations": {
-    "*.json": "jsonc"
-  },
-  "git.enableSmartCommit": true,
-  "git.confirmSync": false,
-  "git.autofetch": true,
-  "latex-workshop.message.error.show": false,
-  "latex-workshop.message.warning.show": false,
-  "latex-workshop.latex.tools": [
-    {
-      "name": "xelatex",
-      "command": "xelatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOCFILE%"
-      ]
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.colorTheme": "Default Light+",
+    "explorer.confirmDelete": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "files.autoSave": "onFocusChange",
+    "files.autoSaveDelay": 0,
+    "files.associations": {
+        "*.json": "jsonc"
     },
-    {
-      "name": "bibtex",
-      "command": "bibtex",
-      "args": ["%DOCFILE%"]
-    }
-  ],
-  "latex-workshop.latex.recipes": [
-    {
-      "name": "xelatex",
-      "tools": ["xelatex"]
-    },
-    {
-      "name": "xe->xe",
-      "tools": ["xelatex", "xelatex"]
-    },
-    {
-      "name": "xe->bib->xe->xe",
-      "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
-    }
-  ],
-  "latex-workshop.latex.recipe.default": "lastUsed",
-  "latex-workshop.latex.clean.fileTypes": [
-    "*.aux",
-    "*.bbl",
-    "*.blg",
-    "*.idx",
-    "*.ind",
-    "*.lof",
-    "*.lot",
-    "*.out",
-    "*.toc",
-    "*.acn",
-    "*.acr",
-    "*.alg",
-    "*.glg",
-    "*.glo",
-    "*.gls",
-    "*.ist",
-    "*.fls",
-    "*.log",
-    "*.nav",
-    "*.snm",
-    "*.fdb_latexmk"
-  ],
-  "latex-workshop.latex.autoClean.run": "onBuilt",
-  "latex-workshop.bind.enter.key": false,
-  "latex-workshop.latex.watch.delay": 0,
-  "latex-workshop.latex.watch.interval": 0,
-  "latex-workshop.latex.pdfWatch.delay": 0,
-  "latex-workshop.view.pdf.tab.openDelay": 0,
-  "latex-workshop.view.pdf.viewer": "tab",
-  "python.linting.pylintArgs": ["--generate-members"],
-  "python.formatting.autopep8Args": ["--max-line-length=65536"],
-  "python.pythonPath": "/home/firestar/.miniconda/bin/python",
-  "jupyter.themeMatplotlibPlots": true,
-  "jupyter.sendSelectionToInteractiveWindow": true
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "latex-workshop.message.error.show": false,
+    "latex-workshop.message.warning.show": false,
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOCFILE%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": ["%DOCFILE%"]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatex",
+            "tools": ["xelatex"]
+        },
+        {
+            "name": "xe->xe",
+            "tools": ["xelatex", "xelatex"]
+        },
+        {
+            "name": "xe->bib->xe->xe",
+            "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "lastUsed",
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.ist",
+        "*.fls",
+        "*.log",
+        "*.nav",
+        "*.snm",
+        "*.fdb_latexmk"
+    ],
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.bind.enter.key": false,
+    "latex-workshop.latex.watch.delay": 0,
+    "latex-workshop.latex.watch.interval": 0,
+    "latex-workshop.latex.pdfWatch.delay": 0,
+    "latex-workshop.view.pdf.tab.openDelay": 0,
+    "latex-workshop.view.pdf.viewer": "tab",
+    "python.linting.pylintArgs": ["--generate-members"],
+    "python.formatting.autopep8Args": ["--max-line-length=65536"],
+    "python.pythonPath": "/home/firestar/.miniconda/bin/python",
+    "jupyter.themeMatplotlibPlots": true,
+    "jupyter.sendSelectionToInteractiveWindow": true
 }
