@@ -1,6 +1,6 @@
 {
-    "editor.fontSize": 16,
-    "editor.fontFamily": "JetBrains Mono NL, Noto Mono, Noto Sans Mono CJK SC, Consolas",
+    "editor.fontSize": 12,
+    "editor.fontFamily": "JetBrains Mono NL, Noto Sans Mono CJK SC, Consolas",
     "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'onum'",
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
@@ -41,7 +41,7 @@
     "workbench.colorCustomizations": {
         "editor.selectionHighlightBackground": "#ffff55"
     },
-    "workbench.startupEditor": "newUntitledFile",
+    "workbench.startupEditor": "none",
     "workbench.colorTheme": "Default Light+",
     "explorer.confirmDelete": false,
     "security.workspace.trust.untrustedFiles": "open",
