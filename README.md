@@ -1,4 +1,4 @@
-# **在 ThinkPad X13 Gen 2 Intel/Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
+# **在 ThinkPad X13 2021 Intel/Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
 
 ThinkPad 系统信息：
 
@@ -176,30 +176,30 @@ ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是 27
 sudo pacman-mirrors -i -c China
 ```
 
-更新分支 `(branch)` 可以选择 stable/testing/unstable，更改更新分支的命令为：（不要漏掉 `--api`）
+更新分支 `(branch)` 可以选择 stable/testing/unstable，更改更新分支的命令为：（不要漏掉 `-a`）
 
 ```bash
-sudo pacman-mirrors --api --set-branch (branch)
+sudo pacman-mirrors -aS (branch)
 sudo pacman -Syyu
 ```
 
 获取更新分支的命令为：
 
 ```bash
-sudo pacman-mirrors --get-branch
+sudo pacman-mirrors -G
 ```
 
-选择镜像并更改更新分支的命令即为：
+选择镜像并更改更新分支的命令则为：
 
 ```bash
-sudo pacman-mirrors --api --set-branch (branch) -i -c China
+sudo pacman-mirrors -aS (branch) -ic China
 ```
 
 **一般建议选择上海交大的镜像，其更新频率最高且支持全部三个更新分支，如果在北京大学访问上海交大镜像源较慢可以考虑用更快的清华大学镜像源**
 
 ### 包管理器
 
-Manjaro 常用的包管理器有 pacman、pamac 和 yay，其使用教程参考以下网址：
+Manjaro 常用的包管理器有 pacman 和 pamac，其使用教程参考以下网址：
 
 Manjaro Wiki -- Pacman Overview
 
@@ -217,17 +217,7 @@ Manjaro Wiki -- Pamac
 
 https://wiki.manjaro.org/index.php/Pamac
 
-GitHub -- Yay
-
-https://github.com/Jguer/yay
-
-其中 pacman 和 pamac 是预装的，“添加/删除软件”就是 pamac 的 GUI 版本，而 yay 需要自己下载：
-
-```bash
-sudo pacman -S yay
-```
-
-yay 的命令一般和 pacman 一样，只是将 `sudo pacman` 替换成 `yay`
+其中 pacman 和 pamac 是预装的，“添加/删除软件”就是 pamac 的 GUI 版本
 
 硬件管理的包管理器是 mhwd 和 mhwd-kernel，其使用教程参考以下网址：
 
@@ -259,22 +249,9 @@ sudo pacman -S base-devel
 
 添加/删除软件 >> 右上角 ··· >> 首选项 >> AUR >> 启用 AUR 支持
 
-然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包。
+然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包
 
-#### **yay 反向代理配置**
-
-执行以下命令以启用清华的 AUR 反向代理:
-
-```bash
-yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
-yay -Syyu
-```
-
-修改的配置文件位于 `~/.config/yay/config.json` ，还可通过以下命令查看修改过的配置：
-
-```bash
-yay -P -g
-```
+**注意 pacman 不支持 AUR**
 
 ### **Arch Linux CN 软件源**
 
@@ -291,6 +268,8 @@ Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
 sudo pacman -Sy archlinuxcn-keyring
 sudo pacman -Syyu
 ```
+
+这样就开启了 pacman 和 pamac 对 Arch Linux CN 的支持
 
 由于 Manjaro 的更新滞后于 Arch，使用 Arch Linux CN 仓库可能会出现“部分更新”的情况，导致某些软件包损坏
 
@@ -325,26 +304,22 @@ https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%
 清理全部软件安装包：
 
 ```bash
-yay -Scc
-```
-
-或者：
-
-```bash
 pamac clean
 ```
 
 删除软件包时清理设置文件：
 
 ```bash
-yay -Rn (package_name)
+sudo pacman -Rn (package_name)
 ```
 
 清理无用的孤立软件包：
 
 ```bash
-yay -Rsn $(pacman -Qdtq)
+sudo pacman -Rsn $(pacman -Qdtq)
 ```
+
+若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
 
 或者：
 
@@ -411,7 +386,8 @@ curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg
 接着输入：
 
 ```bash
-sudo pacman-key --finger 56C464BAAC421453sudo pacman-key --lsign-key 56C464BAAC421453
+sudo pacman-key --finger 56C464BAAC421453
+sudo pacman-key --lsign-key 56C464BAAC421453
 ```
 
 在 `/etc/pacman.conf` 里面添加：
@@ -425,7 +401,7 @@ Server = https://pkg.surfacelinux.com/arch/
 
 ```bash
 sudo pacman -Syyu
-sudo pacman -S linux-surface linux-surface-headers iptsd
+sudo pacman -S linux-surface linux-surface-headers iptsd-git
 ```
 
 启动触屏：
@@ -631,7 +607,7 @@ https://zhuanlan.zhihu.com/p/107334179
 先下载 `systemd-swap` 软件包：
 
 ```bash
-yay -S systemd-swap
+sudo pacman -S systemd-swap
 ```
 
 编辑 `/etc/systemd/swap.conf`:
@@ -841,7 +817,7 @@ dbus-launch dolphin
 首先要安装 `bluez-utils`：
 
 ```bash
-yay -S bluez-utils
+sudo pacman -S bluez-utils
 ```
 
 在终端中输入：
@@ -1008,12 +984,12 @@ sudo tlp start
 balooctl disable
 ```
 
-### **为 pacman 和 yay 启用多线程下载（可选）**
+### **为 pacman 启用多线程下载（可选）**
 
 执行下面的命令下载 axel
 
 ```bash
- yay -S axel
+ sudo pacman -S axel
 ```
 
 编辑 `/etc/pacman.conf` 文件（在第 21 行）:
@@ -1216,7 +1192,7 @@ https://www.pling.com/browse/cat/309/order/latest/
 
 默认的壁纸保存位置为 `/usr/share/wallpapers/`
 
-还可以使用包管理器（pacman/yay/pamac）下载壁纸，用“添加/删除软件”或 `pamac search wallpaper` 查找
+还可以使用包管理器（pacman/sudo pacman/pamac）下载壁纸，用“添加/删除软件”或 `pamac search wallpaper` 查找
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
@@ -1370,7 +1346,7 @@ ILoveCandy
 与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
 
 ```bash
-yay -S plasma-wayland-session
+sudo pacman -S plasma-wayland-session
 ```
 
 安装后即可在登录界面选择 Wayland 会话
@@ -1406,7 +1382,7 @@ sudo update-desktop-database
 下载 Kate 插件：
 
 ```bash
-yay -S aspell hspell libvoikko
+sudo pacman -S aspell hspell libvoikko
 ```
 
 ### **字体安装**
@@ -1435,7 +1411,7 @@ fc-cache -fv
 命令行安装：
 
 ```bash
-yay -S noto-fonts noto-fonts-cjk
+sudo pacman -S noto-fonts noto-fonts-cjk
 ```
 
 所有语言字体的下载地址如下：
@@ -1508,7 +1484,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 推荐使用 Fcitx5:
 
 ```bash
-yay -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool
+sudo pacman -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool
 ```
 
 如果无法启动输入法，在系统设置 >> 区域设置 >> 输入法 >> 添加输入法中手动添加“拼音”
@@ -1516,43 +1492,43 @@ yay -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5 fcitx5-gt
 对应的 git 版本为：（需要使用 Arch Linux CN 源）
 
 ```bash
-yay -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+sudo pacman -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
 ```
 
 可以添加词库：
 
 ```bash
-yay -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
+sudo pacman -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
 ```
 
 一个稳定的替代版本是 Fcitx 4.2.9.8-1：
 
 ```bash
-yay -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
+sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
 ```
 
 可以配合 googlepinyin 或 sunpinyin 使用，即执行：
 
 ```bash
-yay -S fcitx-googlepinyin
+sudo pacman -S fcitx-googlepinyin
 ```
 
 或者：
 
 ```bash
-yay -S fcitx-sunpinyin
+sudo pacman -S fcitx-sunpinyin
 ```
 
-也可以用 `yay -S sunpinyin` 安装 Sunpinyin
+也可以用 `sudo pacman -S sunpinyin` 安装 Sunpinyin
 
 **安装输入法之后需要重启电脑才能生效**
 
 ### **安装其它软件**
 
-以下命令中的 `yay -S` 也可以在“添加/删除软件”（即 pamac）中搜索安装，或者用 `pamac install` 安装（需要使用 AUR 和 Archlinux CN 软件仓库）
+以下命令中的 `pamac install` 也可以在“添加/删除软件”（即 pamac）中搜索安装，如果不是 AUR 仓库中的软件，也可以用 `sudo pacman -S` 安装
 
 ```bash
-yay -S geogebra stellarium typora v2ray qv2ray-dev-git vlc thunderbird qbittorrent baidunetdisk-bin
+pamac install geogebra stellarium typora v2ray qv2ray-dev-git vlc thunderbird qbittorrent baidunetdisk-bin
 ```
 
 **这里的 qv2ray-dev-git 一定要选择 Archlinux CN 软件源的版本**
@@ -1562,7 +1538,7 @@ yay -S geogebra stellarium typora v2ray qv2ray-dev-git vlc thunderbird qbittorre
 首先要下载并更新 debtap 包：
 
 ```bash
-yay -S debtap
+pamac install debtap
 sudo debtap -u
 ```
 
@@ -1595,7 +1571,7 @@ sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 首先要检查是否安装 tcl 和 tk：
 
 ```bash
-yay -S tcl tk
+pamac install tcl tk
 ```
 
 进入镜像文件夹，运行：
@@ -1642,7 +1618,7 @@ sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 安装 TeXstudio：
 
 ```bash
-yay -S texstudio
+pamac install texstudio
 ```
 
 帮助 >> 检查 LaTeX 安装信息
@@ -1889,31 +1865,31 @@ vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
 发行版维护者从开源代码构建的版本，可以用 `code` 命令打开（缺点是图标被重新设计过，且更新落后于微软官方版）：
 
 ```bash
-yay -S code
+pamac install code
 ```
 
 微软官方的二进制包（包含部分私有的组件），同样可以用 `code` 命令打开（如果不介意私有组件而且不习惯 Code - OSS 的图标，个人推荐首选此项）：
 
 ```bash
-yay -S visual-studio-code-bin
+pamac install visual-studio-code-bin
 ```
 
 内测版本：
 
 ```bash
-yay -S visual-studio-code-insiders
+pamac install visual-studio-code-insiders
 ```
 
 第三方发布的从开源代码构建的二进制包：
 
 ```bash
-yay -S vscodium-bin
+pamac install vscodium-bin
 ```
 
 从最新的开源代码构建：
 
 ```bash
-yay -S code-git
+pamac install code-git
 ```
 
 下载扩展：Python（会自动下载 Pylance、Jupyter 等扩展），Markdown All in One，LaTeX Workshop，C/C++，Rainbow Brackets，Prettier - Code formatter
@@ -2012,7 +1988,7 @@ var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 推荐选择二进制包 `ds9-bin`：
 
 ```bash
-yay -S ds9-bin
+pamac install ds9-bin
 ```
 
 ### **Github Desktop 安装（可选）**
@@ -2020,7 +1996,7 @@ yay -S ds9-bin
 推荐选择二进制包 `github-desktop-bin`：
 
 ```bash
-yay -S github-desktop-bin
+pamac install github-desktop-bin
 ```
 
 登录时要创建一个密钥环，密钥设为 Github 密码即可
@@ -2030,7 +2006,7 @@ yay -S github-desktop-bin
 运行：
 
 ```bash
-yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+pamac install wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 ```
 
 ### **微信安装**
@@ -2038,13 +2014,13 @@ yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 极简版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，且对大文件传输的支持不佳）：
 
 ```bash
-yay -S wechat-uos
+pamac install wechat-uos
 ```
 
 功能较多，和最新的 Windows 电脑版同步更新，但依赖 deepin-wine，且暂不支持“截屏时隐藏当前窗口”的版本：
 
 ```bash
-yay -S deepin-wine-wechat
+pamac install deepin-wine-wechat
 ```
 
 #### **deepin-wine-wechat 高分辨率适配调整**
@@ -2060,7 +2036,7 @@ Graphics >> Screen Resolution >> 192 dpi
 腾讯会议：
 
 ```bash
-yay -S com.tencent.deepin.meeting
+pamac install com.tencent.deepin.meeting
 ```
 
 高分辨率适配调整：
@@ -2074,13 +2050,13 @@ Graphics >> Screen Resolution >> 192 dpi
 #### **网易云音乐**
 
 ```bash
-yay -S netease-cloud-music
+pamac install netease-cloud-music
 ```
 
 #### **QQ 音乐**
 
 ```bash
-yay -S qqmusic-bin
+pamac install qqmusic-bin
 ```
 
 默认是暗色主题，右上角皮肤键（衣服图案）可以更改为亮色主题
@@ -2130,7 +2106,7 @@ make -j8
 #### **绘画**
 
 ```bash
-yay -S krita
+pamac install krita
 ```
 
 #### **手写笔记**
@@ -2138,8 +2114,8 @@ yay -S krita
 可以选择 Xournal++ 或者 Write
 
 ```bash
-yay -S xournalpp
-yay -S write_stylus
+pamac install xournalpp
+pamac install write_stylus
 ```
 
 ### **Surface：屏幕键盘（可选）**
@@ -2147,13 +2123,13 @@ yay -S write_stylus
 目前最受欢迎的屏幕键盘应该是 OnBoard
 
 ```bash
-yay -S onboard
+pamac install onboard
 ```
 
 但 OnBoard 在 Wayland 上无法使用。如果需要在 Wayland 会话中使用屏幕键盘，推荐安装 CellWriter
 
 ```bash
-yay -S cellwriter
+pamac install cellwriter
 ```
 
 ## **参考资料**
@@ -2210,9 +2186,9 @@ Manjaro Wiki -- Pamac
 
 https://wiki.manjaro.org/index.php/Pamac
 
-GitHub -- Yay
+GitHub -- sudo pacman
 
-https://github.com/Jguer/yay
+https://github.com/Jguer/sudo pacman
 
 Manjaro Wiki -- Manjaro Hardware Detection Overview
 
@@ -2310,7 +2286,7 @@ SJTUG 软件源镜像服务
 
 https://mirrors.sjtug.sjtu.edu.cn/#/
 
-Manjaro 为包管理器 pacman 和 yaourt/yay 添加多线程下载
+Manjaro 为包管理器 pacman 和 yaourt/sudo pacman 添加多线程下载
 
 https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase&depth_1-utm_source=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase
 
