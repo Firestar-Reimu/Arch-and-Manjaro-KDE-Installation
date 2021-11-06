@@ -173,7 +173,7 @@ ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是 27
 选择镜像：
 
 ```bash
-sudo pacman-mirrors -i -c China
+sudo pacman-mirrors -ic China
 ```
 
 更新分支 `(branch)` 可以选择 stable/testing/unstable，更改更新分支的命令为：（不要漏掉 `-a`）
@@ -686,7 +686,7 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs default 0 0
 
 **首先检查 Windows 中是否关闭了快速启动**
 
-关闭快速启动（Windows 工具 –> 控制面板 >> 电源选项 >> 选择电源按钮的功能 >> 更改当前不可用的设置 >> 关闭快速启动 >> 保存修改）并重启电脑
+关闭快速启动（Windows 工具 >> 控制面板 >> 电源选项 >> 选择电源按钮的功能 >> 更改当前不可用的设置 >> 关闭快速启动 >> 保存修改）并重启电脑
 
 一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，若关闭快速启动不能解决问题，使用下面的方法：
 
