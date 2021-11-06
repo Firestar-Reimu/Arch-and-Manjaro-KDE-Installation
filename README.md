@@ -255,7 +255,14 @@ sudo pacman -S base-devel
 
 ### **Arch Linux CN 软件源**
 
-在 `/etc/pacman.conf` 文件末尾添加以下两行以启用上海交大镜像（注意一定要写第一行的 `[archlinuxcn]`）：
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
+
+```
+[archlinuxcn]
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+```
+
+或上海交大镜像：
 
 ```
 [archlinuxcn]
@@ -274,6 +281,8 @@ sudo pacman -Syyu
 由于 Manjaro 的更新滞后于 Arch，使用 Arch Linux CN 仓库可能会出现“部分更新”的情况，导致某些软件包损坏
 
 建议切换到 testing 或 unstable 分支以尽量跟进 Arch 的更新
+
+**注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
 
 #### **搜索软件包**
 
@@ -590,41 +599,39 @@ sudo update-grub
 
 再重启即可
 
-### **hosts 文件设置（可选）**
+### **zram 文件设置（可选）**
 
-参考以下网址：
+对 zram 的介绍可以参考以下网址：
 
-修改 hosts 解决 GitHub 访问失败
+https://wiki.archlinux.org/title/Improving_performance_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#zram_%E6%88%96_zswap
 
-https://zhuanlan.zhihu.com/p/107334179
-
-需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠）
-
-### **动态 Swap 文件设置**
-
-**使用 swap 分区可能会缩短 SSD 的寿命，如果需要 swap 的话建议用 swap 文件，详见 [Swap（简体中文）- Arch Wiki](<https://wiki.archlinux.org/index.php/Swap_(简体中文)#交换文件>)**
-
-先下载 `systemd-swap` 软件包：
+先下载 `zram-generator` 软件包：
 
 ```bash
-sudo pacman -S systemd-swap
+sudo pacman -S zram-generator
 ```
 
-编辑 `/etc/systemd/swap.conf`:
+编辑 `/etc/systemd/zram-generator.conf`，写入：
 
-```bash
-sudo vim /etc/systemd/swap.conf
 ```
-
-去掉 `swapfc_enabled` 前的注释并设置为 `swapfc_enabled=1` ，保存并关闭
+[zram0]
+host-memory-limit = none
+zram-size = min(ram / 2, 4096)
+compression-algorithm = lzo-rle
+fs-type = ext4
+mount-point = /var/tmp
+```
 
 在终端输入
 
 ```bash
-sudo systemctl enable --now systemd-swap
+sudo systemctl daemon-reload
+sudo systemctl start /dev/zram0
 ```
 
-以启动 `systemd-swap` 服务
+以启动 zram
+
+在终端中输入 `zramctl`，若能够输出 `NAME ALGORITHM DISKSIZE DATA COMPR TOTAL STREAMS MOUNTPOINT` 等信息，说明启动成功
 
 ### **Linux 挂载 Windows 磁盘**
 
@@ -939,6 +946,16 @@ set 802-1x.password (student_password)
 save
 activate
 ```
+
+#### **hosts 文件设置（可选）**
+
+参考以下网址：
+
+修改 hosts 解决 GitHub 访问失败
+
+https://zhuanlan.zhihu.com/p/107334179
+
+需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠）
 
 ### **调整 CPU 频率（可选）**
 
@@ -1558,33 +1575,15 @@ sudo debtap (package_name).deb
 
 推荐从 ISO 安装 TeX Live
 
-首先在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像站](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
+首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
 
-打开终端，运行：
+在 Dolphin 中右键点击 ISO 镜像文件挂载，或在终端中运行：
 
 ```bash
 sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 ```
 
-#### **使用图形界面安装**
-
-首先要检查是否安装 tcl 和 tk：
-
-```bash
-pamac install tcl tk
-```
-
-进入镜像文件夹，运行：
-
-```bash
-sudo perl install-tl -gui
-```
-
-即可在图形界面下载 TeX Live（如果不加 `sudo` 则只能将其安装到 `/home/(user_name)/` 下的文件夹且无法勾选 Create symlinks in standard directories: 一项），高级设置需要点击左下角的 Advanced 按钮
-
-**记住勾选 Create symlinks in standard directories 一项（自动添加到 PATH），Specify directories 选择默认文件夹即可，之后不需要自己添加 PATH**
-
-#### **使用命令行界面安装**
+#### **使用命令行界面安装（推荐）**
 
 进入镜像文件夹，运行：
 
@@ -1608,6 +1607,24 @@ CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大�
 sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
 sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 ```
+
+#### **使用图形界面安装**
+
+首先要检查是否安装 tcl 和 tk：
+
+```bash
+pamac install tcl tk
+```
+
+进入镜像文件夹，运行：
+
+```bash
+sudo perl install-tl -gui
+```
+
+即可在图形界面下载 TeX Live（如果不加 `sudo` 则只能将其安装到 `/home/(user_name)/` 下的文件夹且无法勾选 Create symlinks in standard directories: 一项），高级设置需要点击左下角的 Advanced 按钮
+
+**记住勾选 Create symlinks in standard directories 一项（自动添加到 PATH），Specify directories 选择默认文件夹即可，之后不需要自己添加 PATH**
 
 可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
@@ -1633,7 +1650,7 @@ pamac install texstudio
 
 菜单 >> 数学 >> `\frac{}{}` >> `\frac{%|}{}`
 
-菜单 >> 数学 >> `\frac{}{}` >> `\frac{%|}{}`
+菜单 >> 数学 >> `\dfrac{}{}` >> `\dfrac{%|}{}`
 
 快捷键 >> 数学 >> 数学字体格式 >> 罗马字体 >> 当前快捷键 >> `Alt+Shift+R`
 
@@ -1715,13 +1732,13 @@ Anaconda Documentation -- Installing on Linux
 
 https://docs.anaconda.com/anaconda/install/linux/
 
-输入以下命令：
+输入以下命令：（Windows 用户无法直接创建名为 `.condarc` 的文件，可先执行 `conda config --set show_channel_urls yes` 生成该文件之后再修改）
 
 ```bash
 vim ~/.condarc
 ```
 
-修改 `.condarc` 以使用清华大学镜像源：
+修改 `~/.condarc` 以使用清华大学镜像：
 
 ```
 channels:
@@ -1733,14 +1750,24 @@ default_channels:
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
 custom_channels:
   conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
   pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
 ```
 
-若不用特定的镜像源，改为：
+或上海交大镜像：
+
+```
+channels:
+  - defaults
+default_channels:
+  - https://mirror.sjtu.edu.cn/anaconda/pkgs/main
+  - https://mirror.sjtu.edu.cn/anaconda/pkgs/r
+  - https://mirror.sjtu.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirror.sjtu.edu.cn/anaconda/cloud/
+  pytorch: https://mirror.sjtu.edu.cn/anaconda/cloud/
+```
+
+若不用特定的镜像，改为默认值：
 
 ```
 channels:
@@ -1774,6 +1801,12 @@ conda install (package_name)
 conda install (package_name)=(version_number)
 ```
 
+下载 conda-forge 中的软件：
+
+```bash
+conda install -c conda-forge (package_name)
+```
+
 更新包：
 
 ```bash
@@ -1805,6 +1838,38 @@ conda clean -p
 
 ```bash
 conda list
+```
+
+添加软件源：
+
+```bash
+conda config --add channels (channel_URL)
+```
+
+#### **加入 AstroConda 软件源**
+
+在终端中输入：
+
+```bash
+conda config --add channels http://ssb.stsci.edu/astroconda
+```
+
+这相当于在 `~/.condarc` 中 `channels` 一栏改为：
+
+```
+channels:
+  - defaults
+  - http://ssb.stsci.edu/astroconda
+```
+
+这样就可以下载 `wcstools` 等软件
+
+#### **下载 photutils**
+
+需要在 conda-forge 中下载：
+
+```bash
+conda install -c conda-forge photutils
 ```
 
 #### **Spyder 配置**
@@ -1847,7 +1912,11 @@ conda list
 spyder (file_path)/(file_name)
 ```
 
-**目前 Spyder 还不支持 Fcitx/Fcitx5 输入中文字符**
+Linux 上 Spyder 需要在 conda 中安装 `fcitx-qt5` 才能支持 Fcitx/Fcitx5 输入中文字符：
+
+```
+conda install -c conda-forge fcitx-qt5
+```
 
 ### **Vim 安装插件**
 
@@ -1967,13 +2036,11 @@ var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 
 更改 `/usr/share/typora/resources/style/base-control.css`：（在 Windows 中则是 `C:\Program Files\Typora\resources\style\base-control.css`）
 
-找到 `.CodeMirror.cm-s-typora-default div.CodeMirror-cursor` 一行，将光标宽度改为 `1px`，颜色改为 `#000000`
-
-找到 `#typora-source .CodeMirror-lines` 一行，将 `max-width` 改为 `1200px`
+找到 `.CodeMirror.cm-s-typora-default div.CodeMirror-cursor` 一行，将光标宽度改为 `1px`，颜色从 `#e4629a` 改为 `#000000`
 
 更改 `/usr/share/typora/resources/style/base.css`：（在 Windows 中则是 `C:\Program Files\Typora\resources\style\base.css`）
 
-找到 `:root` 一行，将 `font-family` 改成自己想要的字体
+找到 `:root` 一行，将 `--monospace` 改成自己想要的等宽字体
 
 #### **主题渲染模式**
 

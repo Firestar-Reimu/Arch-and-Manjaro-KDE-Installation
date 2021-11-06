@@ -12,11 +12,11 @@ let g:tex_conceal=""
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[5 q" "SR = REPLACE mode
 let &t_EI.="\e[5 q" "EI = NORMAL mode (ELSE)
-" 设置行尾为Unix模式
+" 设置行尾为 Unix 模式
 set fileformat=unix
 " 设置当文件被改动时自动载入
 set autoread
-" quickfix模式
+" quickfix 模式
 autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
 " 代码补全
 set completeopt=preview,menu
@@ -41,7 +41,7 @@ set guioptions-=T
 set guioptions-=m
 " 设置在状态行显示的信息
 set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ [%c:%l/%L]%)\
-" 不要使用vi的键盘模式，而是vim自己的
+" 不要使用 vi 的键盘模式，而是 vim 自己的
 set nocompatible
 " 语法高亮
 set syntax=on
@@ -52,14 +52,14 @@ set confirm
 " 自动缩进
 set autoindent
 set cindent
-" tab键的宽度设置为4
+" Tab 键的宽度设置为4个空格
 set tabstop=4
 " 将tab键显示为“>---”
 set list lcs=tab:>-
-" 统一缩进为4
+" 统一缩进为4个空格
 set softtabstop=4
 set shiftwidth=4
-" 用空格代替制表符
+" 用空格代替 Tab
 set expandtab
 :retab
 " 在行和段开始处使用制表符
@@ -102,15 +102,15 @@ set iskeyword+=_,$,@,%,#,-
 set linespace=0
 " 增强模式中的命令行自动完成操作
 set wildmenu
-" 使回格键（backspace）正常处理indent, eol, start等
+" 使回车键（backspace）正常处理 indent，eol，start 等
 set backspace=2
 " 允许backspace和光标键跨越行边界
 set whichwrap=<,>,[,]
-" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
+" 可以在 buffer 的任何地方使用鼠标
 set mouse=a
 set selection=exclusive
 set selectmode=mouse,key
-" 通过使用: commands命令，告诉我们文件的哪一行被改变过
+" 通过使用 commands 命令，告诉我们文件的哪一行被改变过
 set report=0
 " 在被分割的窗口间显示空白，便于阅读
 set fillchars=vert:\ ,stl:\ ,stlnc:\
@@ -118,11 +118,11 @@ set fillchars=vert:\ ,stl:\ ,stlnc:\
 set showmatch
 " 匹配括号高亮的时间（单位是0.1s）
 set matchtime=0
-" 光标移动到buffer的顶部和底部时保持3行距离
+" 光标移动到 buffer 的顶部和底部时保持3行距离
 set scrolloff=3
 " 为C程序提供自动缩进
 set smartindent
-" 高亮显示普通txt文件（需要txt.vim脚本）
+" 高亮显示普通 txt 文件（需要 txt.vim 脚本）
 au BufRead,BufNewFile * setfiletype txt
 " 自动补全
 inoremap { {}<LEFT>
@@ -146,12 +146,12 @@ set selection=exclusive
 set selectmode=mouse,key
 " 不要 intro 文档
 set shm=I
-" 设置Visual Block模式的快捷键为Ctrl+Shift+V，以防与粘贴（Ctrl+V）冲突
+" 设置 Visual Block 模式的快捷键为 Ctrl+Shift+V ，以防与粘贴（Ctrl+V）冲突
 :command! VisualBlock execute "normal! \<C-S-v>"
 
 " 高级设置（未下载插件前不要复制这一段！）
 
-" Python 设置（~/.anaconda/bin/python需要替换为自己的python安装位置）
+" Python 设置（~/.miniconda/bin/python 需要替换为自己的 Python 安装位置）
 filetype plugin on
 map <F5> :call RunPython()<CR>
 function! RunPython()
@@ -160,13 +160,13 @@ function! RunPython()
         if search("@profile")
             exec "AsyncRun kernprof -l -v %"
         elseif search("set_trace()")
-            exec "!~/.anaconda/bin/python %"
+            exec "!~/.miniconda/bin/python %"
         else
-            exec "AsyncRun -mode=term -pos=bottom ~/.anaconda/bin/python %"
+            exec "AsyncRun -mode=term -pos=bottom ~/.miniconda/bin/python %"
         endif
     endif
 endfunc
-" NERDTree设置
+" NERDTree 设置
 map <F2> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 " Rainbow Parenthsis 设置
