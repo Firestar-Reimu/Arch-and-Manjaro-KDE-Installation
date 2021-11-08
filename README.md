@@ -1999,21 +1999,25 @@ pamac install code-git
 若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到：
 
 ```json
+{
 "[": {
     "command": "[",
     "snippet": "[${1}\\]",
     "detail": "display math \\[ ... \\]"
   },
+}
 ```
 
 改为：
 
 ```json
+{
 "[": {
     "command": "[",
     "snippet": "[\n    ${1}\n\\]",
     "detail": "display math \\[ ... \\]"
   },
+}
 ```
 
 重启 Visual Studio Code 即可生效
@@ -2057,6 +2061,22 @@ var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 ```bash
 pamac install ds9-bin
 ```
+
+如果出现这样的错误导致 SAOImageDS9 无法打开或闪退：
+
+```
+application-specific initialization failed: unknown color name "BACKGROUND"
+Unable to initialize window system.
+```
+
+在终端中输入：
+
+```bash
+xrdb -load /dev/null
+xrdb -query
+```
+
+即可解决
 
 ### **Github Desktop 安装（可选）**
 
