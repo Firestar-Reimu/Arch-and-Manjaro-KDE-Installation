@@ -247,7 +247,7 @@ sudo pacman -S base-devel
 
 #### **启用 pamac 的 AUR 支持**
 
-添加/删除软件 >> 右上角 ··· >> 首选项 >> AUR >> 启用 AUR 支持
+添加/删除软件 >> 右上角 `···` >> 首选项 >> AUR >> 启用 AUR 支持
 
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包
 
@@ -1985,7 +1985,7 @@ pamac install code-git
 
 #### **Latex Workshop 插件设置**
 
-若想在 LaTeX Workshop 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
+若想在 [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
 
 ```json
 {
@@ -2036,23 +2036,21 @@ var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 
 #### Markdown 插件设置
 
-Visual Studio Code 自带 Markdown 预览功能，但是不支持复选框：
+Visual Studio Code 自带 Markdown 预览功能，但是不支持数学命令的补全，也不支持复选框：
 
 ```markdown
 - [x] item 1
 - [ ] item 2
 ```
 
-也不支持数学命令的补全
-
-Markdown all in one 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），且部分数学公式环境无法渲染（可以在设置中将该插件的公式支持关闭），即加入：
+[Markdown all in one](https://github.com/yzhang-gh/vscode-markdown) 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），且部分数学公式环境无法渲染（可以在设置中将该插件的公式支持关闭），其设置为：
 
 ```json
 "editor.autoClosingBrackets": "always",
 "markdown.extension.math.enabled": false,
 ```
 
-而 Markdown 预览支持最好的插件是 Markdown Preview Enhanced，使用时可以选择插件预览或默认预览
+而 Markdown 预览支持最好的插件是 [Markdown Preview Enhanced](https://github.com/shd101wyy/markdown-preview-enhanced)，使用时可以选择插件预览或默认预览
 
 ### **Typora 美化**
 
