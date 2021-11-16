@@ -4,13 +4,11 @@ ThinkPad 系统信息：
 
 ```
 OS: Manjaro 21.2.0 Qonos
-Kernel: x86_64 Linux 5.14.13-1-MANJARO
+Kernel: x86_64 Linux 5.14.18-1-MANJARO
 Shell: bash 5.1.8
 Resolution: 2560x1600
-DE: KDE 5.87.0 / Plasma 5.23.1
+DE: KDE 5.87.0 / Plasma 5.23.3
 WM: KWin
-GTK Theme: Breeze [GTK2/3]
-Icon Theme: breath2
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
 ```
@@ -24,8 +22,6 @@ Shell: bash 5.1.8
 Resolution: 2736x1824
 DE: KDE 5.85.0 / Plasma 5.22.5
 WM: KWin
-GTK Theme: Breath [GTK2/3]
-Icon Theme: breath2
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
@@ -128,7 +124,7 @@ Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当�
 
 安装时选择“替代一个分区”，并点击之前空出来的空分区
 
-或者手动挂载空分区，挂载点设为 `/`，标记为 `root`，手动挂载 UEFI 分区（即第一个分区`dev/nvme0n1p1`，格式为 FAT32），不要格式化，挂载点设为 `/boot/efi`，标记为 `boot`
+或者手动挂载空分区，挂载点设为 `/`，标记为 `root`，手动挂载 UEFI 分区（即第一个分区 `dev/nvme0n1p1`，格式为 FAT32），不要格式化，挂载点设为 `/boot/efi`，标记为 `boot`
 
 用户名建议全部用小写字母并与登录时的用户名一致
 
@@ -176,7 +172,7 @@ ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是 27
 sudo pacman-mirrors -ic China
 ```
 
-更新分支 `(branch)` 可以选择 stable/testing/unstable，更改更新分支的命令为：（不要漏掉 `-a`）
+更新分支 `(branch)` 可以选择 stable/stable-staging/testing/unstable，更改更新分支的命令为：（不要漏掉 `-a`）
 
 ```bash
 sudo pacman-mirrors -aS (branch)
@@ -247,7 +243,7 @@ sudo pacman -S base-devel
 
 #### **启用 pamac 的 AUR 支持**
 
-添加/删除软件 >> 右上角 `···` >> 首选项 >> AUR >> 启用 AUR 支持
+添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
 
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包
 
@@ -346,39 +342,86 @@ pacman 有从本地安装包安装软件的功能，只需输入：
 sudo pacman -U (package_path)/(package_name)
 ```
 
-### **切换到 video-modesetting（可选）**
-
-有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
-
-可能是默认的 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
-
-Arch Wiki -- Cinnamon
-
-https://wiki.archlinux.org/index.php/Cinnamon#Installation
-
-Arch Wiki -- Intel Graphics
-
-https://wiki.archlinux.org/index.php/Intel_graphics#Installation
-
-KDE Community -- Plasma 5.9 Errata
-
-https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
-
-解决办法：
-
-卸载 video-linux：
-
-```bash
-sudo mhwd -r pci video-linux
-```
-
-下载 video-modesetting：
-
-```bash
-sudo mhwd -i pci video-modesetting
-```
-
 **重启后会发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启**
+
+### **Vim 安装与配置**
+
+建议先安装 Vim，方便之后编辑各种文件：
+
+```bash
+sudo pacman -S vim
+```
+
+Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vimrc` 和 `/home/(user_name)/.vimrc`，建议直接修改 `/etc/vimrc`，这样不会覆盖 `/usr/share/vim/vimfiles/archlinux.vim` 上定义的默认配置（语法高亮等）
+
+Vim 安装插件的命令为：
+
+```bash
+git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
+vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
+```
+
+### **GNU nano 配置**
+
+nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
+
+取消注释 `set linenumbers` 可以显示行号
+
+取消注释 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
+
+取消注释 `set tabstospaces` 可以将 Tab 转换为空格
+
+取消注释 `set matchbrackets "(<[{)>]}"` 可以匹配括号
+
+取消注释 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
+
+取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
+
+**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
+
+### **更改 visudo 默认编辑器为 Vim**
+
+Manjaro 中 visudo 的默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入：
+
+```bash
+sudo visudo
+```
+
+在开头的一个空行键入：
+
+```
+Defaults editor=/usr/bin/vim
+```
+
+按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
+
+如果想临时使用 Vim 作为编辑器，则输入：
+
+```bash
+sudo EDITOR=vim visudo
+```
+
+### **sudo 免密码**
+
+在最后一行（空行）按 `i` 进入输入模式，加上这一行：
+
+```
+Defaults:(user_name) !authenticate
+```
+
+进入命令模式，保存退出即可
+
+**注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
+
+### **命令行界面输出语言为英语**
+
+在 `~/.bashrc` 的最后添加一行：
+
+```
+export LANG=en_US.UTF-8
+```
+
+如果使用 zsh，则去掉 `~/.zshrc` 中这一行的注释即可
 
 ### **Surface：Linux-Surface 内核安装（可选）**
 
@@ -429,77 +472,37 @@ KDE 上原生的相机应用是 Kamoso，也可以使用 GNOME 上的相机应�
 
 **Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`；Visual Studio Code 启用触屏需要更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效**
 
-### **vim 安装与配置**
+### **显卡驱动切换到 video-modesetting（可选）**
 
-建议先安装 vim，方便之后编辑各种文件：
+有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
 
-```bash
-sudo pacman -S vim
-```
+可能是默认的 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
 
-vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vimrc` 和 `/home/(user_name)/.vimrc`，建议直接修改 `/etc/vimrc`，这样不会覆盖 `/usr/share/vim/vimfiles/archlinux.vim` 上定义的默认配置（语法高亮等）
+Arch Wiki -- Cinnamon
 
-### **GNU nano 配置**
+https://wiki.archlinux.org/index.php/Cinnamon#Installation
 
-nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
+Arch Wiki -- Intel Graphics
 
-取消注释 `set linenumbers` 可以显示行号
+https://wiki.archlinux.org/index.php/Intel_graphics#Installation
 
-取消注释 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
+KDE Community -- Plasma 5.9 Errata
 
-取消注释 `set tabstospaces` 可以将 Tab 转换为空格
+https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
-取消注释 `set matchbrackets "(<[{)>]}"` 可以匹配括号
+解决办法：
 
-取消注释 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
-
-取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
-
-**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
-
-### **更改 visudo 默认编辑器为 vim**
-
-Manjaro 中 visudo 的默认编辑器是 vi，若要改为 vim，则首先在终端中输入：
+卸载 video-linux：
 
 ```bash
-sudo visudo
+sudo mhwd -r pci video-linux
 ```
 
-在开头的一个空行键入：
-
-```
-Defaults editor=/usr/bin/vim
-```
-
-按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
-
-如果想临时使用 vim 作为编辑器，则输入：
+下载 video-modesetting：
 
 ```bash
-sudo EDITOR=vim visudo
+sudo mhwd -i pci video-modesetting
 ```
-
-### **sudo 免密码**
-
-在最后一行（空行）按 `i` 进入输入模式，加上这一行：
-
-```
-Defaults:(user_name) !authenticate
-```
-
-进入命令模式，保存退出即可
-
-**注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
-
-### **命令行界面输出语言为英语**
-
-在 `~/.bashrc` 的最后添加一行：
-
-```
-export LANG=en_US.UTF-8
-```
-
-如果使用 zsh，则去掉 `~/.zshrc` 中这一行的注释即可
 
 ### **时间设置**
 
@@ -1918,15 +1921,6 @@ Linux 上 Spyder 需要在 conda 中安装 `fcitx-qt5` 才能支持 Fcitx/Fcitx5
 conda install -c conda-forge fcitx-qt5
 ```
 
-### **Vim 安装插件**
-
-执行：
-
-```bash
-git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
-vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
-```
-
 ### **Visual Studio Code 安装与配置**
 
 #### **Visual Studio Code 安装**
@@ -2034,7 +2028,7 @@ var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 
 重启 Visual Studio Code 即可生效
 
-#### Markdown 插件设置
+#### **Markdown 插件设置**
 
 Visual Studio Code 自带 Markdown 预览功能，但是不支持数学命令的补全，也不支持复选框：
 
