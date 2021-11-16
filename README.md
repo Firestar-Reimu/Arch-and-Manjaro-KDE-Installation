@@ -2045,10 +2045,11 @@ Visual Studio Code 自带 Markdown 预览功能，但是不支持复选框：
 
 也不支持数学命令的补全
 
-Markdown all in one 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号，且部分数学公式环境无法渲染，可以在设置中将该插件的公式支持关闭，即加入：
+Markdown all in one 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），且部分数学公式环境无法渲染（可以在设置中将该插件的公式支持关闭），即加入：
 
 ```json
-"markdown.extension.math.enabled": false
+"editor.autoClosingBrackets": "always",
+"markdown.extension.math.enabled": false,
 ```
 
 而 Markdown 预览支持最好的插件是 Markdown Preview Enhanced，使用时可以选择插件预览或默认预览
