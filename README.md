@@ -1368,7 +1368,7 @@ sudo pacman -S plasma-wayland-session
 
 安装后即可在登录界面选择 Wayland 会话
 
-## **下载软件**
+## **软件的下载与配置**
 
 **能用包管理器的尽量用包管理器安装！**
 
@@ -1961,7 +1961,7 @@ pamac install vscodium-bin
 pamac install code-git
 ```
 
-下载扩展：Python（会自动下载 Pylance、Jupyter 等扩展），Markdown All in One，LaTeX Workshop，C/C++，Rainbow Brackets，Prettier - Code formatter
+下载扩展：Python（会自动下载 Pylance、Jupyter 等扩展），LaTeX Workshop，C/C++，Rainbow Brackets，Prettier - Code formatter，Markdown all in One
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
 
@@ -2033,6 +2033,25 @@ var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
 ```
 
 重启 Visual Studio Code 即可生效
+
+#### Markdown 插件设置
+
+Visual Studio Code 自带 Markdown 预览功能，但是不支持复选框：
+
+```markdown
+- [x] item 1
+- [ ] item 2
+```
+
+也不支持数学命令的补全
+
+Markdown all in one 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号，且部分数学公式环境无法渲染，可以在设置中将该插件的公式支持关闭，即加入：
+
+```json
+"markdown.extension.math.enabled": false
+```
+
+而 Markdown 预览支持最好的插件是 Markdown Preview Enhanced，使用时可以选择插件预览或默认预览
 
 ### **Typora 美化**
 
