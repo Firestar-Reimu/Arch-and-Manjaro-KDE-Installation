@@ -7,7 +7,7 @@ OS: Manjaro 21.2.0 Qonos
 Kernel: x86_64 Linux 5.14.18-1-MANJARO
 Shell: bash 5.1.8
 Resolution: 2560x1600
-DE: KDE 5.87.0 / Plasma 5.23.3
+DE: KDE 5.88.0 / Plasma 5.23.3
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -40,7 +40,7 @@ Windows 工具 >> 控制面板 >> 电源选项 >> 选择电源按钮的功能 >>
 
 ### **ThinkPad: UEFI 设置**
 
-启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `F1` 进入 UEFI 设置
+启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `Fn+F1` 进入 UEFI 设置
 
 Security >> Secure Boot >> Off
 
@@ -96,7 +96,7 @@ Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当�
 
 或按照以下步骤直接从 USB 启动:
 
-启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `F12` 选择启动位置为 USB HDD
+启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `Fn+F12` 选择启动位置为 USB HDD
 
 ### **Surface：安装 Manjaro**
 
@@ -152,15 +152,9 @@ ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是 27
 
 然后重启电脑
 
-### **快捷键配置**
+### **Konsole/Yakuake 快捷键配置**
 
-#### **全局快捷键**
-
-为打开方便，可以采用 i3wm 的默认快捷键打开 Konsole：
-
-系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`（即“Windows 徽标键 + Enter 键”）
-
-#### **Konsole/Yakuake 快捷键**
+打开 Konsole/Yakuake（可以用 `Fn+F12` 直接打开 Yakuake）：
 
 设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
 
@@ -172,7 +166,7 @@ ThinkPad 的屏幕分辨率是 2560×1600，而 Surface 的屏幕分辨率是 27
 sudo pacman-mirrors -ic China
 ```
 
-更新分支 `(branch)` 可以选择 stable/stable-staging/testing/unstable，更改更新分支的命令为：（不要漏掉 `-a`）
+更新分支 `(branch)` 可以选择 `stable / stable-staging / testing / unstable`，更改更新分支的命令为：（不要漏掉 `-a`）
 
 ```bash
 sudo pacman-mirrors -aS (branch)
@@ -361,24 +355,6 @@ git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
 vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
 ```
 
-### **GNU nano 配置**
-
-nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
-
-取消注释 `set linenumbers` 可以显示行号
-
-取消注释 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
-
-取消注释 `set tabstospaces` 可以将 Tab 转换为空格
-
-取消注释 `set matchbrackets "(<[{)>]}"` 可以匹配括号
-
-取消注释 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
-
-取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
-
-**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
-
 ### **更改 visudo 默认编辑器为 Vim**
 
 Manjaro 中 visudo 的默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入：
@@ -422,87 +398,6 @@ export LANG=en_US.UTF-8
 ```
 
 如果使用 zsh，则去掉 `~/.zshrc` 中这一行的注释即可
-
-### **Surface：Linux-Surface 内核安装（可选）**
-
-**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.14.0-0-MANJARO，从 Linux 5.13-MANJARO 开始已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
-
-在终端中输入：
-
-```bash
-curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \| sudo pacman-key --add -
-```
-
-如果出现错误或没有响应，一般是网络问题，可能要等待几分钟，建议先配置好 VPN 再装内核
-
-接着输入：
-
-```bash
-sudo pacman-key --finger 56C464BAAC421453
-sudo pacman-key --lsign-key 56C464BAAC421453
-```
-
-在 `/etc/pacman.conf` 里面添加：
-
-```
-[linux-surface]
-Server = https://pkg.surfacelinux.com/arch/
-```
-
-然后更新软件库并下载：
-
-```bash
-sudo pacman -Syyu
-sudo pacman -S linux-surface linux-surface-headers iptsd-git
-```
-
-启动触屏：
-
-```bash
-sudo systemctl enable iptsd
-```
-
-启动相机参考以下网址：（相机功能仍在开发中，可能出现配置失败的情况）
-
-Linux-Surface -- Camera Support
-
-https://github.com/linux-surface/linux-surface/wiki/Camera-Support
-
-KDE 上原生的相机应用是 Kamoso，也可以使用 GNOME 上的相机应用 Cheese
-
-**Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`；Visual Studio Code 启用触屏需要更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效**
-
-### **显卡驱动切换到 video-modesetting（可选）**
-
-有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
-
-可能是默认的 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
-
-Arch Wiki -- Cinnamon
-
-https://wiki.archlinux.org/index.php/Cinnamon#Installation
-
-Arch Wiki -- Intel Graphics
-
-https://wiki.archlinux.org/index.php/Intel_graphics#Installation
-
-KDE Community -- Plasma 5.9 Errata
-
-https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
-
-解决办法：
-
-卸载 video-linux：
-
-```bash
-sudo mhwd -r pci video-linux
-```
-
-下载 video-modesetting：
-
-```bash
-sudo mhwd -i pci video-modesetting
-```
 
 ### **时间设置**
 
@@ -552,7 +447,7 @@ https://wiki.archlinux.org/title/Silent_boot
 sudo vim /etc/default/grub
 ```
 
-将 `GRUB_CMDLINE_LINUX_DEFAULT` 的值改为 `"quiet loglevel=3 udev.log_priority=3"`
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `loglevel=3"`
 
 编辑 fsck:
 
@@ -588,53 +483,19 @@ sudo update-grub
 
 ### **关闭重启时的 watchdog 提示**
 
-创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
+编辑 Kernel parameters：
 
-```
-blacklist iTCO_wdtblacklist iTCO_vendor_support
+```bash
+sudo vim /etc/default/grub
 ```
 
-这样可以屏蔽掉不需要的驱动，保存后执行：
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`，保存后执行：
 
 ```bash
 sudo update-grub
 ```
 
 再重启即可
-
-### **zram 文件设置（可选）**
-
-对 zram 的介绍可以参考以下网址：
-
-https://wiki.archlinux.org/title/Improving_performance_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#zram_%E6%88%96_zswap
-
-先下载 `zram-generator` 软件包：
-
-```bash
-sudo pacman -S zram-generator
-```
-
-编辑 `/etc/systemd/zram-generator.conf`，写入：
-
-```
-[zram0]
-host-memory-limit = none
-zram-size = min(ram / 2, 4096)
-compression-algorithm = lzo-rle
-fs-type = ext4
-mount-point = /var/tmp
-```
-
-在终端输入
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl start /dev/zram0
-```
-
-以启动 zram
-
-在终端中输入 `zramctl`，若能够输出 `NAME ALGORITHM DISKSIZE DATA COMPR TOTAL STREAMS MOUNTPOINT` 等信息，说明启动成功
 
 ### **Linux 挂载 Windows 磁盘**
 
@@ -950,6 +811,87 @@ save
 activate
 ```
 
+### **Surface：Linux-Surface 内核安装（可选）**
+
+**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.14.0-0-MANJARO，从 Linux 5.13-MANJARO 开始已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
+
+在终端中输入：
+
+```bash
+curl -s https://raw.githubusercontent.com/linux-surface/linux-surface/master/pkg/keys/surface.asc \| sudo pacman-key --add -
+```
+
+如果出现错误或没有响应，一般是网络问题，可能要等待几分钟，建议先配置好 VPN 再装内核
+
+接着输入：
+
+```bash
+sudo pacman-key --finger 56C464BAAC421453
+sudo pacman-key --lsign-key 56C464BAAC421453
+```
+
+在 `/etc/pacman.conf` 里面添加：
+
+```
+[linux-surface]
+Server = https://pkg.surfacelinux.com/arch/
+```
+
+然后更新软件库并下载：
+
+```bash
+sudo pacman -Syyu
+sudo pacman -S linux-surface linux-surface-headers iptsd-git
+```
+
+启动触屏：
+
+```bash
+sudo systemctl enable iptsd
+```
+
+启动相机参考以下网址：（相机功能仍在开发中，可能出现配置失败的情况）
+
+Linux-Surface -- Camera Support
+
+https://github.com/linux-surface/linux-surface/wiki/Camera-Support
+
+KDE 上原生的相机应用是 Kamoso，也可以使用 GNOME 上的相机应用 Cheese
+
+**Firefox 启用触屏需要在 `/etc/environment` 中写入 `MOZ_USE_XINPUT2=1`，然后重新启动，并在 about:config 中设置 `apz.allow_zooming` 和 `apz.allow_zooming_out` 为 `true`；Visual Studio Code 启用触屏需要更改 `/usr/share/applications/visual-studio-code.desktop`，在 `Exec` 一行中加入命令 `--touch-events`，这一般对以 Electron 为基础的软件有效**
+
+### **显卡驱动切换到 video-modesetting（可选）**
+
+有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
+
+可能是默认的 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
+
+Arch Wiki -- Cinnamon
+
+https://wiki.archlinux.org/index.php/Cinnamon#Installation
+
+Arch Wiki -- Intel Graphics
+
+https://wiki.archlinux.org/index.php/Intel_graphics#Installation
+
+KDE Community -- Plasma 5.9 Errata
+
+https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
+
+解决办法：
+
+卸载 video-linux：
+
+```bash
+sudo mhwd -r pci video-linux
+```
+
+下载 video-modesetting：
+
+```bash
+sudo mhwd -i pci video-modesetting
+```
+
 #### **hosts 文件设置（可选）**
 
 参考以下网址：
@@ -990,7 +932,7 @@ CPU_BOOST_ON_BAT=0
 sudo tlp start
 ```
 
-#### **显示 CPU 频率（可选）**
+#### **显示 Intel CPU 频率（可选）**
 
 安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
 
@@ -1031,6 +973,40 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 
 **注意某些软件包如 `rider` 和 `qqmusic-bin` 等下载源不支持 axel，启用多线程下载后可能会导致构建失败**
 
+### **zram 文件设置（可选）**
+
+对 zram 的介绍可以参考以下网址：
+
+https://wiki.archlinux.org/title/Improving_performance_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#zram_%E6%88%96_zswap
+
+先下载 `zram-generator` 软件包：
+
+```bash
+sudo pacman -S zram-generator
+```
+
+编辑 `/etc/systemd/zram-generator.conf`，写入：
+
+```
+[zram0]
+host-memory-limit = none
+zram-size = min(ram / 2, 4096)
+compression-algorithm = lzo-rle
+fs-type = ext4
+mount-point = /var/tmp
+```
+
+在终端输入
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start /dev/zram0
+```
+
+以启动 zram
+
+在终端中输入 `zramctl`，若能够输出 `NAME ALGORITHM DISKSIZE DATA COMPR TOTAL STREAMS MOUNTPOINT` 等信息，说明启动成功
+
 ### **重新开启 Secure Boot（未测试）**
 
 如果想在开启 Secure Boot 的情况下登录进 Manjaro Linux，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
@@ -1040,59 +1016,6 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 Secure Boot -- ArchWiki
 
 https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows
-
-### **Git 配置用户名、邮箱**
-
-配置用户名、邮箱：
-
-```bash
-git config --global user.name "(user_name)"
-git config --global user.email "(user_email)"
-```
-
-Git 使用教程参考以下网址：
-
-菜鸟教程 -- Git 教程
-
-https://www.runoob.com/git/git-tutorial.html
-
-### **使用 SSH 连接到 Github**
-
-推荐使用 SSH 连接到 Github，其安全性更高，访问速度较快且更加稳定
-
-配置参考以下网址：
-
-Github Docs -- 使用 SSH 连接到 Github
-
-https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh
-
-在 Linux 上主要是以下内容：
-
-#### **生成新 SSH 密钥并添加到 ssh-agent**
-
-```bash
-ssh-keygen -t ed25519 -C "(user_email)"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-```
-
-第一步会提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
-
-#### **新增 SSH 密钥到 GitHub 帐户**
-
-通过 `cat ~/.ssh/id_ed25519.pub` 查看公钥并复制到 Github 账户下的“设置 >> SSH and GPG keys”中
-
-#### **测试 SSH 连接**
-
-在终端中输入：
-
-```
-ssh -T git@github.com
-```
-
-这一步要输入 `yes` 确定
-
-**注意 Linux 上和 Windows 上用的是不同的密钥**
 
 ## **一些有用的命令总结**
 
@@ -1337,7 +1260,7 @@ sudo ./install.sh -b -t vimix -i white -s 2k
 
 删除多余启动条目，需要修改`/boot/grub/grub.cfg`
 
-删除整一段 `submenu 'Manjaro Linux 的高级选项'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
+删除整一段 `submenu 'Advanced options for Manjaro Linux'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
 
 恢复默认的`/boot/grub/grub.cfg`需要输入：
 
@@ -1411,9 +1334,9 @@ Manjaro KDE 支持直接在 Dolphin 的右键菜单中安装 TTF 和 OTF 字体�
 
 **注意不管是 Windows 还是 Manjaro Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\user_name\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
 
-### **安装微软字体**
+### **安装微软系统字体**
 
-安装方法如下：
+微软系统字体文件夹在 `C\Windows\Fonts`，安装方法如下：
 
 ```bash
 sudo mkdir /usr/share/fonts/winfonts
@@ -1543,6 +1466,87 @@ sudo pacman -S fcitx-sunpinyin
 
 **安装输入法之后需要重启电脑才能生效**
 
+#### **应用程序的快捷键配置（可选）**
+
+应用程序的快捷键配置在：
+
+系统设置 >> 快捷键
+
+若没有想要的应用程序，可以点击下方的“添加应用程序”，例如设置 `Meta+Return` 为启动 Konsole 的快捷键（与 i3wm 一致）：
+
+系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`（即“Windows 徽标键 + Enter 键”）
+
+### **Git 配置用户名、邮箱**
+
+配置用户名、邮箱：
+
+```bash
+git config --global user.name "(user_name)"
+git config --global user.email "(user_email)"
+```
+
+Git 使用教程参考以下网址：
+
+菜鸟教程 -- Git 教程
+
+https://www.runoob.com/git/git-tutorial.html
+
+### **使用 SSH 连接到 Github**
+
+推荐使用 SSH 连接到 Github，其安全性更高，访问速度较快且更加稳定
+
+配置参考以下网址：
+
+Github Docs -- 使用 SSH 连接到 Github
+
+https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh
+
+在 Linux 上主要是以下内容：
+
+#### **生成新 SSH 密钥并添加到 ssh-agent**
+
+```bash
+ssh-keygen -t ed25519 -C "(user_email)"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+第一步会提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
+
+#### **新增 SSH 密钥到 GitHub 帐户**
+
+通过 `cat ~/.ssh/id_ed25519.pub` 查看公钥并复制到 Github 账户下的“设置 >> SSH and GPG keys”中
+
+#### **测试 SSH 连接**
+
+在终端中输入：
+
+```
+ssh -T git@github.com
+```
+
+这一步要输入 `yes` 确定
+
+**注意 Linux 上和 Windows 上用的是不同的密钥**
+
+### **GNU nano 配置**
+
+nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
+
+取消注释 `set linenumbers` 可以显示行号
+
+取消注释 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
+
+取消注释 `set tabstospaces` 可以将 Tab 转换为空格
+
+取消注释 `set matchbrackets "(<[{)>]}"` 可以匹配括号
+
+取消注释 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
+
+取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
+
+**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
+
 ### **安装其它软件**
 
 以下命令中的 `pamac install` 也可以在“添加/删除软件”（即 pamac）中搜索安装，如果不是 AUR 仓库中的软件，也可以用 `sudo pacman -S` 安装
@@ -1552,27 +1556,6 @@ pamac install geogebra stellarium typora v2ray qv2ray-dev-git vlc thunderbird qb
 ```
 
 **这里的 qv2ray-dev-git 一定要选择 Archlinux CN 软件源的版本**
-
-#### **用 debtap 安装 `.deb` 包（不推荐）**
-
-首先要下载并更新 debtap 包：
-
-```bash
-pamac install debtap
-sudo debtap -u
-```
-
-**运行 `sudo debtap -u` 时建议连接北京大学校园网**
-
-进入含有 `.deb` 安装包的文件夹，输入：
-
-```bash
-sudo debtap (package_name).deb
-```
-
-系统会询问三个问题：文件名随便写，协议写 `GPL` 即可，编辑文件直接按 `Enter` 跳过
-
-此处会生成一个 `tar.zst` 包，双击打开（右键用“软件安装程序”打开）即可安装
 
 ### **安装 TeX Live**
 
@@ -2100,14 +2083,6 @@ pamac install github-desktop-bin
 
 登录时要创建一个密钥环，密钥设为 Github 密码即可
 
-### **WPS 安装（可选）**
-
-运行：
-
-```bash
-pamac install wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
-```
-
 ### **微信安装**
 
 极简版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，且对大文件传输的支持不佳）：
@@ -2200,6 +2175,14 @@ make -j8
 
 如果出现图形交互界面，说明安装成功
 
+### **WPS 安装（可选）**
+
+运行：
+
+```bash
+pamac install wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+```
+
 ### **Surface：能用上触控笔的软件（可选）**
 
 #### **绘画**
@@ -2230,6 +2213,27 @@ pamac install onboard
 ```bash
 pamac install cellwriter
 ```
+
+### **用 debtap 安装 `.deb` 包（不推荐）**
+
+首先要下载并更新 debtap 包：
+
+```bash
+pamac install debtap
+sudo debtap -u
+```
+
+**运行 `sudo debtap -u` 时建议连接北京大学校园网**
+
+进入含有 `.deb` 安装包的文件夹，输入：
+
+```bash
+sudo debtap (package_name).deb
+```
+
+系统会询问三个问题：文件名随便写，协议写 `GPL` 即可，编辑文件直接按 `Enter` 跳过
+
+此处会生成一个 `tar.zst` 包，双击打开（右键用“软件安装程序”打开）即可安装
 
 ## **参考资料**
 
