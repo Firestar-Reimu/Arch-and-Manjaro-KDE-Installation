@@ -495,6 +495,20 @@ sudo vim /etc/default/grub
 sudo update-grub
 ```
 
+再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
+
+```bash
+blacklist iTCO_wdtblacklist iTCO_vendor_support
+```
+
+这样可以屏蔽掉不需要的驱动，保存后执行：
+
+```bash
+sudo update-grub
+```
+
+再重启即可
+
 再重启即可
 
 ### **Linux 挂载 Windows 磁盘**
@@ -1175,14 +1189,17 @@ KDE 桌面的 Mac 化
 
 https://www.cnblogs.com/luoshuitianyi/p/10587788.html
 
-其中 Plasma 主题、GTK 主题和图标主题分别选择：
-Plasma Theme: Mojave-CT
-GTK Theme: Mojave-light-alt [GTK2/3]
-Icon Theme: La Capitaine
-
 KDE 桌面美化指南
 
 https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/
+
+其中 Plasma 主题、GTK 主题和图标主题推荐选择：
+
+```
+Plasma Theme: Mojave-CT
+GTK Theme: Mojave-light-alt [GTK2/3]
+Icon Theme: La Capitaine
+```
 
 Latte-Dock 的推荐设置：
 
@@ -1465,16 +1482,6 @@ sudo pacman -S fcitx-sunpinyin
 也可以用 `sudo pacman -S sunpinyin` 安装 Sunpinyin
 
 **安装输入法之后需要重启电脑才能生效**
-
-#### **应用程序的快捷键配置（可选）**
-
-应用程序的快捷键配置在：
-
-系统设置 >> 快捷键
-
-若没有想要的应用程序，可以点击下方的“添加应用程序”，例如设置 `Meta+Return` 为启动 Konsole 的快捷键（与 i3wm 一致）：
-
-系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`（即“Windows 徽标键 + Enter 键”）
 
 ### **Git 配置用户名、邮箱**
 
@@ -2073,16 +2080,6 @@ xrdb -query
 
 即可解决
 
-### **Github Desktop 安装（可选）**
-
-推荐选择二进制包 `github-desktop-bin`：
-
-```bash
-pamac install github-desktop-bin
-```
-
-登录时要创建一个密钥环，密钥设为 Github 密码即可
-
 ### **微信安装**
 
 极简版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，且对大文件传输的支持不佳）：
@@ -2174,6 +2171,26 @@ make -j8
 ```
 
 如果出现图形交互界面，说明安装成功
+
+### **应用程序的快捷键配置（可选）**
+
+应用程序的快捷键配置在：
+
+系统设置 >> 快捷键
+
+若没有想要的应用程序，可以点击下方的“添加应用程序”，例如设置 `Meta+Return`（即“Windows 徽标键 + Enter 键”）为启动 Konsole 的快捷键：
+
+系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`
+
+### **Github Desktop 安装（可选）**
+
+推荐选择二进制包 `github-desktop-bin`：
+
+```bash
+pamac install github-desktop-bin
+```
+
+登录时要创建一个密钥环，密钥设为 Github 密码即可
 
 ### **WPS 安装（可选）**
 
