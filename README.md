@@ -1782,6 +1782,30 @@ https://docs.anaconda.com/anaconda/packages/pkg-docs/
 
 #### **Conda 常用命令**
 
+列出所有的环境：
+
+```bash
+conda env list
+```
+
+Conda 默认会在 Miniconda/Anaconda 的安装位置创建一个 `base` 环境，创建新环境的命令为：
+
+```bash
+conda create (environment_name)
+```
+
+激活环境的命令为：
+
+```bash
+source activate (environment_name)
+```
+
+取消激活的命令为：
+
+```bash
+source deactivate (environment_name)
+```
+
 下载包：
 
 ```bash
@@ -1794,7 +1818,7 @@ conda install (package_name)
 conda install (package_name)=(version_number)
 ```
 
-下载 conda-forge 中的软件：
+下载 [conda-forge](https://conda-forge.org/) 中的软件：
 
 ```bash
 conda install -c conda-forge (package_name)
@@ -2027,7 +2051,7 @@ Visual Studio Code 自带 Markdown 预览功能，但是不支持数学命令的
 - [ ] item 2
 ```
 
-[Markdown all in one](https://github.com/yzhang-gh/vscode-markdown) 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），且部分数学公式环境无法渲染（可以在设置中将该插件的公式支持关闭），其设置为：
+[Markdown all in one](https://github.com/yzhang-gh/vscode-markdown) 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），且部分数学公式环境无法渲染（可以在设置中将该插件的公式支持关闭），即在 `setting.json` 中设置为：
 
 ```json
 "editor.autoClosingBrackets": "always",
