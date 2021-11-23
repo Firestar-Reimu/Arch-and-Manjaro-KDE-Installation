@@ -1791,7 +1791,13 @@ conda env list
 Conda 默认会在 Miniconda/Anaconda 的安装位置创建一个 `base` 环境，创建新环境的命令为：
 
 ```bash
-conda create (environment_name)
+conda create -n (environment_name)
+```
+
+删除环境的命令为：
+
+```bash
+conda r-n (environment_name)
 ```
 
 激活环境的命令为：
@@ -2004,29 +2010,7 @@ pamac install code-git
 }
 ```
 
-若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到：
-
-```json
-{
-"[": {
-    "command": "[",
-    "snippet": "[${1}\\]",
-    "detail": "display math \\[ ... \\]"
-  },
-}
-```
-
-改为：
-
-```json
-{
-"[": {
-    "command": "[",
-    "snippet": "[\n    ${1}\n\\]",
-    "detail": "display math \\[ ... \\]"
-  },
-}
-```
+若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到 `"command": "["` 一段，将 `snippet` 改为 `"[\n    ${1}\n\\]"`
 
 重启 Visual Studio Code 即可生效
 
