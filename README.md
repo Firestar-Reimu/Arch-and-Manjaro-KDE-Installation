@@ -4,7 +4,7 @@ ThinkPad 系统信息：
 
 ```
 OS: Manjaro 21.2.0 Qonos
-Kernel: x86_64 Linux 5.14.18-1-MANJARO
+Kernel: x86_64 Linux 5.15.4-1-MANJARO
 Shell: bash 5.1.8
 Resolution: 2560x1600
 DE: KDE 5.88.0 / Plasma 5.23.3
@@ -489,11 +489,7 @@ sudo update-grub
 sudo vim /etc/default/grub
 ```
 
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`，保存后执行：
-
-```bash
-sudo update-grub
-```
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`，保存
 
 再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
 
@@ -506,8 +502,6 @@ blacklist iTCO_wdtblacklist iTCO_vendor_support
 ```bash
 sudo update-grub
 ```
-
-再重启即可
 
 再重启即可
 
