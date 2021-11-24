@@ -1081,6 +1081,8 @@ alsamixer
 free
 ```
 
+**Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
+
 #### **上一次关机的系统日志**
 
 ```bash
@@ -1117,13 +1119,19 @@ ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 
 ### **批量更改文件名**
 
-批量将文件名中的空格改成下划线：
+可以用 Linux 自带的 `rename` 命令：
 
 ```bash
-for file in *; do mv -n "$file" `echo $file | tr ' ' '_'`; done
+rename "(old_name)" "(new_name)" (files)
 ```
 
-**Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
+例如将本文件夹下所有文件的文件名中空格改为下划线，即执行：
+
+```bash
+rename " " "_" ./*
+```
+
+详细用法可以用 `rename --help` 查询
 
 ### **命令行解压 ZIP 压缩包**
 
