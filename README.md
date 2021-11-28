@@ -1116,13 +1116,13 @@ ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 可以用 Linux 自带的 `rename` 命令：
 
 ```bash
-rename "(old_name)" "(new_name)" (files)
+rename  -- "(old_name)" "(new_name)" (files)
 ```
 
 例如将本文件夹下所有文件的文件名中空格改为下划线，即执行：
 
 ```bash
-rename " " "_" ./*
+rename -- " " "_" ./*
 ```
 
 详细用法可以用 `rename --help` 查询
@@ -1270,6 +1270,8 @@ uninstall_oh_my_zsh
 选择主题 grub2-themes ，下载地址如下：
 
 https://github.com/vinceliuice/grub2-themes
+
+可选的主题有：Tela/Vimix/Stylish/Slaze/Whitesur
 
 以 Vimix grub theme （2K，黑白图标） 为例，解压后在文件夹内执行：
 
@@ -2089,6 +2091,90 @@ xrdb -query
 ```
 
 即可解决
+
+### IRAF/PyRAF 安装
+
+#### 从源代码安装（推荐）
+
+从源代码安装 IRAF/PyRAF 较为复杂，但软件版本较新，且支持 Python 3
+
+首先从 GitHub 上下载软件源代码，网址如下：
+
+https://github.com/iraf-community/iraf
+
+新建一个文件夹，例如 `~/.iraf-source` 用于存放解压后得到的源代码
+
+进入 `~/.iraf-source`，首先运行安装脚本：
+
+```bash
+./install
+```
+
+这里的选项全部选择默认即可，此时会新建一个 `~/.iraf` 文件夹
+
+下一步是将 IRAF 添加到 PATH：
+
+```bash
+export PATH=/home/firestar/.iraf/bin/:$PATH
+```
+
+此时便可以在 `~/.iraf-source` 中编译安装 IRAF：
+
+```bash
+make linux64
+make sysgen 2>&1 | tee build.log
+```
+
+接下来安装 PyRAF：
+
+```bash
+pip install pyraf==2.2.0rc1
+```
+
+**在使用 IRAF/PyRAF 之前，需要在该文件夹运行 `mkiraf` 命令，才能使用**
+
+#### 从 AstroConda 安装
+
+从 AstroConda 安装 IRAF/PyRAF 较为简便，缺点是软件版本较旧，且依赖 Python 2.7
+
+首先需要用 `conda config --add channels http://ssb.stsci.edu/astroconda` 加入 AstroConda 软件源，并推荐单独建立一个 IRAF 环境 `(iraf_environment)` 安装 IRAF/PyRAF：
+
+```bash
+conda create -n (iraf_environment) python=2.7 iraf-all pyraf-all stsci
+source activate (iraf_environment)
+```
+
+#### IRAF/PyRAF 常用命令
+
+启动 IRAF：
+
+```bash
+cl
+```
+
+启动 PyRAF：
+
+```bash
+pyraf
+```
+
+退出 IRAF：
+
+```
+logout
+```
+
+退出 PyRAF：
+
+```
+exit()
+```
+
+启动参数编辑器（the EPAR Parameter Editor）的命令为：
+
+```
+epar (task_name)
+```
 
 ### **微信安装**
 

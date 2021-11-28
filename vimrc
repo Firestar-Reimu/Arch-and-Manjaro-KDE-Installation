@@ -1,5 +1,7 @@
 " 基本设置
 
+" Arch Linux 默认设置
+runtime! archlinux.vim
 " 配色方案
 colorscheme desert
 " 自动保存

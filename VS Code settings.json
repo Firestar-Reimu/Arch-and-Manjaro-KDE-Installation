@@ -26,7 +26,7 @@
         },
         "numbers": "#aa0000"
     },
-    "debug.console.fontSize": 16,
+    "debug.console.fontSize": 12,
     "debug.onTaskErrors": "showErrors",
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
@@ -35,7 +35,7 @@
             "overrideName": true
         }
     },
-    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontSize": 12,
     "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.inheritEnv": false,
