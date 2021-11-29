@@ -1107,6 +1107,8 @@ ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 rename  -- "(old_name)" "(new_name)" (files)
 ```
 
+这里的参数 `--` 是为了防止在 `"old_name"` 中出现连字符导致识别错误（将其识别为参数）而添加的
+
 例如将本文件夹下所有文件的文件名中空格改为下划线，即执行：
 
 ```bash
@@ -1114,6 +1116,36 @@ rename -- " " "_" ./*
 ```
 
 详细用法可以用 `rename --help` 查询
+
+### **批量更改文件**
+
+推荐使用 `sed` 命令处理：
+
+```bash
+sed -ie 's/(old_string)/(new_string)/g' (files)
+```
+
+例如将本地文件下所有 Tab 替换成4个空格：
+
+```bash
+sed -i -e "s/\t/    /g" ./*
+```
+
+替换 Tab 也可以使用更加智能的 Vim 中的 `retab` 功能，它可以自动将不同长度的 Tab 替换成不同长度的空格，保证最终文字依然是对齐的
+
+首先用下列命令在一个 Vim 窗口中打开多个文件
+
+```
+vim `find . -type f -name "(files)"`
+```
+
+然后执行：
+
+```
+:argdo %:retab! | update
+```
+
+单个文件则直接执行 `%:retab!` 即可
 
 ### **命令行解压 ZIP 压缩包**
 
