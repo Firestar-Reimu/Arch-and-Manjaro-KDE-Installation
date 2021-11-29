@@ -439,7 +439,11 @@ Silent Boot -- ArchWiki
 
 https://wiki.archlinux.org/title/Silent_boot
 
-主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段
+Improving Performance -- Archwiki
+
+https://wiki.archlinux.org/title/Improving_performance
+
+主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
 
 编辑 Kernel parameters：
 
@@ -447,7 +451,7 @@ https://wiki.archlinux.org/title/Silent_boot
 sudo vim /etc/default/grub
 ```
 
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `loglevel=3"`
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog loglevel=3`
 
 编辑 fsck:
 
@@ -475,29 +479,13 @@ StandardOutput=null
 StandardError=journal+console
 ```
 
-最后执行
-
-```bash
-sudo update-grub
-```
-
-### **关闭重启时的 watchdog 提示**
-
-编辑 Kernel parameters：
-
-```bash
-sudo vim /etc/default/grub
-```
-
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`，保存
-
 再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
 
 ```bash
 blacklist iTCO_wdtblacklist iTCO_vendor_support
 ```
 
-这样可以屏蔽掉不需要的驱动，保存后执行：
+这样可以屏蔽掉不需要的驱动，最后执行：
 
 ```bash
 sudo update-grub
