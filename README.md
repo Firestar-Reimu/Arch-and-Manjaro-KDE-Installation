@@ -3,11 +3,11 @@
 ThinkPad 系统信息：
 
 ```
-OS: Manjaro 21.2.0 Qonos
-Kernel: x86_64 Linux 5.15.4-1-MANJARO
+OS: Manjaro 21.2rc Qonos
+Kernel: x86_64 Linux 5.15.7-1-MANJARO
 Shell: bash 5.1.8
 Resolution: 2560x1600
-DE: KDE 5.88.0 / Plasma 5.23.3
+DE: KDE 5.88.0 / Plasma 5.23.4
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -1239,16 +1239,22 @@ Latte-Dock 的推荐设置：
 
 #### bash 配置（可选）
 
-bash 的配置文件在 `~/.bashrc`，在 bash 的命令行中加入24小时的时间戳可以在 `~/.bashrc` 中加入：
+bash 的配置文件在 `~/.bashrc`，在 bash 的命令行中加入24小时的时间戳可以在 `~/.bashrc` 中找到 `PS1` 一行，例如：
 
 ```bash
-export PROMPT_COMMAND="echo -n \[\$(date +%T)\]\ "
+PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
+```
+
+然后在前面加上表示时间戳的 `\t`，即：
+
+```bash
+PS1='(\t) \[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
 ```
 
 此时显示效果类似：
 
 ```bash
-[HH:MM:SS] [(user_name)@(host_name) (directory)]($/#) 
+(HH:MM:SS) [(user_name)@(host_name) (directory)]($/#) (command)
 ```
 
 更多的设置可以在这个网站进行自定义：
@@ -1277,7 +1283,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/p
 vim ~/.zshrc
 ```
 
-选择 Oh-My-Zsh 主题：
+选择 Oh-My-Zsh 主题，推荐使用 geoffgarside：
 
 ```
 ZSH_THEME="geoffgarside"
@@ -1395,7 +1401,7 @@ Manjaro KDE 支持直接在 Dolphin 的右键菜单中安装 TTF 和 OTF 字体�
 
 ### **安装微软系统字体**
 
-微软系统字体文件夹在 `C\Windows\Fonts`，安装方法如下：
+微软系统字体文件夹在 `C:\Windows\Fonts`，安装方法如下：
 
 ```bash
 sudo mkdir /usr/share/fonts/winfonts
@@ -1839,7 +1845,7 @@ conda create -n (environment_name)
 删除环境的命令为：
 
 ```bash
-conda r-n (environment_name)
+conda r -n (environment_name)
 ```
 
 激活环境的命令为：
@@ -2156,7 +2162,7 @@ https://github.com/iraf-community/iraf
 export PATH=/home/firestar/.iraf/bin/:$PATH
 ```
 
-此时便可以在 `~/.iraf-source` 中编译安装 IRAF：
+此时便可以在 `~/.iraf-source` 中编译安装 IRAF（这一步需要的时间较长）：
 
 ```bash
 make linux64
@@ -2166,7 +2172,7 @@ make sysgen 2>&1 | tee build.log
 接下来安装 PyRAF：
 
 ```bash
-pip install pyraf==2.2.0rc1
+pip install pyraf==2.2.0
 ```
 
 **在使用 IRAF/PyRAF 之前，需要在该文件夹运行 `mkiraf` 命令，才能使用**
