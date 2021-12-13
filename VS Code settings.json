@@ -26,6 +26,9 @@
         },
         "numbers": "#aa0000"
     },
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.includeComments": false,
+    "editor.unicodeHighlight.nonBasicASCII": false,
     "debug.console.fontSize": 12,
     "debug.onTaskErrors": "showErrors",
     "terminal.integrated.profiles.windows": {
