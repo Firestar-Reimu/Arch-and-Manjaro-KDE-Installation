@@ -1237,6 +1237,24 @@ Latte-Dock 的推荐设置：
 
 在这里可以下载桌面小部件，并在“添加部件”处添加，例如 Simple System Monitor
 
+#### bash 配置（可选）
+
+bash 的配置文件在 `~/.bashrc`，在 bash 的命令行中加入24小时的时间戳可以在 `~/.bashrc` 中加入：
+
+```bash
+export PROMPT_COMMAND="echo -n \[\$(date +%T)\]\ "
+```
+
+此时显示效果类似：
+
+```bash
+[HH:MM:SS] [(user_name)@(host_name) (directory)]($/#) 
+```
+
+更多的设置可以在这个网站进行自定义：
+
+https://bashrcgenerator.com/
+
 #### **zsh 与 Oh-My-Zsh 配置（可选）**
 
 Konsole >> 设置 >> 编辑当前方案 >> 常规 >> 命令 >> `usr/bin/zsh`
@@ -2034,7 +2052,7 @@ pamac install code-git
 }
 ```
 
-若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到 `"command": "["` 一段，将 `snippet` 改为 `"[\n    ${1}\n\\]"`
+若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到 `"command": "["` 一段（即“display math”），将 `snippet` 改为 `"[\n    ${1}\n\\]"`
 
 重启 Visual Studio Code 即可生效
 
