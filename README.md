@@ -1253,7 +1253,7 @@ PS1='(\t) \[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
 
 此时显示效果类似：
 
-```bash
+```
 (HH:MM:SS) [(user_name)@(host_name) (directory)]($/#) (command)
 ```
 
@@ -1377,8 +1377,16 @@ gpg --keyserver p80.pool.sks-keyservers.net --recv-keys (pgp_key)
 
 执行命令：
 
-```
+```bash
 sudo update-desktop-database
+```
+
+### **HTTP2 网络问题**
+
+如果在下载 AUR 软件包时遇到报错 `HTTP/2 stream 1 was not closed cleanly before end of the underlying stream`，执行命令：
+
+```bash
+git config --global http.version HTTP/1.1
 ```
 
 ### **语言包**
