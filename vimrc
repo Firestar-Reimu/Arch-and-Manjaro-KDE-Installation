@@ -5,6 +5,12 @@ runtime! archlinux.vim
 set background=light
 colorscheme PaperColor
 
+" Cursor settings
+highlight Cursor gui=reverse guifg=#88ddff guibg=bg
+highlight Visual gui=reverse guifg=#88ddff guibg=bg
+au InsertEnter * highlight Cursor gui=reverse guifg=#ff5500 guibg=bg
+au InsertLeave * highlight Cursor gui=reverse guifg=#88ddff guibg=bg
+
 " Save automatically
 set autoread
 set autowrite
@@ -48,8 +54,8 @@ set confirm
 
 " Intent settings
 set autoindent
-set smartindent
 set cindent
+set smartindent
 
 " Tab settings
 set tabstop=4
@@ -71,7 +77,7 @@ set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,gb18030,gbk,gb2312,cp936
 
 " Mouse settings
-set mouse=a
+set mouse=nvi
 set selection=exclusive
 set selectmode=mouse,key
 
