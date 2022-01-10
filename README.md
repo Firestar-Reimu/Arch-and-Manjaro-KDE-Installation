@@ -76,7 +76,7 @@ https://manjaro.org/downloads/official/kde/ （KDE Plasma 版本）
 
 https://manjaro.org/get-manjaro/ （所有官方版本）
 
-或者在 Github 上下载：
+或者在 GitHub 上下载：
 
 https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
 
@@ -343,16 +343,21 @@ sudo pacman -U (package_path)/(package_name)
 建议先安装 Vim，方便之后编辑各种文件：
 
 ```bash
-sudo pacman -S vim
+sudo pacman -S gvim
 ```
 
 Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vimrc` 和 `/home/(user_name)/.vimrc`，建议直接修改 `/etc/vimrc`，这样不会覆盖 `/usr/share/vim/vimfiles/archlinux.vim` 上定义的默认配置（语法高亮等）
 
-Vim 安装插件的命令为：
+Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim82/colors/`，并在 `/etc/vimrc` 中添加：
 
-```bash
-git clone (github_repository_URL) ~/.vim/pack/(plugin_name)/start/(plugin_name)
-vim -u NONE -c "helptags ~/.vim/pack/(plugin_name)/start/(plugin_name)/doc" -c q
+```vim
+colorscheme PaperColor
+```
+
+默认使用暗色主题，如果要使用亮色主题需要在 `/etc/vimrc` 中添加：
+
+```vim
+set background=light
 ```
 
 ### **更改 visudo 默认编辑器为 Vim**
@@ -890,13 +895,9 @@ sudo mhwd -i pci video-modesetting
 
 #### **hosts 文件设置（可选）**
 
-参考以下网址：
+修改 hosts 文件可以有效访问 GitHub，需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠），修改内容参见以下网站：
 
-修改 hosts 解决 GitHub 访问失败
-
-https://zhuanlan.zhihu.com/p/107334179
-
-需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠）
+https://raw.hellogithub.com/hosts
 
 ### **调整 CPU 频率（可选）**
 
@@ -1099,6 +1100,24 @@ iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
 ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 ```
 
+### **grep 查找命令**
+
+grep 命令的用法为在文件或命令输出中查找字符串，例如：
+
+```bash
+grep (pattern) (file_pattern)
+```
+
+即为在当前目录文件名符合 `file_pattern` 的文件中查找字符串 `pattern`
+
+又例如：
+
+```bash
+pamac list | grep (pattern)
+```
+
+可以查询已安装的软件包中名字含有 `pattern` 的软件包
+
 ### **批量更改文件名**
 
 可以用 Linux 自带的 `rename` 命令：
@@ -1229,43 +1248,41 @@ Latte-Dock 的推荐设置：
 
 外观：绝对大小 >> 96，背景大小 >> 10%
 
-**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 Manjaro 新官方主题 Breath2 2021（也有深浅搭配和深色主题可选）或 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”，背景透明度选择 20%**
+**不想使用 Mac 风格主题但又想使用浅色主题时，建议使用 Manjaro 新官方主题 Breath Light（也有深浅搭配和深色主题可选）或 KDE 官方主题 Breeze，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”，背景透明度选择 20%**
 
-#### **配置桌面小部件**
+### **配置桌面小部件（可选）**
 
 右键点击桌面 >> 添加部件 >> 获取新部件 >> 下载新 Plasma 部件
 
-在这里可以下载桌面小部件，并在“添加部件”处添加，例如 Simple System Monitor
+在这里可以下载桌面小部件，并在“添加部件”处添加
 
-#### bash 配置（可选）
+### **zsh 配置**
 
-bash 的配置文件在 `~/.bashrc`，在 bash 的命令行中加入24小时的时间戳可以在 `~/.bashrc` 中找到 `PS1` 一行，例如：
+Manjaro 已经做好了 zsh 的美化，一般直接使用即可
+
+pkgfile 依赖于 manjaro-zsh-config，如果遇到开关机的时候报错：`[FAILED] failed to start pkgfile database update`，需要在 `/usr/lib/systemd/system/pkgfile-update.timer` 的 `Timer` 一段中加入：
+
+```
+RandomizedDelaySec=60
+```
+
+其中 60 可以改为任何足够长的秒数
+
+#### **Oh-My-Zsh 手动配置（可选）**
+
+如果想要自定义 zsh 样式，可以卸载 zsh 及其依赖：
 
 ```bash
-PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
+sudo pacman -Rn zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-theme-powerlevel10k manjaro-zsh-config
 ```
 
-然后在前面加上表示时间戳的 `\t`，即：
+再重新安装 zsh：
 
 ```bash
-PS1='(\t) \[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
+sudo pacman -S zsh
 ```
 
-此时显示效果类似：
-
-```
-(HH:MM:SS) [(user_name)@(host_name) (directory)]($/#) (command)
-```
-
-更多的设置可以在这个网站进行自定义：
-
-https://bashrcgenerator.com/
-
-#### **zsh 与 Oh-My-Zsh 配置（可选）**
-
-Konsole >> 设置 >> 编辑当前方案 >> 常规 >> 命令 >> `usr/bin/zsh`
-
-安装 Oh-My-Zsh，执行：（不推荐用包管理器安装）
+手动安装 Oh-My-Zsh，执行：（不推荐用包管理器安装）
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -1307,7 +1324,33 @@ omz update
 uninstall_oh_my_zsh
 ```
 
-**如果遇到开关机的时候报错：`\[FAILED] failed to start pkgfile database update`，卸载 `manjaro-zsh-config`，这会卸载 `zsh` 及其所有依赖，然后重新安装 `zsh`**
+### **bash 配置（可选）**
+
+Manjaro 的 Konsole 默认是 zsh，改成 bash 需要如下设置：
+
+Konsole >> 设置 >> 编辑当前方案 >> 常规 >> 命令 >> `usr/bin/bash`
+
+bash 的配置文件在 `~/.bashrc`，在 bash 的命令行中加入24小时的时间戳可以在 `~/.bashrc` 中找到 `PS1` 一行，例如：
+
+```bash
+PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
+```
+
+然后在前面加上表示时间戳的 `\t`，即：
+
+```bash
+PS1='(\t) \[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
+```
+
+此时显示效果类似：
+
+```
+(HH:MM:SS) [(user_name)@(host_name) (directory)]($/#) (command)
+```
+
+更多的设置可以在这个网站进行自定义：
+
+https://bashrcgenerator.com/
 
 ### **GRUB 美化**
 
@@ -1363,6 +1406,8 @@ sudo pacman -S plasma-wayland-session
 
 **能用包管理器的尽量用包管理器安装！**
 
+以下命令中的 `pamac install` 也可以在“添加/删除软件”（即 pamac）中搜索安装，如果不是 AUR 仓库中的软件，也可以用 `sudo pacman -S` 安装
+
 ### **PGP 密钥无法导入**
 
 如果安装软件时需要导入 PGP 密钥而发生 `gpg: 从公钥服务器接收失败：一般错误` 的问题，将 PGP 密钥复制下来并运行：
@@ -1381,14 +1426,6 @@ gpg --keyserver p80.pool.sks-keyservers.net --recv-keys (pgp_key)
 sudo update-desktop-database
 ```
 
-### **HTTP2 网络问题**
-
-如果在下载 AUR 软件包时遇到报错 `HTTP/2 stream 1 was not closed cleanly before end of the underlying stream`，执行命令：
-
-```bash
-git config --global http.version HTTP/1.1
-```
-
 ### **语言包**
 
 系统设置 >> 语言包 >> 右上角点击“已安装的软件包”安装语言包
@@ -1400,6 +1437,22 @@ git config --global http.version HTTP/1.1
 ```bash
 sudo pacman -S aspell hspell libvoikko
 ```
+
+### **运行 AppImage 文件或二进制文件**
+
+AppImage 的扩展名为 `.AppImage`，二进制文件没有扩展名，这两者一般可以直接双击或在终端输入文件名运行：
+
+```bash
+(file_name)
+```
+
+如果无法启动，则需要添加运行权限：
+
+```bash
+chmod +x (file_name)
+```
+
+然后双击或在终端输入文件名运行即可
 
 ### **字体安装**
 
@@ -1554,13 +1607,13 @@ Git 使用教程参考以下网址：
 
 https://www.runoob.com/git/git-tutorial.html
 
-### **使用 SSH 连接到 Github**
+### **使用 SSH 连接到 GitHub**
 
-推荐使用 SSH 连接到 Github，其安全性更高，访问速度较快且更加稳定
+推荐使用 SSH 连接到 GitHub，其安全性更高，访问速度较快且更加稳定
 
 配置参考以下网址：
 
-Github Docs -- 使用 SSH 连接到 Github
+GitHub Docs -- 使用 SSH 连接到 GitHub
 
 https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh
 
@@ -1610,12 +1663,12 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 
 **用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
 
-### **安装其它软件**
+### **安装常用软件**
 
-以下命令中的 `pamac install` 也可以在“添加/删除软件”（即 pamac）中搜索安装，如果不是 AUR 仓库中的软件，也可以用 `sudo pacman -S` 安装
+以下软件推荐直接使用包管理器安装
 
 ```bash
-pamac install geogebra stellarium typora v2ray qv2ray-dev-git vlc thunderbird qbittorrent baidunetdisk-bin
+pamac install stellarium typora v2ray qv2ray-dev-git vlc thunderbird
 ```
 
 **这里的 qv2ray-dev-git 一定要选择 Archlinux CN 软件源的版本**
@@ -2230,10 +2283,10 @@ epar (task_name)
 
 ### **微信安装**
 
-极简版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，且对大文件传输的支持不佳）：
+微信官方原生桌面版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，显示 emoji 需要下载 `noto-fonts-emoji`）：
 
 ```bash
-pamac install wechat-uos
+pamac install com.tencent.weixin
 ```
 
 功能较多，和最新的 Windows 电脑版同步更新，但依赖 deepin-wine，且暂不支持“截屏时隐藏当前窗口”的版本：
@@ -2330,7 +2383,7 @@ make -j8
 
 系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`
 
-### **Github Desktop 安装（可选）**
+### **GitHub Desktop 安装（可选）**
 
 推荐选择二进制包 `github-desktop-bin`：
 
@@ -2338,7 +2391,7 @@ make -j8
 pamac install github-desktop-bin
 ```
 
-登录时要创建一个密钥环，密钥设为 Github 密码即可
+登录时要创建一个密钥环，密钥设为 GitHub 密码即可
 
 ### **WPS 安装（可选）**
 
@@ -2346,6 +2399,12 @@ pamac install github-desktop-bin
 
 ```bash
 pamac install wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+```
+
+### **百度网盘安装（可选）**
+
+```bash
+pamac install baidunetdisk-bin
 ```
 
 ### **Surface：能用上触控笔的软件（可选）**
