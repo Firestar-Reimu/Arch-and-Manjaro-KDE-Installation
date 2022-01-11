@@ -1611,7 +1611,7 @@ GitHub Docs -- 使用 SSH 连接到 GitHub
 
 https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh
 
-在 Linux 上主要是以下内容：
+步骤如下：（Linux 上直接用系统终端，Windows 上需要用 Git Bash 而不能用 Windows Terminal，因为缺少 `eval` 等命令）
 
 #### **生成新 SSH 密钥并添加到 ssh-agent**
 
