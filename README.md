@@ -3,11 +3,11 @@
 ThinkPad 系统信息：
 
 ```
-OS: Manjaro 21.2rc Qonos
-Kernel: x86_64 Linux 5.15.7-1-MANJARO
-Shell: bash 5.1.8
+OS: Manjaro 21.2.1 Qonos
+Kernel: x86_64 Linux 5.15.12-1-MANJARO
+Shell: zsh 5.8
 Resolution: 2560x1600
-DE: KDE 5.88.0 / Plasma 5.23.4
+DE: KDE 5.89.0 / Plasma 5.23.4
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -396,13 +396,11 @@ Defaults:(user_name) !authenticate
 
 ### **命令行界面输出语言为英语**
 
-在 `~/.bashrc` 的最后添加一行：
+在 `~/.zshrc` 或 `~/.bashrc` 中添加一行：
 
 ```
 export LANG=en_US.UTF-8
 ```
-
-如果使用 zsh，则去掉 `~/.zshrc` 中这一行的注释即可
 
 ### **时间设置**
 
@@ -698,11 +696,7 @@ sudo pacman -S bluez-utils
 bluetoothctl
 ```
 
-然后参考以下网站：
-
-Arch Wiki -- 关于 Logitech BLE 鼠标的问题
-
-https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
+然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse (M557, M590, anywhere mouse 2, etc)”一段的指引进行操作
 
 ### **解决用 root 登录没有声音的问题**
 
@@ -1023,7 +1017,7 @@ https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secur
 在终端中输入：
 
 ```bash
-screenfetch
+neofetch
 ```
 
 或者：
@@ -2573,9 +2567,9 @@ ArchWiki -- Baloo
 
 https://wiki.archlinux.org/index.php/Baloo
 
-Arch Wiki -- 关于 Logitech BLE 鼠标的问题
+Arch Wiki -- Bluetooth Mouse
 
-https://wiki.archlinux.org/index.php/Bluetooth_mouse#Problems_with_the_Logitech_BLE_mouse_(M557,_M590,_anywhere_mouse_2,_etc)
+https://wiki.archlinux.org/index.php/Bluetooth_mouse
 
 Linux-Surface -- Installation and Setup
 
