@@ -340,7 +340,7 @@ sudo pacman -U (package_path)/(package_name)
 
 ### **Vim 安装与配置**
 
-建议先安装 Vim，方便之后编辑各种文件：
+建议先安装 Vim（这里使用 GVim 以启用剪贴板功能），方便之后编辑各种文件：
 
 ```bash
 sudo pacman -S gvim
@@ -350,13 +350,13 @@ Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vim
 
 Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim82/colors/`，并在 `/etc/vimrc` 中添加：
 
-```vim
+```
 colorscheme PaperColor
 ```
 
 默认使用暗色主题，如果要使用亮色主题需要在 `/etc/vimrc` 中添加：
 
-```vim
+```
 set background=light
 ```
 
@@ -1807,7 +1807,13 @@ pip install (package_name)
 这里不建议安装 spyder 和 jupyter notebook，安装最基本的包即可：
 
 ```bash
-pip install numpy scipy matplotlib astropy autopep8
+pip install numpy matplotlib astropy black ipython
+```
+
+使用 Matplotlib 绘图需要下载 tk 库：
+
+```bash
+sudo pacman -S tk
 ```
 
 #### **Miniconda 安装与配置**
@@ -1874,7 +1880,7 @@ ssl_verify: true
 下载所需要的包：
 
 ```bash
-conda install numpy scipy matplotlib astropy spyder jupyter
+conda install numpy matplotlib astropy black ipython
 ```
 
 各个操作系统平台上可下载的包可以在以下网站查询：
@@ -1933,13 +1939,13 @@ conda install (package_name)=(version_number)
 conda install -c conda-forge (package_name)
 ```
 
-更新包：
+更新包：（`pip` 没有 `update` 选项，相应命令为 `pip install --upgrade (package_name)`）
 
 ```bash
 conda update (package_name)
 ```
 
-更新所有包：
+更新所有包：（`pip` 不支持更新所有包，但可以用 `pip list --outdated` 列出所有过期包再一个个更新）
 
 ```bash
 conda update --all
