@@ -1,91 +1,92 @@
 {
-    "actions": [
-        {
-            "command": {
-                "action": "copy",
-                "singleLine": false
-            },
-            "keys": "ctrl+c"
-        },
-        {
-            "command": "find",
-            "keys": "ctrl+shift+f"
-        },
-        {
-            "command": "paste",
-            "keys": "ctrl+v"
-        },
-        {
-            "command": {
-                "action": "splitPane",
-                "split": "auto",
-                "splitMode": "duplicate"
-            },
-            "keys": "alt+shift+d"
-        }
-    ],
-    "copyFormatting": "none",
-    "copyOnSelect": false,
-    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-    "profiles": {
-        "defaults": {
-            "background": "#012345",
-            "colorScheme": "Default Dark",
-            "acrylicOpacity": 0.8,
-            "useAcrylic": true,
-            "fontFace": "JetBrains Mono NL"
-        },
-        "list": [
-            {
-                "commandline": "powershell.exe -NoLogo -NoExit",
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "hidden": false,
-                "name": "Windows PowerShell"
-            },
-            {
-                "commandline": "cmd.exe -NoLogo -NoExit",
-                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "hidden": false,
-                "name": "Command Prompt"
-            },
-            {
-                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
-                "hidden": false,
-                "name": "Azure Cloud Shell",
-                "source": "Windows.Terminal.Azure"
-            },
-            {
-                "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
-                "hidden": false,
-                "name": "Git Bash",
-                "source": "Git"
-            }
-        ]
+  "actions": [
+    {
+      "command": {
+        "action": "copy",
+        "singleLine": false
+      },
+      "keys": "ctrl+c"
     },
-    "schemes": [
-        {
-            "name": "Default Dark",
-            "cursorColor": "#FFFFFF",
-            "background": "#000000",
-            "foreground": "#CCCCCC",
-            "selectionBackground": "#FFFFFF",
-            "black": "#000000",
-            "blue": "#0000AA",
-            "cyan": "#55AAFF",
-            "green": "#00AA00",
-            "purple": "#990099",
-            "red": "#FF0000",
-            "white": "#CCCCCC",
-            "yellow": "#FFAA00",
-            "brightBlack": "#777777",
-            "brightBlue": "#0077FF",
-            "brightCyan": "#77DDDD",
-            "brightGreen": "#00FF00",
-            "brightPurple": "#BB00BB",
-            "brightRed": "#EE5555",
-            "brightWhite": "#EEEEEE",
-            "brightYellow": "#FFFF00"
-        }
-    ],
-    "theme": "light"
+    {
+      "command": "find",
+      "keys": "ctrl+shift+f"
+    },
+    {
+      "command": "paste",
+      "keys": "ctrl+v"
+    },
+    {
+      "command": {
+        "action": "splitPane",
+        "split": "auto",
+        "splitMode": "duplicate"
+      },
+      "keys": "alt+shift+d"
+    }
+  ],
+  "copyFormatting": "none",
+  "copyOnSelect": false,
+  "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+  "profiles": {
+    "defaults": {
+      "background": "#012345",
+      "colorScheme": "Default Dark",
+      "acrylicOpacity": 0.5,
+      "useAcrylic": true,
+      "fontFace": "JetBrains Mono NL"
+    },
+    "list": [
+      {
+        "commandline": "powershell.exe -NoLogo -NoExit",
+        "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+        "hidden": false,
+        "name": "Windows PowerShell"
+      },
+      {
+        "commandline": "cmd.exe -NoLogo -NoExit",
+        "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+        "hidden": false,
+        "name": "Command Prompt"
+      },
+      {
+        "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+        "hidden": false,
+        "name": "Azure Cloud Shell",
+        "source": "Windows.Terminal.Azure"
+      },
+      {
+        "commandline": "C:/Program Files/Git/bin/bash.exe",
+        "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
+        "name": "Git Bash",
+        "icon": "C:/Program Files/Git/mingw64/share/git/git-for-windows.ico",
+        "startingDirectory": "%USERPROFILE%"
+      }
+    ]
+  },
+  "schemes": [
+    {
+      "name": "Default Dark",
+      "cursorColor": "#FFFFFF",
+      "background": "#000000",
+      "foreground": "#CCCCCC",
+      "selectionBackground": "#FFFFFF",
+      "black": "#000000",
+      "blue": "#0000AA",
+      "cyan": "#55AAFF",
+      "green": "#00AA00",
+      "purple": "#990099",
+      "red": "#FF0000",
+      "white": "#CCCCCC",
+      "yellow": "#FFAA00",
+      "brightBlack": "#777777",
+      "brightBlue": "#0077FF",
+      "brightCyan": "#77DDDD",
+      "brightGreen": "#00FF00",
+      "brightPurple": "#BB00BB",
+      "brightRed": "#EE5555",
+      "brightWhite": "#EEEEEE",
+      "brightYellow": "#FFFF00"
+    }
+  ],
+  "theme": "light"
 }
