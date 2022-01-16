@@ -211,7 +211,7 @@ Manjaro Wiki -- Manjaro Kernels
 
 https://wiki.manjaro.org/index.php/Manjaro_Kernels
 
-这两个也可以在 Manjaro Settings Manager （GUI 版本）中使用
+这两个也可以在 Manjaro Settings Manager（GUI 版本）中使用
 
 ### **AUR**
 
@@ -335,6 +335,18 @@ sudo pacman -S gvim
 ```
 
 Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vimrc` 和 `/home/(user_name)/.vimrc`，建议直接修改 `/etc/vimrc`，这样不会覆盖 `/usr/share/vim/vimfiles/archlinux.vim` 上定义的默认配置（语法高亮等）
+
+启用剪贴板功能需要用 GVim 版本，此时在 GVim 端和 Vim 端（命令行）均支持共享系统剪贴板，在 `/etc/vimrc` 中写入：
+
+```
+set clipboard=unnamed
+noremap <C-c> "+y
+noremap <C-v> "+p
+noremap y "+y
+noremap p "+p
+```
+
+可以将复制快捷键设为 `Ctrl+C`，粘贴快捷键设为 `Ctrl+V`
 
 Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim82/colors/`，并在 `/etc/vimrc` 中添加：
 
@@ -529,7 +541,7 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs default 0 0
 
 #### **使用图形化界面**
 
-在系统应用“KDE 分区管理器”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，执行即可
+在系统应用“KDE 分区管理器”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
 
 这相当于直接编辑 `/etc/fstab`，加入：
 
@@ -1194,7 +1206,7 @@ https://www.pling.com/browse/cat/309/order/latest/
 
 外观 >> 欢迎屏幕 >> Snowy Night Miku、Manjaro Linux Reflection Splashscreen、ManjaroLogo Black、Plasma 5 Manjaro Splashscreen White Blur
 
-**现在新设计的登录屏幕（SDDM）和欢迎屏幕已经非常美观且改进了翻译问题，最方便的方法就是登录屏幕（SDDM）选择 Breath 2，欢迎屏幕选择 Breath2 2021**
+**现在新设计的登录屏幕（SDDM）和欢迎屏幕已经非常美观且改进了翻译问题，最方便的方法就是登录屏幕（SDDM）选择 Breath，欢迎屏幕选择 Breath2**
 
 #### **SDDM 时间显示调整为 24 小时制**
 
