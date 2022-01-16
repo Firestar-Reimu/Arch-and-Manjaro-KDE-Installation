@@ -78,9 +78,9 @@ https://github.com/manjaro/release-review/releases （所有官方版本）
 
 推荐使用 [Ventoy](https://www.ventoy.net/cn/index.html)，可以在 Windows/Linux 上使用，方法是下载安装包后解压、安装到 USB 上，之后直接将 ISO 镜像拷贝到 USB 中即可选择镜像文件进行登录系统，支持多个系统镜像登录
 
-Linux 上也可以使用 [Etcher](https://www.balena.io/etcher/)，在 Linux（下载 Appimage 或从 AUR 上用包管理器下载 `balena-etcher`）和 Windows（下载 EXE 可执行文件）上均能使用（但无法刻录 Windows 系统镜像），Github 项目地址在 https://github.com/balena-io/etcher
+Linux 上也可以使用 [Etcher](https://www.balena.io/etcher/)，在 Linux（下载 AppImage 文件或从 AUR 上用包管理器下载 `balena-etcher`）和 Windows（下载 EXE 可执行文件）上均能使用（但不支持刻录 Windows 系统镜像）
 
-Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当且支持 Windows 和 Linux 系统镜像，但无法在 Linux 上使用（只提供 Windows 版 EXE 可执行文件），Github 项目地址在 https://github.com/pbatard/rufus
+Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当且支持 Windows 和 Linux 系统镜像，但无法在 Linux 上使用（只提供 Windows 版 EXE 可执行文件）
 
 ### **从 USB 启动**
 
