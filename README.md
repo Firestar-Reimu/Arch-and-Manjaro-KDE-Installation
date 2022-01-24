@@ -454,7 +454,7 @@ https://wiki.archlinux.org/title/Improving_performance
 sudo vim /etc/default/grub
 ```
 
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog loglevel=3`
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `loglevel=3`
 
 编辑 fsck:
 
@@ -462,11 +462,7 @@ sudo vim /etc/default/grub
 sudo vim /etc/mkinitcpio.conf
 ```
 
-在 `HOOKS` 一行中将 `udev` 改为 `systemd`，保存后执行：
-
-```bash
-sudo mkinitcpio -P
-```
+在 `HOOKS` 一行中将 `udev` 改为 `systemd`
 
 再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
 
@@ -485,12 +481,14 @@ StandardError=journal+console
 再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
 
 ```bash
-blacklist iTCO_wdtblacklist iTCO_vendor_support
+blacklist iTCO_wdtblacklist 
+blacklist iTCO_vendor_support
 ```
 
 这样可以屏蔽掉不需要的驱动，最后执行：
 
 ```bash
+sudo mkinitcpio -P
 sudo update-grub
 ```
 
