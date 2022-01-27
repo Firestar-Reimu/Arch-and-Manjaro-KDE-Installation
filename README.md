@@ -336,6 +336,11 @@ sudo pacman -S gvim
 
 Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vimrc` 和 `/home/(user_name)/.vimrc`，建议直接修改 `/etc/vimrc`，这样不会覆盖 `/usr/share/vim/vimfiles/archlinux.vim` 上定义的默认配置（语法高亮等）
 
+Vim 的配置可以参考以下网址：
+
+Options -- Vim Reference Manual
+https://vimhelp.org/options.txt.html
+
 启用剪贴板功能需要用 GVim 版本，此时在 GVim 端和 Vim 端（命令行）均支持共享系统剪贴板，在 `/etc/vimrc` 中写入：
 
 ```
@@ -348,17 +353,23 @@ noremap p "+p
 
 可以将复制快捷键设为 `Ctrl+C`，粘贴快捷键设为 `Ctrl+V`
 
-Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim82/colors/`，并在 `/etc/vimrc` 中添加：
+### **GNU nano 配置**
 
-```
-colorscheme PaperColor
-```
+nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
 
-默认使用暗色主题，如果要使用亮色主题需要在 `/etc/vimrc` 中添加：
+取消注释 `set linenumbers` 可以显示行号
 
-```
-set background=light
-```
+取消注释 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
+
+取消注释 `set tabstospaces` 可以将 Tab 转换为空格
+
+取消注释 `set matchbrackets "(<[{)>]}"` 可以匹配括号
+
+取消注释 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
+
+取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
+
+**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
 
 ### **更改 visudo 默认编辑器为 Vim**
 
@@ -1198,13 +1209,11 @@ https://www.pling.com/browse/cat/309/order/latest/
 
 系统设置 >> 用户账户 >> 图像
 
-### **开机登录美化**
+### **登录屏幕（SDDM）美化**
 
-开机与关机 >> 登录屏幕（SDDM） >> Breeze 或者 Fluent
+开机与关机 >> 登录屏幕（SDDM） >> Breath（默认）、Breeze、Fluent
 
-外观 >> 欢迎屏幕 >> Snowy Night Miku、Manjaro Linux Reflection Splashscreen、ManjaroLogo Black、Plasma 5 Manjaro Splashscreen White Blur
-
-**现在新设计的登录屏幕（SDDM）和欢迎屏幕已经非常美观且改进了翻译问题，最方便的方法就是登录屏幕（SDDM）选择 Breath，欢迎屏幕选择 Breath2**
+外观 >> 欢迎屏幕 >> Breath（默认）、Snowy Night Miku、Manjaro Linux Reflection Splashscreen、ManjaroLogo Black、Plasma 5 Manjaro Splashscreen White Blur
 
 #### **SDDM 时间显示调整为 24 小时制**
 
@@ -1217,7 +1226,7 @@ text: Qt.formatTime(timeSource.data["Local"]["DateTime"])
 将其改为：
 
 ```
-text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "hh:mm:ss")
+text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
 ```
 
 保存重启即可
@@ -1291,7 +1300,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/t
 安装插件，执行：
 
 ```bash
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlightinggit clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 ```
 
 编辑设置文件：
@@ -1374,6 +1384,20 @@ sudo ./install.sh -b -t vimix -i white -s 2k
 
 ```bash
 echo GRUB_DISABLE_OS_PROBER=false | sudo tee -a /etc/default/grub && sudo update-grub
+```
+
+### **Vim 美化**
+
+Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim82/colors/`，并在 `/etc/vimrc` 中添加：
+
+```
+colorscheme PaperColor
+```
+
+默认使用暗色主题，如果要使用亮色主题需要在 `/etc/vimrc` 中添加：
+
+```
+set background=light
 ```
 
 ### **pacman 添加吃豆人彩蛋**
@@ -1553,7 +1577,13 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 推荐使用 Fcitx5:
 
 ```bash
-sudo pacman -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool
+sudo pacman -S fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+```
+
+或者（fcitx-im 组包括了fcitx5、fcitx5-gtk、fcitx5-qt、fcitx5-configtool）：
+
+```bash
+sudo pacman -S fcitx5-im fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
 ```
 
 如果无法启动输入法，在系统设置 >> 区域设置 >> 输入法 >> 添加输入法中手动添加“拼音”
@@ -1643,25 +1673,7 @@ ssh -T git@github.com
 
 这一步要输入 `yes` 确定
 
-**注意 Linux 上和 Windows 上用的是不同的密钥**
-
-### **GNU nano 配置**
-
-nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
-
-取消注释 `set linenumbers` 可以显示行号
-
-取消注释 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
-
-取消注释 `set tabstospaces` 可以将 Tab 转换为空格
-
-取消注释 `set matchbrackets "(<[{)>]}"` 可以匹配括号
-
-取消注释 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
-
-取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
-
-**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
+**注意 Linux 上和 Windows 上用的是不同的密钥，Windows 上操作步骤相同，但需要在 Git Bash（而不是 Windows Powershell）上执行**
 
 ### **安装常用软件**
 
