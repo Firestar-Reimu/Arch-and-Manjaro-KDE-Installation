@@ -3,11 +3,11 @@
 ThinkPad 系统信息：
 
 ```
-OS: Manjaro 21.2.1 Qonos
-Kernel: x86_64 Linux 5.15.12-1-MANJARO
+OS: Manjaro 21.2.4 Qonos
+Kernel: x86_64 Linux 5.16.11-2-MANJARO
 Shell: zsh 5.8
 Resolution: 2560x1600
-DE: KDE 5.89.0 / Plasma 5.23.4
+DE: KDE 5.89.0 / Plasma 5.24.2
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -26,7 +26,7 @@ CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
 
-**说明：Surface 专有部分自 2021.9.5 起不再更新，内核终止于 x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface**
+**说明：Surface 专有部分自 2021.9.5 起不再更新，内核版本终止于 x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface**
 
 ## **Windows 的准备工作**
 
@@ -1199,6 +1199,12 @@ Wallpapers Manjaro -- pling.com
 
 https://www.pling.com/browse/cat/309/order/latest/
 
+KDE Plasma 每个版本的壁纸可以在这里找到：
+
+Plasma Workspace Wallpapers -- KDE
+
+https://github.com/KDE/plasma-workspace-wallpapers
+
 默认的壁纸保存位置为 `/usr/share/wallpapers/`
 
 还可以使用包管理器（pacman/sudo pacman/pamac）下载壁纸，用“添加/删除软件”或 `pamac search wallpaper` 查找
@@ -1480,18 +1486,17 @@ chmod +x (file_name)
 
 ### **字体安装**
 
-Manjaro KDE 支持直接在 Dolphin 的右键菜单中安装 TTF 和 OTF 字体，但不支持 TTC 字体集，TTC 字体集可以在系统字体安装的默认文件夹 `/usr/share/fonts` 中用命令 `fc-cache -fv` 安装
+Manjaro KDE 支持直接在 Dolphin 的右键菜单中安装 TTF/OTF 字体和 TTC/OTC 字体集
 
 **注意不管是 Windows 还是 Manjaro Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\user_name\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
 
-### **安装微软系统字体**
+#### **命令行安装微软系统字体**
 
 微软系统字体文件夹在 `C:\Windows\Fonts`，安装方法如下：
 
 ```bash
-sudo mkdir /usr/share/fonts/winfonts
-sudo cp (win-font-path)/* /usr/share/fonts/winfonts/
-cd /usr/share/fonts/winfonts/
+sudo cp (win-font-path)/* /usr/share/fonts/
+cd /usr/share/fonts/
 fc-cache -fv
 ```
 
@@ -1511,11 +1516,11 @@ sudo pacman -S noto-fonts noto-fonts-cjk
 
 Google Noto Fonts
 
-https://www.google.com/get/noto/
+https://fonts.google.com/noto/fonts
 
 中文（CJK）字体的下载地址如下：
 
-https://www.google.com/get/noto/help/cjk/
+https://github.com/googlefonts/noto-cjk
 
 ### **更改程序和终端默认中文字体**
 
@@ -1580,7 +1585,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 sudo pacman -S fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
 ```
 
-或者（fcitx-im 组包括了fcitx5、fcitx5-gtk、fcitx5-qt、fcitx5-configtool）：
+或者（fcitx-im 组包括了 fcitx5、fcitx5-gtk、fcitx5-qt、fcitx5-configtool）：
 
 ```bash
 sudo pacman -S fcitx5-im fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
