@@ -74,6 +74,12 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
 
 https://github.com/manjaro/release-review/releases （所有官方版本）
 
+还可以用下面的方法在一台 Manjaro Linux 设备上制作自定义的 ISO 镜像：
+
+Manjaro Wiki -- Build Manjaro ISOs with buildiso
+
+https://wiki.manjaro.org/index.php/Build_Manjaro_ISOs_with_buildiso
+
 #### **刻录 USB 启动盘**
 
 推荐使用 [Ventoy](https://www.ventoy.net/cn/index.html)，可以在 Windows/Linux 上使用，方法是下载安装包后解压、安装到 USB 上，之后直接将 ISO 镜像拷贝到 USB 中即可选择镜像文件进行登录系统，支持多个系统镜像登录
@@ -2592,7 +2598,7 @@ KDE Community -- Plasma 5.9 Errata
 
 https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
 
-ArchWiki -- Baloo
+Arch Wiki -- Baloo
 
 https://wiki.archlinux.org/index.php/Baloo
 
