@@ -3,11 +3,11 @@
 ThinkPad 系统信息：
 
 ```
-OS: Manjaro 21.2.4 Qonos
-Kernel: x86_64 Linux 5.16.11-2-MANJARO
+OS: Manjaro 21.2.5 Qonos
+Kernel: x86_64 Linux 5.17.0-1-MANJARO
 Shell: zsh 5.8
 Resolution: 2560x1600
-DE: KDE 5.89.0 / Plasma 5.24.2
+DE: KDE 5.92.0 / Plasma 5.24.3
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -76,9 +76,7 @@ https://github.com/manjaro/release-review/releases （所有官方版本）
 
 还可以用下面的方法在一台 Manjaro Linux 设备上制作自定义的 ISO 镜像：
 
-Manjaro Wiki -- Build Manjaro ISOs with buildiso
-
-https://wiki.manjaro.org/index.php/Build_Manjaro_ISOs_with_buildiso
+[Manjaro Wiki -- Build Manjaro ISOs with buildiso](https://wiki.manjaro.org/index.php/Build_Manjaro_ISOs_with_buildiso)
 
 #### **刻录 USB 启动盘**
 
@@ -185,37 +183,23 @@ sudo pacman-mirrors -aS (branch) -ic China
 
 Manjaro 常用的包管理器有 pacman 和 pamac，其使用教程参考以下网址：
 
-Manjaro Wiki -- Pacman Overview
+[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/index.php/Pacman_Overview)
 
-https://wiki.manjaro.org/index.php/Pacman_Overview
+[Manjaro Wiki -- Pacman-mirrors](https://wiki.manjaro.org/index.php/Pacman-mirrors)
 
-Manjaro Wiki -- Pacman-mirrors
+[ArchWiki -- Pacman](https://wiki.archlinux.org/index.php/Pacman)
 
-https://wiki.manjaro.org/index.php/Pacman-mirrors
-
-ArchWiki -- Pacman
-
-https://wiki.archlinux.org/index.php/Pacman
-
-Manjaro Wiki -- Pamac
-
-https://wiki.manjaro.org/index.php/Pamac
+[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
 
 其中 pacman 和 pamac 是预装的，“添加/删除软件”就是 pamac 的 GUI 版本
 
 硬件管理的包管理器是 mhwd 和 mhwd-kernel，其使用教程参考以下网址：
 
-Manjaro Wiki -- Manjaro Hardware Detection Overview
+[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview)
 
-https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview
+[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/index.php/Configure_Graphics_Cards)
 
-Manjaro Wiki -- Configure Graphics Cards
-
-https://wiki.manjaro.org/index.php/Configure_Graphics_Cards
-
-Manjaro Wiki -- Manjaro Kernels
-
-https://wiki.manjaro.org/index.php/Manjaro_Kernels
+[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/index.php/Manjaro_Kernels)
 
 这两个也可以在 Manjaro Settings Manager（GUI 版本）中使用
 
@@ -288,9 +272,7 @@ pactree (package_name)
 
 在 `/var/cache/pacman/pkg/` 中找到旧软件包，双击打开安装实现手动降级，参考以下网址：
 
-Downgrading Packages -- ArchWiki
-
-https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
 #### **清理缓存**
 
@@ -344,8 +326,7 @@ Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vim
 
 Vim 的配置可以参考以下网址：
 
-Options -- Vim Reference Manual
-https://vimhelp.org/options.txt.html
+[Options -- Vim Reference Manual](https://vimhelp.org/options.txt.html)
 
 启用剪贴板功能需要用 GVim 版本，此时在 GVim 端和 Vim 端（命令行）均支持共享系统剪贴板，在 `/etc/vimrc` 中写入：
 
@@ -447,21 +428,15 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 
 参考以下网址：
 
-TUNA NTP (网络授时) 服务使用说明
-
-https://tuna.moe/help/ntp/
+[TUNA NTP（网络授时）服务使用说明](https://tuna.moe/help/ntp/)
 
 ### **关闭启动时的系统信息**
 
 参考以下网址：
 
-Silent Boot -- ArchWiki
+[Silent Boot -- ArchWiki](https://wiki.archlinux.org/title/Silent_boot)
 
-https://wiki.archlinux.org/title/Silent_boot
-
-Improving Performance -- Archwiki
-
-https://wiki.archlinux.org/title/Improving_performance
+[Improving Performance -- Archwiki](https://wiki.archlinux.org/title/Improving_performance)
 
 主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
 
@@ -517,9 +492,7 @@ sudo update-grub
 
 参考以下网址：
 
-Archwiki -- fstab
-
-https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+[Archwiki -- fstab](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
 #### **使用 UUID**
 
@@ -823,7 +796,7 @@ activate
 
 ### **Surface：Linux-Surface 内核安装（可选）**
 
-**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.14.0-0-MANJARO，从 Linux 5.13-MANJARO 开始已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏**
+**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.14.0-0-MANJARO，从 Linux 5.13-MANJARO 开始已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏，相关支持情况详见 [Linux-Surface -- Feature Matrix](https://github.com/linux-surface/linux-surface/wiki/Supported-Devices-and-Features#feature-matrix)**
 
 在终端中输入：
 
@@ -862,9 +835,7 @@ sudo systemctl enable iptsd
 
 启动相机参考以下网址：（相机功能仍在开发中，可能出现配置失败的情况）
 
-Linux-Surface -- Camera Support
-
-https://github.com/linux-surface/linux-surface/wiki/Camera-Support
+[Linux-Surface -- Camera Support](https://github.com/linux-surface/linux-surface/wiki/Camera-Support)
 
 KDE 上原生的相机应用是 Kamoso，也可以使用 GNOME 上的相机应用 Cheese
 
@@ -876,17 +847,11 @@ KDE 上原生的相机应用是 Kamoso，也可以使用 GNOME 上的相机应�
 
 可能是默认的 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
 
-Arch Wiki -- Cinnamon
+[Arch Wiki -- Cinnamon](https://wiki.archlinux.org/index.php/Cinnamon#Installation)
 
-https://wiki.archlinux.org/index.php/Cinnamon#Installation
+[Arch Wiki -- Intel Graphics](https://wiki.archlinux.org/index.php/Intel_graphics#Installation)
 
-Arch Wiki -- Intel Graphics
-
-https://wiki.archlinux.org/index.php/Intel_graphics#Installation
-
-KDE Community -- Plasma 5.9 Errata
-
-https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
+[KDE Community -- Plasma 5.9 Errata](https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs)
 
 解决办法：
 
@@ -906,7 +871,7 @@ sudo mhwd -i pci video-modesetting
 
 修改 hosts 文件可以有效访问 GitHub，需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠），修改内容参见以下网站：
 
-https://raw.hellogithub.com/hosts
+[HelloGitHub -- hosts](https://raw.hellogithub.com/hosts)
 
 ### **调整 CPU 频率（可选）**
 
@@ -981,9 +946,7 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 
 ### **zram 文件设置（可选）**
 
-对 zram 的介绍可以参考以下网址：
-
-https://wiki.archlinux.org/title/Improving_performance_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#zram_%E6%88%96_zswap
+对 zram 的介绍可以参考[官方文档](https://www.kernel.org/doc/html/latest/admin-guide/blockdev/zram.html)，设置步骤可以参考[ArchWiki](https://wiki.archlinux.org/title/Improving_performance#zram_or_zswap)
 
 先下载 `zram-generator` 软件包：
 
@@ -1019,9 +982,7 @@ sudo systemctl start /dev/zram0
 
 具体教程参考以下网址：
 
-Secure Boot -- ArchWiki
-
-https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows
+[Secure Boot -- ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
 
 ## **一些有用的命令总结**
 
@@ -1081,7 +1042,7 @@ alsamixer
 free
 ```
 
-**Linux 的内存策略可以参考这个网站：https://www.linuxatemyram.com/**
+**Linux 的内存策略可以参考这个网站：[Linux ate my RAM](https://www.linuxatemyram.com/)**
 
 #### **上一次关机的系统日志**
 
@@ -1201,15 +1162,11 @@ unar (file_name).zip
 
 桌面壁纸可以在 [pling.com](https://www.pling.com/) 下载，专门为 Manjaro 定制的壁纸可以在这里找到：
 
-Wallpapers Manjaro -- pling.com
-
-https://www.pling.com/browse/cat/309/order/latest/
+[Wallpapers Manjaro -- pling.com](https://www.pling.com/browse/cat/309/order/latest/)
 
 KDE Plasma 每个版本的壁纸可以在这里找到：
 
-Plasma Workspace Wallpapers -- KDE
-
-https://github.com/KDE/plasma-workspace-wallpapers
+[Plasma Workspace Wallpapers -- KDE](https://github.com/KDE/plasma-workspace-wallpapers)
 
 默认的壁纸保存位置为 `/usr/share/wallpapers/`
 
@@ -1247,13 +1204,9 @@ text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
 
 参考以下网址：
 
-KDE 桌面的 Mac 化
+[KDE 桌面的 Mac 化](https://www.cnblogs.com/luoshuitianyi/p/10587788.html)
 
-https://www.cnblogs.com/luoshuitianyi/p/10587788.html
-
-KDE 桌面美化指南
-
-https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/
+[KDE 桌面美化指南](https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/)
 
 其中 Plasma 主题、GTK 主题和图标主题推荐选择：
 
@@ -1372,7 +1325,7 @@ PS1='(\t) \[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
 
 更多的设置可以在这个网站进行自定义：
 
-https://bashrcgenerator.com/
+[.bashrc PS1 generator](https://bashrcgenerator.com/)
 
 ### **GRUB 美化**
 
@@ -2144,11 +2097,15 @@ pamac install code-git
     "key": "ctrl+m ctrl+f",
     "command": "editor.action.insertSnippet",
     "args": { "snippet": "\\frac{$1}{$2}$0" },
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/",
 }
 ```
 
-若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到 `"command": "["` 一段（即“display math”），将 `snippet` 改为 `"[\n    ${1}\n\\]"`
+若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到 `"command": "["` 一段（即“display math”），将 `"snippet"` 的值改为：
+
+```json
+"[\n    ${1}\n\\]"
+```
 
 重启 Visual Studio Code 即可生效
 
@@ -2490,21 +2447,14 @@ sudo debtap (package_name).deb
 
 ## **参考资料**
 
-BitLocker 恢复密钥
+[BitLocker 恢复密钥](https://account.microsoft.com/devices/recoverykey?refd=account.microsoft.com)
 
-https://account.microsoft.com/devices/recoverykey?refd=account.microsoft.com
+[Windows 10 如何关闭快速启动]
+(https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html)
 
-Windows 10 如何关闭快速启动
+[创建和使用 Surface 的 USB 恢复驱动器](https://support.microsoft.com/zh-cn/help/4023512/surface-creating-and-using-a-usb-recovery-drive)
 
-https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html
-
-创建和使用 Surface 的 USB 恢复驱动器
-
-https://support.microsoft.com/zh-cn/help/4023512/surface-creating-and-using-a-usb-recovery-drive
-
-下载 Surface 的恢复映像
-
-https://support.microsoft.com/zh-cn/surfacerecoveryimage
+[下载 Surface 的恢复映像](https://support.microsoft.com/zh-cn/surfacerecoveryimage)
 
 下载 Windows 10 光盘映像
 
