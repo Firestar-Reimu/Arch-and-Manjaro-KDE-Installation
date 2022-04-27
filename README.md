@@ -3,11 +3,10 @@
 ThinkPad 系统信息：
 
 ```
-OS: Manjaro 21.2.5 Qonos
-Kernel: x86_64 Linux 5.17.0-1-MANJARO
-Shell: zsh 5.8
+OS: Manjaro 21.2.6 Qonos
+Kernel: x86_64 Linux 5.17.4-1-MANJARO
 Resolution: 2560x1600
-DE: KDE 5.92.0 / Plasma 5.24.3
+DE: KDE 5.93.0 / Plasma 5.24.4
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -18,7 +17,6 @@ Surface 系统信息：
 ```
 OS: Manjaro 21.1.1 Pahvo
 Kernel: x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface
-Shell: bash 5.1.8
 Resolution: 2736x1824
 DE: KDE 5.85.0 / Plasma 5.22.5
 WM: KWin
@@ -62,7 +60,7 @@ Surface：Security >> Secure Boot >> Disabled（第三个选项）
 
 #### **下载系统 ISO 镜像**
 
-从 Manjaro 官网上下载：
+从 Manjaro 官网上下载（stable 分支）：
 
 https://manjaro.org/downloads/official/kde/ （KDE Plasma 版本）
 
@@ -70,13 +68,21 @@ https://manjaro.org/get-manjaro/ （所有官方版本）
 
 或者在 GitHub 上下载：
 
-https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本）
+https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本，unstable 分支）
 
-https://github.com/manjaro/release-review/releases （所有官方版本）
+https://github.com/manjaro/release-review/releases （所有官方版本，testing 分支）
 
 还可以用下面的方法在一台 Manjaro Linux 设备上制作自定义的 ISO 镜像：
 
 [Manjaro Wiki -- Build Manjaro ISOs with buildiso](https://wiki.manjaro.org/index.php/Build_Manjaro_ISOs_with_buildiso)
+
+制作之前需要下载软件 `manjaro-tools-iso`，并在 `/etc/manjaro-tools/manjaro-tools.conf` 中修改镜像：
+
+```bash
+build_mirror=https://mirrors.tuna.tsinghua.edu.cn/manjaro/
+```
+
+命令为：`buildiso -p kde -b testing -k linux517`，整个过程大约需要 10 分钟
 
 #### **刻录 USB 启动盘**
 
@@ -843,15 +849,7 @@ KDE 上原生的相机应用是 Kamoso，也可以使用 GNOME 上的相机应�
 
 ### **显卡驱动切换到 video-modesetting（可选）**
 
-有时候打字时桌面卡死，只有鼠标能移动，但是无法点击
-
-可能是默认的 video-linux 显卡驱动的问题，已经有此类问题的报告和建议，参考以下网址：
-
-[Arch Wiki -- Cinnamon](https://wiki.archlinux.org/index.php/Cinnamon#Installation)
-
-[Arch Wiki -- Intel Graphics](https://wiki.archlinux.org/index.php/Intel_graphics#Installation)
-
-[KDE Community -- Plasma 5.9 Errata](https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs)
+如果打字时桌面卡死，只有鼠标能移动，但是无法点击，可能是默认的 video-linux 显卡驱动的问题
 
 解决办法：
 
@@ -1804,17 +1802,13 @@ Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
 
 下载地址如下：
 
-Miniconda -- Conda documentation
-
-https://docs.conda.io/en/latest/miniconda.html
+[Miniconda -- Conda documentation](https://docs.conda.io/en/latest/miniconda.html)
 
 或者在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/#)点击右侧的“获取下载链接”按钮，在“应用软件” >> Conda 里面选择
 
 安装过程参考以下网址：（Miniconda 和 Anaconda 的安装步骤相同）
 
-Anaconda Documentation -- Installing on Linux
-
-https://docs.anaconda.com/anaconda/install/linux/
+[Anaconda Documentation -- Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/)
 
 输入以下命令：（Windows 用户无法直接创建名为 `.condarc` 的文件，可先执行 `conda config --set show_channel_urls yes` 生成该文件之后再修改）
 
@@ -1867,9 +1861,7 @@ conda install numpy matplotlib astropy black ipython
 
 各个操作系统平台上可下载的包可以在以下网站查询：
 
-Anaconda Documentation -- Anaconda Package Lists
-
-https://docs.anaconda.com/anaconda/packages/pkg-docs/
+[Anaconda Documentation -- Anaconda Package Lists](https://docs.anaconda.com/anaconda/packages/pkg-docs/)
 
 #### **Conda 常用命令**
 
@@ -2325,9 +2317,7 @@ pamac install qqmusic-bin
 
 从官网上下载源代码压缩包：
 
-Geant4 -- Download
-
-https://geant4.web.cern.ch/support/download
+[Geant4 -- Download](https://geant4.web.cern.ch/support/download)
 
 进入解压后的文件夹，若要将 Geant4 安装在 `(Geant4_directory)`，例如 `~/Geant4`，执行：
 
@@ -2447,7 +2437,7 @@ sudo debtap (package_name).deb
 
 ## **参考资料**
 
-[BitLocker 恢复密钥](https://account.microsoft.com/devices/recoverykey?refd=account.microsoft.com)
+[BitLocker 恢复密钥](https://account.microsoft.com/devices/recoverykey)
 
 [Windows 10 如何关闭快速启动]
 (https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html)
@@ -2456,198 +2446,98 @@ sudo debtap (package_name).deb
 
 [下载 Surface 的恢复映像](https://support.microsoft.com/zh-cn/surfacerecoveryimage)
 
-下载 Windows 10 光盘映像
+[下载 Windows 10 光盘映像](https://www.microsoft.com/zh-cn/software-download/windows10ISO)
 
-https://www.microsoft.com/zh-cn/software-download/windows10ISO
+[如何使用 Surface UEFI](https://support.microsoft.com/zh-cn/help/4023531/surface-how-to-use-surface-uefi)
 
-如何使用 Surface UEFI
+[Win 10 环境下安装 Manjaro KDE（双系统）](https://www.cnblogs.com/Jaywhen-xiang/p/11561661.html)
 
-https://support.microsoft.com/zh-cn/help/4023531/surface-how-to-use-surface-uefi
+[Manjaro 20 KDE 配置心得](https://blog.csdn.net/weixin_40293491/article/details/107526553)
 
-Win 10 环境下安装 Manjaro KDE（双系统）
+[Manjaro 安装体验小结](https://zhuanlan.zhihu.com/p/76608451)
 
-https://www.cnblogs.com/Jaywhen-xiang/p/11561661.html
+[Manjaro 安装后你需要这样做](https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E6%96%B9%E6%BA%90)
 
-Manjaro 20 KDE 配置心得
+[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/index.php/Pacman_Overview)
 
-https://blog.csdn.net/weixin_40293491/article/details/107526553
+[ArchWiki -- Pacman](https://wiki.archlinux.org/index.php/Pacman)
 
-Manjaro 安装体验小结
+[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
 
-https://zhuanlan.zhihu.com/p/76608451
+[GitHub -- sudo pacman](https://github.com/Jguer/sudo pacman)
 
-Manjaro 安装后你需要这样做
+[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview)
 
-https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E6%96%B9%E6%BA%90
+[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/index.php/Configure_Graphics_Cards)
 
-Manjaro Wiki -- Pacman Overview
+[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/index.php/Manjaro_Kernels)
 
-https://wiki.manjaro.org/index.php/Pacman_Overview
+[ArchWiki -- Sudo（简体中文）](https://wiki.archlinux.org/index.php/Sudo_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-ArchWiki -- Pacman
+[Manjaro Wiki -- Switching Branches](https://wiki.manjaro.org/index.php/Switching_Branches)
 
-https://wiki.archlinux.org/index.php/Pacman
+[在 Mac 上用 Openconnect 连接 Pulse Secure VPN](https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-mac/)
 
-Manjaro Wiki -- Pamac
+[双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读](https://jakting.com/archives/ubuntu-rw-windows-files.html)
 
-https://wiki.manjaro.org/index.php/Pamac
+[修改 hosts 解决 GitHub 访问失败](https://zhuanlan.zhihu.com/p/107334179)
 
-GitHub -- sudo pacman
+[Manjaro Linux Forum -- Connect to internet from command-line as a beginner](https://forum.manjaro.org/t/howto-connect-to-internet-from-command-line-as-a-beginner/)
 
-https://github.com/Jguer/sudo pacman
+[Manjaro Linux Forum -- Failed to add/activate new connection: 确定 AP 安全信息失败](https://forum.manjaro.org/t/failed-to-add-activate-new-connection-ap/76048)
 
-Manjaro Wiki -- Manjaro Hardware Detection Overview
+[Arch Wiki -- XDG user directories](https://wiki.archlinux.org/index.php/XDG_user_directories)
 
-https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview
+[Arch Wiki -- Cinnamon](https://wiki.archlinux.org/index.php/Cinnamon#Installation)
 
-Manjaro Wiki -- Configure Graphics Cards
+[Arch Wiki -- Intel Graphics](https://wiki.archlinux.org/index.php/Intel_graphics#Installation)
 
-https://wiki.manjaro.org/index.php/Configure_Graphics_Cards
+[Arch Wiki -- Baloo](https://wiki.archlinux.org/index.php/Baloo)
 
-Manjaro Wiki -- Manjaro Kernels
+[Arch Wiki -- Bluetooth Mouse](https://wiki.archlinux.org/index.php/Bluetooth_mouse)
 
-https://wiki.manjaro.org/index.php/Manjaro_Kernels
+[Linux-Surface -- Installation and Setup](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup)
 
-ArchWiki -- Sudo (简体中文)
+[Arch Wiki -- System time（简体中文）](https://wiki.archlinux.org/index.php/System_time_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-https://wiki.archlinux.org/index.php/Sudo_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+[KDE 桌面的 Mac 化](https://www.cnblogs.com/luoshuitianyi/p/10587788.html)
 
-Manjaro Wiki -- Switching Branches
+[KDE 桌面美化指南](https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/)
 
-https://wiki.manjaro.org/index.php?title=Switching_Branches
+[Oh-My-Zsh 及主题、插件的安装与配置](https://www.cnblogs.com/misfit/p/10694397.html)
 
-在 Mac 上用 Openconnect 连接 Pulse Secure VPN
+[Linux GRUB 删除多余启动条目](https://blog.csdn.net/JackLiu16/article/details/80383969)
 
-https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-mac/
+[TUNA NTP (网络授时) 服务使用说明](https://tuna.moe/help/ntp/)
 
-双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读
+[SJTUG 软件源镜像服务](https://mirrors.sjtug.sjtu.edu.cn/#/)
 
-https://jakting.com/archives/ubuntu-rw-windows-files.html
+[Manjaro 为包管理器 pacman 和 yaourt/yay 添加多线程下载](https://blog.csdn.net/dc90000/article/details/101752743)
 
-修改 hosts 解决 GitHub 访问失败
+[ArchWiki -- Microsoft fonts（简体中文）](https://wiki.archlinux.org/index.php/Microsoft_fonts_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-https://zhuanlan.zhihu.com/p/107334179
+[Archlinux 使用 Windows 字体及相关配置](https://blog.csdn.net/sinat_33528967/article/details/93380729)
 
-Manjaro Linux Forum -- Connect to internet from command-line as a beginner
+[ArchWiki -- Fcitx5（简体中文）](https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-https://forum.manjaro.org/t/howto-connect-to-internet-from-command-line-as-a-beginner/
+[Archived Manjaro Forum -- 比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合](https://archived.forum.manjaro.org/t/sunpinyin-cloudpinyin/114282)
 
-Arch Wiki -- XDG user directories
+[TeX Live -- Acquiring TeX Live as an ISO image](https://www.tug.org/texlive/acquire-iso.html)
 
-https://wiki.archlinux.org/index.php/XDG_user_directories
+[TeX Live -- Quick install](https://www.tug.org/texlive/quickinstall.html)
 
-Arch Wiki -- Cinnamon
+[TeX Live Documentation -- TeX Live Installation](https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#installation)
 
-https://wiki.archlinux.org/index.php/Cinnamon#Installation
+[Font size of mailbox is too small](https://support.mozilla.org/zh-CN/questions/1297871)
 
-Arch Wiki -- Intel Graphics
+[Anaconda Documentation -- Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/)
 
-https://wiki.archlinux.org/index.php/Intel_graphics#Installation
+[恢复 Anaconda 环境, 卸载 Anaconda, 重装 Anaconda](https://blog.csdn.net/wangweiwells/article/details/88374361)
 
-KDE Community -- Plasma 5.9 Errata
+[Geant4 -- Building and Installing from Source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html)
 
-https://community.kde.org/Plasma/5.9_Errata#Intel_GPUs
+[Geant4 -- Postinstall Setup](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html)
 
-Arch Wiki -- Baloo
+[Geant4 基础 -- 准备与安装](https://zhuanlan.zhihu.com/p/135917392)
 
-https://wiki.archlinux.org/index.php/Baloo
-
-Arch Wiki -- Bluetooth Mouse
-
-https://wiki.archlinux.org/index.php/Bluetooth_mouse
-
-Linux-Surface -- Installation and Setup
-
-https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup
-
-Arch Wiki -- System time（简体中文）
-
-https://wiki.archlinux.org/index.php/System_time_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
-
-KDE 桌面的 Mac 化
-
-https://www.cnblogs.com/luoshuitianyi/p/10587788.html
-
-KDE 桌面美化指南
-
-https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/
-
-Oh-My-Zsh 及主题、插件的安装与配置
-
-https://www.cnblogs.com/misfit/p/10694397.html
-
-Linux GRUB 删除多余启动条目
-
-https://blog.csdn.net/JackLiu16/article/details/80383969
-
-AUR 镜像使用帮助
-
-https://mirrors.tuna.tsinghua.edu.cn/help/AUR/
-
-TUNA NTP (网络授时) 服务使用说明
-
-https://tuna.moe/help/ntp/
-
-SJTUG 软件源镜像服务
-
-https://mirrors.sjtug.sjtu.edu.cn/#/
-
-Manjaro 为包管理器 pacman 和 yaourt/sudo pacman 添加多线程下载
-
-https://blog.csdn.net/dc90000/article/details/101752743?utm_medium=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase&depth_1-utm_source=distribute.wap_relevant.none-task-blog-OPENSEARCH-6.nonecase
-
-ArchWiki -- Microsoft fonts（简体中文）
-
-https://wiki.archlinux.org/index.php/Microsoft_fonts_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
-
-Archlinux 使用 Windows 字体及相关配置
-
-https://blog.csdn.net/sinat_33528967/article/details/93380729
-
-ArchWiki -- Fcitx5 (简体中文)
-
-https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
-
-Archived Manjaro Forum -- 比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合
-
-https://archived.forum.manjaro.org/t/sunpinyin-cloudpinyin/114282
-
-Acquiring TeX Live as an ISO image
-
-https://www.tug.org/texlive/acquire-iso.html
-
-TeX Live - Quick install
-
-https://www.tug.org/texlive/quickinstall.html
-
-TeX Live Documentation -- TeXLive Installation
-
-https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#installation
-
-Font size of mailbox is too small
-
-https://support.mozilla.org/zh-CN/questions/1297871
-
-Anaconda Documentation -- Installing on Linux
-
-https://docs.anaconda.com/anaconda/install/linux/
-
-恢复 Anaconda 环境, 卸载 Anaconda, 重装 Anaconda
-
-https://blog.csdn.net/wangweiwells/article/details/88374361
-
-Geant4 -- Building and Installing from Source
-
-https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html
-
-Geant4 -- Postinstall Setup
-
-https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html
-
-Geant4 基础 -- 准备与安装
-
-https://zhuanlan.zhihu.com/p/135917392
-
-Linux ate my RAM!
-
-https://www.linuxatemyram.com/
+[Linux ate my RAM!](https://www.linuxatemyram.com/)
