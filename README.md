@@ -2463,7 +2463,7 @@ sudo debtap (package_name).deb
 
 [Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
 
-[GitHub -- sudo pacman](https://github.com/Jguer/sudo pacman)
+[GitHub -- yay](https://github.com/Jguer/yay)
 
 [Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview)
 
