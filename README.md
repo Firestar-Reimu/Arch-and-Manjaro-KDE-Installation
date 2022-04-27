@@ -2439,8 +2439,7 @@ sudo debtap (package_name).deb
 
 [BitLocker 恢复密钥](https://account.microsoft.com/devices/recoverykey)
 
-[Windows 10 如何关闭快速启动]
-(https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html)
+[Windows 10 如何关闭快速启动](https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html)
 
 [创建和使用 Surface 的 USB 恢复驱动器](https://support.microsoft.com/zh-cn/help/4023512/surface-creating-and-using-a-usb-recovery-drive)
 
