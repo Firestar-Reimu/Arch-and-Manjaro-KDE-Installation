@@ -550,8 +550,6 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs default 0 0
 
 **首先检查 Windows 中是否关闭了快速启动**
 
-关闭快速启动（Windows 工具 >> 控制面板 >> 电源选项 >> 选择电源按钮的功能 >> 更改当前不可用的设置 >> 关闭快速启动 >> 保存修改）并重启电脑
-
 一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，若关闭快速启动不能解决问题，使用下面的方法：
 
 检查占用进程：
@@ -1397,10 +1395,10 @@ sudo pacman -S plasma-wayland-session
 
 ### **PGP 密钥无法导入**
 
-如果安装软件时需要导入 PGP 密钥而发生 `gpg: 从公钥服务器接收失败：一般错误` 的问题，将 PGP 密钥复制下来并运行：
+有时安装软件需要导入 PGP 密钥，如果发生 `gpg: keyserver receive failed: General error` 的问题，将 PGP 密钥复制下来并运行：
 
 ```bash
-gpg --keyserver p80.pool.sks-keyservers.net --recv-keys (pgp_key)
+gpg --keyserver keyserver.ubuntu.com --recv-keys (pgp_key)
 ```
 
 再重新安装软件即可
@@ -2198,7 +2196,7 @@ https://github.com/iraf-community/iraf
 下一步是将 IRAF 添加到 PATH：
 
 ```bash
-export PATH=/home/firestar/.iraf/bin/:$PATH
+export PATH=/home/(user-name)/.iraf/bin/:$PATH
 ```
 
 此时便可以在 `~/.iraf-source` 中编译安装 IRAF（这一步需要的时间较长）：
