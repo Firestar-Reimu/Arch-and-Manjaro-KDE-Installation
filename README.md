@@ -442,9 +442,15 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 
 [Silent Boot -- ArchWiki](https://wiki.archlinux.org/title/Silent_boot)
 
-[Improving Performance -- Archwiki](https://wiki.archlinux.org/title/Improving_performance)
+[Improving Performance -- ArchWiki](https://wiki.archlinux.org/title/Improving_performance)
 
 主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
+
+#### **关闭 fsck 的消息**
+
+第一种方法是直接关闭 fsck 的文件系统检查（不推荐），参见：
+
+[fsck -- ArchWiki](https://wiki.archlinux.org/title/fsck#Boot_time_checking)
 
 编辑 Kernel parameters：
 
@@ -452,15 +458,11 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 sudo vim /etc/default/grub
 ```
 
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `loglevel=3`
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `fsck.mode=skip`
 
-编辑 fsck:
+第二种方法是让 systemd 来检查文件系统：
 
-```bash
-sudo vim /etc/mkinitcpio.conf
-```
-
-在 `HOOKS` 一行中将 `udev` 改为 `systemd`
+编辑 `/etc/mkinitcpio.conf`，在 `HOOKS` 一行中将 `udev` 改为 `systemd`
 
 再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
 
@@ -476,7 +478,9 @@ StandardOutput=null
 StandardError=journal+console
 ```
 
-再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
+#### **关闭 watchdog 的消息**
+
+创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
 
 ```bash
 blacklist iTCO_wdtblacklist 
