@@ -1393,9 +1393,28 @@ sudo pacman -S plasma-wayland-session
 
 以下命令中的 `pamac install` 也可以在“添加/删除软件”（即 pamac）中搜索安装，如果不是 AUR 仓库中的软件，也可以用 `sudo pacman -S` 安装
 
+### **PGP 密钥崩溃**
+
+有时安装软件需要导入 PGP 密钥，如果发生错误 `invalid or corrupted package (PGP signature)`，则创建一脚本文件 `pacman_key.sh`，添加如下内容：
+
+```bash
+pacman -Sy manjaro-keyring;
+for i in $(cat /usr/share/pacman/keyrings/manjaro-trusted | cut -d: -f1); do
+    pacman-key -d $i;
+    pacman-key -r $i;
+done;
+pacman -S manjaro-keyring;
+```
+
+再以 `sudo` 身份运行：
+
+```
+sudo bash pacman_key.sh
+```
+
 ### **PGP 密钥无法导入**
 
-有时安装软件需要导入 PGP 密钥，如果发生 `gpg: keyserver receive failed: General error` 的问题，将 PGP 密钥复制下来并运行：
+如果导入 PGP 密钥发生 `gpg: keyserver receive failed: General error` 的问题，将 PGP 密钥复制下来并运行：
 
 ```bash
 gpg --keyserver keyserver.ubuntu.com --recv-keys (pgp_key)
@@ -1445,19 +1464,19 @@ Manjaro KDE 支持直接在 Dolphin 的右键菜单中安装 TTF/OTF 字体和 T
 
 **注意不管是 Windows 还是 Manjaro Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\user_name\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
 
-#### **命令行安装微软系统字体**
+#### **命令行安装字体**
 
-微软系统字体文件夹在 `C:\Windows\Fonts`，安装方法如下：
+将字体文件复制到 `/usr/share/fonts` 安装，方法如下：
 
 ```bash
-sudo cp (win-font-path)/* /usr/share/fonts/
-cd /usr/share/fonts/
+sudo cp (font-path)/* /usr/share/fonts
+cd /usr/share/fonts
 fc-cache -fv
 ```
 
 这样就可以安装微软雅黑、宋体、黑体等字体了
 
-**注意需要排除掉 MS Gothic、Yu Gothic 和 Malgun Gothic 字体，因它们只有部分日/韩文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日/韩文字形）**
+**微软系统字体文件夹在 `C:\Windows\Fonts`，可以复制到 `/usr/share/fonts` 安装，注意需要排除掉 MS Gothic、Yu Gothic 和 Malgun Gothic 字体，因它们只有部分日/韩文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日/韩文字形）**
 
 ### **安装 Google Noto 字体**
 
