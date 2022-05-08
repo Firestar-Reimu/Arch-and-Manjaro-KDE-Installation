@@ -478,12 +478,29 @@ StandardOutput=null
 StandardError=journal+console
 ```
 
-#### **关闭 watchdog 的消息**
-
-创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
+最后执行：
 
 ```bash
-blacklist iTCO_wdtblacklist 
+sudo mkinitcpio -P
+sudo update-grub
+```
+
+再重启即可
+
+#### **关闭 watchdog 的消息**
+
+编辑 Kernel parameters：
+
+```bash
+sudo vim /etc/default/grub
+```
+
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`
+
+再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
+
+```bash
+blacklist iTCO_wdt
 blacklist iTCO_vendor_support
 ```
 
