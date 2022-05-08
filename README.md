@@ -4,7 +4,7 @@ ThinkPad 系统信息：
 
 ```
 OS: Manjaro 21.2.6 Qonos
-Kernel: x86_64 Linux 5.17.4-1-MANJARO
+Kernel: x86_64 Linux 5.17.5-2-MANJARO
 Resolution: 2560x1600
 DE: KDE 5.93.0 / Plasma 5.24.4
 WM: KWin
@@ -436,83 +436,6 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 
 [TUNA NTP（网络授时）服务使用说明](https://tuna.moe/help/ntp/)
 
-### **关闭启动时的系统信息**
-
-参考以下网址：
-
-[Silent Boot -- ArchWiki](https://wiki.archlinux.org/title/Silent_boot)
-
-[Improving Performance -- ArchWiki](https://wiki.archlinux.org/title/Improving_performance)
-
-主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
-
-#### **关闭 fsck 的消息**
-
-第一种方法是直接关闭 fsck 的文件系统检查（不推荐），参见：
-
-[fsck -- ArchWiki](https://wiki.archlinux.org/title/fsck#Boot_time_checking)
-
-编辑 Kernel parameters：
-
-```bash
-sudo vim /etc/default/grub
-```
-
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `fsck.mode=skip`
-
-第二种方法是让 systemd 来检查文件系统：
-
-编辑 `/etc/mkinitcpio.conf`，在 `HOOKS` 一行中将 `udev` 改为 `systemd`
-
-再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
-
-```bash
-sudo systemctl edit --full systemd-fsck-root.service
-sudo systemctl edit --full systemd-fsck@.service
-```
-
-分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
-
-```
-StandardOutput=null
-StandardError=journal+console
-```
-
-最后执行：
-
-```bash
-sudo mkinitcpio -P
-sudo update-grub
-```
-
-再重启即可
-
-#### **关闭 watchdog 的消息**
-
-编辑 Kernel parameters：
-
-```bash
-sudo vim /etc/default/grub
-```
-
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`
-
-再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
-
-```bash
-blacklist iTCO_wdt
-blacklist iTCO_vendor_support
-```
-
-这样可以屏蔽掉不需要的驱动，最后执行：
-
-```bash
-sudo mkinitcpio -P
-sudo update-grub
-```
-
-再重启即可
-
 ### **Linux 挂载 Windows 磁盘**
 
 **首先要确保设备加密和快速启动已经关闭**
@@ -608,6 +531,237 @@ sudo mount /dev/(partition_name) (mount_path)/(mount_folder)
 ```bash
 sudo ntfsfix /dev/(partition_name) && sudo mount /dev/(partition_name)(mount_path)/(mount_folder)
 ```
+
+### **字体安装**
+
+Manjaro KDE 支持直接在 Dolphin 的右键菜单中安装 TTF/OTF 字体和 TTC/OTC 字体集
+
+**注意不管是 Windows 还是 Manjaro Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\user_name\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
+
+#### **命令行安装字体**
+
+将字体文件复制到 `/usr/share/fonts` 安装，方法如下：
+
+```bash
+sudo cp (font-path)/* /usr/share/fonts
+cd /usr/share/fonts
+fc-cache -fv
+```
+
+这样就可以安装微软雅黑、宋体、黑体等字体了
+
+**微软系统字体文件夹在 `C:\Windows\Fonts`，可以复制到 `/usr/share/fonts` 安装，注意需要排除掉 MS Gothic、Yu Gothic 和 Malgun Gothic 字体，因它们只有部分日/韩文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日/韩文字形）**
+
+### **安装 Google Noto 字体**
+
+命令行安装：
+
+```bash
+sudo pacman -S noto-fonts noto-fonts-cjk
+```
+
+所有语言字体的下载地址如下：
+
+[Noto Fonts -- Google Fonts](https://fonts.google.com/noto/fonts)
+
+中文（CJK）字体的下载地址如下：
+
+[Noto CJK -- GitHub](https://github.com/googlefonts/noto-cjk)
+
+### **更改程序和终端默认中文字体**
+
+安装的 Noto Sans CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字字形与规范中文不符
+
+这是因为每个程序中可以设置不同的默认字体，而这些字体的属性由 fontconfig 控制，其使用顺序是据地区代码以 A-Z 字母表顺序成默认排序，由于 `ja` 在 `zh` 之前，故优先显示日文字形
+
+解决方法是手动修改字体设置文件：
+
+```bash
+sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
+```
+
+并加入以下内容：
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+    <alias>
+        <family>sans-serif</family>
+        <prefer>
+            <family>Noto Sans CJK SC</family>
+            <family>Noto Sans CJK TC</family>
+            <family>Noto Sans CJK HK</family>
+            <family>Noto Sans CJK JP</family>
+            <family>Noto Sans CJK KR</family>
+        </prefer>
+    </alias>
+    <alias>
+        <family>serif</family>
+        <prefer>
+            <family>Noto Serif CJK SC</family>
+            <family>Noto Serif CJK TC</family>
+            <family>Noto Serif CJK HK</family>
+            <family>Noto Serif CJK JP</family>
+            <family>Noto Serif CJK KR</family>
+        </prefer>
+    </alias>
+    <alias>
+        <family>monospace</family>
+        <prefer>
+            <family>Noto Sans Mono CJK SC</family>
+            <family>Noto Sans Mono CJK TC</family>
+            <family>Noto Sans Mono CJK HK</family>
+            <family>Noto Sans Mono CJK JP</family>
+            <family>Noto Sans Mono CJK KR</family>
+        </prefer>
+    </alias>
+</fontconfig>
+```
+
+保存退出即可
+
+**另一种处理方法是只安装简体中文字体，比如 Noto Sans SC（注意没有 CJK）**
+
+### **安装中文输入法**
+
+推荐使用 Fcitx5:
+
+```bash
+sudo pacman -S fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+```
+
+或者（fcitx-im 组包括了 fcitx5、fcitx5-gtk、fcitx5-qt、fcitx5-configtool）：
+
+```bash
+sudo pacman -S fcitx5-im fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+```
+
+如果无法启动输入法，在系统设置 >> 区域设置 >> 输入法 >> 添加输入法中手动添加“拼音”
+
+对应的 git 版本为：（需要使用 Arch Linux CN 源）
+
+```bash
+sudo pacman -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+```
+
+可以添加词库：
+
+```bash
+sudo pacman -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
+```
+
+一个稳定的替代版本是 Fcitx 4.2.9.8-1：
+
+```bash
+sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
+```
+
+可以配合 googlepinyin 或 sunpinyin 使用，即执行：
+
+```bash
+sudo pacman -S fcitx-googlepinyin
+```
+
+或者：
+
+```bash
+sudo pacman -S fcitx-sunpinyin
+```
+
+也可以用 `sudo pacman -S sunpinyin` 安装 Sunpinyin
+
+**安装输入法之后需要重启电脑才能生效**
+
+### **关闭启动时的系统信息**
+
+参考以下网址：
+
+[Silent Boot -- ArchWiki](https://wiki.archlinux.org/title/Silent_boot)
+
+[Improving Performance -- ArchWiki](https://wiki.archlinux.org/title/Improving_performance)
+
+主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
+
+#### **关闭 fsck 的消息**
+
+第一种方法是直接关闭 fsck 的文件系统检查（不推荐），参见：
+
+[fsck -- ArchWiki](https://wiki.archlinux.org/title/fsck#Boot_time_checking)
+
+编辑 Kernel parameters：
+
+```bash
+sudo vim /etc/default/grub
+```
+
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `fsck.mode=skip`
+
+第二种方法是让 systemd 来检查文件系统：
+
+编辑 `/etc/mkinitcpio.conf`，在 `HOOKS` 一行中将 `udev` 改为 `systemd`
+
+再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
+
+```bash
+sudo systemctl edit --full systemd-fsck-root.service
+sudo systemctl edit --full systemd-fsck@.service
+```
+
+分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
+
+```
+StandardOutput=null
+StandardError=journal+console
+```
+
+最后执行：
+
+```bash
+sudo mkinitcpio -P
+sudo update-grub
+```
+
+再重启即可
+
+#### **关闭 watchdog 的消息**
+
+编辑 Kernel parameters：
+
+```bash
+sudo vim /etc/default/grub
+```
+
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`
+
+再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
+
+```bash
+blacklist iTCO_wdt
+blacklist iTCO_vendor_support
+```
+
+这样可以屏蔽掉不需要的驱动，最后执行：
+
+```bash
+sudo mkinitcpio -P
+sudo update-grub
+```
+
+再重启即可
+
+### **Git 配置**
+
+配置用户名、邮箱：
+
+```bash
+git config --global user.name "(user_name)"
+git config --global user.email "(user_email)"
+```
+
+Git 使用教程参考以下网址：
+
+[Git Documentation](https://git-scm.com/docs)
 
 ### **系统分区改变导致时进入 GRUB Rescue 模式**
 
@@ -1479,173 +1633,13 @@ chmod +x (file_name)
 
 然后双击或在终端输入文件名运行即可
 
-### **字体安装**
-
-Manjaro KDE 支持直接在 Dolphin 的右键菜单中安装 TTF/OTF 字体和 TTC/OTC 字体集
-
-**注意不管是 Windows 还是 Manjaro Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\user_name\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
-
-#### **命令行安装字体**
-
-将字体文件复制到 `/usr/share/fonts` 安装，方法如下：
-
-```bash
-sudo cp (font-path)/* /usr/share/fonts
-cd /usr/share/fonts
-fc-cache -fv
-```
-
-这样就可以安装微软雅黑、宋体、黑体等字体了
-
-**微软系统字体文件夹在 `C:\Windows\Fonts`，可以复制到 `/usr/share/fonts` 安装，注意需要排除掉 MS Gothic、Yu Gothic 和 Malgun Gothic 字体，因它们只有部分日/韩文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日/韩文字形）**
-
-### **安装 Google Noto 字体**
-
-命令行安装：
-
-```bash
-sudo pacman -S noto-fonts noto-fonts-cjk
-```
-
-所有语言字体的下载地址如下：
-
-Google Noto Fonts
-
-https://fonts.google.com/noto/fonts
-
-中文（CJK）字体的下载地址如下：
-
-https://github.com/googlefonts/noto-cjk
-
-### **更改程序和终端默认中文字体**
-
-安装的 Noto Sans CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字字形与规范中文不符
-
-这是因为每个程序中可以设置不同的默认字体，而这些字体的属性由 fontconfig 控制，其使用顺序是据地区代码以 A-Z 字母表顺序成默认排序，由于 `ja` 在 `zh` 之前，故优先显示日文字形
-
-解决方法是手动修改字体设置文件：
-
-```bash
-sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
-```
-
-并加入以下内容：
-
-```xml
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-    <alias>
-        <family>sans-serif</family>
-        <prefer>
-            <family>Noto Sans CJK SC</family>
-            <family>Noto Sans CJK TC</family>
-            <family>Noto Sans CJK HK</family>
-            <family>Noto Sans CJK JP</family>
-            <family>Noto Sans CJK KR</family>
-        </prefer>
-    </alias>
-    <alias>
-        <family>serif</family>
-        <prefer>
-            <family>Noto Serif CJK SC</family>
-            <family>Noto Serif CJK TC</family>
-            <family>Noto Serif CJK HK</family>
-            <family>Noto Serif CJK JP</family>
-            <family>Noto Serif CJK KR</family>
-        </prefer>
-    </alias>
-    <alias>
-        <family>monospace</family>
-        <prefer>
-            <family>Noto Sans Mono CJK SC</family>
-            <family>Noto Sans Mono CJK TC</family>
-            <family>Noto Sans Mono CJK HK</family>
-            <family>Noto Sans Mono CJK JP</family>
-            <family>Noto Sans Mono CJK KR</family>
-        </prefer>
-    </alias>
-</fontconfig>
-```
-
-保存退出即可
-
-**另一种处理方法是只安装简体中文字体，比如 Noto Sans SC（注意没有 CJK）**
-
-### **安装中文输入法**
-
-推荐使用 Fcitx5:
-
-```bash
-sudo pacman -S fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
-```
-
-或者（fcitx-im 组包括了 fcitx5、fcitx5-gtk、fcitx5-qt、fcitx5-configtool）：
-
-```bash
-sudo pacman -S fcitx5-im fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
-```
-
-如果无法启动输入法，在系统设置 >> 区域设置 >> 输入法 >> 添加输入法中手动添加“拼音”
-
-对应的 git 版本为：（需要使用 Arch Linux CN 源）
-
-```bash
-sudo pacman -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
-```
-
-可以添加词库：
-
-```bash
-sudo pacman -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
-```
-
-一个稳定的替代版本是 Fcitx 4.2.9.8-1：
-
-```bash
-sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
-```
-
-可以配合 googlepinyin 或 sunpinyin 使用，即执行：
-
-```bash
-sudo pacman -S fcitx-googlepinyin
-```
-
-或者：
-
-```bash
-sudo pacman -S fcitx-sunpinyin
-```
-
-也可以用 `sudo pacman -S sunpinyin` 安装 Sunpinyin
-
-**安装输入法之后需要重启电脑才能生效**
-
-### **Git 配置用户名、邮箱**
-
-配置用户名、邮箱：
-
-```bash
-git config --global user.name "(user_name)"
-git config --global user.email "(user_email)"
-```
-
-Git 使用教程参考以下网址：
-
-菜鸟教程 -- Git 教程
-
-https://www.runoob.com/git/git-tutorial.html
-
 ### **使用 SSH 连接到 GitHub**
 
 推荐使用 SSH 连接到 GitHub，其安全性更高，访问速度较快且更加稳定
 
 配置参考以下网址：
 
-GitHub Docs -- 使用 SSH 连接到 GitHub
-
-https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh
+[GitHub Docs -- 使用 SSH 连接到 GitHub](https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh)
 
 步骤如下：（Linux 上直接用系统终端，Windows 上需要用 Git Bash 而不能用 Windows Terminal，因为缺少 `eval` 等命令）
 
@@ -1683,7 +1677,7 @@ ssh -T git@github.com
 pamac install stellarium typora v2ray qv2ray-dev-git vlc thunderbird
 ```
 
-**这里的 qv2ray-dev-git 一定要选择 Archlinux CN 软件源的版本**
+**这里的 qv2ray-dev-git 一定要选择 Arch Linux CN CN 软件源的版本**
 
 ### **安装 TeX Live**
 
@@ -2100,6 +2094,20 @@ pamac install code-git
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
 
+#### **Visual Studio Code 设置**
+
+若要更改全局设置，设置文件在 `~/.config/Code/User/settings.json`，可以在 Visual Studio Code 中按 `Ctrl+,` 开启设置
+
+若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybindings.json`，可以在 Visual Studio Code 中按 `Ctrl+K Ctrl+S` 开启设置
+
+#### **Visual Studio Code 无法识别 Git 存储库**
+
+如果 Visual Studio Code 无法识别文件夹内的 Git 存储库（显示“当前打开的文件夹中没有 Git 存储库”），需要对该文件夹执行：
+
+```
+git config --global --add safe.directory (directory_path)
+```
+
 #### **Visual Studio Code 图标更改（可选）**
 
 如果图标美化后 Visual Studio Code 图标变成圆形，想恢复原图标，更改路径如下：
@@ -2108,15 +2116,13 @@ pamac install code-git
 
 其图标位置在 `/usr/share/icons/visual-studio-code.png`
 
-#### **Visual Studio Code 缩放比例**
+#### **Visual Studio Code 缩放比例（可选）**
 
 放大比例：`Ctrl+=`
 
 缩小比例：`Ctrl+-`
 
-#### **Visual Studio Code 设置快捷键**
-
-若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybinding.json`，可以在 Visual Studio Code 中按 `Ctrl+K Ctrl+S` 开启设置
+### **Visual Studio Code 插件配置**
 
 #### **Latex Workshop 插件设置**
 
@@ -2553,7 +2559,7 @@ sudo debtap (package_name).deb
 
 [ArchWiki -- Microsoft fonts（简体中文）](https://wiki.archlinux.org/index.php/Microsoft_fonts_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-[Archlinux 使用 Windows 字体及相关配置](https://blog.csdn.net/sinat_33528967/article/details/93380729)
+[Arch Linux 使用 Windows 字体及相关配置](https://blog.csdn.net/sinat_33528967/article/details/93380729)
 
 [ArchWiki -- Fcitx5（简体中文）](https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
