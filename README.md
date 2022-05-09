@@ -2102,10 +2102,20 @@ pamac install code-git
 
 #### **Visual Studio Code 无法识别 Git 存储库**
 
-如果 Visual Studio Code 无法识别文件夹内的 Git 存储库（显示“当前打开的文件夹中没有 Git 存储库”），需要对该文件夹执行：
+如果 Visual Studio Code 无法识别文件夹内的 Git 存储库（显示“当前打开的文件夹中没有 Git 存储库”），是因为 Git 认为该文件夹不安全，需要对该文件夹执行：
 
 ```
 git config --global --add safe.directory (directory_path)
+```
+
+`(directory_path)` 不能用 `./` 或 `../`，最好用绝对路径
+
+文件夹安全性状态可以通过 `git status` 查看
+
+如果要完全跳过检查，执行：
+
+```
+git config --global --add safe.directory "*"
 ```
 
 #### **Visual Studio Code 图标更改（可选）**
