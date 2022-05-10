@@ -1702,12 +1702,12 @@ sudo perl install-tl -gui text
 用大写字母命令控制安装：
 
 ```
-D >> 1 >> 输入要安装 TeX Live 的位置（TEXDIR） >> R
+D >> 1 >> 输入要安装 TeX Live 的位置（`TEXDIR`） >> R
 O >> L >> 都选择默认位置（按 Enter） >> R
 I
 ```
 
-TEXDIR 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
+`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
 
 CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大学镜像需要在命令行中执行：
 
@@ -2335,7 +2335,7 @@ Graphics >> Screen Resolution >> 192 dpi
 
 其余基于 Deepin Wine 的软件（如腾讯会议 `com.tencent.deepin.meeting`）也是类似的处理方法，将 `com.qq.weixin.deepin` 换成对应的文件夹名称即可（都在 `/opt/apps/` 目录下）
 
-### **会议软件安装**
+### **腾讯会议安装**
 
 推荐安装官方原生的腾讯会议 Linux 版：
 
