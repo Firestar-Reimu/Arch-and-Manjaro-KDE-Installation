@@ -975,7 +975,7 @@ activate
 
 ### **Surface：Linux-Surface 内核安装（可选）**
 
-**Manjaro 官方支持的最新的内核是 x86_64 Linux 5.14.0-0-MANJARO，从 Linux 5.13-MANJARO 开始已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏，相关支持情况详见 [Linux-Surface -- Feature Matrix](https://github.com/linux-surface/linux-surface/wiki/Supported-Devices-and-Features#feature-matrix)**
+**[Linux-Surface](https://github.com/linux-surface/linux-surface) 内核可以实现一些 Manjaro 官方内核不支持的功能。Manjaro 官方内核从 Linux 5.13-MANJARO 开始已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏，相关支持情况详见 [Linux-Surface -- Feature Matrix](https://github.com/linux-surface/linux-surface/wiki/Supported-Devices-and-Features#feature-matrix)**
 
 在终端中输入：
 
@@ -2229,15 +2229,15 @@ xrdb -query
 
 即可解决
 
-### IRAF/PyRAF 安装
+### **IRAF/PyRAF 安装**
 
-#### 从源代码安装（推荐）
+#### **从源代码安装（推荐）**
 
 从源代码安装 IRAF/PyRAF 较为复杂，但软件版本较新，且支持 Python 3
 
 首先从 GitHub 上下载软件源代码，网址如下：
 
-https://github.com/iraf-community/iraf
+[IRAF -- GitHub](https://github.com/iraf-community/iraf)
 
 新建一个文件夹，例如 `~/.iraf-source` 用于存放解压后得到的源代码
 
@@ -2270,7 +2270,7 @@ pip install pyraf==2.2.0
 
 **在使用 IRAF/PyRAF 之前，需要在该文件夹运行 `mkiraf` 命令，才能使用**
 
-#### 从 AstroConda 安装
+#### **从 AstroConda 安装**
 
 从 AstroConda 安装 IRAF/PyRAF 较为简便，缺点是软件版本较旧，且依赖 Python 2.7
 
@@ -2281,7 +2281,7 @@ conda create -n (iraf_environment) python=2.7 iraf-all pyraf-all stsci
 source activate (iraf_environment)
 ```
 
-#### IRAF/PyRAF 常用命令
+#### **IRAF/PyRAF 常用命令**
 
 启动 IRAF：
 
@@ -2333,21 +2333,21 @@ pamac install deepin-wine-wechat
 
 Graphics >> Screen Resolution >> 192 dpi
 
-其余基于 Deepin Wine 的软件（如腾讯会议）也是类似的处理方法，将 `com.qq.weixin.deepin` 换成对应的文件夹名称即可（都在 `/opt/apps/` 目录下）
+其余基于 Deepin Wine 的软件（如腾讯会议 `com.tencent.deepin.meeting`）也是类似的处理方法，将 `com.qq.weixin.deepin` 换成对应的文件夹名称即可（都在 `/opt/apps/` 目录下）
 
 ### **会议软件安装**
 
-腾讯会议：
+推荐安装官方原生的腾讯会议 Linux 版：
 
 ```bash
-pamac install com.tencent.deepin.meeting
+pamac install wemeet-bin
 ```
 
-高分辨率适配调整：
+也有基于 Deepin Wine 的版本可供选择：
 
-用命令 `/opt/apps/com.tencent.meeting.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于 200% 的放大率：
-
-Graphics >> Screen Resolution >> 192 dpi
+```
+pamac install com.tencent.deepin.meeting
+```
 
 ### **音乐软件安装**
 
@@ -2517,7 +2517,7 @@ sudo debtap (package_name).deb
 
 [Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
 
-[GitHub -- yay](https://github.com/Jguer/yay)
+[yay -- GitHub](https://github.com/Jguer/yay)
 
 [Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview)
 
