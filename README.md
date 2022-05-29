@@ -973,6 +973,26 @@ save
 activate
 ```
 
+### **从 PulseAudio 转移到 Pipewire**
+
+有时候从 PulseAudio 转移到 Pipewire可以提高蓝牙耳机等的音质，方法如下：
+
+```bash
+sudo pacman -R manjaro-pulse
+sudo pacman -R pulseaudio-alsa pulseaudio-bluetooth pulseaudio-ctl pulseaudio-zeroconf
+sudo pacman -R plasma-pa
+sudo pacman -R pulseaudio
+sudo pacman -S manjaro-pipewire
+sudo pacman -S plasma-pa
+```
+
+运行后重启，此时可以用命令 `aplay -L` 检查，会输出这样的信息：
+
+```
+default
+    Default ALSA Output (currently PipeWire Media Server)
+```
+
 ### **Surface：Linux-Surface 内核安装（可选）**
 
 **[Linux-Surface](https://github.com/linux-surface/linux-surface) 内核可以实现一些 Manjaro 官方内核不支持的功能。Manjaro 官方内核从 Linux 5.13-MANJARO 开始已经支持 Surface 的电池组件（旧版内核不支持，无法显示电池电量状态），但不支持触屏，相关支持情况详见 [Linux-Surface -- Feature Matrix](https://github.com/linux-surface/linux-surface/wiki/Supported-Devices-and-Features#feature-matrix)**
@@ -2335,7 +2355,9 @@ Graphics >> Screen Resolution >> 192 dpi
 
 其余基于 Deepin Wine 的软件（如腾讯会议 `com.tencent.deepin.meeting`）也是类似的处理方法，将 `com.qq.weixin.deepin` 换成对应的文件夹名称即可（都在 `/opt/apps/` 目录下）
 
-### **腾讯会议安装**
+### **会议软件安装**
+
+#### **腾讯会议**
 
 推荐安装官方原生的腾讯会议 Linux 版：
 
@@ -2343,10 +2365,30 @@ Graphics >> Screen Resolution >> 192 dpi
 pamac install wemeet-bin
 ```
 
+缺点是没有会议聊天窗口的功能
+
 也有基于 Deepin Wine 的版本可供选择：
 
-```
+```bash
 pamac install com.tencent.deepin.meeting
+```
+
+#### **Zoom**
+
+```bash
+pamac install zoom
+```
+
+#### **Microsoft Teams**
+
+```bash
+pamac install teams
+```
+
+#### **Slack**
+
+```bash
+pamac install slack-desktop
 ```
 
 ### **音乐软件安装**
