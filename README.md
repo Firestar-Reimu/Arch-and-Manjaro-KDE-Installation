@@ -2595,6 +2595,10 @@ sudo debtap (package_name).deb
 
 [Arch Wiki -- System time（简体中文）](https://wiki.archlinux.org/index.php/System_time_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
+[Building your custom Manjaro ISO via Github Actions CI](https://www.youtube.com/watch?v=S2t5Iat37CI)
+
+[Manjaro Linux Forum -- Cannot install manjaro-pipewire](https://forum.manjaro.org/t/cannot-install-manjaro-pipewire/102776)
+
 [KDE 桌面的 Mac 化](https://www.cnblogs.com/luoshuitianyi/p/10587788.html)
 
 [KDE 桌面美化指南](https://acherstyx.github.io/2020/06/30/KDE%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%8C%87%E5%8D%97/)
@@ -2623,7 +2627,7 @@ sudo debtap (package_name).deb
 
 [TeX Live Documentation -- TeX Live Installation](https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#installation)
 
-[Font size of mailbox is too small](https://support.mozilla.org/zh-CN/questions/1297871)
+[Mozilla Support -- Font size of mailbox is too small](https://support.mozilla.org/zh-CN/questions/1297871)
 
 [Anaconda Documentation -- Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/)
 
