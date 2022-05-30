@@ -56,21 +56,25 @@ Surface：Security >> Secure Boot >> Disabled（第三个选项）
 
 如果在电脑上装有多个 Windows，则系统只会选择其中一个在 Windows Boot Manager 中启动，若要删除多余的启动项，在 Windows 的“系统配置”（搜索框中输入 `msconfig` 或在“Windows 工具”中选择）的“引导”页面即可删除
 
-### **制作启动盘**
+### **下载 Manjaro 系统 ISO 镜像**
 
-#### **下载系统 ISO 镜像**
+#### **Manjaro 官网下载**
 
-从 Manjaro 官网上下载（stable 分支）：
-
-https://manjaro.org/downloads/official/kde/ （KDE Plasma 版本）
+此处所有 ISO 镜像均为 stable 分支：
 
 https://manjaro.org/get-manjaro/ （所有官方版本）
 
-或者在 GitHub 上下载：
+https://manjaro.org/downloads/official/kde/ （KDE Plasma 版本）
+
+#### **GitHub 下载**
+
+可以在 GitHub 上下载测试版的 ISO 镜像：
+
+https://github.com/manjaro/release-review/releases （所有官方版本，testing 分支）
 
 https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本，unstable 分支）
 
-https://github.com/manjaro/release-review/releases （所有官方版本，testing 分支）
+#### **本地制作 ISO 镜像**
 
 还可以用下面的方法在一台 Manjaro Linux 设备上制作自定义的 ISO 镜像：
 
@@ -84,7 +88,13 @@ build_mirror=https://mirrors.tuna.tsinghua.edu.cn/manjaro/
 
 命令为：`buildiso -p kde -b testing -k linux517`，整个过程大约需要 10 分钟
 
-#### **刻录 USB 启动盘**
+#### **通过 GitHub Actions 制作 ISO 镜像**
+
+还可以用下面的方法通过 GitHub Actions 制作自定义的 ISO 镜像，参考以下网址：
+
+[YouTube -- Building your custom Manjaro ISO via Github Actions CI](https://www.youtube.com/watch?v=S2t5Iat37CI)
+
+### **刻录 USB 启动盘**
 
 推荐使用 [Ventoy](https://www.ventoy.net/cn/index.html)，可以在 Windows/Linux 上使用，方法是下载安装包后解压、安装到 USB 上，之后直接将 ISO 镜像拷贝到 USB 中即可选择镜像文件进行登录系统，支持多个系统镜像登录
 
@@ -2553,6 +2563,8 @@ sudo debtap (package_name).deb
 
 [Manjaro 安装后你需要这样做](https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E6%96%B9%E6%BA%90)
 
+[YouTube -- Building your custom Manjaro ISO via Github Actions CI](https://www.youtube.com/watch?v=S2t5Iat37CI)
+
 [Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/index.php/Pacman_Overview)
 
 [ArchWiki -- Pacman](https://wiki.archlinux.org/index.php/Pacman)
@@ -2594,8 +2606,6 @@ sudo debtap (package_name).deb
 [Linux-Surface -- Installation and Setup](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup)
 
 [Arch Wiki -- System time（简体中文）](https://wiki.archlinux.org/index.php/System_time_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
-
-[Building your custom Manjaro ISO via Github Actions CI](https://www.youtube.com/watch?v=S2t5Iat37CI)
 
 [Manjaro Linux Forum -- Cannot install manjaro-pipewire](https://forum.manjaro.org/t/cannot-install-manjaro-pipewire/102776)
 
