@@ -1,6 +1,6 @@
 {
     "editor.fontSize": 12,
-    "editor.fontFamily": "JetBrains Mono NL, Noto Sans Mono CJK SC, Noto Mono, Consolas",
+    "editor.fontFamily": "JetBrains Mono NL, Noto Sans Mono CJK SC, Noto Mono, Consolas, monospace",
     "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'onum'",
     "editor.autoClosingBrackets": "always",
     "editor.detectIndentation": false,
@@ -123,8 +123,8 @@
     "latex-workshop.view.pdf.viewer": "tab",
     "python.linting.pylintArgs": ["--generate-members"],
     "python.formatting.autopep8Args": ["--max-line-length=65536"],
-    "python.pythonPath": "/home/firestar/.miniconda/bin/python",
     "jupyter.themeMatplotlibPlots": true,
     "jupyter.sendSelectionToInteractiveWindow": true,
-    "markdown.extension.math.enabled": false
+    "markdown.extension.math.enabled": false,
+    "markdown.preview.fontFamily": "'Noto Sans CJK SC', 'Noto Sans', sans-serif",
 }
