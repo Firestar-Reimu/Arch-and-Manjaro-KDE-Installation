@@ -1872,6 +1872,18 @@ Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
 
 [Anaconda Documentation -- Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/)
 
+如果使用 `zsh`，需要用 `zsh` 执行安装文件：
+
+```bash
+zsh ./Miniconda3-latest-Linux-x86_64.sh
+```
+
+并手动在 `~/.zshrc` 中添加 PATH（`miniconda_path` 为 Miniconda 的安装位置）：
+
+```bash
+export PATH=(miniconda_path)/bin:$PATH
+```
+
 输入以下命令：（Windows 用户无法直接创建名为 `.condarc` 的文件，可先执行 `conda config --set show_channel_urls yes` 生成该文件之后再修改）
 
 ```bash
