@@ -4,9 +4,9 @@ ThinkPad 系统信息：
 
 ```
 OS: Manjaro 21.2.6 Qonos
-Kernel: x86_64 Linux 5.17.5-2-MANJARO
+Kernel: x86_64 Linux 5.18.1-1-MANJARO
 Resolution: 2560x1600
-DE: KDE 5.93.0 / Plasma 5.24.4
+DE: KDE 5.94.0 / Plasma 5.24.5
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -1858,7 +1858,7 @@ pip install numpy matplotlib astropy black ipython
 sudo pacman -S tk
 ```
 
-#### **Miniconda 安装与配置**
+#### **Miniconda 安装**
 
 Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
 
@@ -1883,6 +1883,10 @@ zsh ./Miniconda3-latest-Linux-x86_64.sh
 ```bash
 export PATH=(miniconda_path)/bin:$PATH
 ```
+
+最后用 `source ~/.zshrc` 刷新设置
+
+#### **Miniconda 配置软件源**
 
 输入以下命令：（Windows 用户无法直接创建名为 `.condarc` 的文件，可先执行 `conda config --set show_channel_urls yes` 生成该文件之后再修改）
 
@@ -1939,34 +1943,16 @@ conda install numpy matplotlib astropy black ipython
 
 #### **Conda 常用命令**
 
-列出所有的环境：
+列出所有下载的包：
 
 ```bash
-conda env list
+conda list
 ```
 
-Conda 默认会在 Miniconda/Anaconda 的安装位置创建一个 `base` 环境，创建新环境的命令为：
+添加软件源：
 
 ```bash
-conda create -n (environment_name)
-```
-
-删除环境的命令为：
-
-```bash
-conda r -n (environment_name)
-```
-
-激活环境的命令为：
-
-```bash
-source activate (environment_name)
-```
-
-取消激活的命令为：
-
-```bash
-source deactivate (environment_name)
+conda config --add channels (channel_URL)
 ```
 
 下载包：
@@ -1999,31 +1985,51 @@ conda update (package_name)
 conda update --all
 ```
 
-恢复之前的版本：
-
-```bash
-conda list --revisions
-conda install --revision (revision_number)
-```
-
-**如果回滚到早期版本（`revision_number` 较小）之后又想回到某个高版本（`revision_number` 较大），必须要把两个版本中的版本都装一遍**
-
 删除所有旧版本的包：
 
 ```bash
 conda clean -p
 ```
 
-列出所有下载的包：
+列出并恢复之前的版本：
 
 ```bash
-conda list
+conda list --revisions
+conda install --revision (revision_number)
 ```
 
-添加软件源：
+如果回滚到早期版本（`revision_number` 较小）之后又想回到某个高版本（`revision_number` 较大），必须要把两个版本中的版本都装一遍
+
+列出所有的环境：
 
 ```bash
-conda config --add channels (channel_URL)
+conda env list
+```
+
+创建新环境：
+
+```bash
+conda create -n (environment_name)
+```
+
+Conda 默认会在 Miniconda/Anaconda 的安装位置创建一个 `base` 环境
+
+激活环境：
+
+```bash
+source activate (environment_name)
+```
+
+取消激活环境：
+
+```bash
+source deactivate (environment_name)
+```
+
+删除环境：
+
+```bash
+conda r -n (environment_name)
 ```
 
 #### **加入 AstroConda 软件源**
@@ -2549,7 +2555,7 @@ sudo debtap -u
 sudo debtap (package_name).deb
 ```
 
-系统会询问三个问题：文件名随便写，协议写 `GPL` 即可，编辑文件直接按 `Enter` 跳过
+系统会询问三个问题：文件名随便写，协议写软件包所用的协议，编辑文件可以直接按 `Enter` 跳过
 
 此处会生成一个 `tar.zst` 包，双击打开（右键用“软件安装程序”打开）即可安装
 
