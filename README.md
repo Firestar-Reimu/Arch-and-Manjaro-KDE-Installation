@@ -578,9 +578,11 @@ sudo pacman -S noto-fonts noto-fonts-cjk
 
 [Noto CJK -- GitHub](https://github.com/googlefonts/noto-cjk)
 
+**注意 Microsoft Office 不支持嵌入 OTF 字体，只能嵌入 TTF 字体**
+
 ### **更改程序和终端默认中文字体**
 
-安装的 Noto Sans CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字字形与规范中文不符
+安装的 Noto CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字的字形与规范中文不符
 
 这是因为每个程序中可以设置不同的默认字体，而这些字体的属性由 fontconfig 控制，其使用顺序是据地区代码以 A-Z 字母表顺序成默认排序，由于 `ja` 在 `zh` 之前，故优先显示日文字形
 
@@ -2392,8 +2394,6 @@ Graphics >> Screen Resolution >> 192 dpi
 ```bash
 pamac install wemeet-bin
 ```
-
-缺点是没有会议聊天窗口的功能
 
 也有基于 Deepin Wine 的版本可供选择：
 
