@@ -86,7 +86,7 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本，unsta
 build_mirror=https://mirrors.tuna.tsinghua.edu.cn/manjaro/
 ```
 
-命令为：`buildiso -p kde -b testing -k linux517`，整个过程大约需要 10 分钟
+命令为：`buildiso -p kde -b testing -k linux518`，整个过程大约需要 10 分钟
 
 #### **通过 GitHub Actions 制作 ISO 镜像**
 
