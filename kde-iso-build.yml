@@ -1,0 +1,59 @@
+name: kde_iso_build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  prepare-release:
+    runs-on: ubuntu-20.04
+    steps:
+      -
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+      -
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          format: 'YYYYMMDD'
+    outputs:
+      release_tag: ${{ steps.time.outputs.time }}
+  build-release:
+    runs-on: ubuntu-20.04
+    needs: [prepare-release]
+    strategy:
+      matrix:
+        EDITION: [kde]
+        BRANCH: [testing]
+        SCOPE: [minimal]
+    steps:
+      -
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+      -
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          format: 'YYYYMMDD'
+      -
+        name: image-build-upload
+        uses: manjaro/manjaro-iso-action@main
+        with:
+          edition: ${{ matrix.edition }}
+          branch: ${{ matrix.branch }}
+          scope: ${{ matrix.scope }}
+          version: ${{ steps.time.outputs.time }}-development
+          kernel: linux518
+          code-name: "Testing-Build"
+          release-tag: ${{ needs.prepare-release.outputs.release_tag }}
+      -
+        name: rollback
+        if: ${{ failure() || cancelled() }}
+        run: |
+          echo ${{ github.token }} | gh auth login --with-token
+          gh release delete ${{ needs.prepare-release.outputs.release_tag }} -y --repo ${{ github.repository }}
+
