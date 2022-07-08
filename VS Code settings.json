@@ -49,6 +49,7 @@
     "workbench.colorTheme": "Default Light+",
     "explorer.confirmDelete": false,
     "security.workspace.trust.untrustedFiles": "open",
+    "search.useReplacePreview": false,
     "files.autoSave": "onFocusChange",
     "files.autoSaveDelay": 0,
     "files.associations": {
