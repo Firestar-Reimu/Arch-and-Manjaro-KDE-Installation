@@ -2031,7 +2031,7 @@ source deactivate (environment_name)
 删除环境：
 
 ```bash
-conda remove -n (environment_name)
+conda env remove -n (environment_name)
 ```
 
 #### **加入 AstroConda 软件源**
@@ -2400,6 +2400,14 @@ pamac install wemeet-bin
 ```bash
 pamac install com.tencent.deepin.meeting
 ```
+
+#### **钉钉**
+
+```bash
+pamac install dingtalk-bin
+```
+
+高分辨率可以点击头像 >> 设置 >> 全局缩放，选择 150%
 
 #### **Zoom**
 
