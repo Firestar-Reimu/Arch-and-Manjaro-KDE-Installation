@@ -6,7 +6,7 @@ ThinkPad 系统信息：
 OS: Manjaro 21.2.6 Qonos
 Kernel: x86_64 Linux 5.18.1-1-MANJARO
 Resolution: 2560x1600
-DE: KDE 5.94.0 / Plasma 5.24.5
+DE: KDE 5.96.0 / Plasma 5.24.6
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -582,7 +582,7 @@ sudo pacman -S noto-fonts noto-fonts-cjk
 
 ### **更改程序和终端默认中文字体**
 
-安装的 Noto CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字的字形与规范中文不符
+安装的 Noto CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字的字形与规范中国大陆简体中文不符
 
 这是因为每个程序中可以设置不同的默认字体，而这些字体的属性由 fontconfig 控制，其使用顺序是据地区代码以 A-Z 字母表顺序成默认排序，由于 `ja` 在 `zh` 之前，故优先显示日文字形
 
@@ -685,7 +685,7 @@ sudo pacman -S fcitx-sunpinyin
 
 **安装输入法之后需要重启电脑才能生效**
 
-### **关闭启动时的系统信息**
+### **关闭启动和关机时的系统信息**
 
 参考以下网址：
 
@@ -695,11 +695,9 @@ sudo pacman -S fcitx-sunpinyin
 
 主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
 
-#### **关闭 fsck 的消息**
+#### **关闭启动时 fsck 的消息**
 
-第一种方法是直接关闭 fsck 的文件系统检查（不推荐），参见：
-
-[fsck -- ArchWiki](https://wiki.archlinux.org/title/fsck#Boot_time_checking)
+第一种方法是将 fsck 的消息重定向到别的 TTY 窗口
 
 编辑 Kernel parameters：
 
@@ -707,7 +705,7 @@ sudo pacman -S fcitx-sunpinyin
 sudo vim /etc/default/grub
 ```
 
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `fsck.mode=skip`
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `console=tty3`
 
 第二种方法是让 systemd 来检查文件系统：
 
@@ -736,7 +734,7 @@ sudo update-grub
 
 再重启即可
 
-#### **关闭 watchdog 的消息**
+#### **关闭重启时 watchdog 的消息**
 
 编辑 Kernel parameters：
 
