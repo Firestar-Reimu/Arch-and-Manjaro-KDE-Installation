@@ -1725,6 +1725,8 @@ sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 
 #### **使用命令行界面安装（推荐）**
 
+**使用命令行界面/图形界面安装时一定要加 `sudo`，否则只能将其安装到 `/home/(user_name)/` 下的文件夹且没有 `Create symlinks in standard directories` 一项的设置**
+
 进入镜像文件夹，运行：
 
 ```bash
@@ -1739,7 +1741,7 @@ O >> L >> 都选择默认位置（按 Enter） >> R
 I
 ```
 
-`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改，TEXMFLOCAL 会随 TEXDIR 自动更改
+`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（注意这里的 `~/` 等于 `/root/`），TEXMFLOCAL 会随 TEXDIR 自动更改
 
 CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改，更改到清华大学镜像需要在命令行中执行：
 
@@ -1762,7 +1764,7 @@ pamac install tcl tk
 sudo perl install-tl -gui
 ```
 
-即可在图形界面下载 TeX Live（如果不加 `sudo` 则只能将其安装到 `/home/(user_name)/` 下的文件夹且无法勾选 Create symlinks in standard directories: 一项），高级设置需要点击左下角的 Advanced 按钮
+即可在图形界面下载 TeX Live，高级设置需要点击左下角的 Advanced 按钮
 
 **记住勾选 Create symlinks in standard directories 一项（自动添加到 PATH），Specify directories 选择默认文件夹即可，之后不需要自己添加 PATH**
 
@@ -2031,7 +2033,7 @@ source deactivate (environment_name)
 删除环境：
 
 ```bash
-conda r -n (environment_name)
+conda remove -n (environment_name)
 ```
 
 #### **加入 AstroConda 软件源**
