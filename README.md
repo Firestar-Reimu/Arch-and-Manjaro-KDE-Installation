@@ -86,7 +86,7 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本，unsta
 build_mirror=https://mirrors.tuna.tsinghua.edu.cn/manjaro/
 ```
 
-命令为：`buildiso -p kde -b testing -k linux518`，整个过程大约需要 10 分钟
+命令为：`buildiso -p kde -b testing -k linux519`，整个过程大约需要 10 分钟
 
 #### **通过 GitHub Actions 制作 ISO 镜像**
 
@@ -197,7 +197,7 @@ sudo pacman-mirrors -aS (branch) -ic China
 
 ### 包管理器
 
-Manjaro 常用的包管理器有 pacman 和 pamac，其使用教程参考以下网址：
+Manjaro 预装的包管理器有 pacman 和 pamac，其使用教程参考以下网址：
 
 [Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/index.php/Pacman_Overview)
 
@@ -229,13 +229,21 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 sudo pacman -S base-devel
 ```
 
-#### **启用 pamac 的 AUR 支持**
+#### **下载 AUR 软件包管理器**
+
+**注意 pacman 不支持 AUR，所以需要下载 AUR 软件包管理器**
+
+Manjaro 自带的 pamac 可以支持 AUR，需要按照如下方式启用 pamac 的 AUR 支持：
 
 添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
 
 然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 及 `pamac install` 获取 AUR 的软件包
 
-**注意 pacman 不支持 AUR**
+另外还可以下载 `yay`，命令与 `pacman` 相似，其使用教程参考以下网址：
+
+[yay -- GitHub](https://github.com/Jguer/yay)
+
+**以下所有 `sudo pacman` 都可以用 `yay` 替代，`pamac install` 都可以用 `yay -S` 替代**
 
 ### **Arch Linux CN 软件源**
 
@@ -274,6 +282,12 @@ sudo pacman -Syyu
 
 ```bash
 pamac search (package_name)
+```
+
+或者在 `yay` 上执行：
+
+```bash
+yay (package_name)
 ```
 
 #### **检查依赖关系**
@@ -332,10 +346,10 @@ sudo pacman -U (package_path)/(package_name)
 
 ### **Vim 安装与配置**
 
-建议先安装 Vim（这里使用 GVim 以启用剪贴板功能），方便之后编辑各种文件：
+建议先安装 Vim，方便之后编辑各种文件：
 
 ```bash
-sudo pacman -S gvim
+sudo pacman -S vim
 ```
 
 Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vimrc` 和 `/home/(user_name)/.vimrc`，建议直接修改 `/etc/vimrc`，这样不会覆盖 `/usr/share/vim/vimfiles/archlinux.vim` 上定义的默认配置（语法高亮等）
@@ -344,17 +358,15 @@ Vim 的配置可以参考以下网址：
 
 [Options -- Vim Reference Manual](https://vimhelp.org/options.txt.html)
 
-启用剪贴板功能需要用 GVim 版本，此时在 GVim 端和 Vim 端（命令行）均支持共享系统剪贴板，在 `/etc/vimrc` 中写入：
+启用剪贴板功能，并应用 `Ctrl+C`、`Ctrl+V` 等快捷键，需要在 `/etc/vimrc` 中写入：
 
 ```
-set clipboard=unnamed
+set clipboard=unnamedplus
 noremap <C-c> "+y
 noremap <C-v> "+p
 noremap y "+y
 noremap p "+p
 ```
-
-可以将复制快捷键设为 `Ctrl+C`，粘贴快捷键设为 `Ctrl+V`
 
 ### **GNU nano 配置**
 
@@ -413,7 +425,7 @@ Defaults:(user_name) !authenticate
 在 `~/.zshrc` 或 `~/.bashrc` 中添加一行：
 
 ```
-export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 ```
 
 ### **时间设置**
@@ -546,7 +558,7 @@ sudo ntfsfix /dev/(partition_name) && sudo mount /dev/(partition_name)(mount_pat
 
 Manjaro KDE 支持直接在 Dolphin 的右键菜单中安装 TTF/OTF 字体和 TTC/OTC 字体集
 
-**注意不管是 Windows 还是 Manjaro Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\user_name\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
+**注意不管是 Windows 还是 Manjaro Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\(user_name)\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
 
 #### **命令行安装字体**
 
@@ -694,6 +706,8 @@ sudo pacman -S fcitx-sunpinyin
 [Improving Performance -- ArchWiki](https://wiki.archlinux.org/title/Improving_performance)
 
 主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
+
+以下所有的 `sudo update-grub` 也可以替换为 `sudo grub-mkconfig -o /boot/grub/grub.cfg`
 
 #### **关闭启动时 fsck 的消息**
 
@@ -1273,7 +1287,9 @@ iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
 
 ### **转换图片格式**
 
-批量将图片从 PNG 格式转换为 JPG 格式：
+这需要 `imagemagick` 软件包，它提供了 `convert` 等命令
+
+例如批量将图片从 PNG 格式转换为 JPG 格式：
 
 ```bash
 ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
@@ -1347,7 +1363,7 @@ vim `find . -type f -name "(files)"`
 
 ### **命令行解压 ZIP 压缩包**
 
-建议使用系统预装的 `unar`，因为它可以自动检测文件编码（系统右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
+建议使用系统预装的 `unar`（由 Unarchiver 软件包提供），因为它可以自动检测文件编码（系统右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
 
 ```bash
 unar (file_name).zip
@@ -1430,6 +1446,36 @@ Latte-Dock 的推荐设置：
 右键点击桌面 >> 添加部件 >> 获取新部件 >> 下载新 Plasma 部件
 
 在这里可以下载桌面小部件，并在“添加部件”处添加
+
+### **bash 配置**
+
+`ble.sh` 是一个使用纯 bash 编写的软件，可以提供代码高亮、自动补全等功能，可以在 AUR 中下载：
+
+```bash
+pamac install blesh
+```
+
+或者开发者版本：
+
+```bash
+pamac install blesh-git
+```
+
+下载后，需要在 `.bashrc` 文件开头添加：
+
+```bash
+[[ $- == *i* ]] && source /usr/share/blesh/ble.sh --noattach
+```
+
+并在末尾添加：
+
+```bash
+[[ ${BLE_VERSION-} ]] && ble-attach
+```
+
+更多设置和用法参考以下网址：
+
+https://github.com/akinomyoga/ble.sh
 
 ### **zsh 配置**
 
@@ -2501,12 +2547,18 @@ pamac install github-desktop-bin
 
 登录时要创建一个密钥环，密钥设为 GitHub 密码即可
 
-### **WPS 安装（可选）**
+### **办公软件安装（可选）**
 
-运行：
+WPS 安装：
 
 ```bash
 pamac install wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+```
+
+LibreOffice 安装：
+
+```
+pamac install libreoffice-fresh
 ```
 
 ### **百度网盘安装（可选）**
