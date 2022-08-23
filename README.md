@@ -229,7 +229,7 @@ AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软�
 sudo pacman -S base-devel
 ```
 
-#### **下载 AUR 软件包管理器**
+#### **AUR 软件包管理器**
 
 **注意 pacman 不支持 AUR，所以需要下载 AUR 软件包管理器**
 
@@ -358,15 +358,16 @@ Vim 的配置可以参考以下网址：
 
 [Options -- Vim Reference Manual](https://vimhelp.org/options.txt.html)
 
-启用剪贴板功能，并应用 `Ctrl+C`、`Ctrl+V` 等快捷键，需要在 `/etc/vimrc` 中写入：
+启用剪贴板功能，并应用 `Ctrl+C`、`Ctrl+V`、`Ctrl+A`、`Ctrl+Z`等快捷键，需要在 `/etc/vimrc` 中写入：
 
 ```
 set clipboard=unnamedplus
-noremap <C-c> "+y
-noremap <C-v> "+p
-noremap y "+y
-noremap p "+p
+source $VIMRUNTIME/mswin.vim
 ```
+
+`mswin.vim` 的源代码可以在这里找到：
+
+[vim -- mswin.vim](https://github.com/vim/vim/blob/master/runtime/mswin.vim)
 
 ### **GNU nano 配置**
 
@@ -999,7 +1000,7 @@ activate
 
 ### **从 PulseAudio 转移到 Pipewire**
 
-有时候从 PulseAudio 转移到 Pipewire可以提高蓝牙耳机等的音质，方法如下：
+有时候从 PulseAudio 转移到 Pipewire 可以提高蓝牙耳机等的音质，方法如下：
 
 ```bash
 sudo pacman -R manjaro-pulse
