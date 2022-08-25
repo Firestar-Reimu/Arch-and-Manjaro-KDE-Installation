@@ -1553,25 +1553,17 @@ Manjaro 的 Konsole 默认是 zsh，改成 bash 需要如下设置：
 
 Konsole >> 设置 >> 编辑当前方案 >> 常规 >> 命令 >> `usr/bin/bash`
 
-bash 的配置文件在 `~/.bashrc`，在 bash 的命令行中加入24小时的时间戳可以在 `~/.bashrc` 中找到 `PS1` 一行，例如：
+bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容，可以显示用户名、主机名、时间、Git 仓库分支、是否为超级用户，并显示颜色高亮：
 
 ```bash
-PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
+export PS1="\[\033[38;5;39m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[$(tput sgr0)\][\[$(tput sgr0)\]\[\033[38;5;196m\]\u\[$(tput sgr0)\] @ \[$(tput sgr0)\]\[\033[38;5;40m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;208m\]\W\[$(tput sgr0)\]] (\t)\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;196m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
 ```
 
-然后在前面加上表示时间戳的 `\t`，即：
+说明文档参见以下网站：
 
-```bash
-PS1='(\t) \[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
-```
+[Controlling the Prompt -- Bash Manual]https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Controlling-the-Prompt
 
-此时显示效果类似：
-
-```
-(HH:MM:SS) [(user_name)@(host_name) (directory)]($/#) (command)
-```
-
-更多的设置可以在这个网站进行自定义：
+更多的 PS1 内容和颜色设置可以在这个网站进行自定义：
 
 [.bashrc PS1 generator](https://bashrcgenerator.com/)
 
@@ -1583,10 +1575,10 @@ https://github.com/vinceliuice/grub2-themes
 
 可选的主题有：Tela/Vimix/Stylish/Slaze/Whitesur
 
-以 Vimix grub theme （2K，黑白图标） 为例，解压后在文件夹内执行：
+以 Tela grub theme （2K，黑白图标） 为例，解压后在文件夹内执行：
 
 ```bash
-sudo ./install.sh -b -t vimix -i white -s 2k
+sudo ./install.sh -b -t tela -i white -s 2k
 ```
 
 删除多余启动条目，需要修改`/boot/grub/grub.cfg`
