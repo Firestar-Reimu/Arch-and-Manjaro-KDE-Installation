@@ -492,8 +492,8 @@ sudo vim /etc/fstab
 在最后加入这两行：
 
 ```
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs default 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs default 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs defaults 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs defaults 0 0
 ```
 
 重启电脑后，即可自动挂载
@@ -507,8 +507,8 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs default 0 0
 这相当于直接编辑 `/etc/fstab`，加入：
 
 ```
-/dev/(name_C)                     /home/(user_name)/C    ntfs default 0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs default 0 0
+/dev/(name_C)                     /home/(user_name)/C    ntfs defaults 0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs defaults 0 0
 ```
 
 好处是格式化磁盘后内核名称不变，依然可以挂载
