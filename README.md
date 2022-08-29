@@ -78,7 +78,7 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本，unsta
 
 还可以用下面的方法在一台 Manjaro Linux 设备上制作自定义的 ISO 镜像：
 
-[Manjaro Wiki -- Build Manjaro ISOs with buildiso](https://wiki.manjaro.org/index.php/Build_Manjaro_ISOs_with_buildiso)
+[Manjaro Wiki -- Build Manjaro ISOs with buildiso](https://wiki.manjaro.org/title/Build_Manjaro_ISOs_with_buildiso)
 
 制作之前需要下载软件 `manjaro-tools-iso`，并在 `/etc/manjaro-tools/manjaro-tools.conf` 中修改镜像：
 
@@ -199,23 +199,23 @@ sudo pacman-mirrors -aS (branch) -ic China
 
 Manjaro 预装的包管理器有 pacman 和 pamac，其使用教程参考以下网址：
 
-[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/index.php/Pacman_Overview)
+[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/title/Pacman_Overview)
 
-[Manjaro Wiki -- Pacman-mirrors](https://wiki.manjaro.org/index.php/Pacman-mirrors)
+[Manjaro Wiki -- Pacman-mirrors](https://wiki.manjaro.org/title/Pacman-mirrors)
 
-[ArchWiki -- Pacman](https://wiki.archlinux.org/index.php/Pacman)
+[ArchWiki -- Pacman](https://wiki.archlinux.org/title/Pacman)
 
-[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
+[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/title/Pamac)
 
 其中 pacman 和 pamac 是预装的，“添加/删除软件”就是 pamac 的 GUI 版本
 
 硬件管理的包管理器是 mhwd 和 mhwd-kernel，其使用教程参考以下网址：
 
-[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview)
+[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/title/Manjaro_Hardware_Detection_Overview)
 
-[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/index.php/Configure_Graphics_Cards)
+[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/title/Configure_Graphics_Cards)
 
-[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/index.php/Manjaro_Kernels)
+[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/title/Manjaro_Kernels)
 
 这两个也可以在 Manjaro Settings Manager（GUI 版本）中使用
 
@@ -1198,7 +1198,7 @@ sudo systemctl start /dev/zram0
 
 具体教程参考以下网址：
 
-[Secure Boot -- ArchWiki](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
+[Secure Boot -- ArchWiki](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
 
 ## **一些有用的命令总结**
 
@@ -1364,7 +1364,7 @@ vim `find . -type f -name "(files)"`
 
 ### **命令行解压 ZIP 压缩包**
 
-建议使用系统预装的 `unar`（由 Unarchiver 软件包提供），因为它可以自动检测文件编码（系统右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
+建议使用系统预装的 `unar`（由 `unarchiver` 软件包提供），因为它可以自动检测文件编码（系统右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
 
 ```bash
 unar (file_name).zip
@@ -1388,7 +1388,7 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 默认的壁纸保存位置为 `/usr/share/wallpapers/`
 
-还可以使用包管理器（pacman/sudo pacman/pamac）下载壁纸，用“添加/删除软件”或 `pamac search wallpaper` 查找
+还可以使用包管理器（pacman/yay/pamac）下载壁纸，用“添加/删除软件”或 `pamac search wallpaper` 查找
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
@@ -2632,51 +2632,51 @@ sudo debtap (package_name).deb
 
 [Manjaro 安装体验小结](https://zhuanlan.zhihu.com/p/76608451)
 
-[Manjaro 安装后你需要这样做](https://www.cnblogs.com/haohao77/p/9034499.html#11-%E9%85%8D%E7%BD%AE%E5%AE%98%E6%96%B9%E6%BA%90)
+[Manjaro 安装后你需要这样做](https://www.cnblogs.com/haohao77/p/9034499.html)
 
 [YouTube -- Building your custom Manjaro ISO via Github Actions CI](https://www.youtube.com/watch?v=S2t5Iat37CI)
 
-[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/index.php/Pacman_Overview)
+[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/title/Pacman_Overview)
 
-[ArchWiki -- Pacman](https://wiki.archlinux.org/index.php/Pacman)
+[ArchWiki -- Pacman](https://wiki.archlinux.org/title/Pacman)
 
-[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
+[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/title/Pamac)
 
 [yay -- GitHub](https://github.com/Jguer/yay)
 
-[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview)
+[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/title/Manjaro_Hardware_Detection_Overview)
 
-[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/index.php/Configure_Graphics_Cards)
+[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/title/Configure_Graphics_Cards)
 
-[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/index.php/Manjaro_Kernels)
+[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/title/Manjaro_Kernels)
 
-[ArchWiki -- Sudo（简体中文）](https://wiki.archlinux.org/index.php/Sudo_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[ArchWiki -- Sudo](https://wiki.archlinux.org/title/Sudo)
 
-[Manjaro Wiki -- Switching Branches](https://wiki.manjaro.org/index.php/Switching_Branches)
+[Manjaro Wiki -- Switching Branches](https://wiki.manjaro.org/title/Switching_Branches)
 
 [在 Mac 上用 Openconnect 连接 Pulse Secure VPN](https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-mac/)
 
+[mount -- Arch manual pages](https://man.archlinux.org/man/mount.8)
+
 [双系统下 Ubuntu 读写/挂载 Windows 中的硬盘文件 + 解决文件系统突然变成只读](https://jakting.com/archives/ubuntu-rw-windows-files.html)
 
-[修改 hosts 解决 GitHub 访问失败](https://zhuanlan.zhihu.com/p/107334179)
+[HelloGitHub -- hosts](https://raw.hellogithub.com/hosts)
 
 [Manjaro Linux Forum -- Connect to internet from command-line as a beginner](https://forum.manjaro.org/t/howto-connect-to-internet-from-command-line-as-a-beginner/)
 
 [Manjaro Linux Forum -- Failed to add/activate new connection: 确定 AP 安全信息失败](https://forum.manjaro.org/t/failed-to-add-activate-new-connection-ap/76048)
 
-[Arch Wiki -- XDG user directories](https://wiki.archlinux.org/index.php/XDG_user_directories)
+[Arch Wiki -- XDG user directories](https://wiki.archlinux.org/title/XDG_user_directories)
 
-[Arch Wiki -- Cinnamon](https://wiki.archlinux.org/index.php/Cinnamon#Installation)
+[Arch Wiki -- Intel Graphics](https://wiki.archlinux.org/title/Intel_graphics)
 
-[Arch Wiki -- Intel Graphics](https://wiki.archlinux.org/index.php/Intel_graphics#Installation)
+[Arch Wiki -- Baloo](https://wiki.archlinux.org/title/Baloo)
 
-[Arch Wiki -- Baloo](https://wiki.archlinux.org/index.php/Baloo)
-
-[Arch Wiki -- Bluetooth Mouse](https://wiki.archlinux.org/index.php/Bluetooth_mouse)
+[Arch Wiki -- Bluetooth Mouse](https://wiki.archlinux.org/title/Bluetooth_mouse)
 
 [Linux-Surface -- Installation and Setup](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup)
 
-[Arch Wiki -- System time（简体中文）](https://wiki.archlinux.org/index.php/System_time_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[Arch Wiki -- System time](https://wiki.archlinux.org/title/System_time)
 
 [Manjaro Linux Forum -- Cannot install manjaro-pipewire](https://forum.manjaro.org/t/cannot-install-manjaro-pipewire/102776)
 
@@ -2688,17 +2688,15 @@ sudo debtap (package_name).deb
 
 [Linux GRUB 删除多余启动条目](https://blog.csdn.net/JackLiu16/article/details/80383969)
 
-[TUNA NTP (网络授时) 服务使用说明](https://tuna.moe/help/ntp/)
-
-[SJTUG 软件源镜像服务](https://mirrors.sjtug.sjtu.edu.cn/#/)
+[TUNA NTP（网络授时）服务使用说明](https://tuna.moe/help/ntp/)
 
 [Manjaro 为包管理器 pacman 和 yaourt/yay 添加多线程下载](https://blog.csdn.net/dc90000/article/details/101752743)
 
-[ArchWiki -- Microsoft fonts（简体中文）](https://wiki.archlinux.org/index.php/Microsoft_fonts_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[ArchWiki -- Fonts](https://wiki.archlinux.org/title/Fonts)
 
 [Arch Linux 使用 Windows 字体及相关配置](https://blog.csdn.net/sinat_33528967/article/details/93380729)
 
-[ArchWiki -- Fcitx5（简体中文）](https://wiki.archlinux.org/index.php/Fcitx5_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[ArchWiki -- Fcitx5](https://wiki.archlinux.org/title/Fcitx5)
 
 [Archived Manjaro Forum -- 比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合](https://archived.forum.manjaro.org/t/sunpinyin-cloudpinyin/114282)
 
@@ -2706,13 +2704,13 @@ sudo debtap (package_name).deb
 
 [TeX Live -- Quick install](https://www.tug.org/texlive/quickinstall.html)
 
-[TeX Live Documentation -- TeX Live Installation](https://www.tug.org/texlive/doc/texlive-en/texlive-en.html#installation)
+[TeX Live Documentation -- TeX Live Installation](https://www.tug.org/texlive/doc/texlive-en/texlive-en.html)
 
 [Mozilla Support -- Font size of mailbox is too small](https://support.mozilla.org/zh-CN/questions/1297871)
 
 [Anaconda Documentation -- Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/)
 
-[恢复 Anaconda 环境, 卸载 Anaconda, 重装 Anaconda](https://blog.csdn.net/wangweiwells/article/details/88374361)
+[恢复 Anaconda 环境，卸载 Anaconda，重装 Anaconda](https://blog.csdn.net/wangweiwells/article/details/88374361)
 
 [Geant4 -- Building and Installing from Source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html)
 
