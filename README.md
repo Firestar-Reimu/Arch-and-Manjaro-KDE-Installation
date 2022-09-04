@@ -1559,11 +1559,11 @@ export PS1="\[\033[38;5;39m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e '
 
 说明文档参见以下网站：
 
-[Controlling the Prompt -- Bash Manual]https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Controlling-the-Prompt
+[Controlling the Prompt -- Bash Manual](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Controlling-the-Prompt)
 
 更多的 PS1 内容和颜色设置可以在这个网站进行自定义：
 
-[.bashrc PS1 generator](https://bashrcgenerator.com/)
+[bashrc PS1 generator](https://bashrcgenerator.com/)
 
 ### **GRUB 美化**
 
