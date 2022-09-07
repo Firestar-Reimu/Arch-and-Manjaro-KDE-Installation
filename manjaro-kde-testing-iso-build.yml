@@ -1,4 +1,4 @@
-name: kde_iso_build
+name: manjaro_kde_testing_iso_build
 
 on:
   push:
