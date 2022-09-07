@@ -1,18 +1,18 @@
 # **在 ThinkPad X13 2021 Intel/Surface Pro 6 上安装 Manjaro 21 KDE Plasma + Windows 11 双系统的指南**
 
-ThinkPad 系统信息：
+**说明：Manjaro 专有部分自 2022.9.5 起不再更新，以下为最终版 ThinkPad 系统信息**
 
 ```
 OS: Manjaro 21.2.6 Qonos
-Kernel: x86_64 Linux 5.18.1-1-MANJARO
+Kernel: x86_64 Linux 5.19.4-1-MANJARO
 Resolution: 2560x1600
-DE: KDE 5.96.0 / Plasma 5.24.6
+DE: KDE 5.97.0 / Plasma 5.25.4
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
 ```
 
-Surface 系统信息：
+**说明：Surface 专有部分自 2021.9.5 起不再更新，以下为最终版 Surface 系统信息**
 
 ```
 OS: Manjaro 21.1.1 Pahvo
@@ -23,8 +23,6 @@ WM: KWin
 CPU: Intel Core i5-8250U @ 8x 3.4GHz
 GPU: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
 ```
-
-**说明：Surface 专有部分自 2021.9.5 起不再更新，内核版本终止于 x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface**
 
 ## **Windows 的准备工作**
 
@@ -78,7 +76,7 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本，unsta
 
 还可以用下面的方法在一台 Manjaro Linux 设备上制作自定义的 ISO 镜像：
 
-[Manjaro Wiki -- Build Manjaro ISOs with buildiso](https://wiki.manjaro.org/title/Build_Manjaro_ISOs_with_buildiso)
+[Manjaro Wiki -- Build Manjaro ISOs with buildiso](https://wiki.manjaro.org/index.php/Build_Manjaro_ISOs_with_buildiso)
 
 制作之前需要下载软件 `manjaro-tools-iso`，并在 `/etc/manjaro-tools/manjaro-tools.conf` 中修改镜像：
 
@@ -96,9 +94,25 @@ build_mirror=https://mirrors.tuna.tsinghua.edu.cn/manjaro/
 
 ### **刻录 USB 启动盘**
 
-推荐使用 [Ventoy](https://www.ventoy.net/cn/index.html)，可以在 Windows/Linux 上使用，方法是下载安装包后解压、安装到 USB 上，之后直接将 ISO 镜像拷贝到 USB 中即可选择镜像文件进行登录系统，支持多个系统镜像登录
+推荐使用 [Ventoy](https://www.ventoy.net/cn/index.html)，在 Windows 和 Linux 上都可以使用，方法是下载安装包后解压、安装到 USB 上，之后直接将 ISO 镜像拷贝到 USB 中即可选择镜像文件进行登录系统，支持多个系统镜像登录
 
 Windows 上还可以用 [Rufus](https://rufus.ie/zh/)，速度与 Etcher 相当且支持 Windows 和 Linux 系统镜像，但无法在 Linux 上使用（只提供 Windows 版 EXE 可执行文件）
+
+Linux 上可以用命令行，首先检查 USB 设备，需要设备处于插入但未挂载的状态
+
+使用 `lsblk -f` 检查 USB 设备的名称，例如 `/dev/sda`
+
+之后格式化磁盘：
+
+```
+sudo wipefs --all /dev/sda
+```
+
+之后直接将 ISO 镜像拷贝到 USB 中：
+
+```
+sudo cp (iso_path)/(iso_name) /dev/sda
+```
 
 ### **从 USB 启动**
 
@@ -197,23 +211,23 @@ sudo pacman-mirrors -aS (branch) -ic China
 
 Manjaro 预装的包管理器有 pacman 和 pamac，其使用教程参考以下网址：
 
-[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/title/Pacman_Overview)
+[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/index.php/Pacman_Overview)
 
-[Manjaro Wiki -- Pacman-mirrors](https://wiki.manjaro.org/title/Pacman-mirrors)
+[Manjaro Wiki -- Pacman-mirrors](https://wiki.manjaro.org/index.php/Pacman-mirrors)
 
 [ArchWiki -- Pacman](https://wiki.archlinux.org/title/Pacman)
 
-[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/title/Pamac)
+[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
 
 其中 pacman 和 pamac 是预装的，“添加/删除软件”就是 pamac 的 GUI 版本
 
 硬件管理的包管理器是 mhwd 和 mhwd-kernel，其使用教程参考以下网址：
 
-[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/title/Manjaro_Hardware_Detection_Overview)
+[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview)
 
-[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/title/Configure_Graphics_Cards)
+[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/index.php/Configure_Graphics_Cards)
 
-[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/title/Manjaro_Kernels)
+[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/index.php/Manjaro_Kernels)
 
 这两个也可以在 Manjaro Settings Manager（GUI 版本）中使用
 
@@ -500,7 +514,7 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs defaults 0 0
 
 #### **使用图形化界面**
 
-在系统应用“KDE 分区管理器”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
+在系统应用“KDE 分区管理器（`partitionmanager`）”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
 
 这相当于直接编辑 `/etc/fstab`，加入：
 
@@ -569,7 +583,7 @@ cd /usr/share/fonts
 fc-cache -fv
 ```
 
-这样就可以安装微软雅黑、宋体、黑体等字体了
+这样就可以安装字体了
 
 **微软系统字体文件夹在 `C:\Windows\Fonts`，可以复制到 `/usr/share/fonts` 安装，注意需要排除掉 MS Gothic、Yu Gothic 和 Malgun Gothic 字体，因它们只有部分日/韩文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日/韩文字形）**
 
@@ -931,6 +945,8 @@ ping -c (count_number) (website_destination)
 
 表示对网站域名 `(website_destination)` 发送 `(count_number)` 次 `ping` 连通请求
 
+**Linux 上的 `ping` 命令默认是不停止发送请求的，必须指定发送次数或用 `Ctrl+C` 等方式强制终止**
+
 #### **命令行连接 PKU Wi-Fi**
 
 方法一：命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
@@ -965,6 +981,8 @@ sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
 
 #### **图形化界面连接 PKU Secure**
 
+首先从系统托盘中点击网络图标，再点击 PKU Secure 连接，此时会弹出一个“编辑连接”的窗口，按照以下步骤设置：
+
 Wi-Fi 安全 >> 安全 >> 企业 WPA/WPA2
 
 Wi-Fi 安全 >> 认证 >> 受保护的 EAP（PEAP）
@@ -995,6 +1013,22 @@ set 802-1x.password (student_password)
 save
 activate
 ```
+
+#### **ThinkPad：图形化界面设置 4G LTE 网络**
+
+在“系统设置 >> 连接”中，点击右下角的加号创建新的链接，选择“移动宽带”并创建，按照以下步骤设置：
+
+设置移动宽带连接 >> 任何 GSM 设备
+
+国家 >> 中国
+
+提供商 >> China Unicom
+
+选择您的方案 >> 未列出我的方案
+
+APN >> bjlenovo12.njm2apn
+
+**提供商和 APN 可以在 Windows 系统的“设置 >> 网络和 Internet >> 手机网络 >> 运营商设置”上查找到，在“活动网络”处能找到提供商，在“Internet APN >> 默认接入点 >> 视图”中可以找到 APN 地址**
 
 ### **从 PulseAudio 转移到 Pipewire**
 
@@ -1133,7 +1167,7 @@ balooctl disable
 
 ### **为 pacman 启用多线程下载（可选）**
 
-执行下面的命令下载 axel
+执行下面的命令下载 [axel](https://github.com/axel-download-accelerator/axel)
 
 ```bash
  sudo pacman -S axel
@@ -1160,7 +1194,7 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 
 ### **zram 文件设置（可选）**
 
-对 zram 的介绍可以参考[官方文档](https://www.kernel.org/doc/html/latest/admin-guide/blockdev/zram.html)，设置步骤可以参考[ArchWiki](https://wiki.archlinux.org/title/Improving_performance#zram_or_zswap)
+对 zram 的介绍可以参考[官方文档](https://www.kernel.org/doc/html/latest/admin-guide/blockdev/zram.html)，设置步骤可以参考 [ArchWiki](https://wiki.archlinux.org/title/Improving_performance#zram_or_zswap)
 
 先下载 `zram-generator` 软件包：
 
@@ -1446,9 +1480,9 @@ Latte-Dock 的推荐设置：
 
 在这里可以下载桌面小部件，并在“添加部件”处添加
 
-### **bash 配置**
+### **bash 配置 ble.sh**
 
-`ble.sh` 是一个使用纯 bash 编写的软件，可以提供代码高亮、自动补全等功能，可以在 AUR 中下载：
+[ble.sh](https://github.com/akinomyoga/ble.sh) 是一个使用纯 bash 编写的软件，可以提供代码高亮、自动补全等功能，可以在 AUR 中下载：
 
 ```bash
 pamac install blesh
@@ -2634,23 +2668,23 @@ sudo debtap (package_name).deb
 
 [YouTube -- Building your custom Manjaro ISO via Github Actions CI](https://www.youtube.com/watch?v=S2t5Iat37CI)
 
-[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/title/Pacman_Overview)
+[Manjaro Wiki -- Pacman Overview](https://wiki.manjaro.org/index.php/Pacman_Overview)
 
 [ArchWiki -- Pacman](https://wiki.archlinux.org/title/Pacman)
 
-[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/title/Pamac)
+[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
 
 [yay -- GitHub](https://github.com/Jguer/yay)
 
-[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/title/Manjaro_Hardware_Detection_Overview)
+[Manjaro Wiki -- Manjaro Hardware Detection Overview](https://wiki.manjaro.org/index.php/Manjaro_Hardware_Detection_Overview)
 
-[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/title/Configure_Graphics_Cards)
+[Manjaro Wiki -- Configure Graphics Cards](https://wiki.manjaro.org/index.php/Configure_Graphics_Cards)
 
-[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/title/Manjaro_Kernels)
+[Manjaro Wiki -- Manjaro Kernels](https://wiki.manjaro.org/index.php/Manjaro_Kernels)
 
 [ArchWiki -- Sudo](https://wiki.archlinux.org/title/Sudo)
 
-[Manjaro Wiki -- Switching Branches](https://wiki.manjaro.org/title/Switching_Branches)
+[Manjaro Wiki -- Switching Branches](https://wiki.manjaro.org/index.php/Switching_Branches)
 
 [在 Mac 上用 Openconnect 连接 Pulse Secure VPN](https://blog.yangl1996.com/post/use-openconnect-to-connect-to-pulse-secure-on-mac/)
 
