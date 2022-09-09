@@ -43,7 +43,14 @@
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.inheritEnv": false,
     "workbench.colorCustomizations": {
-        "editor.selectionHighlightBackground": "#ffff55"
+        "editorBracketHighlight.foreground1": "#00cc00",
+        "editorBracketHighlight.foreground2": "#33ccff",
+        "editorBracketHighlight.foreground3": "#aa00aa",
+        "editorBracketHighlight.foreground4": "#44ccaa",
+        "editorBracketHighlight.foreground5": "#4444bb",
+        "editorBracketHighlight.foreground6": "#8080ff",
+        "editorBracketHighlight.unexpectedBracket.foreground": "#ff0000",
+        "editor.selectionHighlightBackground": "#ffff55",
     },
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Default Light+",
