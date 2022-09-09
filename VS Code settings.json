@@ -18,12 +18,12 @@
             "fontStyle": "bold",
             "foreground": "#ff5500"
         },
-        "variables": "#dd55aa",
-        "strings": "#00aa00",
         "functions": {
             "fontStyle": "bold",
             "foreground": "#0000ff"
         },
+        "variables": "#dd55aa",
+        "strings": "#00aa00",
         "numbers": "#aa0000"
     },
     "editor.unicodeHighlight.ambiguousCharacters": false,
@@ -58,12 +58,14 @@
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "git.autofetch": true,
+    "markdown.preview.fontFamily": "'Noto Sans CJK SC', 'Noto Sans', sans-serif",
+    "markdown.extension.math.enabled": false,
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.tools": [
         {
-            "name": "xelatex",
-            "command": "xelatex",
+            "name": "lualatex",
+            "command": "lualatex",
             "args": [
                 "-synctex=1",
                 "--shell-escape",
@@ -80,16 +82,16 @@
     ],
     "latex-workshop.latex.recipes": [
         {
-            "name": "xelatex",
-            "tools": ["xelatex"]
+            "name": "lualatex",
+            "tools": ["lualatex"]
         },
         {
-            "name": "xe->xe",
-            "tools": ["xelatex", "xelatex"]
+            "name": "lua->lua",
+            "tools": ["lualatex", "lualatex"]
         },
         {
-            "name": "xe->bib->xe->xe",
-            "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
+            "name": "lua->bib->lua->lua",
+            "tools": ["lualatex", "bibtex", "lualatex", "lualatex"]
         }
     ],
     "latex-workshop.latex.recipe.default": "lastUsed",
@@ -126,7 +128,5 @@
     "python.linting.pylintArgs": ["--generate-members"],
     "python.formatting.autopep8Args": ["--max-line-length=65536"],
     "jupyter.themeMatplotlibPlots": true,
-    "jupyter.sendSelectionToInteractiveWindow": true,
-    "markdown.extension.math.enabled": false,
-    "markdown.preview.fontFamily": "'Noto Sans CJK SC', 'Noto Sans', sans-serif",
+    "jupyter.sendSelectionToInteractiveWindow": true
 }
