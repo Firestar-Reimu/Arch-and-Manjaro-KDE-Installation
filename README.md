@@ -368,7 +368,7 @@ Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vim
 
 Vim 的配置可以参考以下网址：
 
-[Options -- Vim Reference Manual](https://vimhelp.org/options.txt.html)
+[Options -- Vim Documentation](http://vimdoc.sourceforge.net/htmldoc/options.html)
 
 启用剪贴板功能，并应用 `Ctrl+C`、`Ctrl+V`、`Ctrl+A`、`Ctrl+Z`等快捷键，需要在 `/etc/vimrc` 中写入：
 
@@ -2211,7 +2211,7 @@ pamac install vscodium-bin
 pamac install code-git
 ```
 
-下载扩展：Python（会自动下载 Pylance、Jupyter 等扩展），LaTeX Workshop，C/C++，Rainbow Brackets，Prettier - Code formatter，Markdown all in One
+下载扩展：Python（会自动下载 Pylance、Jupyter 等扩展），LaTeX Workshop，C/C++，Markdown all in One，Prettier - Code formatter
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
 
@@ -2276,28 +2276,16 @@ git config --global --add safe.directory "*"
 
 重启 Visual Studio Code 即可生效
 
-#### **Rainbow Brackets 插件设置**
+#### **Markdown All in One 插件设置**
 
-更改 Rainbow Brackets 的括号配色可以修改文件 `~/.vscode/extensions/2gua.rainbow-brackets-0.0.6/out/src/extension.js`：
-
-```js
-var roundBracketsColor = ["#ff5500", "#cc0066", "#00aa66", "#ff9999"];
-var squareBracketsColor = ["#33ccff", "#8080ff", "#0077aa"];
-var squigglyBracketsColor = ["#aa00aa", "#009900", "#996600"];
-```
-
-重启 Visual Studio Code 即可生效
-
-#### **Markdown 插件设置**
-
-Visual Studio Code 自带 Markdown 预览功能，但是不支持数学命令的补全，也不支持复选框：
+Visual Studio Code 自带 Markdown 预览功能，但是不支持数学命令的补全（只支持预览），也不支持复选框：
 
 ```markdown
 - [x] item 1
 - [ ] item 2
 ```
 
-[Markdown all in one](https://github.com/yzhang-gh/vscode-markdown) 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），且部分数学公式环境无法渲染（可以在设置中将该插件的公式支持关闭），即在 `setting.json` 中设置为：
+[Markdown All in One](https://github.com/yzhang-gh/vscode-markdown) 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），且部分数学公式环境无法渲染（可以在设置中将该插件的公式支持关闭），即在 `setting.json` 中设置为：
 
 ```json
 "editor.autoClosingBrackets": "always",
