@@ -57,11 +57,5 @@
         "command": "editor.action.insertSnippet",
         "args": { "snippet": "\\sqrt{$1}" },
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-    },
-    {
-        "key": "ctrl+m ctrl+b",
-        "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\bm{$1}" },
-        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
     }
 ]
