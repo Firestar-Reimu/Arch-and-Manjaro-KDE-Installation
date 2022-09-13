@@ -1,0 +1,1057 @@
+# **在 ThinkPad X13 2021 Intel 上安装 Arch Linux KDE Plasma + Windows 11 双系统的指南**
+
+```
+OS: Arch Linux x86_64
+Kernel: x86_64 Linux 5.19.7-arch1-1
+Resolution: 2560x1600
+DE: KDE 5.97.0 / Plasma 5.25.5
+WM: KWin
+CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
+GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
+```
+
+## **Windows 的准备工作**
+
+### **为 Linux 系统分区**
+
+右键点击开始菜单，选择“磁盘管理”，分出一块空分区，建议不小于 64GB
+
+### **关闭快速启动**
+
+Windows 工具 >> 控制面板 >> 电源选项 >> 选择电源按钮的功能 >> 更改当前不可用的设置 >> 关闭快速启动 >> 保存修改
+
+### **关闭 Secure Boot**
+
+#### **进入 UEFI/BIOS 设置**
+
+ThinkPad 的操作如下：启动 ThinkPad 时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `Fn+F1` 进入 UEFI/BIOS 设置
+
+#### **关闭 Secure Boot**
+
+在 UEFI/BIOS 设置界面：
+
+ThinkPad：Security >> Secure Boot >> Off
+
+### **删除多余的 Windows 启动项**
+
+如果在电脑上装有多个 Windows，则系统只会选择其中一个在 Windows Boot Manager 中启动，若要删除多余的启动项，在 Windows 的“系统配置”（搜索框中输入 `msconfig` 或在“Windows 工具”中选择）的“引导”页面即可删除
+
+### **刻录 USB 启动盘**
+
+#### **Windows 系统方案**
+
+Windows 上可以用 [Rufus](https://rufus.ie/zh/)，支持 Windows 和 Linux 系统镜像，但无法在 Linux 上使用（只提供 Windows 版 EXE 可执行文件）
+
+#### **Linux 系统方案**
+
+Linux 上可以用命令行，首先检查 USB 设备，需要设备处于插入但未挂载的状态
+
+使用 `lsblk -f` 检查 USB 设备的名称，例如 `/dev/sda`
+
+之后格式化磁盘：
+
+```
+sudo wipefs --all /dev/sda
+```
+
+之后直接将 ISO 镜像拷贝到 USB 中：
+
+```
+sudo cp (iso_path)/(iso_name) /dev/sda
+```
+
+#### **跨平台方案**
+
+推荐使用 [Ventoy](https://www.ventoy.net/cn/index.html)，在 Windows 和 Linux 上都可以使用，方法是下载安装包后解压、安装到 USB 上，之后直接将 ISO 镜像拷贝到 USB 中即可选择镜像文件进行登录系统，支持多个系统镜像登录
+
+### **从 USB 启动**
+
+#### **在 Windows 中设置从 USB 启动**
+
+设置 >> 恢复 >> 立即重新启动 >> USB HDD
+
+#### **在 UEFI 中设置从 USB 启动**
+
+启动时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `Fn+F12` 选择启动位置为 USB HDD
+
+## **安装过程**
+
+## **初始配置**
+
+### **启动顺序设置**
+
+在 UEFI 中调整启动顺序，保证 Linux 处于启动顺序的第一项，否则无法进入 Linux 系统
+
+Startup >> Boot >> Edit Boot Order 中可以调整和删除启动顺序
+
+### **电源与开机设置**
+
+系统设置 >> 电源管理 >> 节能 >> 勾选“按键事件处理” >> 合上笔记本盖时 >> 选择“关闭屏幕” >> 勾选“即使已连接外部显示器”
+
+系统设置 >> 开机与关机 >> 桌面会话 >> 登入时 >> 选择“以空会话启动”
+
+### **高分辨率设置**
+
+系统设置 >> 显示和监控 >> 显示配置 >> 分辨率 >> 全局缩放 >> 200%
+
+系统设置 >> 光标 >> 大小 >> 36
+
+然后重启电脑
+
+### **Konsole/Yakuake 快捷键配置**
+
+打开 Konsole/Yakuake（可以用 `Fn+F12` 直接打开 Yakuake）：
+
+设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
+
+### **选择镜像源**
+
+**一般建议选择清华大学镜像和上海交大镜像，这两个镜像稳定且积极维护，清华大学镜像速度更快，上海交大镜像更新频率更高**
+
+编辑 /etc/pacman.d/mirrorlist，在文件的最顶端添加：
+
+```
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+```
+
+改为清华大学镜像
+
+或添加：
+
+```
+Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
+```
+
+改为上海交大镜像
+
+最后更新软件包缓存：
+
+```bash
+sudo pacman -Syyu
+```
+
+### **包管理器**
+
+Arch 预装的包管理器是 pacman，其使用教程参考以下网址：
+
+[ArchWiki -- Pacman](https://wiki.archlinux.org/title/Pacman)
+
+### **AUR 准备**
+
+AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软件包而不将它们写入构建依赖。为了避免在构建过程中出现一些奇怪的错误，建议先安装 `base-devel`：
+
+```bash
+sudo pacman -S base-devel
+```
+
+### **AUR 软件包管理器**
+
+**注意 pacman 不支持 AUR，需要单独下载 AUR 软件包管理器**
+
+#### **yay**
+
+yay 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器，执行以下命令安装 `yay`：
+
+```bash
+pacman -S git base-devel
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
+makepkg -si
+```
+
+`yay` 的命令与 `pacman` 相似，如 `yay -S` 表示下载软件包、`yay -Syyu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R` 表示删除软件包，其使用教程参考以下网址：
+
+[yay -- GitHub](https://github.com/Jguer/yay)
+
+#### **pamac**
+
+pamac 支持命令行和图形界面，“添加/删除软件”就是 pamac 的 GUI 版本，其使用教程参考以下网址：
+
+[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
+
+需要按照如下方式启用 pamac 的 AUR 支持：
+
+添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
+
+然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 获取 AUR 的软件包
+
+**以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
+
+### **Arch Linux CN 软件源**
+
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
+
+```
+[archlinuxcn]
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+```
+
+或上海交大镜像：
+
+```
+[archlinuxcn]
+Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
+```
+
+之后执行下面的命令安装 archlinuxcn-keyring 包导入 GPG key
+
+```bash
+sudo pacman -Sy archlinuxcn-keyring
+sudo pacman -Syyu
+```
+
+这样就开启了 pacman 和 pamac 对 Arch Linux CN 的支持
+
+**注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
+
+#### **搜索软件包**
+
+在 `yay` 上执行：
+
+```bash
+yay (package_name)
+```
+
+或者在 `pamac` 上执行：
+
+```bash
+pamac search (package_name)
+```
+
+#### **检查依赖关系**
+
+以树状图的形式展示某软件包的依赖关系：（需要下载 `pacman-contrib` 软件包）
+
+```bash
+pactree (package_name)
+```
+
+#### **降级软件包**
+
+在 `/var/cache/pacman/pkg/` 中找到旧软件包（包括旧 AUR 软件包），双击打开安装实现手动降级，参考以下网址：
+
+[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+
+#### **清理缓存**
+
+清理全部软件安装包：
+
+```bash
+pamac clean
+```
+
+删除软件包时清理设置文件：
+
+```bash
+sudo pacman -Rn (package_name)
+```
+
+清理无用的孤立软件包：
+
+```bash
+sudo pacman -Rsn $(pacman -Qdtq)
+```
+
+若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
+
+或者：
+
+```bash
+pamac remove -o
+```
+
+若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`
+
+#### **从本地安装包安装软件**
+
+pacman 有从本地安装包安装软件的功能，只需输入：
+
+```bash
+sudo pacman -U (package_path)/(package_name)
+```
+
+**重启后会发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启**
+
+### **Vim 配置**
+
+Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vimrc` 和 `/home/(user_name)/.vimrc`，建议直接修改 `/etc/vimrc`，这样不会覆盖 `/usr/share/vim/vimfiles/archlinux.vim` 上定义的默认配置（语法高亮等）
+
+Vim 的配置可以参考以下网址：
+
+[Options -- Vim Documentation](http://vimdoc.sourceforge.net/htmldoc/options.html)
+
+启用剪贴板功能，并应用 `Ctrl+C`、`Ctrl+V`、`Ctrl+A`、`Ctrl+Z`等快捷键，需要在 `/etc/vimrc` 中写入：
+
+```
+set clipboard=unnamedplus
+source $VIMRUNTIME/mswin.vim
+```
+
+`mswin.vim` 的源代码可以在这里找到：
+
+[vim -- mswin.vim](https://github.com/vim/vim/blob/master/runtime/mswin.vim)
+
+### **GNU nano 配置**
+
+nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
+
+取消注释 `set linenumbers` 可以显示行号
+
+取消注释 `set tabsize 8` 可以更改 Tab 键的长度，例如 `set tabsize 4`
+
+取消注释 `set tabstospaces` 可以将 Tab 转换为空格
+
+取消注释 `set matchbrackets "(<[{)>]}"` 可以匹配括号
+
+取消注释 `include "/usr/share/nano/*.nanorc"` 一行和所有的颜色设置可以启用代码高亮
+
+取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
+
+**用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
+
+### **更改 visudo 默认编辑器为 Vim**
+
+visudo 的默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入：
+
+```bash
+sudo visudo
+```
+
+在开头的一个空行键入：
+
+```
+Defaults editor=/usr/bin/vim
+```
+
+按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
+
+如果想临时使用 Vim 作为编辑器，则输入：
+
+```bash
+sudo EDITOR=vim visudo
+```
+
+### **sudo 免密码**
+
+在最后一行（空行）按 `i` 进入输入模式，加上这一行：
+
+```
+Defaults:(user_name) !authenticate
+```
+
+进入命令模式，保存退出即可
+
+**注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
+
+### **命令行界面输出语言为英语**
+
+在 `~/.zshrc` 或 `~/.bashrc` 中添加一行：
+
+```
+export LANGUAGE=en_US.UTF-8
+```
+
+### **网络设置**
+
+#### **ping 命令**
+
+IP 地址和连接情况可以通过对域名 `ping` 得到，例如：
+
+```bash
+ping -c (count_number) (website_destination)
+```
+
+表示对网站域名 `(website_destination)` 发送 `(count_number)` 次 `ping` 连通请求
+
+**Linux 上的 `ping` 命令默认是不停止发送请求的，必须指定发送次数或用 `Ctrl+C` 等方式强制终止**
+
+#### **命令行连接 PKU Wi-Fi**
+
+方法一：命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
+
+方法二：使用 `nmcli`，输入：
+
+```bash
+nmcli device wifi connect PKU
+```
+
+通用的操作是：
+
+```bash
+nmcli device wifi connect (SSID) password (student_passowrd)
+```
+
+注意这里的 SSID 是 Wi-Fi 的名称（如 PKU 或 TP-LINK_XXX），不是 IP 地址或 MAC 地址
+
+#### **命令行连接 PKU VPN**
+
+此处需要一直打开终端，故推荐使用 Yakuake
+
+按 `Fn+F12` 打开 Yakuake，输入：
+
+```bash
+sudo openconnect --protocol=nc --user (student_ID) https://vpn.pku.edu.cn
+```
+
+输入密码即可连接
+
+之后可以按 `Fn+F12` 让它收起，不要关闭窗口（关闭窗口则 VPN 断开）
+
+#### **图形化界面连接 PKU Secure**
+
+首先从系统托盘中点击网络图标，再点击 PKU Secure 连接，此时会弹出一个“编辑连接”的窗口，按照以下步骤设置：
+
+Wi-Fi 安全 >> 安全 >> 企业 WPA/WPA2
+
+Wi-Fi 安全 >> 认证 >> 受保护的 EAP（PEAP）
+
+PEAP 版本 >> 自动
+
+内部认证 >> MSCHAPv2
+
+输入用户名、密码即可连接
+
+#### **命令行连接 PKU Secure**
+
+首先进入 `nmcli` 配置：
+
+```bash
+nmcli connection edit PKU\ Secure
+```
+
+在 `nmcli` 界面内输入：
+
+```
+set wifi-sec.key-mgmt wpa-eap
+set ipv4.method auto
+set 802-1x.eap peap
+set 802-1x.phase2-auth mschapv2
+set 802-1x.identity (student_ID)
+set 802-1x.password (student_password)
+save
+activate
+```
+
+#### **ThinkPad：图形化界面设置 4G LTE 网络**
+
+在“系统设置 >> 连接”中，点击右下角的加号创建新的链接，选择“移动宽带”并创建，按照以下步骤设置：
+
+设置移动宽带连接 >> 任何 GSM 设备
+
+国家 >> 中国
+
+提供商 >> China Unicom
+
+选择您的方案 >> 未列出我的方案
+
+APN >> bjlenovo12.njm2apn
+
+**提供商和 APN 可以在 Windows 系统的“设置 >> 网络和 Internet >> 手机网络 >> 运营商设置”上查找到，在“活动网络”处能找到提供商，在“Internet APN >> 默认接入点 >> 视图”中可以找到 APN 地址**
+
+#### **修改 hosts 文件访问 GitHub**
+
+修改 hosts 文件可以有效访问 GitHub，需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠），修改内容参见以下网站：
+
+[HelloGitHub -- hosts](https://raw.hellogithub.com/hosts)
+
+### **时间设置**
+
+#### **双系统时间不同步**
+
+系统设置 >> 时间和日期 >> 自动设置时间和日期
+
+在 Arch Linux 上设置硬件时间为 UTC：
+
+```bash
+sudo timedatectl set-local-rtc 0
+```
+
+并在 Windows 上设置硬件时间为 UTC，与 Arch Linux 同步：
+
+```powershell
+reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_QWORD /f
+```
+
+这一步需要在 Powershell（管理员）中执行
+
+#### **数字时钟设置 24 小时制**
+
+右键点击“数字时钟” >> 配置数字时钟 >> 时间显示 >> 24 小时制
+
+#### **添加 TUNA 网络授时服务（可选）**
+
+参考以下网址：
+
+[TUNA NTP（网络授时）服务使用说明](https://tuna.moe/help/ntp/)
+
+### **Linux 挂载 Windows 磁盘**
+
+**首先要确保设备加密和快速启动已经关闭**
+
+参考以下网址：
+
+[Archwiki -- fstab](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+
+#### **使用 UUID**
+
+官方推荐的方法是使用 UUID，以分别挂载 C 盘和 D 盘到 `/home/(user_name)/C` 和 `/home/(user_name)/D` 为例，在终端中输入：
+
+```bash
+lsblk -f
+```
+
+在输出结果中可以发现 Windows 的硬盘分区：
+
+```
+NAME       FSTYPE       LABEL   UUID
+├─(name_C) ntfs         C       (UUID_C)
+├─(name_D) ntfs         D       (UUID_D)
+```
+
+接着就来修改系统文件：
+
+```bash
+sudo vim /etc/fstab
+```
+
+在最后加入这两行：
+
+```
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umasks=0 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umasks=0 0 0
+```
+
+重启电脑后，即可自动挂载
+
+**如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
+
+#### **使用图形化界面**
+
+在系统应用“KDE 分区管理器（`partitionmanager`）”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
+
+这相当于直接编辑 `/etc/fstab`，加入：
+
+```
+/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,umasks=0 0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,umasks=0 0 0
+```
+
+好处是格式化磁盘后内核名称不变，依然可以挂载
+
+#### **如果 Windows 磁盘突然变成只读**
+
+**首先检查 Windows 中是否关闭了快速启动**
+
+一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，若关闭快速启动不能解决问题，使用下面的方法：
+
+检查占用进程：
+
+```bash
+sudo fuser -m -u /dev/(partition_name)
+```
+
+可以看到数字，就是占用目录的进程 PID，终止进程：
+
+```bash
+sudo kill (PID_number)
+```
+
+卸载磁盘分区：
+
+```bash
+sudo umount /dev/(partition_name)
+```
+
+执行硬盘 NTFS 分区修复：
+
+```bash
+sudo ntfsfix /dev/(partition_name)
+```
+
+再重新挂载即可：
+
+```bash
+sudo mount /dev/(partition_name) (mount_path)/(mount_folder)
+```
+
+如果在 Dolphin 中已经成功卸载分区，则直接执行：
+
+```bash
+sudo ntfsfix /dev/(partition_name) && sudo mount /dev/(partition_name)(mount_path)/(mount_folder)
+```
+
+### **字体安装**
+
+KDE Plasma 支持直接在 Dolphin 的右键菜单中安装 TTF/OTF 字体和 TTC/OTC 字体集
+
+**注意不管是 Windows 还是 Linux 都要将字体“为所有用户安装”，尤其是 Windows 11 右键直接安装是安装到个人用户目录 `C:\Users\(user_name)\AppData\Local\Microsoft\Windows\Fonts` 而非系统目录 `C:\Windows\Fonts`**
+
+#### **命令行安装字体**
+
+将字体文件复制到 `/usr/share/fonts` 安装，方法如下：
+
+```bash
+sudo cp (font-path)/* /usr/share/fonts
+cd /usr/share/fonts
+fc-cache -fv
+```
+
+这样就可以安装字体了
+
+**微软系统字体文件夹在 `C:\Windows\Fonts`，可以复制到 `/usr/share/fonts` 安装，注意需要排除掉 MS Gothic、Yu Gothic 和 Malgun Gothic 字体，因它们只有部分日/韩文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日/韩文字形）**
+
+#### **安装 Google Noto 字体**
+
+命令行安装：
+
+```bash
+sudo pacman -S noto-fonts noto-fonts-cjk
+```
+
+所有语言字体的下载地址如下：
+
+[Noto Fonts -- Google Fonts](https://fonts.google.com/noto/fonts)
+
+中文（CJK）字体的下载地址如下：
+
+[Noto CJK -- GitHub](https://github.com/googlefonts/noto-cjk)
+
+**注意 Microsoft Office 不支持嵌入 OTF 字体，只能嵌入 TTF 字体**
+
+### **更改程序和终端默认中文字体**
+
+安装的 Noto CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字的字形与规范中国大陆简体中文不符
+
+这是因为每个程序中可以设置不同的默认字体，而这些字体的属性由 fontconfig 控制，其使用顺序是据地区代码以 A-Z 字母表顺序成默认排序，由于 `ja` 在 `zh` 之前，故优先显示日文字形
+
+解决方法是手动修改字体设置文件：
+
+```bash
+sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
+```
+
+并加入以下内容：
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+    <alias>
+        <family>sans-serif</family>
+        <prefer>
+            <family>Noto Sans CJK SC</family>
+            <family>Noto Sans CJK TC</family>
+            <family>Noto Sans CJK HK</family>
+            <family>Noto Sans CJK JP</family>
+            <family>Noto Sans CJK KR</family>
+        </prefer>
+    </alias>
+    <alias>
+        <family>serif</family>
+        <prefer>
+            <family>Noto Serif CJK SC</family>
+            <family>Noto Serif CJK TC</family>
+            <family>Noto Serif CJK HK</family>
+            <family>Noto Serif CJK JP</family>
+            <family>Noto Serif CJK KR</family>
+        </prefer>
+    </alias>
+    <alias>
+        <family>monospace</family>
+        <prefer>
+            <family>Noto Sans Mono CJK SC</family>
+            <family>Noto Sans Mono CJK TC</family>
+            <family>Noto Sans Mono CJK HK</family>
+            <family>Noto Sans Mono CJK JP</family>
+            <family>Noto Sans Mono CJK KR</family>
+        </prefer>
+    </alias>
+</fontconfig>
+```
+
+保存退出即可
+
+**另一种处理方法是只安装简体中文字体，比如 Noto Sans SC（注意没有 CJK）**
+
+### **安装中文输入法**
+
+推荐使用 Fcitx5:
+
+```bash
+sudo pacman -S fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+```
+
+或者（fcitx-im 组包括了 fcitx5、fcitx5-gtk、fcitx5-qt、fcitx5-configtool）：
+
+```bash
+sudo pacman -S fcitx5-im fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+```
+
+如果无法启动输入法，在系统设置 >> 区域设置 >> 输入法 >> 添加输入法中手动添加“拼音”
+
+对应的 git 版本为：（需要使用 Arch Linux CN 源）
+
+```bash
+sudo pacman -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+```
+
+可以添加词库：
+
+```bash
+sudo pacman -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
+```
+
+一个稳定的替代版本是 Fcitx 4.2.9.8-1：
+
+```bash
+sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
+```
+
+可以配合 googlepinyin 或 sunpinyin 使用，即执行：
+
+```bash
+sudo pacman -S fcitx-googlepinyin
+```
+
+或者：
+
+```bash
+sudo pacman -S fcitx-sunpinyin
+```
+
+也可以用 `sudo pacman -S sunpinyin` 安装 Sunpinyin
+
+**安装输入法之后需要重启电脑才能生效**
+
+### **关闭启动和关机时的系统信息**
+
+参考以下网址：
+
+[Silent Boot -- ArchWiki](https://wiki.archlinux.org/title/Silent_boot)
+
+[Improving Performance -- ArchWiki](https://wiki.archlinux.org/title/Improving_performance)
+
+主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
+
+#### **关闭启动时 fsck 的消息**
+
+第一种方法是将 fsck 的消息重定向到别的 TTY 窗口
+
+编辑 Kernel parameters：
+
+```bash
+sudo vim /etc/default/grub
+```
+
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `console=tty3`
+
+第二种方法是让 systemd 来检查文件系统：
+
+编辑 `/etc/mkinitcpio.conf`，在 `HOOKS` 一行中将 `udev` 改为 `systemd`
+
+再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
+
+```bash
+sudo systemctl edit --full systemd-fsck-root.service
+sudo systemctl edit --full systemd-fsck@.service
+```
+
+分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
+
+```
+StandardOutput=null
+StandardError=journal+console
+```
+
+最后执行：
+
+```bash
+sudo mkinitcpio -P
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+再重启即可
+
+#### **关闭重启时 watchdog 的消息**
+
+编辑 Kernel parameters：
+
+```bash
+sudo vim /etc/default/grub
+```
+
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`
+
+再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
+
+```bash
+blacklist iTCO_wdt
+blacklist iTCO_vendor_support
+```
+
+这样可以屏蔽掉不需要的驱动，最后执行：
+
+```bash
+sudo mkinitcpio -P
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+再重启即可
+
+### **Git 配置**
+
+配置用户名、邮箱：
+
+```bash
+git config --global user.name "(user_name)"
+git config --global user.email "(user_email)"
+```
+
+Git 使用教程参考以下网址：
+
+[Git Documentation](https://git-scm.com/docs)
+
+### **系统分区改变导致时进入 GRUB Rescue 模式**
+
+此时会在开机时显示如下内容而无法进入选择系统的界面：
+
+```
+error: no such partition.
+Entering rescue mode...
+grub rescue>
+```
+
+此时执行 `ls`，显示如下：
+
+```
+((hd_number)) ((hd_number),(gpt_number))
+```
+
+其中硬盘编号 `(hd_number)` 从小到大排列（最小值为 0），分区编号 `(gpt_number)` 从大到小排列（最小值为 1）
+
+找到安装 Arch Linux 的分区`((hd_number),(gpt_number))`，此时执行 `ls((hd_number),(gpt_number))`应该能看到 Arch Linux 根目录下的所有文件和文件夹
+
+手动修改启动分区所在的位置：
+
+```bash
+set prefix=((hd_number),(gpt_number))/boot/grub
+```
+
+执行：
+
+```bash
+insmod normal
+normal
+```
+
+即可进入 GRUB 界面，从这里登录 Arch Linux 系统，登录后执行：
+
+```
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+以修复启动项
+
+### **调整文件夹名称为英文**
+
+修改 `~/.config/user-dirs.dirs`，改为：
+
+```bash
+XDG_DESKTOP_DIR="$HOME/Desktop"
+XDG_DOCUMENTS_DIR="$HOME/Documents"
+XDG_DOWNLOAD_DIR="$HOME/Downloads"
+XDG_MUSIC_DIR="$HOME/Music"
+XDG_PICTURES_DIR="$HOME/Pictures"
+XDG_PUBLICSHARE_DIR="$HOME/Public"
+XDG_TEMPLATES_DIR="$HOME/Templates"
+XDG_VIDEOS_DIR="$HOME/Videos"
+```
+
+并在 Dolphin 中按照上面的说明更改文件名
+
+### **Dolphin 在更新后删除文件/文件夹报错**
+
+如果出现以下错误：
+
+```
+无法创建输入输出后端。klauncher 回应：装入“/usr/lib/qt/plugins/kf5/kio/trash.so”时出错
+```
+
+说明 Qt 还在内存中保留着旧版 Dolphin，此时可以重启/重新登录，或执行：
+
+```bash
+dbus-launch dolphin
+```
+
+### **SONY WH-1000XM3 耳机的蓝牙连接**
+
+长按耳机电源键约 7 秒即可进入配对模式，可以在蓝牙中配对
+
+### **Logitech 鼠标的蓝牙连接**
+
+同一台电脑的 Windows 系统和 Linux 系统在鼠标上会被识别为两个设备
+
+如果 Windows 系统被识别为设备 1，需要多设备切换的按钮（一般是一个在滚轮后或鼠标底部的圆形按钮）切换至设备 2
+
+长按圆形按钮直到灯 2 快速闪烁进入配对模式，可以在蓝牙中配对
+
+#### **如果鼠标配对后屏幕光标无法移动**
+
+一般可以直接删除设备重新配对，如果失败则按照下面步骤操作：
+
+首先要安装 `bluez-utils`：
+
+```bash
+sudo pacman -S bluez-utils
+```
+
+在终端中输入：
+
+```bash
+bluetoothctl
+```
+
+然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse (M557, M590, anywhere mouse 2, etc)”一段的指引进行操作
+
+### **解决用 root 登录没有声音的问题**
+
+在 `/root/.config/autostart/` 下创建一个 `pulseaudio.desktop` 文件：
+
+```bash
+sudo vim /root/.config/autostart/pulseaudio.desktop
+```
+
+写入：
+
+```bash
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=pulseaudio
+Exec=pulseaudio --start --log-target=syslog
+StartupNotify=false
+Terminal=true
+Hidden=false
+```
+
+保存退出即可
+
+### **切换图形化界面和命令行界面**
+
+登录时默认进入的是图形化界面，有时候开机后黑屏是图形化界面显示不出来所致，此时可以按快捷键 `Ctrl+Alt+Fn+(F2~F6)`进入`tty2 ~ tty6` 的任何一个命令行 TTY 界面
+
+注意此时需要手动输入用户名和密码
+
+在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回图形化界面
+
+### **调整 CPU 频率（可选）**
+
+```bash
+sudo vim /etc/tlp.conf
+```
+
+若更改 CPU 频率，修改以下位置：
+
+```
+CPU_MIN_PERF_ON_AC=0
+CPU_MAX_PERF_ON_AC=100
+CPU_MIN_PERF_ON_BAT=0
+CPU_MAX_PERF_ON_BAT=30
+```
+
+若更改 CPU 睿频设置，修改以下位置：
+
+```
+CPU_BOOST_ON_AC=1
+CPU_BOOST_ON_BAT=0
+```
+
+**不需要高性能的时候可以关闭睿频，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
+
+保存、关闭，在终端中输入：
+
+```bash
+sudo tlp start
+```
+
+#### **显示 Intel CPU 频率（可选）**
+
+安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
+
+右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
+
+### **禁用 baloo（可选）**
+
+`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
+
+```bash
+balooctl disable
+```
+
+### **为 pacman 启用多线程下载（可选）**
+
+执行下面的命令下载 [axel](https://github.com/axel-download-accelerator/axel)
+
+```bash
+ sudo pacman -S axel
+```
+
+编辑 `/etc/pacman.conf` 文件（在第 21 行）:
+
+```
+XferCommand = /usr/bin/axel -n 10 -o %o %u
+```
+
+编辑 `/etc/makepkg.conf` 文件（在第 12-17 行）:
+
+```
+DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
+'ftp::/usr/bin/axel -n 10 -o %o %u'
+'http::/usr/bin/axel -n 10 -o %o %u'
+'https::/usr/bin/axel -n 10 -o %o %u'
+'rsync::/usr/bin/rsync --no-motd -z %u %o'
+'scp::/usr/bin/scp -C %u %o')
+```
+
+**注意某些软件包如 `rider` 和 `qqmusic-bin` 等下载源不支持 axel，启用多线程下载后可能会导致构建失败**
+
+### **zram 文件设置（可选）**
+
+对 zram 的介绍可以参考[官方文档](https://www.kernel.org/doc/html/latest/admin-guide/blockdev/zram.html)，设置步骤可以参考 [ArchWiki](https://wiki.archlinux.org/title/Improving_performance#zram_or_zswap)
+
+先下载 `zram-generator` 软件包：
+
+```bash
+sudo pacman -S zram-generator
+```
+
+编辑 `/etc/systemd/zram-generator.conf`，写入：
+
+```
+[zram0]
+host-memory-limit = none
+zram-size = min(ram / 2, 4096)
+compression-algorithm = lzo-rle
+fs-type = ext4
+mount-point = /var/tmp
+```
+
+在终端输入
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start /dev/zram0
+```
+
+以启动 zram
+
+在终端中输入 `zramctl`，若能够输出 `NAME ALGORITHM DISKSIZE DATA COMPR TOTAL STREAMS MOUNTPOINT` 等信息，说明启动成功
+
+### **重新开启 Secure Boot（未测试）**
+
+如果想在开启 Secure Boot 的情况下登录进 Arch Linux，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
+
+具体教程参考以下网址：
+
+[Secure Boot -- ArchWiki](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
+
