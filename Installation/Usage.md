@@ -502,15 +502,33 @@ ssh -T git@github.com
 
 **注意 Linux 上和 Windows 上用的是不同的密钥，Windows 上操作步骤相同，但需要在 Git Bash（而不是 Windows Powershell）上执行**
 
-### **V2Ray 安装**
+### **V2Ray 安装与配置**
 
 可以直接使用包管理器安装
 
 ```bash
-sudo pacman -S v2ray qv2ray-dev-git
+sudo pacman -S v2ray v2raya-git
 ```
 
-**这里的 qv2ray-dev-git 一定要选择 Arch Linux CN 软件源的版本**
+注意 `v2ray` 升级到 5.x 版本，需要下载 `v2raya-git`（而不是 `v2raya`）才能支持，旧的 Qv2ray 已经无法使用，以后可能会迁移到 [sing-box](https://sing-box.sagernet.org/)
+
+之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
+
+右上角“设置”按照 [快速上手](https://v2raya.org/docs/prologue/quick-start/) 的“配置代理”一节修改
+
+点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
+
+开机自启动 v2rayA 需要使用 `systemctl`：
+
+```bash
+sudo systemctl enable v2raya
+```
+
+任务栏图标可以在 `https://github.com/YidaozhanYa/v2rayATray` 下载，需要先安装 `python-request` 包
+
+之后下载 [PKGBUILD](https://github.com/YidaozhanYa/v2rayATray/blob/main/PKGBUILD)，在其所在的文件夹下执行 `makepkg -si` 即可安装
+
+**浏览器和KDE的网络连接设置都不需要更改**
 
 ### **安装 TeX Live**
 
@@ -1019,14 +1037,14 @@ git config --global --add safe.directory "*"
 
 #### **Markdown All in One 插件设置**
 
-Visual Studio Code 自带 Markdown 预览功能，但是不支持数学命令的补全（只支持预览），也不支持复选框：
+Visual Studio Code 自带 Markdown 预览功能，但是不支持快捷键（如粗体、斜体）、数学命令的补全（只支持预览），也不支持复选框：
 
 ```markdown
 - [x] item 1
 - [ ] item 2
 ```
 
-[Markdown All in One](https://github.com/yzhang-gh/vscode-markdown) 对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），且部分数学公式环境无法渲染（可以在设置中将该插件的公式支持关闭），即在 `setting.json` 中设置为：
+[Markdown All in One](https://github.com/yzhang-gh/vscode-markdown) 提供了粗体、斜体等的快捷键，对数学公式补全支持较好，也支持复选框，缺点是不支持自动补全配对括号（在设置中将所有语言的括号自动配对打开即可），即在 `setting.json` 中设置为：
 
 ```json
 "editor.autoClosingBrackets": "always",
