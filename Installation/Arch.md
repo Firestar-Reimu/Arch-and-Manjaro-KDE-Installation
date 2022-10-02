@@ -743,7 +743,7 @@ sudo pacman -S fcitx-sunpinyin
 sudo vim /etc/default/grub
 ```
 
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `console=tty3`
+在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `console=tty(x)`，其中 `x` 可以为 2 ~ 6 中的任何一个数
 
 第二种方法是让 systemd 来检查文件系统：
 
@@ -915,7 +915,13 @@ bluetoothctl
 
 ### **解决用 root 登录没有声音的问题**
 
-在 `/root/.config/autostart/` 下创建一个 `pulseaudio.desktop` 文件：
+首先创建一个新文件夹：
+
+```bash
+sudo mkdir /root/.config/autostart/
+```
+
+在该文件夹下创建一个 `pulseaudio.desktop` 文件：
 
 ```bash
 sudo vim /root/.config/autostart/pulseaudio.desktop
@@ -934,7 +940,7 @@ Terminal=true
 Hidden=false
 ```
 
-保存退出即可
+保存，重启即可
 
 ### **切换图形化界面和命令行界面**
 
@@ -945,6 +951,8 @@ Hidden=false
 在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回图形化界面
 
 ### **调整 CPU 频率（可选）**
+
+这需要 `tlp` 软件包：
 
 ```bash
 sudo vim /etc/tlp.conf
@@ -966,13 +974,13 @@ CPU_BOOST_ON_AC=1
 CPU_BOOST_ON_BAT=0
 ```
 
-**不需要高性能的时候可以关闭睿频，这样 CPU 的频率就会限制在 1.9 GHz 以下，大幅增加续航、减少发热**
-
 保存、关闭，在终端中输入：
 
 ```bash
 sudo tlp start
 ```
+
+**不需要高性能的时候可以关闭睿频，这样可以大幅增加续航、减少发热**
 
 #### **显示 Intel CPU 频率（可选）**
 

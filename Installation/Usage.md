@@ -514,7 +514,7 @@ sudo pacman -S v2ray v2raya-git
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
-右上角“设置”按照 [快速上手](https://v2raya.org/docs/prologue/quick-start/) 的“配置代理”一节修改
+右上角“设置”按照“[快速上手](https://v2raya.org/docs/prologue/quick-start/)”的“配置代理”一节修改
 
 点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
@@ -527,6 +527,8 @@ sudo systemctl enable v2raya
 任务栏图标可以在 `https://github.com/YidaozhanYa/v2rayATray` 下载，需要先安装 `python-request` 包
 
 之后下载 [PKGBUILD](https://github.com/YidaozhanYa/v2rayATray/blob/main/PKGBUILD)，在其所在的文件夹下执行 `makepkg -si` 即可安装
+
+v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE Plasma 的“系统设置 >> 开机与关机 >> 自动启动”中设置
 
 **浏览器和KDE的网络连接设置都不需要更改**
 
