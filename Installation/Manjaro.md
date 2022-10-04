@@ -125,6 +125,22 @@ sudo pacman -Syyu
 
 系统设置 >> 语言包 >> 右上角点击“已安装的软件包”安装语言包
 
+### **Manjaro：中文输入法**
+
+Manjaro 提供了 `manjaro-asian-input-support-fcitx` 和 `manjaro-asian-input-support-fcitx5`，下载 Fcitx/Fcitx5 不需要手动写环境变量
+
+下载 Fcitx5：
+
+```bash
+sudo pacman -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+```
+
+下载 Fcitx4：
+
+```bash
+sudo pacman -S fcitx fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
+```
+
 ### **Manjaro：从 PulseAudio 转移到 Pipewire**
 
 有时候从 PulseAudio 转移到 Pipewire 可以提高蓝牙耳机等的音质，方法如下：

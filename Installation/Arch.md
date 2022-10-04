@@ -72,17 +72,322 @@ sudo cp (iso_path)/(iso_name) /dev/sda
 
 #### **在 UEFI 中设置从 USB 启动**
 
-启动时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `Fn+F12` 选择启动位置为 USB HDD
+启动时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `Fn+F12` 选择第一个启动位置为 USB HDD
 
-## **安装过程**
+## **安装系统**
+
+### **连接到互联网**
+
+确保系统已经启用了网络接口，用 `ip-link` 检查：
+
+```bashbash
+ip link
+```
+
+对于无线局域网（Wi-Fi）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用
+
+要连接到网络：
+- 有线以太网 —— 连接网线
+- WiFi —— 使用 `iwctl` 验证无线网络
+
+```bash
+iwctl device list
+```
+
+获得 `device_name`，一般是 `wlan0`
+
+```bash
+iwctl station (device_name) scan
+iwctl station (device_name) get-networks
+iwctl station (device_name) connect (SSID)
+```
+
+### **更新系统时间**
+
+使用 timedatectl(1) 确保系统时间是准确的：
+
+```bash
+timedatectl set-ntp true
+```
+
+### **建立硬盘分区**
+
+可以使用 `lsblk` 查看，使用 [parted](https://www.gnu.org/software/parted/manual/parted.html) 修改分区，`parted`可以使用交互模式
+
+`parted` 常用命令：
+
+- `help`：帮助
+- `print`：显示分区状态
+- `unit`：更改单位，推荐使用 `s`（扇区）
+- `set`：设置 `flag`，例如在分区 1 上创建 EFI 分区需要设置 `flag` 为 `esp`：`set 1 esp on`
+- `mkpart`：创建分区，分区类型选择 `primary`，文件系统类型选择 `fat32`（对 EFI 分区），`ext4`（对 Linux 分区），`ntfs`（对 Windows 分区）
+- `resizepart`：改变分区大小
+- `rm`：删除分区
+- `name`：更改分区名字，比如将分区 2 改名为 `Arch`，需要设置：`name 2 'Arch'`
+- `quit`：退出
+
+**Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区，建议多于 256MiB，之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
+
+### **格式化分区**
+
+例如，要在根分区 `/dev/(root_partition)` 上创建一个 Ext4 文件系统，请运行：
+
+```bash
+mkfs.ext4 /dev/(root_partition)
+```
+
+### **挂载分区**
+
+将根磁盘卷挂载到 `/mnt`
+
+```bash
+mount /dev/(root_partition) /mnt
+```
+
+对于 UEFI 系统，挂载 EFI 系统分区：
+
+```bash
+mount /dev/(efi_system_partition) /mnt/boot
+```
+
+### **选择镜像源**
+
+**一般建议选择清华大学镜像和上海交大镜像，这两个镜像稳定且积极维护，清华大学镜像速度更快，上海交大镜像更新频率更高**
+
+编辑 `/etc/pacman.d/mirrorlist`，在文件的最顶端添加：
+
+```
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+```
+
+改为清华大学镜像
+
+或添加：
+
+```
+Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
+```
+
+改为上海交大镜像
+
+**这个文件接下来还会被 `pacstrap` 复制到新系统里，所以请确保设置正确**
+
+### **安装必需的软件包**
+
+使用 `pacstrap` 脚本，安装 base 软件包和 Linux 内核以及常规硬件的固件：
+
+```bash
+pacstrap /mnt base linux linux-firmware sof-firmware vim base-devel
+```
+
+### **生成 fstab 文件**
+
+用以下命令生成 fstab 文件 (用 `-U` 或 `-L` 选项设置 UUID 或卷标)：
+
+```bash
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+
+### **进入新的 Archlinux 系统**
+
+更改根目录到新安装的系统：
+
+```bash
+arch-chroot /mnt
+```
+
+更新软件包缓存：
+
+```bash
+sudo pacman -Syyu
+```
+
+### **时区**
+
+设置时区：
+
+```bash
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+hwclock --systohc
+```
+
+### **本地化**
+
+编辑 `/etc/locale.gen`，然后取消掉 `en_US.UTF-8 UTF-8` 和 `zh_CN.UTF-8 UTF-8` 前的注释
+
+接着生成 locale 信息：
+
+```bash
+locale-gen
+```
+
+然后创建 `locale.conf` 文件，并编辑设定 LANG 变量：
+
+```
+LANG=en_US.UTF-8
+```
+
+**不推荐在 `locale.conf` 中设置任何中文 locale，会导致 TTY 乱码**
+
+### **网络配置**
+
+创建 `/etc/hostname` 文件，写入自定义的主机名：
+
+```
+(my_hostname)
+```
+
+编辑本地主机名解析 `/etc/hosts`，写入：
+
+```
+127.0.0.1        localhost
+::1              localhost
+127.0.1.1        (my_hostname).localdomain        (my_hostname)
+```
+
+安装网络管理软件 NetworkManager：
+
+```bash
+pacman -S networkmanager
+```
+
+启用 NetworkManager：
+
+```bash
+systemctl enable NetworkManager
+```
+
+**一定要安装网络管理软件，否则重启后将无法联网**
+
+### **创建 initramfs**
+
+执行以下命令：
+
+```bash
+mkinitcpio -P
+```
+
+### **Root 密码**
+
+设置 Root 密码：
+
+```bash
+passwd
+```
+
+### **安装引导程序**
+
+**这是安装的最后一步也是至关重要的一步，请按指引正确安装好引导加载程序后再重新启动，否则重启后将无法正常进入系统**
+
+```bash
+pacman -S grub efibootmgr os-prober
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+其中 `Arch` 可以替换为其它名字
+
+想要让 grub-mkconfig 探测其他已经安装的系统并自动把他们添加到启动菜单中，挂载包含其它系统引导程序的磁盘分区，并编辑 `/etc/default/grub` 并取消下面这一行的注释
+
+```bash
+GRUB_DISABLE_OS_PROBER=false
+```
+
+使用 grub-mkconfig 工具重新生成 `/boot/grub/grub.cfg`：
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+### **重启**
+
+输入 `exit` 退出 chroot 环境
+
+输入 `umount -R /mnt` 手动卸载被挂载的分区
+
+最后，执行 `reboot` 重启系统，`systemd` 将自动卸载仍然挂载的任何分区
+
+不要忘记移除安装介质，然后使用 Root 帐户登录到新系统
 
 ## **初始配置**
 
-### **启动顺序设置**
+### **连接网络**
 
-在 UEFI 中调整启动顺序，保证 Linux 处于启动顺序的第一项，否则无法进入 Linux 系统
+命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
 
-Startup >> Boot >> Edit Boot Order 中可以调整和删除启动顺序
+### **设置新用户**
+
+```bash
+useradd -m -G wheel (user_name)
+```
+
+为用户创建密码
+
+```bash
+passwd (user_name)
+```
+
+**一定要设置在 wheel 用户组里面**
+
+### **用户授权**
+
+```bash
+EDITOR=vim visudo
+```
+
+取消注释 `%wheel ALL=(ALL) ALL`
+
+如果不想每次执行 root 都输入密码，可以取消注释 `%wheel ALL=(ALL) NOPASSWD: ALL`
+
+**必须保留最前面的 `%`，这不是注释的一部分**
+
+### **启用蓝牙**
+
+```bash
+pacman -S bluez
+systemctl enable bluetooth
+```
+
+### **KDE Plasma 桌面安装**
+
+安装 Xorg：
+
+```bash
+pacman -S xorg
+```
+
+安装并启用 SDDM：
+
+```bash
+pacman -S sddm
+systemctl enable sddm
+```
+
+SDDM 字体选择 `noto-fonts`
+
+安装 Plasma 桌面：
+
+```bash
+pacman -S plasma
+```
+
+可以排除掉一些软件包：
+
+```bash
+^4 ^5 ^20 ^23 ^32
+```
+
+安装必要的软件
+
+```bash
+pacman -S firefox konsole dolphin ark kate gwenview spectacle yakuake okular poppler-data git noto-fonts-cjk
+```
+
+不下载 `poppler-data` 会导致部分 PDF 文件的中文字体无法在 Okular 中显示
+
+**现在重启电脑后即可进入图形界面**
+
+## **在图形界面下设置**
 
 ### **电源与开机设置**
 
@@ -104,45 +409,11 @@ Startup >> Boot >> Edit Boot Order 中可以调整和删除启动顺序
 
 设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
 
-### **选择镜像源**
-
-**一般建议选择清华大学镜像和上海交大镜像，这两个镜像稳定且积极维护，清华大学镜像速度更快，上海交大镜像更新频率更高**
-
-编辑 /etc/pacman.d/mirrorlist，在文件的最顶端添加：
-
-```
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
-```
-
-改为清华大学镜像
-
-或添加：
-
-```
-Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
-```
-
-改为上海交大镜像
-
-最后更新软件包缓存：
-
-```bash
-sudo pacman -Syyu
-```
-
 ### **包管理器**
 
 Arch 预装的包管理器是 pacman，其使用教程参考以下网址：
 
 [ArchWiki -- Pacman](https://wiki.archlinux.org/title/Pacman)
-
-### **AUR 准备**
-
-AUR 上的某些 PKGBUILD 会默认你已经安装 `base-devel` 组的所有软件包而不将它们写入构建依赖。为了避免在构建过程中出现一些奇怪的错误，建议先安装 `base-devel`：
-
-```bash
-sudo pacman -S base-devel
-```
 
 ### **AUR 软件包管理器**
 
@@ -153,7 +424,6 @@ sudo pacman -S base-devel
 yay 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器，执行以下命令安装 `yay`：
 
 ```bash
-pacman -S git base-devel
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
 makepkg -si
@@ -165,7 +435,18 @@ makepkg -si
 
 #### **pamac**
 
-pamac 支持命令行和图形界面，“添加/删除软件”就是 pamac 的 GUI 版本，其使用教程参考以下网址：
+pamac 支持命令行和图形界面，“添加/删除软件”就是 pamac 的 GUI 版本，执行以下命令安装 `pamac`：
+
+```bash
+git clone https://aur.archlinux.org/libpamac-aur.git
+cd libpamac-aur
+makepkg -si
+git clone https://aur.archlinux.org/pamac-aur.git
+cd pamac-aur
+makepkg -si
+```
+
+其使用教程参考以下网址：
 
 [Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
 
@@ -616,10 +897,6 @@ sudo pacman -S noto-fonts noto-fonts-cjk
 
 [Noto CJK -- GitHub](https://github.com/googlefonts/noto-cjk)
 
-**注意 Microsoft Office 不支持嵌入 OTF 字体，只能嵌入 TTF 字体**
-
-### **更改程序和终端默认中文字体**
-
 安装的 Noto CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字的字形与规范中国大陆简体中文不符
 
 这是因为每个程序中可以设置不同的默认字体，而这些字体的属性由 fontconfig 控制，其使用顺序是据地区代码以 A-Z 字母表顺序成默认排序，由于 `ja` 在 `zh` 之前，故优先显示日文字形
@@ -671,23 +948,27 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 
 保存退出即可
 
-**另一种处理方法是只安装简体中文字体，比如 Noto Sans SC（注意没有 CJK）**
+**注意 Microsoft Office 不支持嵌入 OTF 字体，只能嵌入 TTF 字体**
 
 ### **安装中文输入法**
 
 推荐使用 Fcitx5:
 
 ```bash
-sudo pacman -S fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+sudo pacman -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
 ```
 
-或者（fcitx-im 组包括了 fcitx5、fcitx5-gtk、fcitx5-qt、fcitx5-configtool）：
+编辑 `/etc/environment` 并添加以下几行：
 
-```bash
-sudo pacman -S fcitx5-im fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+```
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
 ```
 
-如果无法启动输入法，在系统设置 >> 区域设置 >> 输入法 >> 添加输入法中手动添加“拼音”
+然后重新登录，此时输入法会自动启动
+
+如果无法启动输入法，在“系统设置 >> 区域设置 >> 输入法 >> 添加输入法”中手动添加“拼音”
 
 对应的 git 版本为：（需要使用 Arch Linux CN 源）
 
@@ -869,20 +1150,6 @@ XDG_VIDEOS_DIR="$HOME/Videos"
 
 并在 Dolphin 中按照上面的说明更改文件名
 
-### **Dolphin 在更新后删除文件/文件夹报错**
-
-如果出现以下错误：
-
-```
-无法创建输入输出后端。klauncher 回应：装入“/usr/lib/qt/plugins/kf5/kio/trash.so”时出错
-```
-
-说明 Qt 还在内存中保留着旧版 Dolphin，此时可以重启/重新登录，或执行：
-
-```bash
-dbus-launch dolphin
-```
-
 ### **SONY WH-1000XM3 耳机的蓝牙连接**
 
 长按耳机电源键约 7 秒即可进入配对模式，可以在蓝牙中配对
@@ -913,7 +1180,7 @@ bluetoothctl
 
 然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse (M557, M590, anywhere mouse 2, etc)”一段的指引进行操作
 
-### **解决用 root 登录没有声音的问题**
+### **解决用 Root 登录没有声音的问题**
 
 首先创建一个新文件夹：
 
@@ -988,14 +1255,6 @@ sudo tlp start
 
 右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
 
-### **禁用 baloo（可选）**
-
-`baloo` 是 KDE 的文件索引服务，能加快文件搜索的速度，但可能会时不时产生大量硬盘读写而导致图形界面卡顿。可以用下面的命令禁用之：
-
-```bash
-balooctl disable
-```
-
 ### **为 pacman 启用多线程下载（可选）**
 
 执行下面的命令下载 [axel](https://github.com/axel-download-accelerator/axel)
@@ -1062,4 +1321,3 @@ sudo systemctl start /dev/zram0
 具体教程参考以下网址：
 
 [Secure Boot -- ArchWiki](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
-

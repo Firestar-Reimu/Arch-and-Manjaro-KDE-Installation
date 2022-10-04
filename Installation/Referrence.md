@@ -1,5 +1,11 @@
 # **参考资料**
 
+[ArchWiki -- Installation Guide](https://wiki.archlinux.org/title/Installation_guide)
+
+[2021 Archlinux 双系统安装教程](https://zhuanlan.zhihu.com/p/138951848)
+
+[Archlinux 简明指南](https://arch.icekylin.online/)
+
 [BitLocker 恢复密钥](https://account.microsoft.com/devices/recoverykey)
 
 [Windows 10 如何关闭快速启动](https://jingyan.baidu.com/article/ca00d56c7a40e6e99febcf4f.html)
