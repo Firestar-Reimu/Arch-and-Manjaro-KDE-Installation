@@ -10,7 +10,7 @@
 neofetch
 ```
 
-或者使用功能更强大的 `inxi`：（需要下载 `neofetch` 软件包）
+或者使用功能更强大的 `inxi`：（需要在 AUR 中下载 `inxi` 软件包）
 
 ```bash
 sudo inxi -b
@@ -50,7 +50,7 @@ alsamixer
 
 #### **内存大小**
 
-在终端中输入：
+在终端中输入：（默认单位是 KiB）
 
 ```bash
 free
@@ -248,6 +248,23 @@ Latte-Dock 的推荐设置：
 
 **不想使用 Mac 风格主题但又想使用浅色主题时，可以使用 KDE 官方主题 Breeze Light，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”，背景透明度选择 20%**
 
+### **光标主题设置**
+
+已安装的光标主题可以通过以下命令查看：
+
+```bash
+find /usr/share/icons ~/.local/share/icons ~/.icons -type d -name "cursors"
+```
+
+备用的光标主题可以在 `/usr/share/icons/default/index.theme` 设置：
+
+```
+[Icon Theme]
+Inherits=(cursor_theme_name)
+```
+
+默认的备选是 `Adwaita`，这可能导致光标主题的不统一，可以改为 `breeze_cursors`
+
 ### **配置桌面小部件（可选）**
 
 右键点击桌面 >> 添加部件 >> 获取新部件 >> 下载新 Plasma 部件
@@ -371,11 +388,11 @@ https://github.com/vinceliuice/grub2-themes
 sudo ./install.sh -b -t tela -i white -s 2k
 ```
 
-删除多余启动条目，需要修改`/boot/grub/grub.cfg`
+删除多余启动条目，需要修改 `/boot/grub/grub.cfg`
 
 删除整一段 `submenu 'Advanced options for Arch Linux'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
 
-恢复默认的`/boot/grub/grub.cfg`需要输入：
+恢复默认的 `/boot/grub/grub.cfg` 需要输入：
 
 ```bash
 echo GRUB_DISABLE_OS_PROBER=false | sudo tee -a /etc/default/grub
@@ -510,21 +527,30 @@ ssh -T git@github.com
 sudo pacman -S v2ray v2raya-git
 ```
 
+启动 v2rayA 需要使用 `systemctl`：
+
+```bash
+sudo systemctl enable --now v2raya
+```
+
+之后 v2rayA 可以开机自启动
+
 注意 `v2ray` 升级到 5.x 版本，需要下载 `v2raya-git`（而不是 `v2raya`）才能支持，旧的 Qv2ray 已经无法使用，以后可能会迁移到 [sing-box](https://sing-box.sagernet.org/)
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
-右上角“设置”按照“[快速上手](https://v2raya.org/docs/prologue/quick-start/)”的“配置代理”一节修改
+右上角“设置”中，将“透明代理/系统代理”改为“启用：大陆白名单模式”，保存并应用
 
-点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
+选择一个节点，点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
-开机自启动 v2rayA 需要使用 `systemctl`：
+此时系统测试网络连接的功能被屏蔽，可以通过在 `/etc/NetworkManager/conf.d/20-connectivity.conf` 中写入以下内容关闭此功能：
 
-```bash
-sudo systemctl enable v2raya
+```
+[connectivity] 
+enabled=false
 ```
 
-任务栏图标可以在 `https://github.com/YidaozhanYa/v2rayATray` 下载，需要先安装 `python-request` 包
+任务栏图标可以在 [v2rayATray](https://github.com/YidaozhanYa/v2rayATray) 下载
 
 之后下载 [PKGBUILD](https://github.com/YidaozhanYa/v2rayATray/blob/main/PKGBUILD)，在其所在的文件夹下执行 `makepkg -si` 即可安装
 

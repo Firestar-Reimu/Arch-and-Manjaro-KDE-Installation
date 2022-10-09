@@ -2,7 +2,7 @@
 
 ```
 OS: Arch Linux x86_64
-Kernel: x86_64 Linux 5.19.7-arch1-1
+Kernel: x86_64 Linux 6.0.0-arch1-1
 Resolution: 2560x1600
 DE: KDE 5.97.0 / Plasma 5.25.5
 WM: KWin
@@ -11,6 +11,48 @@ GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
 ```
 
 ## **Windows 的准备工作**
+
+### **下载 Arch Linux 系统 ISO 镜像**
+
+#### **Arch Linux 官网下载**
+
+官网的下载地址为：
+
+[Arch Linux -- Releases](https://archlinux.org/releng/releases/)
+
+但是只提供 Torrent 和 Magnet 链接
+
+#### **镜像网站下载**
+
+可以在清华大学镜像：
+
+https://mirrors.tuna.tsinghua.edu.cn/archlinux/iso/latest/
+
+或者上海交大镜像：
+
+https://mirror.sjtu.edu.cn/archlinux/iso/latest/
+
+下载到最新版的系统 ISO 镜像
+
+#### **本地制作 ISO 镜像**
+
+还可以用下面的方法在一台 Arch Linux 设备上制作自定义的 ISO 镜像：
+
+[ArchWiki -- Archiso](https://wiki.archlinux.org/title/Archiso)
+
+制作之前需要下载软件 `archiso`，然后复制配置文件：
+
+```bash
+cp -r /usr/share/archiso/configs/baseline/ (profile_directory)
+```
+
+并执行：
+
+```bash
+sudo mkarchiso (profile_directory)
+```
+
+在当前目录的 `out` 文件夹下可以找到 ISO 镜像
 
 ### **为 Linux 系统分区**
 
@@ -104,7 +146,7 @@ iwctl station (device_name) connect (SSID)
 
 ### **更新系统时间**
 
-使用 timedatectl(1) 确保系统时间是准确的：
+使用 `timedatectl` 确保系统时间是准确的：
 
 ```bash
 timedatectl set-ntp true
@@ -112,7 +154,7 @@ timedatectl set-ntp true
 
 ### **建立硬盘分区**
 
-可以使用 `lsblk` 查看，使用 [parted](https://www.gnu.org/software/parted/manual/parted.html) 修改分区，`parted`可以使用交互模式
+可以使用 `lsblk` 查看，使用 [parted](https://www.gnu.org/software/parted/manual/parted.html) 修改分区，`parted` 可以使用交互模式
 
 `parted` 常用命令：
 
@@ -120,7 +162,7 @@ timedatectl set-ntp true
 - `print`：显示分区状态
 - `unit`：更改单位，推荐使用 `s`（扇区）
 - `set`：设置 `flag`，例如在分区 1 上创建 EFI 分区需要设置 `flag` 为 `esp`：`set 1 esp on`
-- `mkpart`：创建分区，分区类型选择 `primary`，文件系统类型选择 `fat32`（对 EFI 分区），`ext4`（对 Linux 分区），`ntfs`（对 Windows 分区）
+- `mkpart`：创建分区，分区类型选择 `primary`，文件系统类型选择 `fat32`（对 EFI 分区），`btrfs`（对 Linux 分区），`ntfs`（对 Windows 分区）
 - `resizepart`：改变分区大小
 - `rm`：删除分区
 - `name`：更改分区名字，比如将分区 2 改名为 `Arch`，需要设置：`name 2 'Arch'`
@@ -130,10 +172,10 @@ timedatectl set-ntp true
 
 ### **格式化分区**
 
-例如，要在根分区 `/dev/(root_partition)` 上创建一个 Ext4 文件系统，请运行：
+例如，要在根分区 `/dev/(root_partition)` 上创建一个 BTRFS 文件系统，请运行：
 
 ```bash
-mkfs.ext4 /dev/(root_partition)
+mkfs.btrfs /dev/(root_partition)
 ```
 
 ### **挂载分区**
@@ -287,13 +329,13 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 其中 `Arch` 可以替换为其它名字
 
-想要让 grub-mkconfig 探测其他已经安装的系统并自动把他们添加到启动菜单中，挂载包含其它系统引导程序的磁盘分区，并编辑 `/etc/default/grub` 并取消下面这一行的注释
+想要让 `grub-mkconfig` 探测其他已经安装的系统并自动把他们添加到启动菜单中，挂载包含其它系统引导程序的磁盘分区，并编辑 `/etc/default/grub` 并取消下面这一行的注释
 
 ```bash
 GRUB_DISABLE_OS_PROBER=false
 ```
 
-使用 grub-mkconfig 工具重新生成 `/boot/grub/grub.cfg`：
+使用 `grub-mkconfig` 工具重新生成 `/boot/grub/grub.cfg`：
 
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -329,17 +371,43 @@ passwd (user_name)
 
 **一定要设置在 wheel 用户组里面**
 
-### **用户授权**
+### **visudo 配置**
+
+#### **更改 visudo 默认编辑器为 Vim**
+
+visudo 的默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入：
 
 ```bash
 EDITOR=vim visudo
 ```
 
-取消注释 `%wheel ALL=(ALL) ALL`
+在开头的一个空行键入：
 
-如果不想每次执行 root 都输入密码，可以取消注释 `%wheel ALL=(ALL) NOPASSWD: ALL`
+```
+Defaults editor=/usr/bin/vim
+```
+
+按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
+
+#### **用户组授权**
+
+在 `visudo` 中取消注释 `%wheel ALL=(ALL) ALL`
+
+如果不想每次执行 Root 用户命令都输入密码，可以取消注释 `%wheel ALL=(ALL) NOPASSWD: ALL`
 
 **必须保留最前面的 `%`，这不是注释的一部分**
+
+#### **单个用户免密码**
+
+在最后一行（空行）按 `i` 进入输入模式，加上这一行：
+
+```
+Defaults:(user_name) !authenticate
+```
+
+进入命令模式，保存退出即可
+
+**注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
 
 ### **启用蓝牙**
 
@@ -385,9 +453,13 @@ pacman -S firefox konsole dolphin ark kate gwenview spectacle yakuake okular pop
 
 不下载 `poppler-data` 会导致部分 PDF 文件的中文字体无法在 Okular 中显示
 
-**现在重启电脑后即可进入图形界面**
+KDE Frameworks/KDE Gear/Plasma 的更新时间表可以在这里查看：
+
+[Schedules -- KDE Community Wiki](https://community.kde.org/Schedules)
 
 ## **在图形界面下设置**
+
+**现在重启电脑后即可进入图形界面，用户从 Root 变为新建的普通用户**
 
 ### **电源与开机设置**
 
@@ -561,7 +633,7 @@ Vim 的配置可以参考以下网址：
 
 [Options -- Vim Documentation](http://vimdoc.sourceforge.net/htmldoc/options.html)
 
-启用剪贴板功能，并应用 `Ctrl+C`、`Ctrl+V`、`Ctrl+A`、`Ctrl+Z`等快捷键，需要在 `/etc/vimrc` 中写入：
+启用剪贴板功能，并应用 `Ctrl+C`、`Ctrl+V`、`Ctrl+A`、`Ctrl+Z` 等快捷键，需要在 `/etc/vimrc` 中写入：
 
 ```
 set clipboard=unnamedplus
@@ -589,40 +661,6 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 取消注释所有的 `Key bindings` 选项可以启用更常用的快捷键设定
 
 **用 nano 编辑后保存的步骤是 `Ctrl+W` （Write Out） >> `Enter` >> `Ctrl+Q` （Exit），如果用默认的快捷键设置，则为 `Ctrl+O` （Write Out） >> `Enter` >> `Ctrl+X` （Exit）**
-
-### **更改 visudo 默认编辑器为 Vim**
-
-visudo 的默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入：
-
-```bash
-sudo visudo
-```
-
-在开头的一个空行键入：
-
-```
-Defaults editor=/usr/bin/vim
-```
-
-按 `Esc` 进入命令模式，再按 `:x` 保存，按 `Enter` 退出
-
-如果想临时使用 Vim 作为编辑器，则输入：
-
-```bash
-sudo EDITOR=vim visudo
-```
-
-### **sudo 免密码**
-
-在最后一行（空行）按 `i` 进入输入模式，加上这一行：
-
-```
-Defaults:(user_name) !authenticate
-```
-
-进入命令模式，保存退出即可
-
-**注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
 
 ### **命令行界面输出语言为英语**
 
@@ -773,7 +811,7 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 
 [Archwiki -- fstab](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-#### **使用 UUID**
+#### **使用 UUID/卷标**
 
 官方推荐的方法是使用 UUID，以分别挂载 C 盘和 D 盘到 `/home/(user_name)/C` 和 `/home/(user_name)/D` 为例，在终端中输入：
 
@@ -781,7 +819,7 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 lsblk -f
 ```
 
-在输出结果中可以发现 Windows 的硬盘分区：
+在输出结果中可以发现 Windows 的硬盘分区，其中第一列（`NAME`）是卷标，第四列（`UUID`）是 UUID：
 
 ```
 NAME       FSTYPE       LABEL   UUID
@@ -798,11 +836,18 @@ sudo vim /etc/fstab
 在最后加入这两行：
 
 ```
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umasks=0 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umasks=0 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0,noatime 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0,noatime 0 0
 ```
 
 重启电脑后，即可自动挂载
+
+如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
+
+```
+(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0,noatime 0 0
+(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0,noatime 0 0
+```
 
 **如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
 
@@ -955,7 +1000,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 推荐使用 Fcitx5:
 
 ```bash
-sudo pacman -S fcitx5 fcitx5-chinese-addons manjaro-asian-input-support-fcitx5
+sudo pacman -S fcitx5 fcitx5-chinese-addons
 ```
 
 编辑 `/etc/environment` 并添加以下几行：
@@ -973,7 +1018,7 @@ XMODIFIERS=@im=fcitx
 对应的 git 版本为：（需要使用 Arch Linux CN 源）
 
 ```bash
-sudo pacman -S fcitx5-git fcitx5-chinese-addons-git manjaro-asian-input-support-fcitx5 fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+sudo pacman -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
 ```
 
 可以添加词库：
@@ -985,7 +1030,7 @@ sudo pacman -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
 一个稳定的替代版本是 Fcitx 4.2.9.8-1：
 
 ```bash
-sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin manjaro-asian-input-support-fcitx
+sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin
 ```
 
 可以配合 googlepinyin 或 sunpinyin 使用，即执行：
@@ -1013,6 +1058,19 @@ sudo pacman -S fcitx-sunpinyin
 [Improving Performance -- ArchWiki](https://wiki.archlinux.org/title/Improving_performance)
 
 主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
+
+#### **关闭启动时 grub 的消息**
+
+编辑 `/etc/default/grub`，找到两行：
+
+```
+echo    'Loading Linux linux'
+echo    'Loading initial ramdisk ...'
+```
+
+将其删除，重启即可
+
+更本质是修改 `/etc/grub.d/10_linux`
 
 #### **关闭启动时 fsck 的消息**
 
@@ -1079,6 +1137,14 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 再重启即可
 
+#### **关闭重启时 systemd 的消息**
+
+https://github.com/systemd/systemd/pull/23574
+
+https://forum.manjaro.org/t/the-system-is-going-down-for-poweroff-reboot-now/114353/4
+
+暂时方法：`shutdown --no-wall`
+
 ### **Git 配置**
 
 配置用户名、邮箱：
@@ -1110,7 +1176,7 @@ grub rescue>
 
 其中硬盘编号 `(hd_number)` 从小到大排列（最小值为 0），分区编号 `(gpt_number)` 从大到小排列（最小值为 1）
 
-找到安装 Arch Linux 的分区`((hd_number),(gpt_number))`，此时执行 `ls((hd_number),(gpt_number))`应该能看到 Arch Linux 根目录下的所有文件和文件夹
+找到安装 Arch Linux 的分区`((hd_number),(gpt_number))`，此时执行 `ls((hd_number),(gpt_number))` 应该能看到 Arch Linux 根目录下的所有文件和文件夹
 
 手动修改启动分区所在的位置：
 
@@ -1211,7 +1277,7 @@ Hidden=false
 
 ### **切换图形化界面和命令行界面**
 
-登录时默认进入的是图形化界面，有时候开机后黑屏是图形化界面显示不出来所致，此时可以按快捷键 `Ctrl+Alt+Fn+(F2~F6)`进入`tty2 ~ tty6` 的任何一个命令行 TTY 界面
+登录时默认进入的是图形化界面，有时候开机后黑屏是图形化界面显示不出来所致，此时可以按快捷键 `Ctrl+Alt+Fn+(F2~F6)` 进入`tty2 ~ tty6` 的任何一个命令行 TTY 界面
 
 注意此时需要手动输入用户名和密码
 
@@ -1251,7 +1317,7 @@ sudo tlp start
 
 #### **显示 Intel CPU 频率（可选）**
 
-安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/jsalatas/plasma-pstate)
+安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/frankenfruity/plasma-pstate)
 
 右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
 
@@ -1282,38 +1348,6 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 
 **注意某些软件包如 `rider` 和 `qqmusic-bin` 等下载源不支持 axel，启用多线程下载后可能会导致构建失败**
 
-### **zram 文件设置（可选）**
-
-对 zram 的介绍可以参考[官方文档](https://www.kernel.org/doc/html/latest/admin-guide/blockdev/zram.html)，设置步骤可以参考 [ArchWiki](https://wiki.archlinux.org/title/Improving_performance#zram_or_zswap)
-
-先下载 `zram-generator` 软件包：
-
-```bash
-sudo pacman -S zram-generator
-```
-
-编辑 `/etc/systemd/zram-generator.conf`，写入：
-
-```
-[zram0]
-host-memory-limit = none
-zram-size = min(ram / 2, 4096)
-compression-algorithm = lzo-rle
-fs-type = ext4
-mount-point = /var/tmp
-```
-
-在终端输入
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl start /dev/zram0
-```
-
-以启动 zram
-
-在终端中输入 `zramctl`，若能够输出 `NAME ALGORITHM DISKSIZE DATA COMPR TOTAL STREAMS MOUNTPOINT` 等信息，说明启动成功
-
 ### **重新开启 Secure Boot（未测试）**
 
 如果想在开启 Secure Boot 的情况下登录进 Arch Linux，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
@@ -1334,7 +1368,7 @@ sudo systemctl start /dev/zram0
 neofetch
 ```
 
-或者使用功能更强大的 `inxi`：（需要下载 `neofetch` 软件包）
+或者使用功能更强大的 `inxi`：（需要在 AUR 中下载 `inxi` 软件包）
 
 ```bash
 sudo inxi -b
@@ -1374,7 +1408,7 @@ alsamixer
 
 #### **内存大小**
 
-在终端中输入：
+在终端中输入：（默认单位是 KiB）
 
 ```bash
 free
@@ -1572,6 +1606,23 @@ Latte-Dock 的推荐设置：
 
 **不想使用 Mac 风格主题但又想使用浅色主题时，可以使用 KDE 官方主题 Breeze Light，并将终端（Konsole 和 Yakuake）主题改为“白底黑字”，背景透明度选择 20%**
 
+### **光标主题设置**
+
+已安装的光标主题可以通过以下命令查看：
+
+```bash
+find /usr/share/icons ~/.local/share/icons ~/.icons -type d -name "cursors"
+```
+
+备用的光标主题可以在 `/usr/share/icons/default/index.theme` 设置：
+
+```
+[Icon Theme]
+Inherits=(cursor_theme_name)
+```
+
+默认的备选是 `Adwaita`，这可能导致光标主题的不统一，可以改为 `breeze_cursors`
+
 ### **配置桌面小部件（可选）**
 
 右键点击桌面 >> 添加部件 >> 获取新部件 >> 下载新 Plasma 部件
@@ -1695,11 +1746,11 @@ https://github.com/vinceliuice/grub2-themes
 sudo ./install.sh -b -t tela -i white -s 2k
 ```
 
-删除多余启动条目，需要修改`/boot/grub/grub.cfg`
+删除多余启动条目，需要修改 `/boot/grub/grub.cfg`
 
 删除整一段 `submenu 'Advanced options for Arch Linux'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
 
-恢复默认的`/boot/grub/grub.cfg`需要输入：
+恢复默认的 `/boot/grub/grub.cfg` 需要输入：
 
 ```bash
 echo GRUB_DISABLE_OS_PROBER=false | sudo tee -a /etc/default/grub
@@ -1834,21 +1885,30 @@ ssh -T git@github.com
 sudo pacman -S v2ray v2raya-git
 ```
 
+启动 v2rayA 需要使用 `systemctl`：
+
+```bash
+sudo systemctl enable --now v2raya
+```
+
+之后 v2rayA 可以开机自启动
+
 注意 `v2ray` 升级到 5.x 版本，需要下载 `v2raya-git`（而不是 `v2raya`）才能支持，旧的 Qv2ray 已经无法使用，以后可能会迁移到 [sing-box](https://sing-box.sagernet.org/)
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
-右上角“设置”按照“[快速上手](https://v2raya.org/docs/prologue/quick-start/)”的“配置代理”一节修改
+右上角“设置”中，将“透明代理/系统代理”改为“启用：大陆白名单模式”，保存并应用
 
-点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
+选择一个节点，点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
-开机自启动 v2rayA 需要使用 `systemctl`：
+此时系统测试网络连接的功能被屏蔽，可以通过在 `/etc/NetworkManager/conf.d/20-connectivity.conf` 中写入以下内容关闭此功能：
 
-```bash
-sudo systemctl enable v2raya
+```
+[connectivity] 
+enabled=false
 ```
 
-任务栏图标可以在 `https://github.com/YidaozhanYa/v2rayATray` 下载，需要先安装 `python-request` 包
+任务栏图标可以在 [v2rayATray](https://github.com/YidaozhanYa/v2rayATray) 下载
 
 之后下载 [PKGBUILD](https://github.com/YidaozhanYa/v2rayATray/blob/main/PKGBUILD)，在其所在的文件夹下执行 `makepkg -si` 即可安装
 
