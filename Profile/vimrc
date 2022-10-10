@@ -1,9 +1,9 @@
 " Defaults by Archlinux
-runtime! archlinux.vim
+" runtime! archlinux.vim
 
 " Colorscheme
+" colorscheme PaperColor
 set background=light
-colorscheme PaperColor
 
 " Cursor settings
 highlight Cursor gui=reverse guifg=#88ddff guibg=bg
