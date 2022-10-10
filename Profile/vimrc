@@ -54,11 +54,10 @@ set cindent
 set smartindent
 
 " Tab settings
+:retab
 set tabstop=4
 set smarttab
 set expandtab
-:retab
-set list lcs=tab:>-
 set softtabstop=4
 set shiftwidth=4
 

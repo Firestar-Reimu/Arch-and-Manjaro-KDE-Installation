@@ -837,8 +837,8 @@ sudo vim /etc/fstab
 在最后加入这两行：
 
 ```
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0,noatime 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0,noatime 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
 ```
 
 重启电脑后，即可自动挂载
@@ -846,8 +846,8 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0,
 如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
 
 ```
-(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0,noatime 0 0
-(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0,noatime 0 0
+(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
+(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
 ```
 
 **如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
@@ -859,8 +859,8 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0,
 这相当于直接编辑 `/etc/fstab`，加入：
 
 ```
-/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,umasks=0 0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,umasks=0 0 0
+/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
 ```
 
 好处是格式化磁盘后内核名称不变，依然可以挂载
@@ -889,7 +889,7 @@ sudo kill (PID_number)
 sudo umount /dev/(partition_name)
 ```
 
-执行硬盘 NTFS 分区修复：
+执行硬盘 NTFS 分区修复（需要 `ntfs-3g` 软件包）：
 
 ```bash
 sudo ntfsfix /dev/(partition_name)
