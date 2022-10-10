@@ -31,11 +31,7 @@ set fileformat=unix
 set infercase
 
 " Clipboard settings
-set clipboard=unnamed
-noremap <C-c> "+y
-noremap <C-v> "+p
-noremap y "+y
-noremap p "+p
+source $VIMRUNTIME/mswin.vim
 
 " Highlight current line
 set cursorline

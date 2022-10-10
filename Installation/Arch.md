@@ -375,7 +375,7 @@ passwd (user_name)
 
 #### **更改 visudo 默认编辑器为 Vim**
 
-visudo 的默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入：
+visudo 的默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入以下命令用 Vim 打开 visudo：
 
 ```bash
 EDITOR=vim visudo
@@ -448,7 +448,7 @@ pacman -S plasma
 安装必要的软件
 
 ```bash
-pacman -S firefox konsole dolphin ark kate gwenview spectacle yakuake okular poppler-data git noto-fonts-cjk
+pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle yakuake okular poppler-data git noto-fonts-cjk
 ```
 
 不下载 `poppler-data` 会导致部分 PDF 文件的中文字体无法在 Okular 中显示
@@ -633,16 +633,17 @@ Vim 的配置可以参考以下网址：
 
 [Options -- Vim Documentation](http://vimdoc.sourceforge.net/htmldoc/options.html)
 
-启用剪贴板功能，并应用 `Ctrl+C`、`Ctrl+V`、`Ctrl+A`、`Ctrl+Z` 等快捷键，需要在 `/etc/vimrc` 中写入：
+应用 `Ctrl+C`、`Ctrl+V`、`Ctrl+A`、`Ctrl+Z` 等快捷键，需要在 `/etc/vimrc` 中写入：
 
 ```
-set clipboard=unnamedplus
 source $VIMRUNTIME/mswin.vim
 ```
 
 `mswin.vim` 的源代码可以在这里找到：
 
 [vim -- mswin.vim](https://github.com/vim/vim/blob/master/runtime/mswin.vim)
+
+启用剪贴板功能，需要安装 `gvim` 软件包
 
 ### **GNU nano 配置**
 

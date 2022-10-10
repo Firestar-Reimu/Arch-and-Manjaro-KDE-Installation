@@ -558,13 +558,13 @@ v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE
 
 **浏览器和KDE的网络连接设置都不需要更改**
 
-### **安装 TeX Live**
+### **LaTeX 安装**
 
 推荐从 ISO 安装 TeX Live
 
 首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
 
-在 Dolphin 中右键点击 ISO 镜像文件挂载，或在终端中运行：
+在 Dolphin 中右键点击 ISO 镜像文件挂载（需要 `dolphin-plugins` 软件包），或在终端中运行：
 
 ```bash
 sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
@@ -626,7 +626,7 @@ sudo perl install-tl -gui
 
 可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
-还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc ctex`）检查是否安装成功
+还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc amsmath`）检查是否安装成功
 
 ### **TeXstudio 安装与配置（可选）**
 
@@ -1008,11 +1008,26 @@ yay -S vscodium-git
 
 若要更改全局快捷键，设置文件在 `~/.config/Code/User/keybindings.json`，可以在 Visual Studio Code 中按 `Ctrl+K Ctrl+S` 开启设置
 
+#### **Visual Studio Code 连字设置**
+
+在 `setting.json` 中关闭连字：
+
+```json
+"editor.fontLigatures": false,
+```
+
+Fira Code 的连字可以设置为：
+
+```json
+"editor.fontFamily": "Fira Code",
+"editor.fontLigatures": "'calt' off, 'cv16', 'ss03', 'ss05', 'zero'",
+```
+
 #### **Visual Studio Code 无法识别 Git 存储库**
 
 如果 Visual Studio Code 无法识别文件夹内的 Git 存储库（显示“当前打开的文件夹中没有 Git 存储库”），是因为 Git 认为该文件夹不安全，需要对该文件夹执行：
 
-```
+```bash
 git config --global --add safe.directory (directory_path)
 ```
 
@@ -1022,7 +1037,7 @@ git config --global --add safe.directory (directory_path)
 
 如果要完全跳过检查，执行：
 
-```
+```bash
 git config --global --add safe.directory "*"
 ```
 
