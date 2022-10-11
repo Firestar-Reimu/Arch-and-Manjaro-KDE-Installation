@@ -854,18 +854,20 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 
 
 #### **使用图形化界面**
 
+**需要 `ntfs-3g` 软件包**
+
 在系统应用“KDE 分区管理器（`partitionmanager`）”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
 
 这相当于直接编辑 `/etc/fstab`，加入：
 
 ```
-/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
+/dev/(name_C)                     /home/(user_name)/C    ntfs  0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs  0 0
 ```
 
 好处是格式化磁盘后内核名称不变，依然可以挂载
 
-#### **如果 Windows 磁盘突然变成只读**
+#### **如果 Windows 磁盘挂载错误**
 
 **首先检查 Windows 中是否关闭了快速启动**
 
@@ -892,19 +894,13 @@ sudo umount /dev/(partition_name)
 执行硬盘 NTFS 分区修复（需要 `ntfs-3g` 软件包）：
 
 ```bash
-sudo ntfsfix /dev/(partition_name)
+sudo ntfsfix -b -d /dev/(partition_name)
 ```
 
 再重新挂载即可：
 
 ```bash
-sudo mount /dev/(partition_name) (mount_path)/(mount_folder)
-```
-
-如果在 Dolphin 中已经成功卸载分区，则直接执行：
-
-```bash
-sudo ntfsfix /dev/(partition_name) && sudo mount /dev/(partition_name)(mount_path)/(mount_folder)
+sudo mount -t ntfs3 /dev/(partition_name) (mount_path)/(mount_folder)
 ```
 
 ### **字体安装**
@@ -1075,7 +1071,7 @@ echo    'Loading initial ramdisk ...'
 
 #### **关闭启动时 fsck 的消息**
 
-第一种方法是将 fsck 的消息重定向到别的 TTY 窗口
+第一种方法是将 fsck 的消息重定向到别的 TTY 窗口，缺点是开机卡住时需要先切换到别的 TTY 窗口才能进入 emergency mode
 
 编辑 Kernel parameters：
 
