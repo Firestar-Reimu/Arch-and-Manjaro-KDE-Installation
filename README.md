@@ -806,7 +806,7 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 
 ### **Linux 挂载 Windows 磁盘**
 
-**首先要确保设备加密和快速启动已经关闭**
+**首先要确保设备加密和快速启动已经关闭，以下内容针对 Linux 5.15 及之后的内核中引入的 NTFS3 驱动**
 
 参考以下网址：
 
@@ -854,7 +854,7 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 
 
 #### **使用图形化界面**
 
-**需要 `ntfs-3g` 软件包**
+**只支持旧版 `NTFS-3G`驱动，需要 `ntfs-3g` 软件包**
 
 在系统应用“KDE 分区管理器（`partitionmanager`）”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
 
@@ -902,6 +902,17 @@ sudo ntfsfix -b -d /dev/(partition_name)
 ```bash
 sudo mount -t ntfs3 /dev/(partition_name) (mount_path)/(mount_folder)
 ```
+
+#### **挂载 NTFS 移动硬盘**
+
+Dolphin 中可以用 NTFS3 驱动挂载 NTFS 移动硬盘，但是会因为不支持 `windows_names` 参数报错，解决方法是创建文件 `/etc/udisks2/mount_options.conf` 并写入：
+
+```
+[defaults]
+ntfs_defaults=uid=$UID,gid=$GID
+```
+
+如果要设置自动挂载，可以在“系统设置 >> 可移动存储设备 >> 所有设备”中勾选“登录时”和“插入时”，以及“自动挂载新的可移动设备”
 
 ### **字体安装**
 
