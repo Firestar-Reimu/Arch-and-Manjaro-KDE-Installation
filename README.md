@@ -154,6 +154,8 @@ timedatectl set-ntp true
 
 ### **建立硬盘分区**
 
+**对 Linux 分区建议使用 BTRFS/XFS/EXT4 文件系统**
+
 可以使用 `lsblk` 查看，使用 [parted](https://www.gnu.org/software/parted/manual/parted.html) 修改分区，`parted` 可以使用交互模式
 
 `parted` 常用命令：
@@ -162,13 +164,27 @@ timedatectl set-ntp true
 - `print`：显示分区状态
 - `unit`：更改单位，推荐使用 `s`（扇区）
 - `set`：设置 `flag`，例如在分区 1 上创建 EFI 分区需要设置 `flag` 为 `esp`：`set 1 esp on`
-- `mkpart`：创建分区，分区类型选择 `primary`，文件系统类型选择 `fat32`（对 EFI 分区），`btrfs`（对 Linux 分区），`ntfs`（对 Windows 分区）
+- `mkpart`：创建分区，分区类型选择 `primary`，文件系统类型选择 `fat32`（对 EFI 分区），`btrfs/xfs/ext4`（对 Linux 分区），`ntfs`（对 Windows 分区）
 - `resizepart`：改变分区大小
 - `rm`：删除分区
 - `name`：更改分区名字，比如将分区 2 改名为 `Arch`，需要设置：`name 2 'Arch'`
 - `quit`：退出
 
+更多操作参见：
+
+[Parted User’s Manual](https://www.gnu.org/software/parted/manual/parted.html)
+
 **Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区，建议多于 256MiB，之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
+
+### **格式化分区**
+
+例如，要在根分区 `/dev/(root_partition)` 上创建一个 BTRFS 文件系统，请运行：
+
+```bash
+mkfs.btrfs /dev/(root_partition)
+```
+
+XFS 和 EXT4 对应的命令就是 `mkfs.xfs` 和 `mkfs.ext4`
 
 ### **格式化分区**
 
