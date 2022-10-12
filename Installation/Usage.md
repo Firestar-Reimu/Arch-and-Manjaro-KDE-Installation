@@ -1020,7 +1020,7 @@ Fira Code 的连字可以设置为：
 
 ```json
 "editor.fontFamily": "Fira Code",
-"editor.fontLigatures": "'calt' off, 'cv16', 'ss03', 'ss05', 'zero'",
+"editor.fontLigatures": "'calt' off, 'cv16', 'ss01', 'ss03', 'ss05', 'zero'",
 ```
 
 #### **Visual Studio Code 无法识别 Git 存储库**
@@ -1095,6 +1095,18 @@ Visual Studio Code 自带 Markdown 预览功能，但是不支持快捷键（如
 ```
 
 而 Markdown 预览支持最好的插件是 [Markdown Preview Enhanced](https://github.com/shd101wyy/markdown-preview-enhanced)，使用时可以选择插件预览或默认预览
+
+### **JetBrains Fleet 安装**
+
+首先下载 JetBrains Toolbox：
+
+```
+yay -S jetbrains-toolbox
+```
+
+之后在 JetBrains Toolbox 上下载安装 Fleet，可以从 Plasma Kickoff 启动
+
+软件位置是 `~/.local/share/JetBrains/Toolbox/apps/Fleet/ch-0/(version)/bin/Fleet`
 
 ### **Typora 美化**
 

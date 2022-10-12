@@ -4,7 +4,7 @@
 OS: Arch Linux x86_64
 Kernel: x86_64 Linux 6.0.0-arch1-1
 Resolution: 2560x1600
-DE: KDE 5.97.0 / Plasma 5.25.5
+DE: KDE 5.99.0 / Plasma 5.26.0
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -456,10 +456,16 @@ pacman -S plasma
 安装必要的软件
 
 ```bash
-pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle yakuake okular poppler-data git noto-fonts-cjk
+pacman -S firefox firefox-developer-edition-i18n-zh-cn konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git noto-fonts-cjk
 ```
 
-不下载 `poppler-data` 会导致部分 PDF 文件的中文字体无法在 Okular 中显示
+`firefox-developer-edition-i18n-zh-cn` 是 Firefox 浏览器的中文语言包
+
+`dolphin-plugins` 提供了右键菜单挂载 ISO 镜像等选项
+
+`kimageformats` 提供了 Gwenview 对 EPS、PSD 等图片格式的支持，但 Gwenview 依然是以栅格化形式打开 EPS 矢量图，质量较差，建议用 Okular
+
+`poppler-data` 是 PDF 渲染所需的编码数据，不下载 `poppler-data` 会导致部分 PDF 文件的中文字体无法在 Okular 中显示
 
 KDE Frameworks/KDE Gear/Plasma 的更新时间表可以在这里查看：
 
@@ -1192,7 +1198,7 @@ grub rescue>
 
 其中硬盘编号 `(hd_number)` 从小到大排列（最小值为 0），分区编号 `(gpt_number)` 从大到小排列（最小值为 1）
 
-找到安装 Arch Linux 的分区`((hd_number),(gpt_number))`，此时执行 `ls((hd_number),(gpt_number))` 应该能看到 Arch Linux 根目录下的所有文件和文件夹
+找到安装 Arch Linux 的分区 `((hd_number),(gpt_number))`，此时执行 `ls((hd_number),(gpt_number))` 应该能看到 Arch Linux 根目录下的所有文件和文件夹
 
 手动修改启动分区所在的位置：
 
