@@ -2,9 +2,9 @@
 
 ```
 OS: Arch Linux x86_64
-Kernel: x86_64 Linux 6.0.0-arch1-1
+Kernel: x86_64 Linux 6.0.3.arch3-1
 Resolution: 2560x1600
-DE: KDE 5.99.0 / Plasma 5.26.0
+DE: KDE 5.99.0 / Plasma 5.26.1
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -172,7 +172,7 @@ timedatectl set-ntp true
 
 更多操作参见：
 
-[Parted User’s Manual](https://www.gnu.org/software/parted/manual/parted.html)
+[Parted User's Manual](https://www.gnu.org/software/parted/manual/parted.html)
 
 **Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区，建议多于 256MiB，之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
 
@@ -463,7 +463,7 @@ pacman -S firefox firefox-developer-edition-i18n-zh-cn konsole dolphin dolphin-p
 
 `dolphin-plugins` 提供了右键菜单挂载 ISO 镜像等选项
 
-`kimageformats` 提供了 Gwenview 对 EPS、PSD 等图片格式的支持，但 Gwenview 依然是以栅格化形式打开 EPS 矢量图，质量较差，建议用 Okular
+`kimageformats` 提供了 Gwenview 对 EPS、PSD 等图片格式的支持，但 Gwenview 依然是以栅格化形式打开 EPS 矢量图，质量较差，建议用 Okular 查看 EPS 图片
 
 `poppler-data` 是 PDF 渲染所需的编码数据，不下载 `poppler-data` 会导致部分 PDF 文件的中文字体无法在 Okular 中显示
 
@@ -1268,7 +1268,7 @@ bluetoothctl
 
 然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse (M557, M590, anywhere mouse 2, etc)”一段的指引进行操作
 
-### **解决用 Root 登录没有声音的问题**
+### **解决登录 Root 用户没有声音的问题**
 
 首先创建一个新文件夹：
 
@@ -1299,7 +1299,7 @@ Hidden=false
 
 ### **切换图形化界面和命令行界面**
 
-登录时默认进入的是图形化界面，有时候开机后黑屏是图形化界面显示不出来所致，此时可以按快捷键 `Ctrl+Alt+Fn+(F2~F6)` 进入`tty2 ~ tty6` 的任何一个命令行 TTY 界面
+登录时默认进入的是图形化界面，有时候开机后黑屏是图形化界面显示不出来所致，此时可以按快捷键 `Ctrl+Alt+Fn+(F2~F6)` 进入 `tty2 ~ tty6` 的任何一个命令行 TTY 界面
 
 注意此时需要手动输入用户名和密码
 

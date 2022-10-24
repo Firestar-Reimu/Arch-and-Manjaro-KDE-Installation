@@ -28,7 +28,6 @@
     "editor.unicodeHighlight.ambiguousCharacters": false,
     "editor.unicodeHighlight.includeComments": false,
     "editor.unicodeHighlight.nonBasicASCII": false,
-    "editor.autoClosingBrackets": "always",
     "workbench.colorCustomizations": {
         "editorBracketHighlight.foreground1": "#00cc00",
         "editorBracketHighlight.foreground2": "#33ccff",
@@ -81,8 +80,8 @@
             ]
         },
         {
-            "name": "bibtex",
-            "command": "bibtex",
+            "name": "biber",
+            "command": "biber",
             "args": ["%DOCFILE%"]
         }
     ],
@@ -97,13 +96,14 @@
         },
         {
             "name": "lua->bib->lua->lua",
-            "tools": ["lualatex", "bibtex", "lualatex", "lualatex"]
+            "tools": ["lualatex", "biber", "lualatex", "lualatex"]
         }
     ],
     "latex-workshop.latex.recipe.default": "lastUsed",
     "latex-workshop.latex.clean.fileTypes": [
         "*.aux",
         "*.bbl",
+        "*.bcf",
         "*.blg",
         "*.idx",
         "*.ind",
@@ -122,6 +122,8 @@
         "*.log",
         "*.nav",
         "*.snm",
+        "*-blx.bib",
+        "*.run.xml",
         "*.fdb_latexmk"
     ],
     "latex-workshop.latex.autoClean.run": "onBuilt",

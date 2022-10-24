@@ -560,7 +560,7 @@ v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE
 
 ### **LaTeX 安装**
 
-推荐从 ISO 安装 TeX Live
+推荐从 ISO 安装 TeX Live 发行版
 
 首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
 
@@ -627,6 +627,20 @@ sudo perl install-tl -gui
 可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc amsmath`）检查是否安装成功
+
+### **biber 报错**
+
+biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：
+
+```
+error while loading shared libraries: libcrypt.so.1: cannot open shared object file: No such file or directory
+```
+
+需要安装 `libxcrypt-compat`：
+
+```bash
+sudo pacman -S libxcrypt-compat
+```
 
 ### **TeXstudio 安装与配置（可选）**
 
@@ -1098,15 +1112,11 @@ Visual Studio Code 自带 Markdown 预览功能，但是不支持快捷键（如
 
 ### **JetBrains Fleet 安装**
 
-首先下载 JetBrains Toolbox：
+JetBrains Fleet 已经在 AUR 上打包：
 
 ```
-yay -S jetbrains-toolbox
+yay -S jetbrains-fleet
 ```
-
-之后在 JetBrains Toolbox 上下载安装 Fleet，可以从 Plasma Kickoff 启动
-
-软件位置是 `~/.local/share/JetBrains/Toolbox/apps/Fleet/ch-0/(version)/bin/Fleet`
 
 ### **Typora 美化**
 
