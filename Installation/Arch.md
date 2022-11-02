@@ -118,13 +118,13 @@ sudo cp (iso_path)/(iso_name) /dev/sda
 
 #### **在 UEFI 中设置从 USB 启动**
 
-启动时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `Fn+F12` 选择第一个启动位置为 USB HDD
+启动时按 `Enter` 打断正常开机，然后按下 `Fn+Esc` 解锁 `Fn` 按钮，再按 `Fn+F12` 选择第一个启动项为 USB HDD
 
 ## **安装系统**
 
 ### **连接到互联网**
 
-确保系统已经启用了网络接口，用 `ip-link` 检查：
+检查确保系统已经启用了网络接口：
 
 ```bash
 ip link
@@ -146,6 +146,12 @@ iwctl device list
 iwctl station (device_name) scan
 iwctl station (device_name) get-networks
 iwctl station (device_name) connect (SSID)
+```
+
+此时会显示连接到网络，可以用 `ping` 测试：
+
+```
+ping -c (count_number) (website_destination)
 ```
 
 ### **更新系统时间**
@@ -180,7 +186,7 @@ timedatectl set-ntp true
 
 **Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区，建议多于 256MiB，之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
 
-### **格式化分区**
+### **创建文件系统**
 
 例如，要在根分区 `/dev/(root_partition)` 上创建一个 BTRFS 文件系统，请运行：
 
@@ -189,6 +195,8 @@ mkfs.btrfs /dev/(root_partition)
 ```
 
 XFS 和 EXT4 对应的命令就是 `mkfs.xfs` 和 `mkfs.ext4`
+
+如果需要覆盖原有分区，加入 `-f` 参数强制执行即可
 
 ### **挂载分区**
 
@@ -201,8 +209,10 @@ mount /dev/(root_partition) /mnt
 对于 UEFI 系统，挂载 EFI 系统分区：
 
 ```bash
-mount /dev/(efi_system_partition) /mnt/boot
+mount --mkdir /dev/(efi_system_partition) /mnt/boot
 ```
+
+**挂载 EFI 系统分区一定要加 `--mkdir` 参数**
 
 ### **选择镜像源**
 
@@ -275,7 +285,7 @@ hwclock --systohc
 locale-gen
 ```
 
-然后创建 `locale.conf` 文件，并编辑设定 LANG 变量：
+然后创建 `/etc/locale.conf` 文件，并编辑设定 LANG 变量：
 
 ```
 LANG=en_US.UTF-8
@@ -299,13 +309,13 @@ LANG=en_US.UTF-8
 127.0.1.1        (my_hostname).localdomain        (my_hostname)
 ```
 
-安装网络管理软件 NetworkManager：
+安装网络管理软件 `NetworkManager`：
 
 ```bash
 pacman -S networkmanager
 ```
 
-启用 NetworkManager：
+启用 `NetworkManager`（`systemctl` 命令对大小写敏感）：
 
 ```bash
 systemctl enable NetworkManager
@@ -335,23 +345,11 @@ passwd
 
 ```bash
 pacman -S grub efibootmgr os-prober
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=(ID)
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-其中 `Arch` 可以替换为其它名字
-
-想要让 `grub-mkconfig` 探测其他已经安装的系统并自动把他们添加到启动菜单中，挂载包含其它系统引导程序的磁盘分区，并编辑 `/etc/default/grub` 并取消下面这一行的注释
-
-```bash
-GRUB_DISABLE_OS_PROBER=false
-```
-
-使用 `grub-mkconfig` 工具重新生成 `/boot/grub/grub.cfg`：
-
-```bash
-grub-mkconfig -o /boot/grub/grub.cfg
-```
+其中 `(ID)` 是 Arch Linux 系统启动项在 BIOS 启动菜单中的名字
 
 ### **重启**
 
@@ -361,9 +359,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 最后，执行 `reboot` 重启系统，`systemd` 将自动卸载仍然挂载的任何分区
 
-不要忘记移除安装介质，然后使用 Root 帐户登录到新系统
+不要忘记移除安装介质
 
 ## **初始配置**
+
+**现在登录到新装好的系统时使用的是 Root 帐户，用户名为 `root`，需要手动输入**
 
 ### **连接网络**
 
@@ -430,20 +430,31 @@ systemctl enable bluetooth
 
 ### **KDE Plasma 桌面安装**
 
+#### **安装 Xorg 和 SDDM**
+
 安装 Xorg：
 
 ```bash
 pacman -S xorg
 ```
 
-安装并启用 SDDM：
+安装 SDDM：
 
 ```bash
 pacman -S sddm
+```
+
+启用 SDDM：
+
+```bash
 systemctl enable sddm
 ```
 
 SDDM 字体选择 `noto-fonts`
+
+**不执行 `systemctl enable sddm` 启用 SDDM 则无法进入图形界面**
+
+#### **安装 Plasma 桌面**
 
 安装 Plasma 桌面：
 
@@ -454,16 +465,24 @@ pacman -S plasma
 可以排除掉一些软件包：
 
 ```bash
-^4 ^5 ^20 ^23 ^32
+^4 ^5 ^20 ^21 ^33
 ```
 
-安装必要的软件
+即 `discover`、`drkonqi`、`kwayland`、`kwallet`、`plasma-firewall`
+
+`jack` 选择 `jack2`
+
+`pipewire-session-manager` 选择 `wireplumber`
+
+`phonon-qt5-backend` 选择 `phonon-qt5-vlc`，这会自动下载 VLC 播放器
+
+#### **安装必要的软件**
 
 ```bash
-pacman -S firefox firefox-developer-edition-i18n-zh-cn konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git noto-fonts-cjk
+pacman -S firefox firefox-i18n-zh-cn konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git noto-fonts-cjk
 ```
 
-`firefox-developer-edition-i18n-zh-cn` 是 Firefox 浏览器的中文语言包
+`firefox-i18n-zh-cn` 是 Firefox 浏览器的中文语言包
 
 `dolphin-plugins` 提供了右键菜单挂载 ISO 镜像等选项
 
@@ -471,9 +490,7 @@ pacman -S firefox firefox-developer-edition-i18n-zh-cn konsole dolphin dolphin-p
 
 `poppler-data` 是 PDF 渲染所需的编码数据，不下载 `poppler-data` 会导致部分 PDF 文件的中文字体无法在 Okular 中显示
 
-KDE Frameworks/KDE Gear/Plasma 的更新时间表可以在这里查看：
-
-[Schedules -- KDE Community Wiki](https://community.kde.org/Schedules)
+**KDE Frameworks/KDE Gear/Plasma 的更新时间表可以在 [KDE Community Wiki](https://community.kde.org/Schedules) 查看**
 
 ## **在图形界面下设置**
 
@@ -499,15 +516,141 @@ KDE Frameworks/KDE Gear/Plasma 的更新时间表可以在这里查看：
 
 设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
 
-### **包管理器**
+### **Linux 挂载 Windows 磁盘**
 
-Arch 预装的包管理器是 pacman，其使用教程参考以下网址：
+**首先要确保设备加密和快速启动已经关闭，以下内容针对 Linux 5.15 及之后的内核中引入的 NTFS3 驱动**
 
-[ArchWiki -- Pacman](https://wiki.archlinux.org/title/Pacman)
+参考以下网址：
+
+[Archwiki -- fstab](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+
+#### **使用 UUID/卷标**
+
+官方推荐的方法是使用 UUID，以分别挂载 C 盘和 D 盘到 `/home/(user_name)/C` 和 `/home/(user_name)/D` 为例，在终端中输入：
+
+```bash
+lsblk -f
+```
+
+在输出结果中可以发现 Windows 的硬盘分区，其中第一列（`NAME`）是卷标，第四列（`UUID`）是 UUID：
+
+```
+NAME       FSTYPE       LABEL   UUID
+├─(name_C) ntfs         C       (UUID_C)
+├─(name_D) ntfs         D       (UUID_D)
+```
+
+接着就来修改系统文件：
+
+```bash
+sudo vim /etc/fstab
+```
+
+在最后加入这两行：
+
+```
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
+```
+
+重启电脑后，即可自动挂载
+
+如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
+
+```
+(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
+(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
+```
+
+**如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
+
+#### **使用图形化界面**
+
+**只支持旧版 `NTFS-3G`驱动，需要 `ntfs-3g` 软件包**
+
+在系统应用“KDE 分区管理器（`partitionmanager`）”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
+
+这相当于直接编辑 `/etc/fstab`，加入：
+
+```
+/dev/(name_C)                     /home/(user_name)/C    ntfs  0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs  0 0
+```
+
+好处是格式化磁盘后内核名称不变，依然可以挂载
+
+#### **如果 Windows 磁盘挂载错误**
+
+**首先检查 Windows 中是否关闭了快速启动**
+
+一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，若关闭快速启动不能解决问题，使用下面的方法：
+
+检查占用进程：
+
+```bash
+sudo fuser -m -u /dev/(partition_name)
+```
+
+可以看到数字，就是占用目录的进程 PID，终止进程：
+
+```bash
+sudo kill (PID_number)
+```
+
+卸载磁盘分区：
+
+```bash
+sudo umount /dev/(partition_name)
+```
+
+执行硬盘 NTFS 分区修复（需要 `ntfs-3g` 软件包）：
+
+```bash
+sudo ntfsfix -b -d /dev/(partition_name)
+```
+
+再重新挂载即可：
+
+```bash
+sudo mount -t ntfs3 /dev/(partition_name) (mount_path)/(mount_folder)
+```
+
+#### **挂载 NTFS 移动硬盘**
+
+Dolphin 中可以用 NTFS3 驱动挂载 NTFS 移动硬盘，但是会因为不支持 `windows_names` 参数报错，解决方法是创建文件 `/etc/udisks2/mount_options.conf` 并写入：
+
+```
+[defaults]
+ntfs_defaults=uid=$UID,gid=$GID
+```
+
+如果要设置自动挂载，可以在“系统设置 >> 可移动存储设备 >> 所有设备”中勾选“登录时”和“插入时”，以及“自动挂载新的可移动设备”
+
+### **双系统启动**
+
+**首先挂载包含Windows系统的磁盘分区**
+
+想要让 `grub-mkconfig` 探测其他已经安装的系统并自动把他们添加到启动菜单中，编辑 `/etc/default/grub` 并取消下面这一行的注释：
+
+```
+GRUB_DISABLE_OS_PROBER=false
+```
+
+想要让 GRUB 记住上一次启动的启动项，首先将 `GRUB_DEFAULT` 的值改为 `saved`，再取消下面这一行的注释：
+
+```
+GRUB_SAVEDEFAULT=true
+```
+
+使用 `grub-mkconfig` 工具重新生成 `/boot/grub/grub.cfg`：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 ### **AUR 软件包管理器**
 
-**注意 pacman 不支持 AUR，需要单独下载 AUR 软件包管理器**
+**注意 Arch 预装的包管理器 pacman 不支持 AUR，也不打包 AUR 软件包管理器，需要单独下载 AUR 软件包管理器**
 
 #### **yay**
 
@@ -821,116 +964,6 @@ reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation
 参考以下网址：
 
 [TUNA NTP（网络授时）服务使用说明](https://tuna.moe/help/ntp/)
-
-### **Linux 挂载 Windows 磁盘**
-
-**首先要确保设备加密和快速启动已经关闭，以下内容针对 Linux 5.15 及之后的内核中引入的 NTFS3 驱动**
-
-参考以下网址：
-
-[Archwiki -- fstab](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
-
-#### **使用 UUID/卷标**
-
-官方推荐的方法是使用 UUID，以分别挂载 C 盘和 D 盘到 `/home/(user_name)/C` 和 `/home/(user_name)/D` 为例，在终端中输入：
-
-```bash
-lsblk -f
-```
-
-在输出结果中可以发现 Windows 的硬盘分区，其中第一列（`NAME`）是卷标，第四列（`UUID`）是 UUID：
-
-```
-NAME       FSTYPE       LABEL   UUID
-├─(name_C) ntfs         C       (UUID_C)
-├─(name_D) ntfs         D       (UUID_D)
-```
-
-接着就来修改系统文件：
-
-```bash
-sudo vim /etc/fstab
-```
-
-在最后加入这两行：
-
-```
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
-```
-
-重启电脑后，即可自动挂载
-
-如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
-
-```
-(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
-(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
-```
-
-**如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
-
-#### **使用图形化界面**
-
-**只支持旧版 `NTFS-3G`驱动，需要 `ntfs-3g` 软件包**
-
-在系统应用“KDE 分区管理器（`partitionmanager`）”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
-
-这相当于直接编辑 `/etc/fstab`，加入：
-
-```
-/dev/(name_C)                     /home/(user_name)/C    ntfs  0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs  0 0
-```
-
-好处是格式化磁盘后内核名称不变，依然可以挂载
-
-#### **如果 Windows 磁盘挂载错误**
-
-**首先检查 Windows 中是否关闭了快速启动**
-
-一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，若关闭快速启动不能解决问题，使用下面的方法：
-
-检查占用进程：
-
-```bash
-sudo fuser -m -u /dev/(partition_name)
-```
-
-可以看到数字，就是占用目录的进程 PID，终止进程：
-
-```bash
-sudo kill (PID_number)
-```
-
-卸载磁盘分区：
-
-```bash
-sudo umount /dev/(partition_name)
-```
-
-执行硬盘 NTFS 分区修复（需要 `ntfs-3g` 软件包）：
-
-```bash
-sudo ntfsfix -b -d /dev/(partition_name)
-```
-
-再重新挂载即可：
-
-```bash
-sudo mount -t ntfs3 /dev/(partition_name) (mount_path)/(mount_folder)
-```
-
-#### **挂载 NTFS 移动硬盘**
-
-Dolphin 中可以用 NTFS3 驱动挂载 NTFS 移动硬盘，但是会因为不支持 `windows_names` 参数报错，解决方法是创建文件 `/etc/udisks2/mount_options.conf` 并写入：
-
-```
-[defaults]
-ntfs_defaults=uid=$UID,gid=$GID
-```
-
-如果要设置自动挂载，可以在“系统设置 >> 可移动存储设备 >> 所有设备”中勾选“登录时”和“插入时”，以及“自动挂载新的可移动设备”
 
 ### **字体安装**
 
