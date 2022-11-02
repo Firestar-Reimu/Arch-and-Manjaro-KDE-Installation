@@ -2,9 +2,9 @@
 
 ```
 OS: Arch Linux x86_64
-Kernel: x86_64 Linux 6.0.3.arch3-1
+Kernel: x86_64 Linux 6.0.6-arch1-1
 Resolution: 2560x1600
-DE: KDE 5.99.0 / Plasma 5.26.1
+DE: KDE 5.99.0 / Plasma 5.26.2
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -49,10 +49,10 @@ cp -r /usr/share/archiso/configs/baseline/ (profile_directory)
 并执行：
 
 ```bash
-sudo mkarchiso (profile_directory)
+sudo mkarchiso (profile_directory)/baseline
 ```
 
-在当前目录的 `out` 文件夹下可以找到 ISO 镜像
+在 `(profile_directory)` 目录的 `out` 文件夹下可以找到 ISO 镜像
 
 ### **为 Linux 系统分区**
 
@@ -86,19 +86,23 @@ Windows 上可以用 [Rufus](https://rufus.ie/zh/)，支持 Windows 和 Linux �
 
 #### **Linux 系统方案**
 
-Linux 上可以用命令行，首先检查 USB 设备，需要设备处于插入但未挂载的状态
+Linux 上可以用命令行刻录 USB 启动盘
 
-使用 `lsblk -f` 检查 USB 设备的名称，例如 `/dev/sda`
+首先使用 `lsblk` 检查 USB 设备的名称（`NAME` 一列）和挂载点（`MOUNTPOINTS` 一列），例如 `/dev/sda`，需要设备处于插入但未挂载的状态
+
+如果被挂载，可以用 `sudo umount (partition_name)` 或 `sudo umount (mount_point)` 卸载设备，卸载磁盘的所有被挂载的分区
+
+例如 `sudo umount /dev/sda1` 或 `sudo umount /run/media/(user_name)/(device_label)`
 
 之后格式化磁盘：
 
-```
+```bash
 sudo wipefs --all /dev/sda
 ```
 
-之后直接将 ISO 镜像拷贝到 USB 中：
+之后直接将 ISO 镜像拷贝到 USB 中（这一步需要约2分钟）：
 
-```
+```bash
 sudo cp (iso_path)/(iso_name) /dev/sda
 ```
 
@@ -122,7 +126,7 @@ sudo cp (iso_path)/(iso_name) /dev/sda
 
 确保系统已经启用了网络接口，用 `ip-link` 检查：
 
-```bashbash
+```bash
 ip link
 ```
 
