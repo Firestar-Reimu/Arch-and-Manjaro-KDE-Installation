@@ -50,7 +50,7 @@ alsamixer
 
 #### **内存大小**
 
-在终端中输入：（默认单位是 KiB）
+在终端中输入：（默认单位是 KiB，即 1024 字节）
 
 ```bash
 free
@@ -94,9 +94,9 @@ iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
 ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 ```
 
-### **grep 查找命令**
+### **查找命令**
 
-grep 命令的用法为在文件或命令输出中查找字符串，例如：
+`grep` 命令的用法为在文件或命令输出中查找字符串，例如：
 
 ```bash
 grep (pattern) (file_pattern)
@@ -151,7 +151,7 @@ sed -ie 's/(old_string)/(new_string)/g' (files)
 例如将本地文件下所有 Tab 替换成4个空格：
 
 ```bash
-sed -i -e "s/\t/    /g" ./*
+sed -ie "s/\t/    /g" ./*
 ```
 
 替换 Tab 也可以使用更加智能的 Vim 中的 `retab` 功能，它可以自动将不同长度的 Tab 替换成不同长度的空格，保证最终文字依然是对齐的
@@ -429,16 +429,6 @@ ILoveCandy
 
 即可添加吃豆人彩蛋
 
-### **安装 KDE 的 Wayland 支持（不推荐）**
-
-与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
-
-```bash
-sudo pacman -S plasma-wayland-session
-```
-
-安装后即可在登录界面选择 Wayland 会话
-
 ## **软件的下载与配置**
 
 ### **PGP 密钥无法导入**
@@ -521,10 +511,10 @@ ssh -T git@github.com
 
 ### **V2Ray 安装与配置**
 
-可以直接使用包管理器安装
+可以直接使用包管理器安装（`v2raya-git` 在 AUR 软件库）
 
 ```bash
-sudo pacman -S v2ray v2raya-git
+yay -S v2ray v2raya-git
 ```
 
 启动 v2rayA 需要使用 `systemctl`：
@@ -543,6 +533,8 @@ sudo systemctl enable --now v2raya
 
 选择一个节点，点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
+选择左侧的勾选框可以测试节点的网络连接延时
+
 此时系统测试网络连接的功能被屏蔽，可以通过在 `/etc/NetworkManager/conf.d/20-connectivity.conf` 中写入以下内容关闭此功能：
 
 ```
@@ -556,7 +548,7 @@ enabled=false
 
 v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE Plasma 的“系统设置 >> 开机与关机 >> 自动启动”中设置
 
-**浏览器和KDE的网络连接设置都不需要更改**
+**浏览器和 KDE Plasma 的网络连接设置都不需要更改**
 
 ### **LaTeX 安装**
 
@@ -936,8 +928,6 @@ conda install -c conda-forge photutils
 
 通用 >> 显示器分辨率 >> 自定义高分辨率缩放 >> 1.0
 
-外观 >> 语法高亮主题 >> IDLE
-
 编辑选定的方案：
 
 文本：
@@ -1096,7 +1086,7 @@ git config --global --add safe.directory "*"
 
 Visual Studio Code 自带 Markdown 预览功能，但是不支持快捷键（如粗体、斜体）、数学命令的补全（只支持预览），也不支持复选框：
 
-```markdown
+```
 - [x] item 1
 - [ ] item 2
 ```
@@ -1114,7 +1104,7 @@ Visual Studio Code 自带 Markdown 预览功能，但是不支持快捷键（如
 
 JetBrains Fleet 已经在 AUR 上打包：
 
-```
+```bash
 yay -S jetbrains-fleet
 ```
 
@@ -1198,14 +1188,14 @@ make sysgen 2>&1 | tee build.log
 接下来安装 PyRAF：
 
 ```bash
-pip install pyraf==2.2.0
+pip install pyraf
 ```
 
 **在使用 IRAF/PyRAF 之前，需要在该文件夹运行 `mkiraf` 命令，才能使用**
 
 #### **从 AstroConda 安装**
 
-从 AstroConda 安装 IRAF/PyRAF 较为简便，缺点是软件版本较旧，且依赖 Python 2.7
+从 AstroConda 安装 IRAF/PyRAF 较为简便，缺点是软件版本较旧（仍是 PyRAF 2.1.15），且依赖 Python 2.7
 
 首先需要用 `conda config --add channels http://ssb.stsci.edu/astroconda` 加入 AstroConda 软件源，并推荐单独建立一个 IRAF 环境 `(iraf_environment)` 安装 IRAF/PyRAF：
 
@@ -1254,14 +1244,16 @@ epar (task_name)
 
 [Geant4 -- Download](https://geant4.web.cern.ch/support/download)
 
-进入解压后的文件夹，若要将 Geant4 安装在 `(Geant4_directory)`，例如 `~/Geant4`，执行：
+进入解压后的文件夹
+
+若要将 Geant4 安装在 `(Geant4_directory)`，例如 `~/Geant4`，执行：
 
 ```bash
 mkdir build
-cd ./build
+cd build
 cmake -DCMAKE_INSTALL_PREFIX=(Geant4_directory) -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_USE_QT=ON -DGEANT4_INSTALL_DATA=ON -DGEANT4_BUILD_MULTITHREADED=ON ..
 make -j8
-make install -j8
+make install
 ```
 
 之后在 `~/.bashrc` 中添加一行：
@@ -1276,7 +1268,7 @@ source (Geant4_directory)/bin/geant4.sh
 
 ```bash
 mkdir build
-cd ./build
+cd build
 cmake ..
 make -j8
 ./exampleB1
@@ -1384,7 +1376,7 @@ yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 
 LibreOffice 安装：
 
-```
+```bash
 yay -S libreoffice-fresh
 ```
 
