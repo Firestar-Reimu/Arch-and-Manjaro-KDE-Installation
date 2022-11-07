@@ -1,6 +1,6 @@
 {
     "editor.fontSize": 12,
-    "editor.fontFamily": "JetBrains Mono, Noto Sans Mono CJK SC, Noto Mono, Consolas, monospace",
+    "editor.fontFamily": "JetBrains Mono NL, Hack, Noto Sans Mono CJK SC, Noto Mono, Consolas, monospace",
     "editor.fontLigatures": false,
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
@@ -38,6 +38,7 @@
         "editorBracketHighlight.unexpectedBracket.foreground": "#ff0000",
         "editor.selectionHighlightBackground": "#ffff55"
     },
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Default Light+",
     "debug.console.fontSize": 12,

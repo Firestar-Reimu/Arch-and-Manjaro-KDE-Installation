@@ -449,12 +449,18 @@ gpg --keyserver keyserver.ubuntu.com --recv-keys (pgp_key)
 sudo update-desktop-database
 ```
 
-### **Kate 插件下载**
+### **Kate 语言包下载**
 
-下载 Kate 插件：
+如果在打开 Kate 的时候出现：
+
+```
+kf.sonnet.core: No language dictionaries for the language: "en_US"
+```
+
+下载 Kate 语言包：
 
 ```bash
-sudo pacman -S aspell hspell libvoikko
+sudo pacman -S aspell aspell-en
 ```
 
 ### **运行 AppImage 文件或二进制文件**
@@ -580,9 +586,11 @@ O >> L >> 都选择默认位置（按 Enter） >> R
 I
 ```
 
-`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（注意这里的 `~/` 等于 `/root/`），TEXMFLOCAL 会随 TEXDIR 自动更改
+`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（注意这里的 `~/` 等于 `/root/`，建议使用绝对路径）
 
-CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改
+`TEXMFLOCAL` 会随 `TEXDIR` 自动更改
+
+CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
 
 更改到清华大学镜像需要在命令行中执行：
 
@@ -1256,7 +1264,7 @@ make -j8
 make install
 ```
 
-之后在 `~/.bashrc` 中添加一行：
+在 `~/.bashrc` 中添加一行：
 
 ```bash
 source (Geant4_directory)/bin/geant4.sh
