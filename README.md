@@ -182,7 +182,7 @@ timedatectl set-ntp true
 - `name`：更改分区名字，比如将分区 2 改名为 `Arch`，需要设置：`name 2 'Arch'`
 - `quit`：退出
 
-更多操作参见：
+更多操作参考以下网址：
 
 [Parted User's Manual](https://www.gnu.org/software/parted/manual/parted.html)
 
@@ -265,7 +265,7 @@ arch-chroot /mnt
 更新软件包缓存：
 
 ```bash
-sudo pacman -Syyu
+pacman -Syyu
 ```
 
 ### **时区**
@@ -446,15 +446,17 @@ pacman -S xorg
 pacman -S sddm
 ```
 
+SDDM 字体选择 `noto-fonts`
+
+#### **启用 SDDM**
+
+**不启用 SDDM 则无法进入图形界面**
+
 启用 SDDM：
 
 ```bash
 systemctl enable sddm
 ```
-
-SDDM 字体选择 `noto-fonts`
-
-**不执行 `systemctl enable sddm` 启用 SDDM 则无法进入图形界面**
 
 #### **安装 Plasma 桌面**
 
@@ -466,7 +468,7 @@ pacman -S plasma
 
 可以排除掉一些软件包：
 
-```bash
+```
 ^4 ^5 ^20 ^21 ^33
 ```
 
@@ -552,13 +554,41 @@ Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需
 
 设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
 
+### **双系统启动设置**
+
+下载 `os-prober`：
+
+```bash
+sudo pacman -S os-prober
+```
+
+想要让 `grub-mkconfig` 探测其他已经安装的系统并自动把他们添加到启动菜单中，编辑 `/etc/default/grub` 并取消下面这一行的注释：
+
+```
+GRUB_DISABLE_OS_PROBER=false
+```
+
+想要让 GRUB 记住上一次启动的启动项，首先将 `GRUB_DEFAULT` 的值改为 `saved`，再取消下面这一行的注释：
+
+```
+GRUB_SAVEDEFAULT=true
+```
+
+使用 `grub-mkconfig` 工具重新生成 `/boot/grub/grub.cfg`：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+此时会显示找到 Windows Boot Manager，说明设置双系统成功
+
 ### **Linux 挂载 Windows 磁盘**
 
 **首先要确保设备加密和快速启动已经关闭，以下内容针对 Linux 5.15 及之后的内核中引入的 NTFS3 驱动**
 
 参考以下网址：
 
-[Archwiki -- fstab](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[fstab -- Archwiki](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
 #### **使用 UUID/卷标**
 
@@ -660,37 +690,9 @@ Dolphin 中可以用 NTFS3 驱动挂载 NTFS 移动硬盘，但是会因为不�
 ntfs_defaults=uid=$UID,gid=$GID
 ```
 
+重启电脑即可
+
 如果要设置自动挂载，可以在“系统设置 >> 可移动存储设备 >> 所有设备”中勾选“登录时”和“插入时”，以及“自动挂载新的可移动设备”
-
-### **双系统启动设置**
-
-**首先挂载包含 Windows 系统的磁盘分区**
-
-下载 `os-prober`：
-
-```bash
-sudo pacman -S os-prober
-```
-
-想要让 `grub-mkconfig` 探测其他已经安装的系统并自动把他们添加到启动菜单中，编辑 `/etc/default/grub` 并取消下面这一行的注释：
-
-```
-GRUB_DISABLE_OS_PROBER=false
-```
-
-想要让 GRUB 记住上一次启动的启动项，首先将 `GRUB_DEFAULT` 的值改为 `saved`，再取消下面这一行的注释：
-
-```
-GRUB_SAVEDEFAULT=true
-```
-
-使用 `grub-mkconfig` 工具重新生成 `/boot/grub/grub.cfg`：
-
-```bash
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-此时会显示找到 Windows Boot Manager，说明设置双系统成功
 
 ### **网络设置**
 
@@ -773,7 +775,21 @@ save
 activate
 ```
 
-#### **ThinkPad：图形化界面设置 4G LTE 网络**
+#### **ThinkPad：图形化界面设置移动宽带网络**
+
+下载 `modemmanager` 软件包：
+
+```bash
+sudo pacman -S modemmanager
+```
+
+启用 ModemManager：
+
+```bash
+sudo systemctl enable ModemManager
+```
+
+此时 Plasma 系统托盘的网络设置会多出一个移动宽带的图标选项
 
 在“系统设置 >> 连接”中，点击右下角的加号创建新的链接，选择“移动宽带”并创建，按照以下步骤设置：
 
@@ -791,7 +807,7 @@ APN >> bjlenovo12.njm2apn
 
 #### **修改 hosts 文件访问 GitHub**
 
-修改 hosts 文件可以有效访问 GitHub，需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠），修改内容参见以下网站：
+修改 hosts 文件可以有效访问 GitHub，需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠），修改内容参考以下网址：
 
 [HelloGitHub -- hosts](https://raw.hellogithub.com/hosts)
 
@@ -856,14 +872,14 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
 Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
 ```
 
-之后执行下面的命令安装 archlinuxcn-keyring 包导入 GPG key
+之后执行下面的命令安装 `archlinuxcn-keyring` 包导入 GPG 密钥
 
 ```bash
 sudo pacman -Sy archlinuxcn-keyring
 sudo pacman -Syyu
 ```
 
-这样就开启了 pacman 和 pamac 对 Arch Linux CN 的支持
+这样就开启了 pacman 对 Arch Linux CN 的支持
 
 **注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
 
@@ -1517,6 +1533,18 @@ sudo inxi -Fa
 lsb_release -sirc
 ```
 
+#### **网络设备**
+
+在终端中输入：
+
+```bash
+ip a
+```
+
+输出网络设备名称的前两个字母表示设备种类：
+
+`lo` 为回环（loopback），`ww` 为无线广域网（WWAN，负责移动宽带连接），`wl` 为无线局域网（WLAN，负责 Wi-Fi 连接），`en` 为以太网（Ethernet，负责网线连接）
+
 #### **命令行进程查看器**
 
 在终端中输入：
@@ -1934,12 +1962,18 @@ gpg --keyserver keyserver.ubuntu.com --recv-keys (pgp_key)
 sudo update-desktop-database
 ```
 
-### **Kate 插件下载**
+### **Kate 语言包下载**
 
-下载 Kate 插件：
+如果在打开 Kate 的时候出现：
+
+```
+kf.sonnet.core: No language dictionaries for the language: "en_US"
+```
+
+下载 Kate 语言包：
 
 ```bash
-sudo pacman -S aspell hspell libvoikko
+sudo pacman -S aspell aspell-en
 ```
 
 ### **运行 AppImage 文件或二进制文件**
@@ -2065,22 +2099,22 @@ O >> L >> 都选择默认位置（按 Enter） >> R
 I
 ```
 
-`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（注意这里的 `~/` 等于 `/root/`），TEXMFLOCAL 会随 TEXDIR 自动更改
+`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（注意这里的 `~/` 等于 `/root/`，建议使用绝对路径）
 
-CTAN 镜像源可以使用 TeX Live 管理器 tlmgr 更改
+`TEXMFLOCAL` 会随 `TEXDIR` 自动更改
+
+CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
 
 更改到清华大学镜像需要在命令行中执行：
 
 ```bash
 sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
-sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 ```
 
 更改到上海交大镜像需要在命令行中执行：
 
 ```bash
 sudo tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
-sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 ```
 
 #### **使用图形界面安装**
@@ -2741,7 +2775,7 @@ make -j8
 make install
 ```
 
-之后在 `~/.bashrc` 中添加一行：
+在 `~/.bashrc` 中添加一行：
 
 ```bash
 source (Geant4_directory)/bin/geant4.sh

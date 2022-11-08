@@ -32,6 +32,18 @@ sudo inxi -Fa
 lsb_release -sirc
 ```
 
+#### **网络设备**
+
+在终端中输入：
+
+```bash
+ip a
+```
+
+输出网络设备名称的前两个字母表示设备种类：
+
+`lo` 为回环（loopback），`ww` 为无线广域网（WWAN，负责移动宽带连接），`wl` 为无线局域网（WLAN，负责 Wi-Fi 连接），`en` 为以太网（Ethernet，负责网线连接）
+
 #### **命令行进程查看器**
 
 在终端中输入：
@@ -596,14 +608,12 @@ CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
 
 ```bash
 sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
-sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 ```
 
 更改到上海交大镜像需要在命令行中执行：
 
 ```bash
 sudo tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
-sudo tlmgr --repository http://www.texlive.info/tlgpg/ install tlgpg
 ```
 
 #### **使用图形界面安装**
