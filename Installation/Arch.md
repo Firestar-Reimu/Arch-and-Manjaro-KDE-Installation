@@ -132,9 +132,11 @@ ip link
 
 对于无线局域网（Wi-Fi）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用
 
-要连接到网络：
-- 有线以太网 —— 连接网线
-- WiFi —— 使用 `iwctl` 验证无线网络
+如果使用有线以太网，连接网线即可
+
+如果使用WiFi，使用 `iwctl` 连接无线网络：
+
+首先找到网络设备：
 
 ```bash
 iwctl device list
@@ -150,7 +152,7 @@ iwctl station (device_name) connect (SSID)
 
 也可以输入 `iwctl` 进入交互模式，此时会显示 `[iwd]#` 标志上面的命令不加 `iwctl` 输入，最后用 `exit` 推出
 
-显示连接到网络后，可以用 `ping` 测试：
+连接到有线或无线网络后，可以用 `ping` 测试：
 
 ```
 ping -c (count_number) (website_destination)
@@ -333,9 +335,9 @@ systemctl enable NetworkManager
 mkinitcpio -P
 ```
 
-### **Root 密码**
+### **Root 用户密码**
 
-设置 Root 密码：
+设置 Root 用户密码：
 
 ```bash
 passwd
@@ -365,7 +367,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ## **初始配置**
 
-**现在登录到新装好的系统时使用的是 Root 帐户，用户名为 `root`，需要手动输入**
+**现在登录到新装好的系统时使用的是 Root 用户，用户名为 `root`，需要手动输入**
 
 ### **连接网络**
 
@@ -1192,7 +1194,7 @@ sudo pacman -S fcitx-sunpinyin
 
 #### **关闭启动时 grub 的消息**
 
-编辑 `/etc/default/grub`，找到两行：
+编辑 `/boot/grub/grub.cfg`，找到两行：
 
 ```
 echo    'Loading Linux linux'

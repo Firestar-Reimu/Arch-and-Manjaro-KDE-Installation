@@ -132,9 +132,11 @@ ip link
 
 对于无线局域网（Wi-Fi）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用
 
-要连接到网络：
-- 有线以太网 —— 连接网线
-- WiFi —— 使用 `iwctl` 验证无线网络
+如果使用有线以太网，连接网线即可
+
+如果使用WiFi，使用 `iwctl` 连接无线网络：
+
+首先找到网络设备：
 
 ```bash
 iwctl device list
@@ -150,7 +152,7 @@ iwctl station (device_name) connect (SSID)
 
 也可以输入 `iwctl` 进入交互模式，此时会显示 `[iwd]#` 标志上面的命令不加 `iwctl` 输入，最后用 `exit` 推出
 
-显示连接到网络后，可以用 `ping` 测试：
+连接到有线或无线网络后，可以用 `ping` 测试：
 
 ```
 ping -c (count_number) (website_destination)
@@ -333,9 +335,9 @@ systemctl enable NetworkManager
 mkinitcpio -P
 ```
 
-### **Root 密码**
+### **Root 用户密码**
 
-设置 Root 密码：
+设置 Root 用户密码：
 
 ```bash
 passwd
@@ -365,7 +367,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ## **初始配置**
 
-**现在登录到新装好的系统时使用的是 Root 帐户，用户名为 `root`，需要手动输入**
+**现在登录到新装好的系统时使用的是 Root 用户，用户名为 `root`，需要手动输入**
 
 ### **连接网络**
 
@@ -1192,7 +1194,7 @@ sudo pacman -S fcitx-sunpinyin
 
 #### **关闭启动时 grub 的消息**
 
-编辑 `/etc/default/grub`，找到两行：
+编辑 `/boot/grub/grub.cfg`，找到两行：
 
 ```
 echo    'Loading Linux linux'
@@ -1625,12 +1627,22 @@ pamac list | grep (pattern)
 
 可以查询已安装的软件包中名字含有 `pattern` 的软件包
 
+### **获取命令执行的时间**
+
+使用 `time` 命令在任何命令前面可以获取命令执行的时间：
+
+```bash
+time (command)
+```
+
+输出有三行：`real` 一行是命令执行的总时间，`user`一行是指令执行时在用户态（user mode）所花费的时间，`sys`一行是指令执行时在内核态（kernel mode）所花费的时间
+
 ### **命令行比较两个文件**
 
 可以用 Linux 自带的 `diff` 命令，它可以逐行比较两个文件（如果是二进制文件则直接输出是否存在差异）：
 
 ```bash
-diff (file_name_2) (file_name_2)
+diff (file_name_1) (file_name_2)
 ```
 
 这里的文件也可以换成路径，详细用法可以用 `diff --help` 查询
@@ -1685,7 +1697,7 @@ vim `find . -type f -name "(files)"`
 
 ### **命令行解压 ZIP 压缩包**
 
-建议使用系统预装的 `unar`（由 `unarchiver` 软件包提供），因为它可以自动检测文件编码（系统右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
+建议使用 `unar`（由 `unarchiver` 软件包提供），因为它可以自动检测文件编码（Dolphin 右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
 
 ```bash
 unar (file_name).zip
@@ -2048,7 +2060,7 @@ sudo systemctl enable --now v2raya
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
-右上角“设置”中，将“透明代理/系统代理”改为“启用：大陆白名单模式”，保存并应用
+右上角“设置”中，按照[推荐方法](https://v2raya.org/en/docs/prologue/quick-start/#transparent-proxy)进行设置，即将“透明代理/系统代理”改为“启用：大陆白名单模式”，“防止DNS污染”改为“仅防止DNS劫持（快速）”，“特殊模式”改为“supervisor”，保存并应用
 
 选择一个节点，点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
@@ -2061,9 +2073,7 @@ sudo systemctl enable --now v2raya
 enabled=false
 ```
 
-任务栏图标可以在 [v2rayATray](https://github.com/YidaozhanYa/v2rayATray) 下载
-
-之后下载 [PKGBUILD](https://github.com/YidaozhanYa/v2rayATray/blob/main/PKGBUILD)，在其所在的文件夹下执行 `makepkg -si` 即可安装
+任务栏图标可以在 [v2rayATray](https://github.com/YidaozhanYa/v2rayATray) 下载，即下载 [PKGBUILD](https://github.com/YidaozhanYa/v2rayATray/blob/main/PKGBUILD)，在其所在的文件夹下执行 `makepkg -si` 即可安装
 
 v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE Plasma 的“系统设置 >> 开机与关机 >> 自动启动”中设置
 
@@ -2071,7 +2081,7 @@ v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE
 
 ### **LaTeX 安装**
 
-推荐从 ISO 安装 TeX Live 发行版
+**推荐从 ISO 安装 TeX Live 发行版**
 
 首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
 
@@ -2139,7 +2149,7 @@ sudo perl install-tl -gui
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc amsmath`）检查是否安装成功
 
-### **biber 报错**
+#### **biber 报错**
 
 biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：
 
@@ -2152,6 +2162,22 @@ error while loading shared libraries: libcrypt.so.1: cannot open shared object f
 ```bash
 sudo pacman -S libxcrypt-compat
 ```
+
+#### **安装 MathTime Professional 2 字体**
+
+[MathTime Professional 2](https://www.pctex.com/mtpro2.html) 字体是 Type 1 字体，下载后为 `mtp2fonts.zip.tpm` 文件
+
+可以使用以下脚本安装在 Linux 上：
+
+[Mathtime Installer -- GitHub](https://github.com/jamespfennell/mathtime-installer)
+
+下载[脚本](https://github.com/jamespfennell/mathtime-installer/blob/master/mtpro2-texlive.sh)，并安装 `unzip` 软件包，之后执行：
+
+```bash
+./mtpro2-texlive.sh -i mtp2fonts.zip.tpm
+```
+
+之后可以用 `\usepackage{mtpro2}` 使用 MathTime Professional 2 字体，用 `texdoc mtpro2` 查看文档
 
 ### **TeXstudio 安装与配置（可选）**
 
@@ -2231,7 +2257,7 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
 pip install (package_name)
 ```
 
-这里不建议安装 spyder 和 jupyter notebook，安装最基本的包即可：
+这里不建议安装 Spyder，安装最基本的包即可：
 
 ```bash
 pip install numpy matplotlib astropy black ipython
@@ -2435,6 +2461,22 @@ channels:
 
 这样就可以下载 `wcstools` 等软件
 
+#### **下载 JupyterLab**
+
+可以通过 `pip` 下载：
+
+```bash
+pip install jupyterlab
+```
+
+或者在 conda-forge 中下载：
+
+```bash
+conda install -c conda-forge jupyterlab
+```
+
+下载后用 `jupyter-lab` 命令在浏览器中打开（注意中间的连字符）
+
 #### **下载 photutils**
 
 需要在 conda-forge 中下载：
@@ -2443,7 +2485,15 @@ channels:
 conda install -c conda-forge photutils
 ```
 
-#### **Spyder 配置**
+#### **Spyder 下载与配置**
+
+推荐使用 `conda` 下载，在 conda-forge 中有最新的版本：
+
+```bash
+conda install -c conda-forge spyder
+```
+
+Spyder 配置如下：
 
 通用 >> 显示器分辨率 >> 自定义高分辨率缩放 >> 1.0
 
@@ -2486,6 +2536,8 @@ Linux 上 Spyder 需要在 conda 中安装 `fcitx-qt5` 才能支持 Fcitx/Fcitx5
 ```
 conda install -c conda-forge fcitx-qt5
 ```
+
+Spyder 会在 `~/.config/spyder-py3` 中创建初始文件 `temp.py`
 
 ### **Visual Studio Code 安装与配置**
 
