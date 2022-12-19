@@ -887,16 +887,22 @@ sudo pacman -Syyu
 
 #### **搜索软件包**
 
-在 `yay` 上执行：
+在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 会启动下载程序）
 
 ```bash
-yay (package_name)
+yay -Ss (package_name)
 ```
 
 或者在 `pamac` 上执行：
 
 ```bash
 pamac search (package_name)
+```
+
+搜索已安装的软件包:
+
+```bash
+yay -Qs (package_name)
 ```
 
 #### **检查依赖关系**
@@ -941,7 +947,7 @@ sudo pacman -Rsn $(pacman -Qdtq)
 pamac remove -o
 ```
 
-若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`
+**若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`**
 
 #### **从本地安装包安装软件**
 
@@ -1276,7 +1282,7 @@ https://github.com/systemd/systemd/pull/23574
 
 https://forum.manjaro.org/t/the-system-is-going-down-for-poweroff-reboot-now/114353/4
 
-暂时方法：`shutdown --no-wall`
+暂时方法：`reboot --no-wall`
 
 ### **Git 配置**
 
@@ -1416,7 +1422,7 @@ Hidden=false
 
 注意此时需要手动输入用户名和密码
 
-在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回图形化界面
+在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回 TTY1 图形化界面
 
 ### **调整 CPU 频率（可选）**
 
@@ -1790,24 +1796,20 @@ Inherits=(cursor_theme_name)
 
 默认的备选是 `Adwaita`，这可能导致光标主题的不统一，可以改为 `breeze_cursors`
 
-### **配置桌面小部件（可选）**
+### **终端字体效果配置**
 
-右键点击桌面 >> 添加部件 >> 获取新部件 >> 下载新 Plasma 部件
+打开终端 Konsole：
 
-在这里可以下载桌面小部件，并在“添加部件”处添加
+设置 >> 编辑当前方案 >> 外观 >> Complex Text Layout >> 双向文字渲染
 
-### **shell 配置**
-
-修改 Konsole 默认的 shell 需要如下设置：
-
-Konsole >> 设置 >> 编辑当前方案 >> 常规 >> 命令 >> `usr/bin/bash`
+默认关闭连字，勾选 Word mode 可以开启连字
 
 ### **bash 配置提示符变量**
 
-bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容，可以显示用户名、主机名、时间、Git 仓库分支、是否为超级用户，并显示颜色高亮：
+bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容，可以显示用户名、主机名、时间、是否为超级用户，并显示颜色高亮：
 
 ```bash
-PS1="\[\033[38;5;39m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[$(tput sgr0)\][\[$(tput sgr0)\]\[\033[38;5;196m\]\u\[$(tput sgr0)\] @ \[$(tput sgr0)\]\[\033[38;5;40m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;208m\]\W\[$(tput sgr0)\]] (\t)\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;196m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+PS1="[\[$(tput sgr0)\]\[\033[38;5;196m\]\u\[$(tput sgr0)\] @ \[$(tput sgr0)\]\[\033[38;5;40m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;208m\]\W\[$(tput sgr0)\]] (\t)\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;196m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
 ```
 
 说明文档参见以下网站：
@@ -1848,13 +1850,17 @@ yay -S blesh-git
 
 https://github.com/akinomyoga/ble.sh
 
-### **zsh 配置 Oh-My-Zsh**
+### **zsh 与 Oh-My-Zsh 配置**
 
 安装 zsh：
 
 ```bash
 sudo pacman -S zsh
 ```
+
+修改 Konsole 默认的 shell 需要如下设置：
+
+Konsole >> 设置 >> 编辑当前方案 >> 常规 >> 命令 >> `usr/bin/zsh`
 
 手动安装 Oh-My-Zsh，执行：（不推荐用包管理器安装）
 
@@ -1926,7 +1932,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 ### **Vim 美化**
 
-Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim82/colors/`，并在 `/etc/vimrc` 中添加：
+Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim90/colors/`，并在 `/etc/vimrc` 中添加：
 
 ```
 colorscheme PaperColor
@@ -1953,6 +1959,12 @@ ILoveCandy
 ```
 
 即可添加吃豆人彩蛋
+
+### **配置桌面小部件（可选）**
+
+右键点击桌面 >> 添加部件 >> 获取新部件 >> 下载新 Plasma 部件
+
+在这里可以下载桌面小部件，并在“添加部件”处添加
 
 ## **软件的下载与配置**
 
@@ -2648,7 +2660,7 @@ git config --global --add safe.directory "*"
 若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到 `"command": "["` 一段（即“display math”），将 `"snippet"` 的值改为：
 
 ```json
-"[\n    ${1}\n\\]"
+"[\n\t${1}\n\\]"
 ```
 
 重启 Visual Studio Code 即可生效
@@ -2701,7 +2713,7 @@ yay -S jetbrains-fleet
 
 ### **SAOImageDS9 安装**
 
-推荐选择二进制包 `ds9-bin`：
+AUR 中有 `ds9` 和 `ds9-bin` 两个版本，推荐选择二进制包 `ds9-bin`：
 
 ```bash
 yay -S ds9-bin
