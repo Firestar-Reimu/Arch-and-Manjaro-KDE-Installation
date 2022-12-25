@@ -2973,6 +2973,20 @@ yay -S libreoffice-fresh
 yay -S baidunetdisk-bin
 ```
 
+### **BitTorrent 客户端安装（可选）**
+
+推荐使用 KDE 官方客户端 KTorrent：
+
+```bash
+yay -S ktorrent
+```
+
+或者同样功能强大且跨平台的 qBittorrent：
+
+```
+yay -S qbittorrent
+```
+
 ### **应用程序的快捷键配置（可选）**
 
 应用程序的快捷键配置在：
