@@ -2054,10 +2054,10 @@ ssh -T git@github.com
 
 ### **V2Ray 安装与配置**
 
-可以直接使用包管理器安装（`v2raya-git` 在 AUR 软件库）
+可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）
 
 ```bash
-yay -S v2ray v2raya-git
+yay -S v2ray v2raya-bin
 ```
 
 启动 v2rayA 需要使用 `systemctl`：
@@ -2068,7 +2068,7 @@ sudo systemctl enable --now v2raya
 
 之后 v2rayA 可以开机自启动
 
-注意 `v2ray` 升级到 5.x 版本，需要下载 `v2raya-git`（而不是 `v2raya`）才能支持，旧的 Qv2ray 已经无法使用，以后可能会迁移到 [sing-box](https://sing-box.sagernet.org/)
+注意现在 `v2ray` 升级到 5.x 版本，需要 v2RayA 升级到 2.x 版本，旧的 Qv2ray 已经无法使用，以后可能会迁移到 [sing-box](https://sing-box.sagernet.org/)
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
@@ -2541,12 +2541,6 @@ Spyder 配置如下：
 
 ```bash
 spyder (file_path)/(file_name)
-```
-
-Linux 上 Spyder 需要在 conda 中安装 `fcitx-qt5` 才能支持 Fcitx/Fcitx5 输入中文字符：
-
-```
-conda install -c conda-forge fcitx-qt5
 ```
 
 Spyder 会在 `~/.config/spyder-py3` 中创建初始文件 `temp.py`
