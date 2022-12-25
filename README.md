@@ -242,11 +242,13 @@ Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
 
 ### **安装必需的软件包**
 
-使用 `pacstrap` 脚本，安装 base 软件包和 Linux 内核以及常规硬件的固件：
+使用 `pacstrap` 脚本，安装 base 软件包、Linux 内核以及常规硬件的固件：
 
 ```bash
 pacstrap /mnt base linux linux-firmware sof-firmware vim base-devel
 ```
+
+如果想要获得[硬件视频加速](https://wiki.archlinux.org/title/Hardware_video_acceleration)可以下载 `intel-media-driver`
 
 ### **生成 fstab 文件**
 
@@ -1276,7 +1278,9 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 再重启即可
 
-#### **关闭重启时 systemd 的消息**
+#### **关闭重启时 systemd 的消息（未测试）**
+
+参考以下网址：
 
 https://github.com/systemd/systemd/pull/23574
 
@@ -2545,11 +2549,17 @@ spyder (file_path)/(file_name)
 
 Spyder 会在 `~/.config/spyder-py3` 中创建初始文件 `temp.py`
 
+如果使用 Anaconda/Miniconda 安装 Spyder，需要用 conda 安装 `fcitx-qt5` 才能支持 Fcitx/Fcitx5 输入中文字符：
+
+```
+conda install -c conda-forge fcitx-qt5
+```
+
 ### **Visual Studio Code 安装与配置**
 
 #### **Visual Studio Code 安装**
 
-发行版维护者从开源代码构建的版本，可以用 `code` 命令打开（缺点是图标被重新设计过，且更新落后于微软官方版）：
+发行版维护者从开源代码构建的版本，可以用 `code` 命令打开（缺点是图标被重新设计过，且更新略微落后于微软官方版）：
 
 ```bash
 sudo pacman -S code
