@@ -226,9 +226,9 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 ### **开机美化**
 
-开机与关机 >> 登录屏幕（SDDM） >> 获取新 SDDM 主题 >> 应用 Plasma 设置
+系统设置 >> 开机与关机 >> 登录屏幕（SDDM） >> 获取新 SDDM 主题 >> 应用 Plasma 设置
 
-外观 >> 欢迎屏幕 >> 获取新欢迎屏幕
+系统设置 >> 外观 >> 欢迎屏幕 >> 获取新欢迎屏幕
 
 #### **SDDM 时间显示调整为 24 小时制**
 
@@ -287,24 +287,20 @@ Inherits=(cursor_theme_name)
 
 默认的备选是 `Adwaita`，这可能导致光标主题的不统一，可以改为 `breeze_cursors`
 
-### **配置桌面小部件（可选）**
+### **终端字体效果配置**
 
-右键点击桌面 >> 添加部件 >> 获取新部件 >> 下载新 Plasma 部件
+打开终端 Konsole：
 
-在这里可以下载桌面小部件，并在“添加部件”处添加
+设置 >> 编辑当前方案 >> 外观 >> Complex Text Layout >> 双向文字渲染
 
-### **shell 配置**
-
-修改 Konsole 默认的 shell 需要如下设置：
-
-Konsole >> 设置 >> 编辑当前方案 >> 常规 >> 命令 >> `usr/bin/bash`
+默认关闭连字，勾选“Word mode”和“ASCII 字符”（不勾选“Use the same attributes for whole word”）可以开启连字
 
 ### **bash 配置提示符变量**
 
-bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容，可以显示用户名、主机名、时间、Git 仓库分支、是否为超级用户，并显示颜色高亮：
+bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容，可以显示用户名、主机名、时间、是否为超级用户，并显示颜色高亮：
 
 ```bash
-PS1="\[\033[38;5;39m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[$(tput sgr0)\][\[$(tput sgr0)\]\[\033[38;5;196m\]\u\[$(tput sgr0)\] @ \[$(tput sgr0)\]\[\033[38;5;40m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;208m\]\W\[$(tput sgr0)\]] (\t)\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;196m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+PS1="[\[$(tput sgr0)\]\[\033[38;5;196m\]\u\[$(tput sgr0)\] @ \[$(tput sgr0)\]\[\033[38;5;40m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;208m\]\W\[$(tput sgr0)\]] (\t)\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;196m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
 ```
 
 说明文档参见以下网站：
@@ -345,13 +341,17 @@ yay -S blesh-git
 
 https://github.com/akinomyoga/ble.sh
 
-### **zsh 配置 Oh-My-Zsh**
+### **zsh 与 Oh-My-Zsh 配置**
 
 安装 zsh：
 
 ```bash
 sudo pacman -S zsh
 ```
+
+修改 Konsole 默认的 shell 需要如下设置：
+
+Konsole >> 设置 >> 编辑当前方案 >> 常规 >> 命令 >> `usr/bin/zsh`
 
 手动安装 Oh-My-Zsh，执行：（不推荐用包管理器安装）
 
@@ -423,7 +423,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 ### **Vim 美化**
 
-Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim82/colors/`，并在 `/etc/vimrc` 中添加：
+Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim90/colors/`，并在 `/etc/vimrc` 中添加：
 
 ```
 colorscheme PaperColor
@@ -450,6 +450,12 @@ ILoveCandy
 ```
 
 即可添加吃豆人彩蛋
+
+### **配置桌面小部件（可选）**
+
+右键点击桌面 >> 添加部件 >> 获取新部件 >> 下载新 Plasma 部件
+
+在这里可以下载桌面小部件，并在“添加部件”处添加
 
 ## **软件的下载与配置**
 
@@ -501,48 +507,12 @@ chmod +x (file_name)
 
 然后双击或在终端输入文件名运行即可
 
-### **使用 SSH 连接到 GitHub**
-
-推荐使用 SSH 连接到 GitHub，其安全性更高，访问速度较快且更加稳定
-
-配置参考以下网址：
-
-[GitHub Docs -- 使用 SSH 连接到 GitHub](https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh)
-
-步骤如下：（Linux 上直接用系统终端，Windows 上需要用 Git Bash 而不能用 Windows Terminal，因为缺少 `eval` 等命令）
-
-#### **生成新 SSH 密钥并添加到 ssh-agent**
-
-```bash
-ssh-keygen -t ed25519 -C "(user_email)"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-```
-
-第一步会提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
-
-#### **新增 SSH 密钥到 GitHub 帐户**
-
-通过 `cat ~/.ssh/id_ed25519.pub` 查看公钥并复制到 Github 账户下的“设置 >> SSH and GPG keys”中
-
-#### **测试 SSH 连接**
-
-在终端中输入：
-
-```
-ssh -T git@github.com
-```
-
-这一步要输入 `yes` 确定
-
-**注意 Linux 上和 Windows 上用的是不同的密钥，Windows 上操作步骤相同，但需要在 Git Bash（而不是 Windows Powershell）上执行**
-
 ### **V2Ray 安装与配置**
 
-可以直接使用包管理器安装（`v2raya-git` 在 AUR 软件库）
+可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）
 
 ```bash
-yay -S v2ray v2raya-git
+yay -S v2ray v2raya-bin
 ```
 
 启动 v2rayA 需要使用 `systemctl`：
@@ -553,7 +523,7 @@ sudo systemctl enable --now v2raya
 
 之后 v2rayA 可以开机自启动
 
-注意 `v2ray` 升级到 5.x 版本，需要下载 `v2raya-git`（而不是 `v2raya`）才能支持，旧的 Qv2ray 已经无法使用，以后可能会迁移到 [sing-box](https://sing-box.sagernet.org/)
+注意现在 `v2ray` 升级到 5.x 版本，需要 v2RayA 升级到 2.x 版本，旧的 Qv2ray 已经无法使用，以后可能会迁移到 [sing-box](https://sing-box.sagernet.org/)
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
@@ -576,9 +546,9 @@ v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE
 
 **浏览器和 KDE Plasma 的网络连接设置都不需要更改**
 
-### **LaTeX 安装**
+### **TeX 安装**
 
-**推荐从 ISO 安装 TeX Live 发行版**
+**推荐从 ISO 安装 TeX Live 发行版，速度最快**
 
 首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
 
@@ -590,23 +560,24 @@ sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 
 #### **使用命令行界面安装（推荐）**
 
-**使用命令行界面/图形界面安装时一定要加 `sudo`，否则只能将其安装到 `/home/(user_name)/` 下的文件夹且没有 `Create symlinks in standard directories` 一项的设置**
+**安装过程不建议用 sudo**
 
 进入镜像文件夹，运行：
 
 ```bash
-sudo perl install-tl -gui text
+perl install-tl -gui text
 ```
 
 用大写字母命令控制安装：
 
 ```
-D >> 1 >> 输入要安装 TeX Live 的位置（`TEXDIR`） >> R
+C >> 输入字母选择要安装/不安装的软件包集合
+D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
 O >> L >> 都选择默认位置（按 Enter） >> R
 I
 ```
 
-`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（注意这里的 `~/` 等于 `/root/`，建议使用绝对路径）
+`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（建议使用绝对路径）
 
 `TEXMFLOCAL` 会随 `TEXDIR` 自动更改
 
@@ -615,13 +586,13 @@ CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
 更改到清华大学镜像需要在命令行中执行：
 
 ```bash
-sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
 ```
 
 更改到上海交大镜像需要在命令行中执行：
 
 ```bash
-sudo tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
+tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
 ```
 
 #### **使用图形界面安装**
@@ -635,16 +606,32 @@ sudo pacman -S tcl tk
 进入镜像文件夹，运行：
 
 ```bash
-sudo perl install-tl -gui
+perl install-tl -gui
 ```
 
 即可在图形界面下载 TeX Live，高级设置需要点击左下角的 Advanced 按钮
 
-**记住勾选 Create symlinks in standard directories 一项（自动添加到 PATH），Specify directories 选择默认文件夹即可，之后不需要自己添加 PATH**
+#### **设置 PATH 环境变量**
+
+输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
+
+编辑 `~/.bashrc`，添加一行：
+
+```bash
+PATH=(TEXDIR)/bin/x86_64-linux:$PATH
+```
 
 可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
-还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc amsmath`）检查是否安装成功
+还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
+
+#### **从安装程序安装**
+
+可以
+
+```bash
+perl install-tl -select-repository -gui text
+```
 
 #### **biber 报错**
 
@@ -658,6 +645,20 @@ error while loading shared libraries: libcrypt.so.1: cannot open shared object f
 
 ```bash
 sudo pacman -S libxcrypt-compat
+```
+
+#### **texdoc 报错**
+
+使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档，如果在运行 `biber` 的过程中出现以下报错：
+
+```
+kf.service.services: KApplicationTrader: mimeType "x-scheme-handler/file" not found
+```
+
+需要修改 `~/.config/mimeapps.list` 文件，加入：
+
+```
+x-scheme-handler/file=okularApplication_pdf.desktop;
 ```
 
 #### **安装 MathTime Professional 2 字体**
@@ -735,6 +736,52 @@ sudo pacman -S texstudio
 服务器 >> 服务器设置 >> 每隔 1 分钟检查一次新消息
 
 服务器 >> 服务器设置 >> 在删除消息时 >> 立即删除
+
+### **GitHub Desktop 安装**
+
+推荐选择二进制包 `github-desktop-bin`：
+
+```bash
+yay -S github-desktop-bin gnome-keyring
+```
+
+登录时要创建一个密钥环，密钥设为 GitHub 密码即可
+
+### **使用 SSH 连接到 GitHub**
+
+推荐使用 SSH 连接到 GitHub，其安全性更高，访问速度较快且更加稳定
+
+配置参考以下网址：
+
+[GitHub Docs -- 使用 SSH 连接到 GitHub](https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh)
+
+步骤如下：（Linux 上直接用系统终端，Windows 上需要用 Git Bash 而不能用 Windows Terminal，因为缺少 `eval` 等命令）
+
+#### **生成新 SSH 密钥并添加到 ssh-agent**
+
+```bash
+ssh-keygen -t ed25519 -C "(user_email)"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+第一步会提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
+
+#### **新增 SSH 密钥到 GitHub 帐户**
+
+通过 `cat ~/.ssh/id_ed25519.pub` 查看公钥并复制到 Github 账户下的“设置 >> SSH and GPG keys”中
+
+#### **测试 SSH 连接**
+
+在终端中输入：
+
+```
+ssh -T git@github.com
+```
+
+这一步要输入 `yes` 确定
+
+**注意 Linux 上和 Windows 上用的是不同的密钥，Windows 上操作步骤相同，但需要在 Git Bash（而不是 Windows Powershell）上执行**
 
 ### **Python 安装与配置**
 
@@ -1028,19 +1075,19 @@ Spyder 配置如下：
 spyder (file_path)/(file_name)
 ```
 
-Linux 上 Spyder 需要在 conda 中安装 `fcitx-qt5` 才能支持 Fcitx/Fcitx5 输入中文字符：
+Spyder 会在 `~/.config/spyder-py3` 中创建初始文件 `temp.py`
+
+如果使用 Anaconda/Miniconda 安装 Spyder，需要用 conda 安装 `fcitx-qt5` 才能支持 Fcitx/Fcitx5 输入中文字符：
 
 ```
 conda install -c conda-forge fcitx-qt5
 ```
 
-Spyder 会在 `~/.config/spyder-py3` 中创建初始文件 `temp.py`
-
 ### **Visual Studio Code 安装与配置**
 
 #### **Visual Studio Code 安装**
 
-发行版维护者从开源代码构建的版本，可以用 `code` 命令打开（缺点是图标被重新设计过，且更新落后于微软官方版）：
+发行版维护者从开源代码构建的版本，可以用 `code` 命令打开（缺点是图标被重新设计过，且更新略微落后于微软官方版）：
 
 ```bash
 sudo pacman -S code
@@ -1145,7 +1192,7 @@ git config --global --add safe.directory "*"
 若要更改行间公式 `\[\]` 的自动补全（公式独占一行），在 `~/.vscode/extensions/james-yu.latex-workshop-(version_number)/data/commands.json` 中找到 `"command": "["` 一段（即“display math”），将 `"snippet"` 的值改为：
 
 ```json
-"[\n    ${1}\n\\]"
+"[\n\t${1}\n\\]"
 ```
 
 重启 Visual Studio Code 即可生效
@@ -1198,7 +1245,7 @@ yay -S jetbrains-fleet
 
 ### **SAOImageDS9 安装**
 
-推荐选择二进制包 `ds9-bin`：
+AUR 中有 `ds9` 和 `ds9-bin` 两个版本，推荐选择二进制包 `ds9-bin`：
 
 ```bash
 yay -S ds9-bin
@@ -1424,16 +1471,6 @@ yay -S qqmusic-bin
 
 默认是暗色主题，右上角皮肤键（衣服图案）可以更改为亮色主题
 
-### **GitHub Desktop 安装（可选）**
-
-推荐选择二进制包 `github-desktop-bin`：
-
-```bash
-yay -S github-desktop-bin
-```
-
-登录时要创建一个密钥环，密钥设为 GitHub 密码即可
-
 ### **办公软件安装（可选）**
 
 WPS 安装：
@@ -1452,6 +1489,20 @@ yay -S libreoffice-fresh
 
 ```bash
 yay -S baidunetdisk-bin
+```
+
+### **BitTorrent 客户端安装（可选）**
+
+推荐使用 KDE 官方客户端 KTorrent：
+
+```bash
+yay -S ktorrent
+```
+
+或者同样功能强大且跨平台的 qBittorrent：
+
+```
+yay -S qbittorrent
 ```
 
 ### **应用程序的快捷键配置（可选）**

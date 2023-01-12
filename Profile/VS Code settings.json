@@ -38,7 +38,6 @@
         "editorBracketHighlight.unexpectedBracket.foreground": "#ff0000",
         "editor.selectionHighlightBackground": "#ffff55"
     },
-    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Default Light+",
     "debug.console.fontSize": 12,
@@ -128,10 +127,8 @@
         "*.fdb_latexmk"
     ],
     "latex-workshop.latex.autoClean.run": "onBuilt",
-    "latex-workshop.bind.enter.key": false,
     "latex-workshop.latex.watch.delay": 0,
     "latex-workshop.latex.watch.interval": 0,
-    "latex-workshop.latex.pdfWatch.delay": 0,
     "latex-workshop.view.pdf.tab.openDelay": 0,
     "latex-workshop.view.pdf.viewer": "tab",
     "python.linting.pylintArgs": ["--generate-members"],

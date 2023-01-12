@@ -2,9 +2,9 @@
 
 ```
 OS: Arch Linux x86_64
-Kernel: x86_64 Linux 6.0.6-arch1-1
+Kernel: x86_64 Linux 6.1.3-arch1-1
 Resolution: 2560x1600
-DE: KDE 5.99.0 / Plasma 5.26.2
+DE: KDE 5.101.0 / Plasma 5.26.5
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -155,7 +155,7 @@ iwctl station (device_name) connect (SSID)
 连接到有线或无线网络后，可以用 `ping` 测试：
 
 ```
-ping -c (count_number) (website_destination)
+ping -c (count_number) archlinux.org
 ```
 
 ### **更新系统时间**
@@ -170,7 +170,11 @@ timedatectl set-ntp true
 
 **对 Linux 分区建议使用 BTRFS/XFS/EXT4 文件系统**
 
-可以使用 `lsblk` 查看，使用 `parted` 修改分区，可以使用交互模式
+可以使用 `lsblk` 查看硬盘 `/dev/(disk_name)`，如 `/dev/sda`、`/dev/nvme0n1` 等，前者多用于 HDD，后者多用于 SSD
+
+修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例，注意要
+
+使用 `parted /dev/(disk_name)` 修改分区，可以使用交互模式
 
 `parted` 常用命令：
 
@@ -222,7 +226,7 @@ mount --mkdir /dev/(efi_system_partition) /mnt/boot
 
 **一般建议选择清华大学镜像和上海交大镜像，这两个镜像稳定且积极维护，清华大学镜像速度更快，上海交大镜像更新频率更高**
 
-编辑 `/etc/pacman.d/mirrorlist`，在文件的最顶端添加：
+编辑 `/etc/pacman.d/mirrorlist`（ISO 镜像中自带有 `vim` 等常用编辑器），在文件的最顶端添加：
 
 ```
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
@@ -242,11 +246,13 @@ Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
 
 ### **安装必需的软件包**
 
-使用 `pacstrap` 脚本，安装 base 软件包和 Linux 内核以及常规硬件的固件：
+使用 `pacstrap` 脚本，安装 base 软件包、Linux 内核、常规硬件的固件、文本编辑器等：
 
 ```bash
 pacstrap /mnt base linux linux-firmware sof-firmware vim base-devel
 ```
+
+如果想要获得[硬件视频加速](https://wiki.archlinux.org/title/Hardware_video_acceleration)可以下载 `intel-media-driver`
 
 ### **生成 fstab 文件**
 
@@ -425,12 +431,14 @@ Defaults:(user_name) !authenticate
 
 **注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
 
-### **启用蓝牙**
+### **安装并启用蓝牙**
 
 ```bash
-pacman -S bluez
+pacman -S bluez pulseaudio-bluetooth
 systemctl enable bluetooth
 ```
+
+这里的 `pulseaudio-bluetooth` 是用于连接蓝牙耳机的
 
 ### **KDE Plasma 桌面安装**
 
@@ -452,7 +460,7 @@ SDDM 字体选择 `noto-fonts`
 
 #### **启用 SDDM**
 
-**不启用 SDDM 则无法进入图形界面**
+**不启用 SDDM 等显示管理器则无法进入图形界面**
 
 启用 SDDM：
 
@@ -555,6 +563,22 @@ Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需
 打开终端 Konsole/Yakuake（Yakuake 设置自动启动后可以用 `Fn+F12` 直接打开）：
 
 设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
+
+### **SDDM 修改为中文**
+
+创建一个新文件：`/etc/sddm.locale`，写入：
+
+```
+LANG="zh_CN.UTF-8"
+```
+
+再编辑 `/lib/systemd/system/sddm.service`，在 `[Service]` 一节内加入：
+
+```
+EnvironmentFile=-/etc/sddm.locale
+```
+
+前面的 `-` 号表示即使 `/etc/sddm.locale` 不存在，也不会报错
 
 ### **双系统启动设置**
 
@@ -821,7 +845,7 @@ APN >> bjlenovo12.njm2apn
 
 yay 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器
 
-执行以下命令安装 `yay`：（需要保证能够连接 GitHub，一般需要修改 hosts）
+执行以下命令安装 yay：（需要保证能够连接 GitHub，一般需要修改 hosts）
 
 ```bash
 git clone https://aur.archlinux.org/yay-bin.git
@@ -829,9 +853,11 @@ cd yay-bin
 makepkg -si
 ```
 
-`yay` 的命令与 `pacman` 相似，如 `yay -S` 表示下载软件包、`yay -Syyu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R` 表示删除软件包，其使用教程参考以下网址：
+yay 的命令与 `pacman` 相似，如 `yay -S (package_name)` 表示下载软件包、`yay -Syyu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R (package_name)` 表示删除软件包，其使用教程参考以下网址：
 
 [yay -- GitHub](https://github.com/Jguer/yay)
+
+yay 支持在下载时修改 PKGBUILD 文件，方法是 `yay -S --editmenu (package_name)`
 
 #### **pamac**
 
@@ -854,7 +880,7 @@ makepkg -si
 
 添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
 
-然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 获取 AUR 的软件包
+然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build (package_name)` 获取 AUR 的软件包
 
 **以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
 
@@ -887,16 +913,22 @@ sudo pacman -Syyu
 
 #### **搜索软件包**
 
-在 `yay` 上执行：
+在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 会启动下载程序）
 
 ```bash
-yay (package_name)
+yay -Ss (package_name)
 ```
 
 或者在 `pamac` 上执行：
 
 ```bash
 pamac search (package_name)
+```
+
+搜索已安装的软件包:
+
+```bash
+yay -Qs (package_name)
 ```
 
 #### **检查依赖关系**
@@ -941,7 +973,7 @@ sudo pacman -Rsn $(pacman -Qdtq)
 pamac remove -o
 ```
 
-若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`
+**若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`**
 
 #### **从本地安装包安装软件**
 
@@ -973,7 +1005,13 @@ source $VIMRUNTIME/mswin.vim
 
 启用剪贴板功能，需要安装 `gvim` 软件包
 
-### **GNU nano 配置**
+### **GNU nano 下载与配置**
+
+下载 nano 文本编辑器：
+
+```bash
+sudo pacman -S nano
+```
 
 nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
 
@@ -1017,7 +1055,7 @@ sudo timedatectl set-local-rtc 0
 reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_QWORD /f
 ```
 
-这一步需要在 Powershell（管理员）中执行
+**这一步需要在 Powershell（管理员）中执行**
 
 #### **数字时钟设置 24 小时制**
 
@@ -1203,7 +1241,7 @@ echo    'Loading initial ramdisk ...'
 
 将其删除，重启即可
 
-更本质是修改 `/etc/grub.d/10_linux`
+更本质是修改 `/etc/grub.d/10_linux`，删除 `message="$(gettext_printf "Loading Linux %s ..." ${version})"` 和 `message="$(gettext_printf "Loading initial ramdisk ...")"`
 
 #### **关闭启动时 fsck 的消息**
 
@@ -1231,6 +1269,11 @@ sudo systemctl edit --full systemd-fsck@.service
 分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
 
 ```
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/lib/systemd/systemd-fsck
+TimeoutSec=0
 StandardOutput=null
 StandardError=journal+console
 ```
@@ -1272,11 +1315,13 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 #### **关闭重启时 systemd 的消息**
 
+参考以下网址：
+
 https://github.com/systemd/systemd/pull/23574
 
-https://forum.manjaro.org/t/the-system-is-going-down-for-poweroff-reboot-now/114353/4
+方法如下：
 
-暂时方法：`shutdown --no-wall`
+系统设置 >> 开机与关机 >> 登录屏幕（SDDM） >> 行为设置 >> “关机命令”和“重启命令”中加入 `--no-wall` 参数
 
 ### **Git 配置**
 
@@ -1351,21 +1396,9 @@ XDG_VIDEOS_DIR="$HOME/Videos"
 
 ### **蓝牙连接设置**
 
-#### **SONY WH-1000XM3 耳机的蓝牙连接**
+#### **命令行连接蓝牙**
 
-长按耳机电源键约 7 秒即可进入配对模式，可以在蓝牙中配对
-
-#### **Logitech 鼠标的蓝牙连接**
-
-同一台电脑的 Windows 系统和 Linux 系统在鼠标上会被识别为两个设备
-
-如果 Windows 系统被识别为设备 1，需要多设备切换的按钮（一般是一个在滚轮后或鼠标底部的圆形按钮）切换至设备 2
-
-长按圆形按钮直到灯 2 快速闪烁进入配对模式，可以在蓝牙中配对
-
-#### **如果鼠标配对后屏幕光标无法移动**
-
-一般可以直接删除设备重新配对，如果失败则按照下面步骤操作：
+一般蓝牙设备可以在 Plasma 桌面的图形界面下连接，如果连接失败，可以选择用命令行界面连接和排查错误
 
 首先要安装 `bluez-utils`：
 
@@ -1379,7 +1412,32 @@ sudo pacman -S bluez-utils
 bluetoothctl
 ```
 
-然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse (M557, M590, anywhere mouse 2, etc)”一段的指引进行操作
+进入交互模式，此时命令前缀变为 `[bluetooth]#`（`bluetooth` 可能替换为已连接设备的名字），连接步骤如下：
+
+- 使用命令 `scan on` 去搜索发现所有可配对的设备
+- 使用命令 `devices` 获得要配对的设备的 MAC 地址，一般是 `XX:XX:XX:XX:XX:XX` 的形式
+- 使用命令 `pair (MAC_address)` 配对设备，可能需要输入 PIN 密码
+- 使用命令 `trust (MAC_address)` 将设备添加到信任列表
+- 使用命令 `connect (MAC_address)` 建立连接
+- 使用命令 `quit` 退出
+
+#### **SONY WH-1000XM3 耳机的蓝牙连接**
+
+长按耳机电源键约 7 秒即可进入配对模式，可以在蓝牙中配对
+
+#### **Logitech 多设备鼠标的蓝牙连接**
+
+同一台电脑的 Windows 系统和 Linux 系统在鼠标上会被识别为两个设备
+
+如果 Windows 系统被识别为设备 1，需要多设备切换的按钮（一般是一个在滚轮后或鼠标底部的圆形按钮）切换至设备 2
+
+长按圆形按钮直到灯 2 快速闪烁进入配对模式，可以在蓝牙中配对
+
+如果 Logitech 鼠标配对后屏幕光标无法移动，一般可以直接删除设备重新配对，如果仍然失败则按照下面步骤操作：
+
+安装 `bluez-utils`，输入 `bluetoothctl` 进入命令行界面
+
+然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse”一段的指引进行操作
 
 ### **解决登录 Root 用户没有声音的问题**
 
@@ -1416,7 +1474,7 @@ Hidden=false
 
 注意此时需要手动输入用户名和密码
 
-在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回图形化界面
+在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回 TTY1 图形化界面
 
 ### **调整 CPU 频率（可选）**
 

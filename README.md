@@ -2,9 +2,9 @@
 
 ```
 OS: Arch Linux x86_64
-Kernel: x86_64 Linux 6.0.6-arch1-1
+Kernel: x86_64 Linux 6.1.3-arch1-1
 Resolution: 2560x1600
-DE: KDE 5.99.0 / Plasma 5.26.2
+DE: KDE 5.101.0 / Plasma 5.26.5
 WM: KWin
 CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
 GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
@@ -155,7 +155,7 @@ iwctl station (device_name) connect (SSID)
 连接到有线或无线网络后，可以用 `ping` 测试：
 
 ```
-ping -c (count_number) (website_destination)
+ping -c (count_number) archlinux.org
 ```
 
 ### **更新系统时间**
@@ -170,7 +170,11 @@ timedatectl set-ntp true
 
 **对 Linux 分区建议使用 BTRFS/XFS/EXT4 文件系统**
 
-可以使用 `lsblk` 查看，使用 `parted` 修改分区，可以使用交互模式
+可以使用 `lsblk` 查看硬盘 `/dev/(disk_name)`，如 `/dev/sda`、`/dev/nvme0n1` 等，前者多用于 HDD，后者多用于 SSD
+
+修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例，注意要
+
+使用 `parted /dev/(disk_name)` 修改分区，可以使用交互模式
 
 `parted` 常用命令：
 
@@ -222,7 +226,7 @@ mount --mkdir /dev/(efi_system_partition) /mnt/boot
 
 **一般建议选择清华大学镜像和上海交大镜像，这两个镜像稳定且积极维护，清华大学镜像速度更快，上海交大镜像更新频率更高**
 
-编辑 `/etc/pacman.d/mirrorlist`，在文件的最顶端添加：
+编辑 `/etc/pacman.d/mirrorlist`（ISO 镜像中自带有 `vim` 等常用编辑器），在文件的最顶端添加：
 
 ```
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
@@ -242,7 +246,7 @@ Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
 
 ### **安装必需的软件包**
 
-使用 `pacstrap` 脚本，安装 base 软件包、Linux 内核以及常规硬件的固件：
+使用 `pacstrap` 脚本，安装 base 软件包、Linux 内核、常规硬件的固件、文本编辑器等：
 
 ```bash
 pacstrap /mnt base linux linux-firmware sof-firmware vim base-devel
@@ -427,12 +431,14 @@ Defaults:(user_name) !authenticate
 
 **注：如果想保留输入密码的步骤但是想在输入密码时显示星号，则加上一行 `Defaults env_reset,pwfeedback` 即可**
 
-### **启用蓝牙**
+### **安装并启用蓝牙**
 
 ```bash
-pacman -S bluez
+pacman -S bluez pulseaudio-bluetooth
 systemctl enable bluetooth
 ```
+
+这里的 `pulseaudio-bluetooth` 是用于连接蓝牙耳机的
 
 ### **KDE Plasma 桌面安装**
 
@@ -454,7 +460,7 @@ SDDM 字体选择 `noto-fonts`
 
 #### **启用 SDDM**
 
-**不启用 SDDM 则无法进入图形界面**
+**不启用 SDDM 等显示管理器则无法进入图形界面**
 
 启用 SDDM：
 
@@ -557,6 +563,22 @@ Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需
 打开终端 Konsole/Yakuake（Yakuake 设置自动启动后可以用 `Fn+F12` 直接打开）：
 
 设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
+
+### **SDDM 修改为中文**
+
+创建一个新文件：`/etc/sddm.locale`，写入：
+
+```
+LANG="zh_CN.UTF-8"
+```
+
+再编辑 `/lib/systemd/system/sddm.service`，在 `[Service]` 一节内加入：
+
+```
+EnvironmentFile=-/etc/sddm.locale
+```
+
+前面的 `-` 号表示即使 `/etc/sddm.locale` 不存在，也不会报错
 
 ### **双系统启动设置**
 
@@ -823,7 +845,7 @@ APN >> bjlenovo12.njm2apn
 
 yay 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器
 
-执行以下命令安装 `yay`：（需要保证能够连接 GitHub，一般需要修改 hosts）
+执行以下命令安装 yay：（需要保证能够连接 GitHub，一般需要修改 hosts）
 
 ```bash
 git clone https://aur.archlinux.org/yay-bin.git
@@ -831,9 +853,11 @@ cd yay-bin
 makepkg -si
 ```
 
-`yay` 的命令与 `pacman` 相似，如 `yay -S` 表示下载软件包、`yay -Syyu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R` 表示删除软件包，其使用教程参考以下网址：
+yay 的命令与 `pacman` 相似，如 `yay -S (package_name)` 表示下载软件包、`yay -Syyu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R (package_name)` 表示删除软件包，其使用教程参考以下网址：
 
 [yay -- GitHub](https://github.com/Jguer/yay)
+
+yay 支持在下载时修改 PKGBUILD 文件，方法是 `yay -S --editmenu (package_name)`
 
 #### **pamac**
 
@@ -856,7 +880,7 @@ makepkg -si
 
 添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
 
-然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build` 获取 AUR 的软件包
+然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build (package_name)` 获取 AUR 的软件包
 
 **以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
 
@@ -981,7 +1005,13 @@ source $VIMRUNTIME/mswin.vim
 
 启用剪贴板功能，需要安装 `gvim` 软件包
 
-### **GNU nano 配置**
+### **GNU nano 下载与配置**
+
+下载 nano 文本编辑器：
+
+```bash
+sudo pacman -S nano
+```
 
 nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配置文件，如：
 
@@ -1025,7 +1055,7 @@ sudo timedatectl set-local-rtc 0
 reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_QWORD /f
 ```
 
-这一步需要在 Powershell（管理员）中执行
+**这一步需要在 Powershell（管理员）中执行**
 
 #### **数字时钟设置 24 小时制**
 
@@ -1211,7 +1241,7 @@ echo    'Loading initial ramdisk ...'
 
 将其删除，重启即可
 
-更本质是修改 `/etc/grub.d/10_linux`
+更本质是修改 `/etc/grub.d/10_linux`，删除 `message="$(gettext_printf "Loading Linux %s ..." ${version})"` 和 `message="$(gettext_printf "Loading initial ramdisk ...")"`
 
 #### **关闭启动时 fsck 的消息**
 
@@ -1239,6 +1269,11 @@ sudo systemctl edit --full systemd-fsck@.service
 分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
 
 ```
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/lib/systemd/systemd-fsck
+TimeoutSec=0
 StandardOutput=null
 StandardError=journal+console
 ```
@@ -1278,15 +1313,15 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 再重启即可
 
-#### **关闭重启时 systemd 的消息（未测试）**
+#### **关闭重启时 systemd 的消息**
 
 参考以下网址：
 
 https://github.com/systemd/systemd/pull/23574
 
-https://forum.manjaro.org/t/the-system-is-going-down-for-poweroff-reboot-now/114353/4
+方法如下：
 
-暂时方法：`reboot --no-wall`
+系统设置 >> 开机与关机 >> 登录屏幕（SDDM） >> 行为设置 >> “关机命令”和“重启命令”中加入 `--no-wall` 参数
 
 ### **Git 配置**
 
@@ -1361,21 +1396,9 @@ XDG_VIDEOS_DIR="$HOME/Videos"
 
 ### **蓝牙连接设置**
 
-#### **SONY WH-1000XM3 耳机的蓝牙连接**
+#### **命令行连接蓝牙**
 
-长按耳机电源键约 7 秒即可进入配对模式，可以在蓝牙中配对
-
-#### **Logitech 鼠标的蓝牙连接**
-
-同一台电脑的 Windows 系统和 Linux 系统在鼠标上会被识别为两个设备
-
-如果 Windows 系统被识别为设备 1，需要多设备切换的按钮（一般是一个在滚轮后或鼠标底部的圆形按钮）切换至设备 2
-
-长按圆形按钮直到灯 2 快速闪烁进入配对模式，可以在蓝牙中配对
-
-#### **如果鼠标配对后屏幕光标无法移动**
-
-一般可以直接删除设备重新配对，如果失败则按照下面步骤操作：
+一般蓝牙设备可以在 Plasma 桌面的图形界面下连接，如果连接失败，可以选择用命令行界面连接和排查错误
 
 首先要安装 `bluez-utils`：
 
@@ -1389,7 +1412,32 @@ sudo pacman -S bluez-utils
 bluetoothctl
 ```
 
-然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse (M557, M590, anywhere mouse 2, etc)”一段的指引进行操作
+进入交互模式，此时命令前缀变为 `[bluetooth]#`（`bluetooth` 可能替换为已连接设备的名字），连接步骤如下：
+
+- 使用命令 `scan on` 去搜索发现所有可配对的设备
+- 使用命令 `devices` 获得要配对的设备的 MAC 地址，一般是 `XX:XX:XX:XX:XX:XX` 的形式
+- 使用命令 `pair (MAC_address)` 配对设备，可能需要输入 PIN 密码
+- 使用命令 `trust (MAC_address)` 将设备添加到信任列表
+- 使用命令 `connect (MAC_address)` 建立连接
+- 使用命令 `quit` 退出
+
+#### **SONY WH-1000XM3 耳机的蓝牙连接**
+
+长按耳机电源键约 7 秒即可进入配对模式，可以在蓝牙中配对
+
+#### **Logitech 多设备鼠标的蓝牙连接**
+
+同一台电脑的 Windows 系统和 Linux 系统在鼠标上会被识别为两个设备
+
+如果 Windows 系统被识别为设备 1，需要多设备切换的按钮（一般是一个在滚轮后或鼠标底部的圆形按钮）切换至设备 2
+
+长按圆形按钮直到灯 2 快速闪烁进入配对模式，可以在蓝牙中配对
+
+如果 Logitech 鼠标配对后屏幕光标无法移动，一般可以直接删除设备重新配对，如果仍然失败则按照下面步骤操作：
+
+安装 `bluez-utils`，输入 `bluetoothctl` 进入命令行界面
+
+然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse”一段的指引进行操作
 
 ### **解决登录 Root 用户没有声音的问题**
 
@@ -1739,9 +1787,9 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 ### **开机美化**
 
-开机与关机 >> 登录屏幕（SDDM） >> 获取新 SDDM 主题 >> 应用 Plasma 设置
+系统设置 >> 开机与关机 >> 登录屏幕（SDDM） >> 获取新 SDDM 主题 >> 应用 Plasma 设置
 
-外观 >> 欢迎屏幕 >> 获取新欢迎屏幕
+系统设置 >> 外观 >> 欢迎屏幕 >> 获取新欢迎屏幕
 
 #### **SDDM 时间显示调整为 24 小时制**
 
@@ -1806,7 +1854,7 @@ Inherits=(cursor_theme_name)
 
 设置 >> 编辑当前方案 >> 外观 >> Complex Text Layout >> 双向文字渲染
 
-默认关闭连字，勾选 Word mode 可以开启连字
+默认关闭连字，勾选“Word mode”和“ASCII 字符”（不勾选“Use the same attributes for whole word”）可以开启连字
 
 ### **bash 配置提示符变量**
 
@@ -2020,42 +2068,6 @@ chmod +x (file_name)
 
 然后双击或在终端输入文件名运行即可
 
-### **使用 SSH 连接到 GitHub**
-
-推荐使用 SSH 连接到 GitHub，其安全性更高，访问速度较快且更加稳定
-
-配置参考以下网址：
-
-[GitHub Docs -- 使用 SSH 连接到 GitHub](https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh)
-
-步骤如下：（Linux 上直接用系统终端，Windows 上需要用 Git Bash 而不能用 Windows Terminal，因为缺少 `eval` 等命令）
-
-#### **生成新 SSH 密钥并添加到 ssh-agent**
-
-```bash
-ssh-keygen -t ed25519 -C "(user_email)"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-```
-
-第一步会提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
-
-#### **新增 SSH 密钥到 GitHub 帐户**
-
-通过 `cat ~/.ssh/id_ed25519.pub` 查看公钥并复制到 Github 账户下的“设置 >> SSH and GPG keys”中
-
-#### **测试 SSH 连接**
-
-在终端中输入：
-
-```
-ssh -T git@github.com
-```
-
-这一步要输入 `yes` 确定
-
-**注意 Linux 上和 Windows 上用的是不同的密钥，Windows 上操作步骤相同，但需要在 Git Bash（而不是 Windows Powershell）上执行**
-
 ### **V2Ray 安装与配置**
 
 可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）
@@ -2095,9 +2107,9 @@ v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE
 
 **浏览器和 KDE Plasma 的网络连接设置都不需要更改**
 
-### **LaTeX 安装**
+### **TeX 安装**
 
-**推荐从 ISO 安装 TeX Live 发行版**
+**推荐从 ISO 安装 TeX Live 发行版，速度最快**
 
 首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
 
@@ -2109,23 +2121,24 @@ sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 
 #### **使用命令行界面安装（推荐）**
 
-**使用命令行界面/图形界面安装时一定要加 `sudo`，否则只能将其安装到 `/home/(user_name)/` 下的文件夹且没有 `Create symlinks in standard directories` 一项的设置**
+**安装过程不建议用 sudo**
 
 进入镜像文件夹，运行：
 
 ```bash
-sudo perl install-tl -gui text
+perl install-tl -gui text
 ```
 
 用大写字母命令控制安装：
 
 ```
-D >> 1 >> 输入要安装 TeX Live 的位置（`TEXDIR`） >> R
+C >> 输入字母选择要安装/不安装的软件包集合
+D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
 O >> L >> 都选择默认位置（按 Enter） >> R
 I
 ```
 
-`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（注意这里的 `~/` 等于 `/root/`，建议使用绝对路径）
+`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（建议使用绝对路径）
 
 `TEXMFLOCAL` 会随 `TEXDIR` 自动更改
 
@@ -2134,13 +2147,13 @@ CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
 更改到清华大学镜像需要在命令行中执行：
 
 ```bash
-sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
 ```
 
 更改到上海交大镜像需要在命令行中执行：
 
 ```bash
-sudo tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
+tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
 ```
 
 #### **使用图形界面安装**
@@ -2154,20 +2167,36 @@ sudo pacman -S tcl tk
 进入镜像文件夹，运行：
 
 ```bash
-sudo perl install-tl -gui
+perl install-tl -gui
 ```
 
 即可在图形界面下载 TeX Live，高级设置需要点击左下角的 Advanced 按钮
 
-**记住勾选 Create symlinks in standard directories 一项（自动添加到 PATH），Specify directories 选择默认文件夹即可，之后不需要自己添加 PATH**
+#### **设置 PATH 环境变量**
+
+输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
+
+编辑 `~/.bashrc`，添加一行：
+
+```bash
+PATH=(TEXDIR)/bin/x86_64-linux:$PATH
+```
 
 可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
-还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc amsmath`）检查是否安装成功
+还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
+
+#### **从安装程序安装**
+
+可以
+
+```bash
+perl install-tl -select-repository -gui text
+```
 
 #### **biber 报错**
 
-biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：
+biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 `biber` 的过程中出现以下报错：
 
 ```
 error while loading shared libraries: libcrypt.so.1: cannot open shared object file: No such file or directory
@@ -2177,6 +2206,20 @@ error while loading shared libraries: libcrypt.so.1: cannot open shared object f
 
 ```bash
 sudo pacman -S libxcrypt-compat
+```
+
+#### **texdoc 报错**
+
+使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档，如果在运行 `biber` 的过程中出现以下报错：
+
+```
+kf.service.services: KApplicationTrader: mimeType "x-scheme-handler/file" not found
+```
+
+需要修改 `~/.config/mimeapps.list` 文件，加入：
+
+```
+x-scheme-handler/file=okularApplication_pdf.desktop;
 ```
 
 #### **安装 MathTime Professional 2 字体**
@@ -2254,6 +2297,52 @@ sudo pacman -S texstudio
 服务器 >> 服务器设置 >> 每隔 1 分钟检查一次新消息
 
 服务器 >> 服务器设置 >> 在删除消息时 >> 立即删除
+
+### **GitHub Desktop 安装**
+
+推荐选择二进制包 `github-desktop-bin`：
+
+```bash
+yay -S github-desktop-bin gnome-keyring
+```
+
+登录时要创建一个密钥环，密钥设为 GitHub 密码即可
+
+### **使用 SSH 连接到 GitHub**
+
+推荐使用 SSH 连接到 GitHub，其安全性更高，访问速度较快且更加稳定
+
+配置参考以下网址：
+
+[GitHub Docs -- 使用 SSH 连接到 GitHub](https://docs.github.com/cn/github/authenticating-to-github/connecting-to-github-with-ssh)
+
+步骤如下：（Linux 上直接用系统终端，Windows 上需要用 Git Bash 而不能用 Windows Terminal，因为缺少 `eval` 等命令）
+
+#### **生成新 SSH 密钥并添加到 ssh-agent**
+
+```bash
+ssh-keygen -t ed25519 -C "(user_email)"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+第一步会提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
+
+#### **新增 SSH 密钥到 GitHub 帐户**
+
+通过 `cat ~/.ssh/id_ed25519.pub` 查看公钥并复制到 Github 账户下的“设置 >> SSH and GPG keys”中
+
+#### **测试 SSH 连接**
+
+在终端中输入：
+
+```
+ssh -T git@github.com
+```
+
+这一步要输入 `yes` 确定
+
+**注意 Linux 上和 Windows 上用的是不同的密钥，Windows 上操作步骤相同，但需要在 Git Bash（而不是 Windows Powershell）上执行**
 
 ### **Python 安装与配置**
 
@@ -2942,16 +3031,6 @@ yay -S qqmusic-bin
 ```
 
 默认是暗色主题，右上角皮肤键（衣服图案）可以更改为亮色主题
-
-### **GitHub Desktop 安装（可选）**
-
-推荐选择二进制包 `github-desktop-bin`：
-
-```bash
-yay -S github-desktop-bin
-```
-
-登录时要创建一个密钥环，密钥设为 GitHub 密码即可
 
 ### **办公软件安装（可选）**
 
