@@ -45,7 +45,9 @@
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
             "source": "PowerShell",
-            "args": ["-NoLogo"],
+            "args": [
+                "-NoLogo"
+            ],
             "overrideName": true
         }
     },
@@ -61,17 +63,18 @@
     "files.associations": {
         "*.json": "jsonc"
     },
+    "files.trimTrailingWhitespace": true,
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "git.autofetch": true,
     "markdown.preview.fontFamily": "'Noto Sans CJK SC', 'Noto Sans', sans-serif",
-    "latex-workshop.message.error.show": false,
-    "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.tools": [
         {
-            "name": "lualatex",
-            "command": "lualatex",
+            "name": "latexmk",
+            "command": "latexmk",
             "args": [
+                "-lualatex",
+                "-bibtex",
                 "-synctex=1",
                 "--shell-escape",
                 "-interaction=nonstopmode",
@@ -80,59 +83,66 @@
             ]
         },
         {
-            "name": "biber",
-            "command": "biber",
-            "args": ["%DOCFILE%"]
+            "name": "clean",
+            "command": "latexmk",
+            "args": [
+                "-c",
+                "%DOCFILE%"
+            ]
         }
     ],
     "latex-workshop.latex.recipes": [
         {
-            "name": "lualatex",
-            "tools": ["lualatex"]
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
         },
         {
-            "name": "lua->lua",
-            "tools": ["lualatex", "lualatex"]
-        },
-        {
-            "name": "lua->bib->lua->lua",
-            "tools": ["lualatex", "biber", "lualatex", "lualatex"]
+            "name": "clean",
+            "tools": [
+                "clean"
+            ]
         }
     ],
-    "latex-workshop.latex.recipe.default": "lastUsed",
     "latex-workshop.latex.clean.fileTypes": [
-        "*.aux",
-        "*.bbl",
-        "*.bcf",
-        "*.blg",
-        "*.idx",
-        "*.ind",
-        "*.lof",
-        "*.lot",
-        "*.out",
-        "*.toc",
         "*.acn",
         "*.acr",
         "*.alg",
+        "*.bbl",
+        "*.bcf",
+        "*.blg",
+        "*.fls",
         "*.glg",
         "*.glo",
         "*.gls",
+        "*.idx",
+        "*.ind",
         "*.ist",
-        "*.fls",
+        "*.lof",
         "*.log",
+        "*.lot",
         "*.nav",
+        "*.out",
         "*.snm",
-        "*-blx.bib",
-        "*.run.xml",
-        "*.fdb_latexmk"
+        "*.toc",
+        "*.run.xml"
     ],
+    "latex-workshop.bind.enter.key": false,
+    "latex-workshop.message.error.show": false,
+    "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.latex.watch.delay": 0,
     "latex-workshop.latex.watch.interval": 0,
     "latex-workshop.view.pdf.tab.openDelay": 0,
     "latex-workshop.view.pdf.viewer": "tab",
-    "python.linting.pylintArgs": ["--generate-members"],
-    "python.formatting.autopep8Args": ["--max-line-length=65536"],
+    "python.linting.pylintArgs": [
+        "--generate-members"
+    ],
+    "python.formatting.autopep8Args": [
+        "--max-line-length=65536"
+    ],
     "jupyter.themeMatplotlibPlots": true,
-    "jupyter.sendSelectionToInteractiveWindow": true
+    "jupyter.sendSelectionToInteractiveWindow": true,
+    "latex-workshop.intellisense.argumentHint.enabled": false
 }

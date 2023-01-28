@@ -57,5 +57,17 @@
         "command": "editor.action.insertSnippet",
         "args": { "snippet": "\\sqrt{$1}" },
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+    },
+    {
+        "key": "ctrl+m ctrl+d",
+        "command": "editor.action.insertSnippet",
+        "args": { "snippet": "\\mathrm{d}" },
+        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+    },
+    {
+        "key": "ctrl+m ctrl+e",
+        "command": "editor.action.insertSnippet",
+        "args": { "snippet": "\\mathrm{e}" },
+        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
     }
 ]
