@@ -695,7 +695,7 @@ sudo kill (PID_number)
 sudo umount /dev/(partition_name)
 ```
 
-执行硬盘 NTFS 分区修复（需要 `ntfs-3g` 软件包）：
+执行硬盘 NTFS 分区修复（需要 `ntfs-3g` 软件包，也可以在 Windows 上进行）：
 
 ```bash
 sudo ntfsfix -b -d /dev/(partition_name)
@@ -754,7 +754,13 @@ nmcli device wifi connect (SSID) password (student_passowrd)
 
 #### **命令行连接 PKU VPN**
 
-此处需要一直打开终端，故推荐使用 Yakuake
+**此处需要一直打开终端，故推荐使用 Yakuake**
+
+首先下载 `openconnect`：
+
+```bash
+sudo pacman -S openconnect
+```
 
 按 `Fn+F12` 打开 Yakuake，输入：
 
@@ -2097,7 +2103,7 @@ sudo systemctl enable --now v2raya
 此时系统测试网络连接的功能被屏蔽，可以通过在 `/etc/NetworkManager/conf.d/20-connectivity.conf` 中写入以下内容关闭此功能：
 
 ```
-[connectivity] 
+[connectivity]
 enabled=false
 ```
 
