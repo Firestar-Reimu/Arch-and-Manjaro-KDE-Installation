@@ -90,8 +90,6 @@
 
 [ArchWiki -- Fcitx5](https://wiki.archlinux.org/title/Fcitx5)
 
-[Archived Manjaro Forum -- 比较几种中文输入法后，我最终选择了 sunpinyin + cloudpinyin 组合](https://archived.forum.manjaro.org/t/sunpinyin-cloudpinyin/114282)
-
 [TeX Live -- Acquiring TeX Live as an ISO image](https://www.tug.org/texlive/acquire-iso.html)
 
 [TeX Live -- Quick install](https://www.tug.org/texlive/quickinstall.html)
