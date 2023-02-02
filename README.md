@@ -2194,15 +2194,19 @@ PATH=(TEXDIR)/bin/x86_64-linux:$PATH
 
 #### **从安装程序安装**
 
-可以
+可以从[官网](https://www.tug.org/texlive/acquire-netinstall.html)下载 [install-tl-unx.tar.gz](https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz)，解压后可以找到一个 `install-tl` 文件，执行：
 
 ```bash
 perl install-tl -select-repository -gui text
 ```
 
+第一步输入数字选择镜像站，建议选择清华大学镜像或上海交大镜像
+
+之后步骤与前面一致，大约需要1h（从 ISO 安装只需要10min，因为是直接从本地 ISO 镜像中安装，不需要网络）
+
 #### **biber 报错**
 
-biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 `biber` 的过程中出现以下报错：
+biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：
 
 ```
 error while loading shared libraries: libcrypt.so.1: cannot open shared object file: No such file or directory
@@ -2225,8 +2229,10 @@ kf.service.services: KApplicationTrader: mimeType "x-scheme-handler/file" not fo
 需要修改 `~/.config/mimeapps.list` 文件，加入：
 
 ```
-x-scheme-handler/file=okularApplication_pdf.desktop;
+x-scheme-handler/file=firefox.desktop;
 ```
+
+这里的 `firefox.desktop` 可以改为其它 PDF 预览程序（推荐用网页浏览器），可以在 `/usr/share/applications/` 文件夹找到
 
 #### **安装 MathTime Professional 2 字体**
 
