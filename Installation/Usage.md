@@ -1550,4 +1550,4 @@ sudo pacman -U (package_name).tar/zst
 debtap -P (package_name).deb
 ```
 
-可以生成一个 `PKGBUILD` 文件
+会生成一个 `PKGBUILD` 文件，之后用 `makepkg -si` 也可安装
