@@ -180,13 +180,13 @@ sed -ie "s/\t/    /g" ./*
 
 首先用下列命令在一个 Vim 窗口中打开多个文件
 
-```
+```text
 vim `find . -type f -name "(files)"`
 ```
 
 然后执行：
 
-```
+```text
 :argdo %:retab! | update
 ```
 
@@ -234,13 +234,13 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 或 `/usr/share/sddm/themes/(theme_name)/Clock.qml` 中的 `Qt.formatTime` 一行：
 
-```
+```text
 text: Qt.formatTime(timeSource.data["Local"]["DateTime"])
 ```
 
 将其改为：
 
-```
+```text
 text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
 ```
 
@@ -256,7 +256,7 @@ text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
 
 其中 Plasma 主题、GTK 主题和图标主题推荐选择：
 
-```
+```text
 Plasma Theme: Mojave-CT
 GTK Theme: Mojave-light-alt [GTK2/3]
 Icon Theme: La Capitaine
@@ -280,7 +280,7 @@ find /usr/share/icons ~/.local/share/icons ~/.icons -type d -name "cursors"
 
 备用的光标主题可以在 `/usr/share/icons/default/index.theme` 设置：
 
-```
+```text
 [Icon Theme]
 Inherits=(cursor_theme_name)
 ```
@@ -374,25 +374,25 @@ vim ~/.zshrc
 
 选择 Oh-My-Zsh 主题，推荐使用 geoffgarside：
 
-```
+```text
 ZSH_THEME="geoffgarside"
 ```
 
 选择 Oh-My-Zsh 插件：
 
-```
+```text
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 ```
 
 更新 Oh-My-Zsh，执行：
 
-```
+```text
 omz update
 ```
 
 卸载 Oh-My-Zsh，执行:
 
-```
+```text
 uninstall_oh_my_zsh
 ```
 
@@ -425,13 +425,13 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 Vim 的颜色主题推荐使用 [PaperColor](https://github.com/NLKNguyen/papercolor-theme)，需要将其中的 `PaperColor.vim` 文件复制到 `/usr/share/vim/vim90/colors/`，并在 `/etc/vimrc` 中添加：
 
-```
+```text
 colorscheme PaperColor
 ```
 
 默认使用暗色主题，如果要使用亮色主题需要在 `/etc/vimrc` 中添加：
 
-```
+```text
 set background=light
 ```
 
@@ -445,7 +445,7 @@ sudo vim /etc/pacman.conf
 
 去掉 `Color` 前面的注释，并在下一行加入：
 
-```
+```text
 ILoveCandy
 ```
 
@@ -481,7 +481,7 @@ sudo update-desktop-database
 
 如果在打开 Kate 的时候出现：
 
-```
+```text
 kf.sonnet.core: No language dictionaries for the language: "en_US"
 ```
 
@@ -535,7 +535,7 @@ sudo systemctl enable --now v2raya
 
 此时系统测试网络连接的功能被屏蔽，可以通过在 `/etc/NetworkManager/conf.d/20-connectivity.conf` 中写入以下内容关闭此功能：
 
-```
+```text
 [connectivity]
 enabled=false
 ```
@@ -570,7 +570,7 @@ perl install-tl -gui text
 
 用大写字母命令控制安装：
 
-```
+```text
 C >> 输入字母选择要安装/不安装的软件包集合
 D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
 O >> L >> 都选择默认位置（按 Enter） >> R
@@ -641,7 +641,7 @@ perl install-tl -select-repository -gui text
 
 biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：
 
-```
+```text
 error while loading shared libraries: libcrypt.so.1: cannot open shared object file: No such file or directory
 ```
 
@@ -655,13 +655,13 @@ sudo pacman -S libxcrypt-compat
 
 使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档，如果在运行 `biber` 的过程中出现以下报错：
 
-```
+```text
 kf.service.services: KApplicationTrader: mimeType "x-scheme-handler/file" not found
 ```
 
 需要修改 `~/.config/mimeapps.list` 文件，加入：
 
-```
+```text
 x-scheme-handler/file=firefox.desktop;
 ```
 
@@ -781,7 +781,7 @@ ssh-add ~/.ssh/id_ed25519
 
 在终端中输入：
 
-```
+```bash
 ssh -T git@github.com
 ```
 
@@ -857,7 +857,7 @@ vim ~/.condarc
 
 修改 `~/.condarc` 以使用清华大学镜像：
 
-```
+```text
 channels:
   - defaults
 show_channel_urls: true
@@ -872,7 +872,7 @@ custom_channels:
 
 或上海交大镜像：
 
-```
+```text
 channels:
   - defaults
 default_channels:
@@ -886,7 +886,7 @@ custom_channels:
 
 若不用特定的镜像，改为默认值：
 
-```
+```text
 channels:
   - defaults
 ssl_verify: true
@@ -1003,7 +1003,7 @@ conda config --add channels http://ssb.stsci.edu/astroconda
 
 这相当于在 `~/.condarc` 中 `channels` 一栏改为：
 
-```
+```text
 channels:
   - defaults
   - http://ssb.stsci.edu/astroconda
@@ -1051,7 +1051,7 @@ Spyder 配置如下：
 
 文本：
 
-```
+```text
 普通文本 #000000
 注释：#999999, B
 字符串：#00aa00
@@ -1064,7 +1064,7 @@ Spyder 配置如下：
 
 高亮：
 
-```
+```text
 当前 Cell：#ffaaff
 当前行：#aaffff
 事件：#ffff00
@@ -1085,7 +1085,7 @@ Spyder 会在 `~/.config/spyder-py3` 中创建初始文件 `temp.py`
 
 如果使用 Anaconda/Miniconda 安装 Spyder，需要用 conda 安装 `fcitx-qt5` 才能支持 Fcitx/Fcitx5 输入中文字符：
 
-```
+```text
 conda install -c conda-forge fcitx-qt5
 ```
 
@@ -1207,7 +1207,7 @@ git config --global --add safe.directory "*"
 
 Visual Studio Code 自带 Markdown 预览功能，但是不支持快捷键（如粗体、斜体）、数学命令的补全（只支持预览），也不支持复选框：
 
-```
+```text
 - [x] item 1
 - [ ] item 2
 ```
@@ -1259,7 +1259,7 @@ yay -S ds9-bin
 
 如果出现这样的错误导致 SAOImageDS9 无法打开或闪退：
 
-```
+```text
 application-specific initialization failed: unknown color name "BACKGROUND"
 Unable to initialize window system.
 ```
@@ -1341,19 +1341,19 @@ pyraf
 
 退出 IRAF：
 
-```
+```text
 logout
 ```
 
 退出 PyRAF：
 
-```
+```text
 exit()
 ```
 
 启动参数编辑器（the EPAR Parameter Editor）的命令为：
 
-```
+```text
 epar (task_name)
 ```
 
@@ -1507,7 +1507,7 @@ yay -S ktorrent
 
 或者同样功能强大且跨平台的 qBittorrent：
 
-```
+```text
 yay -S qbittorrent
 ```
 
@@ -1521,23 +1521,33 @@ yay -S qbittorrent
 
 系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`
 
-### **用 debtap 安装 `.deb` 包（不推荐）**
+### **用 debtap 安装 `.deb` 包**
 
-首先要下载并更新 debtap 包：
+首先要下载并更新 [debtap](https://github.com/helixarch/debtap) 包：
 
 ```bash
 yay -S debtap
 sudo debtap -u
 ```
 
-**运行 `sudo debtap -u` 时建议连接北京大学校园网**
-
 进入含有 `.deb` 安装包的文件夹，输入：
 
 ```bash
-sudo debtap (package_name).deb
+debtap (package_name).deb
 ```
 
-系统会询问三个问题：文件名随便写，协议写软件包所用的协议，编辑文件可以直接按 `Enter` 跳过
+系统会询问三个问题：文件名、协议、编辑文件，都可以直接按 `Enter` 跳过
 
-此处会生成一个 `tar.zst` 包，双击打开（右键用“软件安装程序”打开）即可安装
+此处会生成一个 `tar.zst` 包，可以用 `pacman` 安装：
+
+```bash
+sudo pacman -U (package_name).tar/zst
+```
+
+运行：
+
+```bash
+debtap -P (package_name).deb
+```
+
+可以生成一个 `PKGBUILD` 文件

@@ -2,7 +2,7 @@
 
 **说明：Manjaro 专有部分自 2022.9.5 起不再更新，以下为最终版 ThinkPad X13 Intel 信息**
 
-```
+```text
 OS: Manjaro 21.2.6 Qonos
 Kernel: x86_64 Linux 5.19.4-1-MANJARO
 Resolution: 2560x1600
@@ -42,7 +42,7 @@ https://github.com/manjaro-plasma/download/releases （KDE Plasma 版本，unsta
 build_mirror=https://mirrors.tuna.tsinghua.edu.cn/manjaro/
 ```
 
-命令为：`buildiso -p kde -b testing -k linux519`，整个过程大约需要 10 分钟
+命令为：`buildiso -p kde -b testing -k linux(version_number)`，整个过程大约需要 10 分钟
 
 #### **通过 GitHub Actions 制作 ISO 镜像**
 
@@ -54,7 +54,7 @@ build_mirror=https://mirrors.tuna.tsinghua.edu.cn/manjaro/
 
 语言选择“简体中文”
 
-时区选择“Asia - Shanghai”
+时区选择“Asia >> Shanghai”
 
 键盘设置选择“Chinese >> Default”
 
@@ -103,7 +103,7 @@ sudo pacman-mirrors -aS (branch) -ic China
 
 切换更新分支后更新软件包缓存：
 
-```
+```text
 sudo pacman -Syyu
 ```
 
@@ -156,7 +156,7 @@ sudo pacman -S plasma-pa
 
 运行后重启，此时可以用命令 `aplay -L` 检查，会输出这样的信息：
 
-```
+```text
 default
     Default ALSA Output (currently PipeWire Media Server)
 ```
@@ -176,7 +176,7 @@ pacman -S manjaro-keyring;
 
 再以 `sudo` 身份运行：
 
-```
+```text
 sudo bash pacman_key.sh
 ```
 
@@ -184,7 +184,7 @@ sudo bash pacman_key.sh
 
 pkgfile 依赖于 manjaro-zsh-config，如果遇到开关机的时候报错：`[FAILED] failed to start pkgfile database update`，需要在 `/usr/lib/systemd/system/pkgfile-update.timer` 的 `Timer` 一段中加入：
 
-```
+```text
 RandomizedDelaySec=60
 ```
 

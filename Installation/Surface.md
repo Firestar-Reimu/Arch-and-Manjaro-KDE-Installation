@@ -2,7 +2,7 @@
 
 **说明：Surface 专有部分自 2021.9.5 起不再更新，以下为最终版 Surface Pro 6 信息**
 
-```
+```text
 OS: Manjaro 21.1.1 Pahvo
 Kernel: x86_64 Linux 5.14.0-0-MANJARO/x86_64 Linux 5.13.13-arch1-3-surface
 Resolution: 2736x1824
@@ -49,7 +49,7 @@ sudo pacman-key --lsign-key 56C464BAAC421453
 
 在 `/etc/pacman.conf` 里面添加：
 
-```
+```text
 [linux-surface]
 Server = https://pkg.surfacelinux.com/arch/
 ```
@@ -80,7 +80,7 @@ KDE 上原生的相机应用是 Kamoso，也可以使用 GNOME 上的相机应�
 #### **绘画**
 
 ```bash
-pamac install krita
+yay -S krita
 ```
 
 #### **手写笔记**
@@ -88,8 +88,8 @@ pamac install krita
 可以选择 Xournal++ 或者 Write
 
 ```bash
-pamac install xournalpp
-pamac install write_stylus
+yay -S xournalpp
+yay -S write_stylus
 ```
 
 ### **Surface：屏幕键盘（可选）**
@@ -97,11 +97,11 @@ pamac install write_stylus
 目前最受欢迎的屏幕键盘应该是 OnBoard
 
 ```bash
-pamac install onboard
+yay -S onboard
 ```
 
 但 OnBoard 在 Wayland 上无法使用。如果需要在 Wayland 会话中使用屏幕键盘，推荐安装 CellWriter
 
 ```bash
-pamac install cellwriter
+yay -S cellwriter
 ```
