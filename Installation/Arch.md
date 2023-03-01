@@ -1,13 +1,18 @@
 # **在 ThinkPad X13 2021 Intel 上安装 Arch Linux KDE Plasma + Windows 11 双系统的指南**
 
 ```text
-OS: Arch Linux x86_64
-Kernel: x86_64 Linux 6.1.3-arch1-1
-Resolution: 2560x1600
-DE: KDE 5.101.0 / Plasma 5.26.5
-WM: KWin
-CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
-GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
+Operating System: Arch Linux
+KDE Plasma Version: 5.27.1
+KDE Frameworks Version: 5.103.0
+Qt Version: 5.15.8
+Kernel Version: 6.2.1-arch1-1 (64-bit)
+Graphics Platform: X11
+Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
+Memory: 15.3 GiB of RAM
+Graphics Processor: Mesa Intel® Xe Graphics
+Manufacturer: LENOVO
+Product Name: 20WKA000CD
+System Version: ThinkPad X13 Gen 2i
 ```
 
 ## **Windows 的准备工作**
@@ -38,7 +43,7 @@ https://mirror.sjtu.edu.cn/archlinux/iso/latest/
 
 还可以用下面的方法在一台 Arch Linux 设备上制作自定义的 ISO 镜像：
 
-[ArchWiki -- Archiso](https://wiki.archlinux.org/title/Archiso)
+[Archiso -- ArchWiki](https://wiki.archlinux.org/title/Archiso)
 
 制作之前需要下载软件 `archiso`，然后复制配置文件：
 
@@ -224,7 +229,7 @@ mount --mkdir /dev/(efi_system_partition) /mnt/boot
 
 ### **选择镜像源**
 
-**一般建议选择清华大学镜像和上海交大镜像，这两个镜像稳定且积极维护，清华大学镜像速度更快，上海交大镜像更新频率更高**
+**一般建议选择清华大学镜像和上海交大镜像，这两个镜像站覆盖较全、稳定且积极维护**
 
 编辑 `/etc/pacman.d/mirrorlist`（ISO 镜像中自带有 `vim` 等常用编辑器），在文件的最顶端添加：
 
@@ -295,7 +300,7 @@ hwclock --systohc
 locale-gen
 ```
 
-然后创建 `/etc/locale.conf` 文件，并编辑设定 LANG 变量：
+然后创建 `/etc/locale.conf` 文件，并编辑设定 `LANG` 变量：
 
 ```text
 LANG=en_US.UTF-8
@@ -493,10 +498,10 @@ pacman -S plasma
 #### **安装必要的软件**
 
 ```bash
-pacman -S firefox firefox-i18n-zh-cn konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git noto-fonts-cjk
+pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git noto-fonts-cjk
 ```
 
-`firefox-i18n-zh-cn` 是 Firefox 浏览器的中文语言包
+`firefox` 也可以替换为其余浏览器，但可能需要使用 AUR 软件包管理器，例如 `microsoft-edge-stable-bin` 和 `google-chrome`
 
 `dolphin-plugins` 提供了右键菜单挂载 ISO 镜像等选项
 
@@ -536,7 +541,9 @@ pacman -S firefox firefox-i18n-zh-cn konsole dolphin dolphin-plugins ark kate gw
 
 然后重启电脑
 
-**重启后会发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启**
+如果重启后发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启
+
+如果字体过小，需要在“系统设置 >> 外观 >> 字体” 中勾选“固定字体 DPI”，并调整 DPI 为 192
 
 #### **触摸板设置**
 
@@ -724,6 +731,18 @@ ntfs_defaults=uid=$UID,gid=$GID
 
 ### **网络设置**
 
+#### **网络设备**
+
+在终端中输入：
+
+```bash
+ip a
+```
+
+输出网络设备名称的前两个字母表示设备种类：
+
+`lo` 为回环（loopback），`ww` 为无线广域网（WWAN，负责移动宽带连接），`wl` 为无线局域网（WLAN，负责 Wi-Fi 连接），`en` 为以太网（Ethernet，负责网线连接）
+
 #### **ping 命令**
 
 IP 地址和连接情况可以通过对域名 `ping` 得到，例如：
@@ -793,7 +812,7 @@ PEAP 版本 >> 自动
 首先进入 `nmcli` 配置：
 
 ```bash
-nmcli connection edit PKU\ Secure
+nmcli connection edit "PKU Secure"
 ```
 
 在 `nmcli` 界面内输入：
@@ -844,6 +863,23 @@ APN >> bjlenovo12.njm2apn
 修改 hosts 文件可以有效访问 GitHub，需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠），修改内容参考以下网址：
 
 [HelloGitHub -- hosts](https://raw.hellogithub.com/hosts)
+
+#### **不显示回环连接**
+
+如果在 Plasma 系统托盘的网络设置中发现一个名为 `lo` 的连接，这是系统的回环连接
+
+不显示回环连接可以编辑 `/etc/NetworkManager/NetworkManager.conf`，添加如下内容：
+
+```text
+[keyfile]
+unmanaged-devices=interface-name:lo
+```
+
+之后重启网络服务：
+
+```bash
+sudo systemctl restart NetworkManager
+```
 
 ### **AUR 软件包管理器**
 
@@ -919,13 +955,17 @@ sudo pacman -Syyu
 
 **注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
 
+### **包管理器的使用技巧**
+
 #### **搜索软件包**
 
-在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 会启动下载程序）
+在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 或 `-s` 会启动下载程序）
 
 ```bash
 yay -Ss (package_name)
 ```
+
+这样可以搜索官方软件源、Arch Linux CN、AUR 上的软件
 
 或者在 `pamac` 上执行：
 
@@ -958,19 +998,25 @@ pactree (package_name)
 清理全部软件安装包：
 
 ```bash
+yay -Scc
+```
+
+或者：
+
+```bash
 pamac clean
 ```
 
 删除软件包时清理设置文件：
 
 ```bash
-sudo pacman -Rn (package_name)
+yay -Rn (package_name)
 ```
 
 清理无用的孤立软件包：
 
 ```bash
-sudo pacman -Rsn $(pacman -Qdtq)
+yay -Rsn $(yay -Qdtq)
 ```
 
 若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理

@@ -1,13 +1,18 @@
 # **在 ThinkPad X13 2021 Intel 上安装 Arch Linux KDE Plasma + Windows 11 双系统的指南**
 
 ```text
-OS: Arch Linux x86_64
-Kernel: x86_64 Linux 6.1.3-arch1-1
-Resolution: 2560x1600
-DE: KDE 5.101.0 / Plasma 5.26.5
-WM: KWin
-CPU: 11th Gen Intel Core i7-1165G7 @ 8x 4.7GHz
-GPU: Mesa Intel(R) Xe Graphics (TGL GT2)
+Operating System: Arch Linux
+KDE Plasma Version: 5.27.1
+KDE Frameworks Version: 5.103.0
+Qt Version: 5.15.8
+Kernel Version: 6.2.1-arch1-1 (64-bit)
+Graphics Platform: X11
+Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
+Memory: 15.3 GiB of RAM
+Graphics Processor: Mesa Intel® Xe Graphics
+Manufacturer: LENOVO
+Product Name: 20WKA000CD
+System Version: ThinkPad X13 Gen 2i
 ```
 
 ## **Windows 的准备工作**
@@ -38,7 +43,7 @@ https://mirror.sjtu.edu.cn/archlinux/iso/latest/
 
 还可以用下面的方法在一台 Arch Linux 设备上制作自定义的 ISO 镜像：
 
-[ArchWiki -- Archiso](https://wiki.archlinux.org/title/Archiso)
+[Archiso -- ArchWiki](https://wiki.archlinux.org/title/Archiso)
 
 制作之前需要下载软件 `archiso`，然后复制配置文件：
 

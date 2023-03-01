@@ -26,23 +26,11 @@ sudo inxi -Fa
 
 #### **操作系统版本**
 
-在终端中输入：
+在终端中输入：（需要 `lsb-release` 软件包）
 
 ```bash
-lsb_release -sirc
+lsb_release -a
 ```
-
-#### **网络设备**
-
-在终端中输入：
-
-```bash
-ip a
-```
-
-输出网络设备名称的前两个字母表示设备种类：
-
-`lo` 为回环（loopback），`ww` 为无线广域网（WWAN，负责移动宽带连接），`wl` 为无线局域网（WLAN，负责 Wi-Fi 连接），`en` 为以太网（Ethernet，负责网线连接）
 
 #### **命令行进程查看器**
 
@@ -132,7 +120,7 @@ pamac list | grep (pattern)
 time (command)
 ```
 
-输出有三行：`real` 一行是命令执行的总时间，`user`一行是指令执行时在用户态（user mode）所花费的时间，`sys`一行是指令执行时在内核态（kernel mode）所花费的时间
+输出有三行：`real` 一行是命令执行的总时间，`user` 一行是指令执行时在用户态（user mode）所花费的时间，`sys` 一行是指令执行时在内核态（kernel mode）所花费的时间
 
 ### **命令行比较两个文件**
 
@@ -507,6 +495,51 @@ chmod +x (file_name)
 
 然后双击或在终端输入文件名运行即可
 
+### **KWallet 配置**
+
+安装 `kwallet-pam` 包来提供对 PAM 的兼容模块：
+
+```bash
+sudo pacman -S kwallet-pam
+```
+
+自动解锁的条件：
+
+- KWallet 必须使用 blowfish 加密方式
+- 所选择的 KWallet 密码必须与当前用户的密码相同
+- 要自动解锁的密码库必须要命名为默认的 kdewallet，任何其他名字的密码库都不会自动解锁
+
+### **用 debtap 安装 `.deb` 包**
+
+首先要下载并更新 [debtap](https://github.com/helixarch/debtap) 包：
+
+```bash
+yay -S debtap
+sudo debtap -u
+```
+
+进入含有 `.deb` 安装包的文件夹，输入：
+
+```bash
+debtap (package_name).deb
+```
+
+系统会询问三个问题：文件名、协议、编辑文件，都可以直接按 `Enter` 跳过
+
+此处会生成一个 `tar.zst` 包，可以用 `pacman` 安装：
+
+```bash
+sudo pacman -U (package_name).tar/zst
+```
+
+运行：
+
+```bash
+debtap -P (package_name).deb
+```
+
+会生成一个 `PKGBUILD` 文件，之后用 `makepkg -si` 也可安装
+
 ### **V2Ray 安装与配置**
 
 可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）
@@ -527,7 +560,7 @@ sudo systemctl enable --now v2raya
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
-右上角“设置”中，按照[推荐方法](https://v2raya.org/en/docs/prologue/quick-start/#transparent-proxy)进行设置，即将“透明代理/系统代理”改为“启用：大陆白名单模式”，“防止DNS污染”改为“仅防止DNS劫持（快速）”，“特殊模式”改为“supervisor”，保存并应用
+右上角“设置”中，按照[推荐方法](https://v2raya.org/en/docs/prologue/quick-start/#transparent-proxy)进行设置，即将“透明代理/系统代理”改为“启用：大陆白名单模式”，“防止 DNS 污染”改为“仅防止 DNS 劫持（快速）”，“特殊模式”改为“supervisor”，保存并应用
 
 选择一个节点，点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
@@ -1180,8 +1213,6 @@ git config --global --add safe.directory "*"
 
 缩小比例：`Ctrl+-`
 
-### **Visual Studio Code 插件配置**
-
 #### **Latex Workshop 插件设置**
 
 若想在 [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
@@ -1520,34 +1551,3 @@ yay -S qbittorrent
 若没有想要的应用程序，可以点击下方的“添加应用程序”，例如设置 `Meta+Return`（即“Windows 徽标键 + Enter 键”）为启动 Konsole 的快捷键：
 
 系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`
-
-### **用 debtap 安装 `.deb` 包**
-
-首先要下载并更新 [debtap](https://github.com/helixarch/debtap) 包：
-
-```bash
-yay -S debtap
-sudo debtap -u
-```
-
-进入含有 `.deb` 安装包的文件夹，输入：
-
-```bash
-debtap (package_name).deb
-```
-
-系统会询问三个问题：文件名、协议、编辑文件，都可以直接按 `Enter` 跳过
-
-此处会生成一个 `tar.zst` 包，可以用 `pacman` 安装：
-
-```bash
-sudo pacman -U (package_name).tar/zst
-```
-
-运行：
-
-```bash
-debtap -P (package_name).deb
-```
-
-会生成一个 `PKGBUILD` 文件，之后用 `makepkg -si` 也可安装
