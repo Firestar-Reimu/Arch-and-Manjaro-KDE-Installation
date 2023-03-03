@@ -135,11 +135,17 @@ sudo cp (iso_path)/(iso_name) /dev/sda
 ip link
 ```
 
-对于无线局域网（Wi-Fi）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用
+对于无线局域网（Wi-Fi）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用：
+
+```bash
+rfkill
+```
+
+此时应该全部显示 `unblocked`，否则使用命令 `rfkill unblock (device_name)` 启用
 
 如果使用有线以太网，连接网线即可
 
-如果使用WiFi，使用 `iwctl` 连接无线网络：
+如果使用 WiFi，使用 `iwctl` 连接无线网络：
 
 首先找到网络设备：
 
@@ -231,7 +237,13 @@ mount --mkdir /dev/(efi_system_partition) /mnt/boot
 
 **一般建议选择清华大学镜像和上海交大镜像，这两个镜像站覆盖较全、稳定且积极维护**
 
-编辑 `/etc/pacman.d/mirrorlist`（ISO 镜像中自带有 `vim` 等常用编辑器），在文件的最顶端添加：
+编辑 `/etc/pacman.d/mirrorlist`（ISO 镜像中自带有 `vim` 等常用编辑器）：
+
+```bash
+vim /etc/pacman.d/mirrorlist
+```
+
+在命令模式下输入 `:%d` 删除全部内容，并添加：
 
 ```text
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
@@ -254,7 +266,7 @@ Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
 使用 `pacstrap` 脚本，安装 base 软件包、Linux 内核、常规硬件的固件、文本编辑器等：
 
 ```bash
-pacstrap /mnt base linux linux-firmware sof-firmware vim base-devel
+pacstrap /mnt base linux linux-firmware sof-firmware vim
 ```
 
 如果想要获得[硬件视频加速](https://wiki.archlinux.org/title/Hardware_video_acceleration)可以下载 `intel-media-driver`
@@ -358,8 +370,17 @@ passwd
 
 **这是安装的最后一步也是至关重要的一步，请按指引正确安装好引导加载程序后再重新启动，否则重启后将无法正常进入系统**
 
+首先下载 `grub` 和 `efibootmgr`
+
 ```bash
 pacman -S grub efibootmgr
+```
+
+输入 `efibootmgr` 可以看到所有的启动项，每一个启动项都有一个四位数字的编号 `(boot_number)`
+
+可以使用 `efibootmgr -b (boot_number) -B` 命令删除原来的启动项
+
+```bash
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=(ID)
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
@@ -881,7 +902,15 @@ unmanaged-devices=interface-name:lo
 sudo systemctl restart NetworkManager
 ```
 
-### **AUR 软件包管理器**
+### **AUR 软件仓库**
+
+首先安装 `base-devel` 软件包：
+
+```bash
+sudo pacman -S base-devel
+```
+
+之后下载支持 AUR 的软件包管理器
 
 **注意 Arch 预装的包管理器 pacman 不支持 AUR，也不打包 AUR 软件包管理器，需要单独下载 AUR 软件包管理器**
 
@@ -928,7 +957,7 @@ makepkg -si
 
 **以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
 
-### **Arch Linux CN 软件源**
+### **Arch Linux CN 软件仓库**
 
 在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
 
@@ -1292,7 +1321,7 @@ sudo pacman -S fcitx-sunpinyin
 
 主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
 
-#### **关闭启动时 grub 的消息**
+#### **关闭启动时 GRUB 的消息**
 
 编辑 `/boot/grub/grub.cfg`，找到两行：
 
@@ -1537,6 +1566,28 @@ Hidden=false
 注意此时需要手动输入用户名和密码
 
 在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回 TTY1 图形化界面
+
+### **切换到其它内核（可选）**
+
+Arch Linux 和 AUR 上可选的内核可以参考以下网址：
+
+[Kernel -- ArchWiki](https://wiki.archlinux.org/title/Kernel)
+
+以 `linux-lts` 为例，首先下载 `linux-lts` 内核：
+
+```bash
+sudo pacman -S linux-lts
+```
+
+可以选择保留或删除原有内核，若保留内核，重启后可以选择从任何一个内核启动
+
+之后重新生成 GRUB 文件：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+**如果不重新生成 GRUB 文件会因为找不到内核而无法启动**
 
 ### **调整 CPU 频率（可选）**
 

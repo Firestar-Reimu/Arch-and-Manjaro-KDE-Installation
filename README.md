@@ -135,11 +135,17 @@ sudo cp (iso_path)/(iso_name) /dev/sda
 ip link
 ```
 
-对于无线局域网（Wi-Fi）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用
+对于无线局域网（Wi-Fi）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用：
+
+```bash
+rfkill
+```
+
+此时应该全部显示 `unblocked`，否则使用命令 `rfkill unblock (device_name)` 启用
 
 如果使用有线以太网，连接网线即可
 
-如果使用WiFi，使用 `iwctl` 连接无线网络：
+如果使用 WiFi，使用 `iwctl` 连接无线网络：
 
 首先找到网络设备：
 
@@ -229,9 +235,15 @@ mount --mkdir /dev/(efi_system_partition) /mnt/boot
 
 ### **选择镜像源**
 
-**一般建议选择清华大学镜像和上海交大镜像，这两个镜像稳定且积极维护，清华大学镜像速度更快，上海交大镜像更新频率更高**
+**一般建议选择清华大学镜像和上海交大镜像，这两个镜像站覆盖较全、稳定且积极维护**
 
-编辑 `/etc/pacman.d/mirrorlist`（ISO 镜像中自带有 `vim` 等常用编辑器），在文件的最顶端添加：
+编辑 `/etc/pacman.d/mirrorlist`（ISO 镜像中自带有 `vim` 等常用编辑器）：
+
+```bash
+vim /etc/pacman.d/mirrorlist
+```
+
+在命令模式下输入 `:%d` 删除全部内容，并添加：
 
 ```text
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
@@ -254,7 +266,7 @@ Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
 使用 `pacstrap` 脚本，安装 base 软件包、Linux 内核、常规硬件的固件、文本编辑器等：
 
 ```bash
-pacstrap /mnt base linux linux-firmware sof-firmware vim base-devel
+pacstrap /mnt base linux linux-firmware sof-firmware vim
 ```
 
 如果想要获得[硬件视频加速](https://wiki.archlinux.org/title/Hardware_video_acceleration)可以下载 `intel-media-driver`
@@ -300,7 +312,7 @@ hwclock --systohc
 locale-gen
 ```
 
-然后创建 `/etc/locale.conf` 文件，并编辑设定 LANG 变量：
+然后创建 `/etc/locale.conf` 文件，并编辑设定 `LANG` 变量：
 
 ```text
 LANG=en_US.UTF-8
@@ -358,8 +370,17 @@ passwd
 
 **这是安装的最后一步也是至关重要的一步，请按指引正确安装好引导加载程序后再重新启动，否则重启后将无法正常进入系统**
 
+首先下载 `grub` 和 `efibootmgr`
+
 ```bash
 pacman -S grub efibootmgr
+```
+
+输入 `efibootmgr` 可以看到所有的启动项，每一个启动项都有一个四位数字的编号 `(boot_number)`
+
+可以使用 `efibootmgr -b (boot_number) -B` 命令删除原来的启动项
+
+```bash
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=(ID)
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
@@ -498,10 +519,10 @@ pacman -S plasma
 #### **安装必要的软件**
 
 ```bash
-pacman -S firefox firefox-i18n-zh-cn konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git noto-fonts-cjk
+pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git noto-fonts-cjk
 ```
 
-`firefox-i18n-zh-cn` 是 Firefox 浏览器的中文语言包
+`firefox` 也可以替换为其余浏览器，但可能需要使用 AUR 软件包管理器，例如 `microsoft-edge-stable-bin` 和 `google-chrome`
 
 `dolphin-plugins` 提供了右键菜单挂载 ISO 镜像等选项
 
@@ -541,7 +562,9 @@ pacman -S firefox firefox-i18n-zh-cn konsole dolphin dolphin-plugins ark kate gw
 
 然后重启电脑
 
-**重启后会发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启**
+如果重启后发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启
+
+如果字体过小，需要在“系统设置 >> 外观 >> 字体” 中勾选“固定字体 DPI”，并调整 DPI 为 192
 
 #### **触摸板设置**
 
@@ -729,6 +752,18 @@ ntfs_defaults=uid=$UID,gid=$GID
 
 ### **网络设置**
 
+#### **网络设备**
+
+在终端中输入：
+
+```bash
+ip a
+```
+
+输出网络设备名称的前两个字母表示设备种类：
+
+`lo` 为回环（loopback），`ww` 为无线广域网（WWAN，负责移动宽带连接），`wl` 为无线局域网（WLAN，负责 Wi-Fi 连接），`en` 为以太网（Ethernet，负责网线连接）
+
 #### **ping 命令**
 
 IP 地址和连接情况可以通过对域名 `ping` 得到，例如：
@@ -798,7 +833,7 @@ PEAP 版本 >> 自动
 首先进入 `nmcli` 配置：
 
 ```bash
-nmcli connection edit PKU\ Secure
+nmcli connection edit "PKU Secure"
 ```
 
 在 `nmcli` 界面内输入：
@@ -850,7 +885,32 @@ APN >> bjlenovo12.njm2apn
 
 [HelloGitHub -- hosts](https://raw.hellogithub.com/hosts)
 
-### **AUR 软件包管理器**
+#### **不显示回环连接**
+
+如果在 Plasma 系统托盘的网络设置中发现一个名为 `lo` 的连接，这是系统的回环连接
+
+不显示回环连接可以编辑 `/etc/NetworkManager/NetworkManager.conf`，添加如下内容：
+
+```text
+[keyfile]
+unmanaged-devices=interface-name:lo
+```
+
+之后重启网络服务：
+
+```bash
+sudo systemctl restart NetworkManager
+```
+
+### **AUR 软件仓库**
+
+首先安装 `base-devel` 软件包：
+
+```bash
+sudo pacman -S base-devel
+```
+
+之后下载支持 AUR 的软件包管理器
 
 **注意 Arch 预装的包管理器 pacman 不支持 AUR，也不打包 AUR 软件包管理器，需要单独下载 AUR 软件包管理器**
 
@@ -897,7 +957,7 @@ makepkg -si
 
 **以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
 
-### **Arch Linux CN 软件源**
+### **Arch Linux CN 软件仓库**
 
 在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
 
@@ -924,13 +984,17 @@ sudo pacman -Syyu
 
 **注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
 
+### **包管理器的使用技巧**
+
 #### **搜索软件包**
 
-在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 会启动下载程序）
+在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 或 `-s` 会启动下载程序）
 
 ```bash
 yay -Ss (package_name)
 ```
+
+这样可以搜索官方软件源、Arch Linux CN、AUR 上的软件
 
 或者在 `pamac` 上执行：
 
@@ -963,19 +1027,25 @@ pactree (package_name)
 清理全部软件安装包：
 
 ```bash
+yay -Scc
+```
+
+或者：
+
+```bash
 pamac clean
 ```
 
 删除软件包时清理设置文件：
 
 ```bash
-sudo pacman -Rn (package_name)
+yay -Rn (package_name)
 ```
 
 清理无用的孤立软件包：
 
 ```bash
-sudo pacman -Rsn $(pacman -Qdtq)
+yay -Rsn $(yay -Qdtq)
 ```
 
 若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
@@ -1251,7 +1321,7 @@ sudo pacman -S fcitx-sunpinyin
 
 主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
 
-#### **关闭启动时 grub 的消息**
+#### **关闭启动时 GRUB 的消息**
 
 编辑 `/boot/grub/grub.cfg`，找到两行：
 
@@ -1497,6 +1567,28 @@ Hidden=false
 
 在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回 TTY1 图形化界面
 
+### **切换到其它内核（可选）**
+
+Arch Linux 和 AUR 上可选的内核可以参考以下网址：
+
+[Kernel -- ArchWiki](https://wiki.archlinux.org/title/Kernel)
+
+以 `linux-lts` 为例，首先下载 `linux-lts` 内核：
+
+```bash
+sudo pacman -S linux-lts
+```
+
+可以选择保留或删除原有内核，若保留内核，重启后可以选择从任何一个内核启动
+
+之后重新生成 GRUB 文件：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+**如果不重新生成 GRUB 文件会因为找不到内核而无法启动**
+
 ### **调整 CPU 频率（可选）**
 
 这需要 `tlp` 软件包：
@@ -1608,23 +1700,11 @@ sudo inxi -Fa
 
 #### **操作系统版本**
 
-在终端中输入：
+在终端中输入：（需要 `lsb-release` 软件包）
 
 ```bash
-lsb_release -sirc
+lsb_release -a
 ```
-
-#### **网络设备**
-
-在终端中输入：
-
-```bash
-ip a
-```
-
-输出网络设备名称的前两个字母表示设备种类：
-
-`lo` 为回环（loopback），`ww` 为无线广域网（WWAN，负责移动宽带连接），`wl` 为无线局域网（WLAN，负责 Wi-Fi 连接），`en` 为以太网（Ethernet，负责网线连接）
 
 #### **命令行进程查看器**
 
@@ -1714,7 +1794,7 @@ pamac list | grep (pattern)
 time (command)
 ```
 
-输出有三行：`real` 一行是命令执行的总时间，`user`一行是指令执行时在用户态（user mode）所花费的时间，`sys`一行是指令执行时在内核态（kernel mode）所花费的时间
+输出有三行：`real` 一行是命令执行的总时间，`user` 一行是指令执行时在用户态（user mode）所花费的时间，`sys` 一行是指令执行时在内核态（kernel mode）所花费的时间
 
 ### **命令行比较两个文件**
 
@@ -2089,6 +2169,51 @@ chmod +x (file_name)
 
 然后双击或在终端输入文件名运行即可
 
+### **KWallet 配置**
+
+安装 `kwallet-pam` 包来提供对 PAM 的兼容模块：
+
+```bash
+sudo pacman -S kwallet-pam
+```
+
+自动解锁的条件：
+
+- KWallet 必须使用 blowfish 加密方式
+- 所选择的 KWallet 密码必须与当前用户的密码相同
+- 要自动解锁的密码库必须要命名为默认的 kdewallet，任何其他名字的密码库都不会自动解锁
+
+### **用 debtap 安装 `.deb` 包**
+
+首先要下载并更新 [debtap](https://github.com/helixarch/debtap) 包：
+
+```bash
+yay -S debtap
+sudo debtap -u
+```
+
+进入含有 `.deb` 安装包的文件夹，输入：
+
+```bash
+debtap (package_name).deb
+```
+
+系统会询问三个问题：文件名、协议、编辑文件，都可以直接按 `Enter` 跳过
+
+此处会生成一个 `tar.zst` 包，可以用 `pacman` 安装：
+
+```bash
+sudo pacman -U (package_name).tar/zst
+```
+
+运行：
+
+```bash
+debtap -P (package_name).deb
+```
+
+会生成一个 `PKGBUILD` 文件，之后用 `makepkg -si` 也可安装
+
 ### **V2Ray 安装与配置**
 
 可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）
@@ -2109,7 +2234,7 @@ sudo systemctl enable --now v2raya
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
-右上角“设置”中，按照[推荐方法](https://v2raya.org/en/docs/prologue/quick-start/#transparent-proxy)进行设置，即将“透明代理/系统代理”改为“启用：大陆白名单模式”，“防止DNS污染”改为“仅防止DNS劫持（快速）”，“特殊模式”改为“supervisor”，保存并应用
+右上角“设置”中，按照[推荐方法](https://v2raya.org/en/docs/prologue/quick-start/#transparent-proxy)进行设置，即将“透明代理/系统代理”改为“启用：大陆白名单模式”，“防止 DNS 污染”改为“仅防止 DNS 劫持（快速）”，“特殊模式”改为“supervisor”，保存并应用
 
 选择一个节点，点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
@@ -2762,8 +2887,6 @@ git config --global --add safe.directory "*"
 
 缩小比例：`Ctrl+-`
 
-### **Visual Studio Code 插件配置**
-
 #### **Latex Workshop 插件设置**
 
 若想在 [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
@@ -3102,34 +3225,3 @@ yay -S qbittorrent
 若没有想要的应用程序，可以点击下方的“添加应用程序”，例如设置 `Meta+Return`（即“Windows 徽标键 + Enter 键”）为启动 Konsole 的快捷键：
 
 系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`
-
-### **用 debtap 安装 `.deb` 包**
-
-首先要下载并更新 [debtap](https://github.com/helixarch/debtap) 包：
-
-```bash
-yay -S debtap
-sudo debtap -u
-```
-
-进入含有 `.deb` 安装包的文件夹，输入：
-
-```bash
-debtap (package_name).deb
-```
-
-系统会询问三个问题：文件名、协议、编辑文件，都可以直接按 `Enter` 跳过
-
-此处会生成一个 `tar.zst` 包，可以用 `pacman` 安装：
-
-```bash
-sudo pacman -U (package_name).tar/zst
-```
-
-运行：
-
-```bash
-debtap -P (package_name).deb
-```
-
-会生成一个 `PKGBUILD` 文件，之后用 `makepkg -si` 也可安装
