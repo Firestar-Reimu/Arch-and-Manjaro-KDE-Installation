@@ -135,13 +135,13 @@ sudo cp (iso_path)/(iso_name) /dev/sda
 ip link
 ```
 
-对于无线局域网（Wi-Fi）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用：
+对于无线局域网（WLAN）和无线广域网（WWAN），请确保网卡未被 `rfkill` 禁用：
 
 ```bash
 rfkill
 ```
 
-此时应该全部显示 `unblocked`，否则使用命令 `rfkill unblock (device_name)` 启用
+此时应该全部显示 `unblocked`，否则使用命令 `rfkill unblock (type_name)` 启用，例如 `rfkill unblock wlan`
 
 如果使用有线以太网，连接网线即可
 
@@ -269,8 +269,6 @@ Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
 pacstrap /mnt base linux linux-firmware sof-firmware vim
 ```
 
-如果想要获得[硬件视频加速](https://wiki.archlinux.org/title/Hardware_video_acceleration)可以下载 `intel-media-driver`
-
 ### **生成 fstab 文件**
 
 用以下命令生成 fstab 文件 (用 `-U` 或 `-L` 选项设置 UUID 或卷标)：
@@ -328,7 +326,7 @@ LANG=en_US.UTF-8
 (my_hostname)
 ```
 
-编辑本地主机名解析 `/etc/hosts`，写入：
+编辑本地主机名解析 `/etc/hosts`，写入：（编辑 `/etc/hosts` 时空白建议用 `Tab` 键，下同）
 
 ```text
 127.0.0.1        localhost
@@ -395,7 +393,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 最后，执行 `reboot` 重启系统，`systemd` 将自动卸载仍然挂载的任何分区
 
-不要忘记移除安装介质
+**不要忘记移除安装介质**
 
 ## **初始配置**
 
@@ -419,15 +417,20 @@ passwd (user_name)
 
 **一定要设置在 wheel 用户组里面**
 
-### **visudo 配置**
+### **sudo 配置**
 
-#### **更改 visudo 默认编辑器为 Vim**
+首先需要下载 `sudo` 软件包：
 
-visudo 的默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入以下命令用 Vim 打开 visudo：
+```bash
+pacman -S sudo
+```
+sudo 的配置文件是 `/etc/soduers`，更改配置需要使用命令 `visudo`，其默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入以下命令用 Vim 打开 `visudo`：
 
 ```bash
 EDITOR=vim visudo
 ```
+
+#### **更改默认编辑器为 Vim**
 
 在开头的一个空行键入：
 
@@ -439,7 +442,7 @@ Defaults editor=/usr/bin/vim
 
 #### **用户组授权**
 
-在 `visudo` 中取消注释 `%wheel ALL=(ALL) ALL`
+取消注释 `%wheel ALL=(ALL) ALL`
 
 如果不想每次执行 Root 用户命令都输入密码，可以取消注释 `%wheel ALL=(ALL) NOPASSWD: ALL`
 
@@ -668,7 +671,7 @@ NAME       FSTYPE       LABEL   UUID
 sudo vim /etc/fstab
 ```
 
-在最后加入这两行：
+在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
 
 ```text
 UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
@@ -1621,11 +1624,23 @@ sudo tlp start
 
 **不需要高性能的时候可以关闭睿频，这样可以大幅增加续航、减少发热**
 
-#### **显示 Intel CPU 频率（可选）**
+### **显示 Intel CPU 频率（可选）**
 
 安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/frankenfruity/plasma-pstate)
 
 右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
+
+### **硬件视频加速（可选）**
+
+如果想要获得硬件视频加速，可以下载 `intel-media-driver`
+
+```bash
+sudo pacman -S intel-media-driver
+```
+
+具体教程参考以下网址：
+
+[Hardware video acceleration -- ArchWiki](https://wiki.archlinux.org/title/Hardware_video_acceleration)
 
 ### **为 pacman 启用多线程下载（可选）**
 
