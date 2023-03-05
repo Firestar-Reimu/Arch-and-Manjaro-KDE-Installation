@@ -243,7 +243,7 @@ mount --mkdir /dev/(efi_system_partition) /mnt/boot
 vim /etc/pacman.d/mirrorlist
 ```
 
-在命令模式下输入 `:%d` 删除全部内容，并添加：
+按 `:` 进入命令模式，输入 `:%d`并按 `Enter` 删除全部内容，添加：
 
 ```text
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
@@ -350,7 +350,9 @@ systemctl enable NetworkManager
 
 ### **创建 initramfs**
 
-执行以下命令：
+执行 `ls /boot` 检查 `/boot` 中是否有遗留的旧内核 initramfs，若有则删除之
+
+之后执行以下命令：
 
 ```bash
 mkinitcpio -P
@@ -1125,7 +1127,7 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 
 ### **命令行界面输出语言为英语**
 
-在 `~/.zshrc` 或 `~/.bashrc` 中添加一行：
+在 `~/.bashrc` 中添加一行：
 
 ```text
 export LANGUAGE=en_US.UTF-8

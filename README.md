@@ -674,8 +674,8 @@ sudo vim /etc/fstab
 在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
 
 ```text
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults 0 0
 ```
 
 重启电脑后，即可自动挂载
@@ -683,8 +683,8 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 
 如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
 
 ```text
-(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
-(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
+(name_C)                     /home/(user_name)/C    ntfs3 defaults 0 0
+(name_D)                     /home/(user_name)/D    ntfs3 defaults 0 0
 ```
 
 **如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**

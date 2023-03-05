@@ -24,6 +24,14 @@ sudo inxi -b
 sudo inxi -Fa
 ```
 
+#### **内核版本**
+
+在终端中输入：
+
+```bash
+uname -a
+```
+
 #### **操作系统版本**
 
 在终端中输入：（需要 `lsb-release` 软件包）
@@ -32,23 +40,69 @@ sudo inxi -Fa
 lsb_release -a
 ```
 
-#### **命令行进程查看器**
+### **文件权限与属性**
 
-在终端中输入：
+#### **查看文件权限与属性**
+
+查看当前目录下所有文件（包括目录文件，即文件夹）的权限与属性：
+
+```bash
+ls -l
+```
+
+输出部分开头由 10 位字母或 `-` 符号组成，如 `drwxr-xr-x`
+
+第一个字母代表文件类型，`d` 表示目录文件，`-` 表示普通文件
+
+后面 9 个字母代表文件的权限：第 1-3 个字母代表所有者对文件的权限，第 4-6 个字母代表所有者所在用户组对该文件的权限，第 7-9 个字母代表所有其他用户对该文件的权限
+
+其中 `r` 代表读取权限，`w` 代表修改权限，`x` 代表执行权限（非可执行文件，如文本文件，本身就没有执行权限），`-` 代表没有该类型的权限
+
+#### **修改文件权限**
+
+在终端里使用 `chmod` 命令可以修改文件权限：
+
+```bash
+chmod (who)=(permissions) (file_name)
+```
+
+其中的 `(who)` 是一个或者多个字母，可以是 `u`（拥有该文件的用户）、`g`（所有者所在用户组）、`o`（所有其他用户）、`a`（以上所有，等价于 `ugo`）
+
+权限 `(permissions)` 用 `r`、`w`、`x` 表示
+
+中间的 `=` 符号是覆盖性的，`chmod` 命令允许使用 `+` 或 `-` 从现有集合中添加和减去权限，例如：
+
+```bash
+chmod u+x (file_name)
+```
+
+可以给文件添加所有者的可执行权限
+
+`chmod` 也可以用数字来设置权限，此时 `r=4`、`w=2`、`x=1`，如 `rwxr-xr-x` 等于 `755`，这样可以同时编辑所有者、用户组和其他用户的权限：
+
+```bash
+chmod 755 (file_name)
+```
+
+大多数目录被设置为 `755`，以允许所有者读取、写入和执行，但拒绝被其他所有人写入
+
+非可执行的文件通常是 `644`，以允许所有者读取和写入，但允许其他所有人读取，可执行文件则为 `744`
+
+更多设置和用法参考以下网址：
+
+[File permissions and attributes -- ArchWiki](https://wiki.archlinux.org/title/File_permissions_and_attributes)
+
+### **命令行进程查看器**
+
+在终端中输入：（需要 `htop` 软件包）
 
 ```bash
 htop
 ```
 
-#### **命令行音量调节器**
+### **内存使用情况**
 
-在终端中输入：
-
-```bash
-alsamixer
-```
-
-#### **内存大小**
+`free` 显示系统中已用和未用的物理内存和交换内存、共享内存和内核使用的缓冲区的总和
 
 在终端中输入：（默认单位是 KiB，即 1024 字节）
 
@@ -56,9 +110,9 @@ alsamixer
 free
 ```
 
-**Linux 的内存策略可以参考这个网站：[Linux ate my RAM](https://www.linuxatemyram.com/)**
+**Linux 的内存策略和使用指南可以参考这个网站：[Linux ate my RAM](https://www.linuxatemyram.com/)**
 
-#### **上一次关机的系统日志**
+### **上一次关机的系统日志**
 
 ```bash
 journalctl -rb -1
@@ -325,9 +379,15 @@ yay -S blesh-git
 [[ ${BLE_VERSION-} ]] && ble-attach
 ```
 
+之后在用户目录 `/home/(user_name)` 下创建文件 `.blerc`，写入：
+
+```text
+bleopt canvas_winch_action=redraw-prev
+```
+
 更多设置和用法参考以下网址：
 
-https://github.com/akinomyoga/ble.sh
+[ble.sh -- GitHub](https://github.com/akinomyoga/ble.sh)
 
 ### **zsh 与 Oh-My-Zsh 配置**
 
@@ -388,7 +448,7 @@ uninstall_oh_my_zsh
 
 选择主题 grub2-themes，下载地址如下：
 
-https://github.com/vinceliuice/grub2-themes
+[grub2-themes -- GitHub](https://github.com/vinceliuice/grub2-themes)
 
 可选的主题有：Tela/Vimix/Stylish/Slaze/Whitesur
 
@@ -610,7 +670,7 @@ O >> L >> 都选择默认位置（按 Enter） >> R
 I
 ```
 
-`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（建议使用绝对路径）
+`TEXDIR` 需要选择 `/home/(user_name)/` 下的文件夹，否则无法写入
 
 `TEXMFLOCAL` 会随 `TEXDIR` 自动更改
 
@@ -630,7 +690,7 @@ tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/t
 
 #### **使用图形界面安装**
 
-首先要检查是否安装 tcl 和 tk：
+首先要检查是否安装 `tcl` 和 `tk` 软件包：
 
 ```bash
 sudo pacman -S tcl tk
@@ -646,8 +706,6 @@ perl install-tl -gui
 
 #### **设置 PATH 环境变量**
 
-输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
-
 编辑 `~/.bashrc`，添加一行：
 
 ```bash
@@ -657,6 +715,8 @@ PATH=(TEXDIR)/bin/x86_64-linux:$PATH
 可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
+
+输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
 
 #### **从安装程序安装**
 

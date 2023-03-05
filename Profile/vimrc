@@ -1,5 +1,5 @@
 " Defaults by Archlinux
-" runtime! archlinux.vim
+runtime! archlinux.vim
 
 " Colorscheme
 " colorscheme PaperColor
@@ -115,5 +115,5 @@ inoremap " ""<LEFT>
 set scrolloff=5
 
 " Status line settings
-set statusline=%F%m%r\ %y%=\ UTF-8:%b\ [row:%l,\ col:%c]\ [%p%%\ of\ %L\ lines]
+set statusline=%t%m%r\ %y%=\ UTF-8\ [row:%l,\ col:%c]\ [%p%%\ of\ %L\ lines]
 set noruler
