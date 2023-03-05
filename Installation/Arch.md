@@ -2,7 +2,7 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 5.27.1
+KDE Plasma Version: 5.27.2
 KDE Frameworks Version: 5.103.0
 Qt Version: 5.15.8
 Kernel Version: 6.2.1-arch1-1 (64-bit)
@@ -962,7 +962,7 @@ makepkg -si
 
 **以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
 
-### **Arch Linux CN 软件仓库**
+### **Arch Linux CN 软件仓库（可选）**
 
 在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
 
@@ -1259,7 +1259,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 推荐使用 Fcitx5:
 
 ```bash
-sudo pacman -S fcitx5-im fcitx5-chinese-addons
+yay -S fcitx5-im fcitx5-chinese-addons
 ```
 
 编辑 `/etc/environment` 并添加以下几行：
@@ -1282,30 +1282,30 @@ Fcitx5 的配置在：
 
 注意有“全局选项”、“附加组件”、“拼音”三个配置区域
 
-可以添加词库：（需要使用 Arch Linux CN 源）
+可以添加词库：（部分包需要使用 AUR 源）
 
 ```bash
-sudo pacman -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
+yay -S fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-sougou
 ```
 
 #### **其它版本**
 
-Fcitx5 对应的 git 版本为：（需要使用 Arch Linux CN 源）
+Fcitx5 对应的 git 版本为：（需要使用 AUR 源）
 
 ```bash
-sudo pacman -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+yay -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
 ```
 
-一个稳定的替代版本是 Fcitx 4.2.9.8-1：
+一个稳定的替代版本是 Fcitx 4：
 
 ```bash
-sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin
+yay -S fcitx-im fcitx-configtool fcitx-cloudpinyin
 ```
 
 可以配合 googlepinyin 或 sunpinyin 使用，即执行：
 
 ```bash
-sudo pacman -S fcitx-googlepinyin
+yay -S fcitx-googlepinyin
 ```
 
 或者：

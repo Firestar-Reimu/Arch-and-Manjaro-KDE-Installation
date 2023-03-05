@@ -2,7 +2,7 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 5.27.1
+KDE Plasma Version: 5.27.2
 KDE Frameworks Version: 5.103.0
 Qt Version: 5.15.8
 Kernel Version: 6.2.1-arch1-1 (64-bit)
@@ -243,7 +243,7 @@ mount --mkdir /dev/(efi_system_partition) /mnt/boot
 vim /etc/pacman.d/mirrorlist
 ```
 
-在命令模式下输入 `:%d` 删除全部内容，并添加：
+按 `:` 进入命令模式，输入 `:%d`并按 `Enter` 删除全部内容，添加：
 
 ```text
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
@@ -350,7 +350,9 @@ systemctl enable NetworkManager
 
 ### **创建 initramfs**
 
-执行以下命令：
+执行 `ls /boot` 检查 `/boot` 中是否有遗留的旧内核 initramfs，若有则删除之
+
+之后执行以下命令：
 
 ```bash
 mkinitcpio -P
@@ -674,8 +676,8 @@ sudo vim /etc/fstab
 在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
 
 ```text
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
 ```
 
 重启电脑后，即可自动挂载
@@ -683,8 +685,8 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults 0 0
 如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
 
 ```text
-(name_C)                     /home/(user_name)/C    ntfs3 defaults 0 0
-(name_D)                     /home/(user_name)/D    ntfs3 defaults 0 0
+(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
+(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
 ```
 
 **如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
@@ -960,7 +962,7 @@ makepkg -si
 
 **以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
 
-### **Arch Linux CN 软件仓库**
+### **Arch Linux CN 软件仓库（可选）**
 
 在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
 
@@ -1125,7 +1127,7 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 
 ### **命令行界面输出语言为英语**
 
-在 `~/.zshrc` 或 `~/.bashrc` 中添加一行：
+在 `~/.bashrc` 中添加一行：
 
 ```text
 export LANGUAGE=en_US.UTF-8
@@ -1257,7 +1259,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 推荐使用 Fcitx5:
 
 ```bash
-sudo pacman -S fcitx5-im fcitx5-chinese-addons
+yay -S fcitx5-im fcitx5-chinese-addons
 ```
 
 编辑 `/etc/environment` 并添加以下几行：
@@ -1280,30 +1282,30 @@ Fcitx5 的配置在：
 
 注意有“全局选项”、“附加组件”、“拼音”三个配置区域
 
-可以添加词库：（需要使用 Arch Linux CN 源）
+可以添加词库：（部分包需要使用 AUR 源）
 
 ```bash
-sudo pacman -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki
+yay -S fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-sougou
 ```
 
 #### **其它版本**
 
-Fcitx5 对应的 git 版本为：（需要使用 Arch Linux CN 源）
+Fcitx5 对应的 git 版本为：（需要使用 AUR 源）
 
 ```bash
-sudo pacman -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+yay -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
 ```
 
-一个稳定的替代版本是 Fcitx 4.2.9.8-1：
+一个稳定的替代版本是 Fcitx 4：
 
 ```bash
-sudo pacman -S fcitx-im fcitx-configtool fcitx-cloudpinyin
+yay -S fcitx-im fcitx-configtool fcitx-cloudpinyin
 ```
 
 可以配合 googlepinyin 或 sunpinyin 使用，即执行：
 
 ```bash
-sudo pacman -S fcitx-googlepinyin
+yay -S fcitx-googlepinyin
 ```
 
 或者：
@@ -1713,6 +1715,14 @@ sudo inxi -b
 sudo inxi -Fa
 ```
 
+#### **内核版本**
+
+在终端中输入：
+
+```bash
+uname -a
+```
+
 #### **操作系统版本**
 
 在终端中输入：（需要 `lsb-release` 软件包）
@@ -1721,23 +1731,97 @@ sudo inxi -Fa
 lsb_release -a
 ```
 
-#### **命令行进程查看器**
+### **文件权限与属性**
 
-在终端中输入：
+#### **查看文件权限与属性**
+
+查看当前目录下所有文件（包括目录文件，即文件夹）的权限与属性：
+
+```bash
+ls -l
+```
+
+输出部分开头由 10 位字母或 `-` 符号组成，如 `drwxr-xr-x`
+
+第一个字母代表文件类型，`d` 表示目录文件，`-` 表示普通文件
+
+后面 9 个字母代表文件的权限：第 1-3 个字母代表所有者对文件的权限，第 4-6 个字母代表用户组对该文件的权限，第 7-9 个字母代表所有其他用户对该文件的权限
+
+其中 `r` 代表读取权限，`w` 代表修改权限，`x` 代表执行权限（非可执行文件，如文本文件，本身就没有执行权限），`-` 代表没有该类型的权限
+
+#### **修改文件权限**
+
+在终端里使用 `chmod` 命令可以修改文件权限：
+
+```bash
+chmod (who)=(permissions) (file_name)
+```
+
+其中的 `(who)` 是一个或者多个字母，可以是 `u`（所有者）、`g`（用户组）、`o`（所有其他用户）、`a`（以上所有，等价于 `ugo`）
+
+权限 `(permissions)` 用 `r`、`w`、`x` 表示
+
+中间的 `=` 符号是覆盖性的，`chmod` 命令允许使用 `+` 或 `-` 从现有集合中添加和减去权限，例如：
+
+```bash
+chmod u+x (file_name)
+```
+
+可以给文件添加所有者的可执行权限
+
+`chmod` 也可以用数字来设置权限，此时 `r=4`、`w=2`、`x=1`，如 `rwxr-xr-x` 等于 `755`，这样可以同时编辑所有者、用户组和其他用户的权限：
+
+```bash
+chmod 755 (file_name)
+```
+
+大多数目录被设置为 `755`，以允许所有者读取、写入和执行，但拒绝被其他所有人写入
+
+非可执行的文件通常是 `644`，以允许所有者读取和写入，但允许其他所有人读取，可执行文件则为 `744`
+
+如果要递归修改，可以加入 `-R` 参数
+
+更多设置和用法参考以下网址：
+
+[File permissions and attributes -- ArchWiki](https://wiki.archlinux.org/title/File_permissions_and_attributes)
+
+#### **修改文件用户组**
+
+在终端里使用 `chgrp` 命令可以修改文件所属的用户组：
+
+```bash
+chgrp (group_name) (file_name)
+```
+
+如果要递归修改，可以加入 `-R` 参数
+
+#### **修改文件所有者**
+
+在终端里使用 `chown` 命令可以修改文件所有者：
+
+```bash
+chown (user_name) (file_name)
+```
+
+如果要递归修改，可以加入 `-R` 参数
+
+也可以同时修改所有者和用户组：
+
+```bash
+chown (user_name):(group_name) (file_name)
+```
+
+### **命令行进程查看器**
+
+在终端中输入：（需要 `htop` 软件包）
 
 ```bash
 htop
 ```
 
-#### **命令行音量调节器**
+### **内存使用情况**
 
-在终端中输入：
-
-```bash
-alsamixer
-```
-
-#### **内存大小**
+`free` 显示系统中已用和未用的物理内存和交换内存、共享内存和内核使用的缓冲区的总和
 
 在终端中输入：（默认单位是 KiB，即 1024 字节）
 
@@ -1745,9 +1829,9 @@ alsamixer
 free
 ```
 
-**Linux 的内存策略可以参考这个网站：[Linux ate my RAM](https://www.linuxatemyram.com/)**
+**Linux 的内存策略和使用指南可以参考这个网站：[Linux ate my RAM](https://www.linuxatemyram.com/)**
 
-#### **上一次关机的系统日志**
+### **上一次关机的系统日志**
 
 ```bash
 journalctl -rb -1
@@ -2014,9 +2098,16 @@ yay -S blesh-git
 [[ ${BLE_VERSION-} ]] && ble-attach
 ```
 
+之后在用户目录 `/home/(user_name)` 下创建文件 `.blerc`，写入：
+
+```text
+bleopt canvas_winch_action=redraw-prev
+bleopt exec_elapsed_enabled=1
+```
+
 更多设置和用法参考以下网址：
 
-https://github.com/akinomyoga/ble.sh
+[ble.sh -- GitHub](https://github.com/akinomyoga/ble.sh)
 
 ### **zsh 与 Oh-My-Zsh 配置**
 
@@ -2077,7 +2168,7 @@ uninstall_oh_my_zsh
 
 选择主题 grub2-themes，下载地址如下：
 
-https://github.com/vinceliuice/grub2-themes
+[grub2-themes -- GitHub](https://github.com/vinceliuice/grub2-themes)
 
 可选的主题有：Tela/Vimix/Stylish/Slaze/Whitesur
 
@@ -2299,7 +2390,7 @@ O >> L >> 都选择默认位置（按 Enter） >> R
 I
 ```
 
-`TEXDIR` 建议选择 `/home/(user_name)/` 下的文件夹以方便查看和修改（建议使用绝对路径）
+`TEXDIR` 需要选择 `/home/(user_name)/` 下的文件夹，否则无法写入
 
 `TEXMFLOCAL` 会随 `TEXDIR` 自动更改
 
@@ -2319,7 +2410,7 @@ tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/t
 
 #### **使用图形界面安装**
 
-首先要检查是否安装 tcl 和 tk：
+首先要检查是否安装 `tcl` 和 `tk` 软件包：
 
 ```bash
 sudo pacman -S tcl tk
@@ -2335,8 +2426,6 @@ perl install-tl -gui
 
 #### **设置 PATH 环境变量**
 
-输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
-
 编辑 `~/.bashrc`，添加一行：
 
 ```bash
@@ -2346,6 +2435,8 @@ PATH=(TEXDIR)/bin/x86_64-linux:$PATH
 可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
+
+输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
 
 #### **从安装程序安装**
 
