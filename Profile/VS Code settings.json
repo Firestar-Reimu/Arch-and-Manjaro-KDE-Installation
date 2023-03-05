@@ -28,15 +28,16 @@
     "editor.unicodeHighlight.ambiguousCharacters": false,
     "editor.unicodeHighlight.includeComments": false,
     "editor.unicodeHighlight.nonBasicASCII": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
     "workbench.colorCustomizations": {
+        "editor.selectionHighlightBackground": "#ffff55",
         "editorBracketHighlight.foreground1": "#00cc00",
         "editorBracketHighlight.foreground2": "#33ccff",
         "editorBracketHighlight.foreground3": "#aa00aa",
         "editorBracketHighlight.foreground4": "#44ccaa",
         "editorBracketHighlight.foreground5": "#4444bb",
         "editorBracketHighlight.foreground6": "#8080ff",
-        "editorBracketHighlight.unexpectedBracket.foreground": "#ff0000",
-        "editor.selectionHighlightBackground": "#ffff55"
+        "editorBracketHighlight.unexpectedBracket.foreground": "#ff0000"
     },
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Default Light+",
@@ -67,6 +68,7 @@
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "git.autofetch": true,
+    "git.openRepositoryInParentFolders": "always",
     "markdown.preview.fontFamily": "'Noto Sans CJK SC', 'Noto Sans', sans-serif",
     "latex-workshop.latex.tools": [
         {
@@ -132,8 +134,6 @@
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.autoClean.run": "onBuilt",
-    "latex-workshop.latex.watch.delay": 0,
-    "latex-workshop.latex.watch.interval": 0,
     "latex-workshop.view.pdf.tab.openDelay": 0,
     "latex-workshop.view.pdf.viewer": "tab",
     "python.linting.pylintArgs": [
