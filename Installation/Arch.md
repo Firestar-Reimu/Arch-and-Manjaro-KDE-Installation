@@ -1419,6 +1419,20 @@ https://github.com/systemd/systemd/pull/23574
 
 系统设置 >> 开机与关机 >> 登录屏幕（SDDM） >> 行为设置 >> “关机命令”和“重启命令”中加入 `--no-wall` 参数
 
+### **在登录时自动解锁 KWallet**
+
+在登录时自动解锁 KWallet 需要安装 `kwallet-pam` 包来提供对 [PAM](https://wiki.archlinux.org/title/PAM) 的兼容模块：
+
+```bash
+sudo pacman -S kwallet-pam
+```
+
+自动解锁的条件：
+
+- KWallet 必须使用 blowfish 加密方式
+- 所选择的 KWallet 密码必须与当前用户的密码相同
+- 要自动解锁的密码库必须要命名为默认的 kdewallet，任何其他名字的密码库都不会自动解锁
+
 ### **Git 配置**
 
 配置用户名、邮箱：
@@ -1467,7 +1481,7 @@ normal
 
 即可进入 GRUB 界面，从这里登录 Arch Linux 系统，登录后执行：
 
-```text
+```bash
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
@@ -1593,6 +1607,16 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 **如果不重新生成 GRUB 文件会因为找不到内核而无法启动**
+
+### **应用程序的快捷键配置（可选）**
+
+应用程序的快捷键配置在：
+
+系统设置 >> 快捷键
+
+若没有想要的应用程序，可以点击下方的“添加应用程序”，例如设置 `Meta+Return`（即“Windows 徽标键 + Enter 键”）为启动 Konsole 的快捷键：
+
+系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`
 
 ### **调整 CPU 频率（可选）**
 
