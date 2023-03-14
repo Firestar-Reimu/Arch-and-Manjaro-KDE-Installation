@@ -5,7 +5,7 @@ Operating System: Arch Linux
 KDE Plasma Version: 5.27.2
 KDE Frameworks Version: 5.103.0
 Qt Version: 5.15.8
-Kernel Version: 6.2.1-arch1-1 (64-bit)
+Kernel Version: 6.2.5-arch1-1 (64-bit)
 Graphics Platform: X11
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -510,10 +510,10 @@ pacman -S plasma
 可以排除掉一些软件包：
 
 ```text
-^4 ^5 ^20 ^21 ^33
+^4 ^5 ^6 ^22 ^34 ^42
 ```
 
-即 `discover`、`drkonqi`、`kwayland`、`kwallet`、`plasma-firewall`
+即 `discover`、`drkonqi`、`flatpak-kcm`、`kwayland-integration`、`plasma-firewall`、`plasma-welcome`
 
 `jack` 选择 `jack2`
 
@@ -880,7 +880,7 @@ sudo systemctl enable ModemManager
 
 选择您的方案 >> 未列出我的方案
 
-APN >> bjlenovo12.njm2apn
+APN >> `bjlenovo12.njm2apn`
 
 **提供商和 APN 可以在 Windows 系统的“设置 >> 网络和 Internet >> 手机网络 >> 运营商设置”上查找到，在“活动网络”处能找到提供商，在“Internet APN >> 默认接入点 >> 视图”中可以找到 APN 地址**
 
