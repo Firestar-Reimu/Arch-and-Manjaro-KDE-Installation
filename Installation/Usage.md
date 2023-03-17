@@ -240,27 +240,25 @@ rename -- " " "_" ./*
 sed -ie 's/(old_string)/(new_string)/g' (files)
 ```
 
-例如将本地文件下所有 Tab 替换成4个空格：
+### **将 Tab 替换为空格**
+
+推荐使用 `expand` 命令，它可以自动将不同长度的 Tab 替换成对应数量的空格，保证最终文字依然是对齐的
 
 ```bash
-sed -ie "s/\t/    /g" ./*
+expand -t 4 (file_name)
 ```
 
-替换 Tab 也可以使用更加智能的 Vim 中的 `retab` 功能，它可以自动将不同长度的 Tab 替换成不同长度的空格，保证最终文字依然是对齐的
+这样可以将文件中所有的 Tab 替换为 4 个空格（这里的 4 也可以改为其它数字），此时会把替换后的文件内容输出到命令行终端，需要复制到源文件内容中
 
-首先用下列命令在一个 Vim 窗口中打开多个文件
+替换 Tab 也可以使用 Vim 中的 `retab` 功能，用 Vim 打开文件后默认进入命令模式，输入：
 
 ```text
-vim `find . -type f -name "(files)"`
+:set tabstop=4
+:set expandtab
+:%retab!
 ```
 
-然后执行：
-
-```text
-:argdo %:retab! | update
-```
-
-单个文件则直接执行 `%:retab!` 即可
+第一步设定一个 Tab 的长度等于 4 个空格，第二步设定从 Tab 替换为空格（反之则为 `:set noexpandtab`），第三步将文件中所有的 Tab 替换为对应数量的空格
 
 ### **命令行解压 ZIP 压缩包**
 
@@ -1588,13 +1586,13 @@ make -j8
 
 ### **微信安装（可选）**
 
-微信官方原生桌面版（原生适配高分辨率屏幕，不需要 wine/deepin-wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，显示 emoji 需要下载 `noto-fonts-emoji`）：
+微信官方原生桌面版（原生适配高分辨率屏幕，不需要 Wine/Deepin Wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，显示表情符号需要下载 `noto-fonts-emoji`）：
 
 ```bash
 yay -S com.tencent.weixin
 ```
 
-功能较多，和最新的 Windows 电脑版同步更新，但依赖 deepin-wine，且暂不支持“截屏时隐藏当前窗口”的版本：
+功能较多，和最新的 Windows 电脑版同步更新，但依赖 Deepin Wine，且暂不支持“截屏时隐藏当前窗口”的版本：
 
 ```bash
 yay -S deepin-wine-wechat

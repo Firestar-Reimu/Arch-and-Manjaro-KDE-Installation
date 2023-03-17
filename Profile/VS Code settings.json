@@ -6,6 +6,7 @@
     "editor.insertSpaces": true,
     "editor.tabSize": 4,
     "editor.renderWhitespace": "boundary",
+    "editor.formatOnSave": true,
     "editor.wordWrap": "on",
     "editor.maxTokenizationLineLength": 4294967296,
     "editor.tokenColorCustomizations": {
@@ -65,6 +66,8 @@
         "*.json": "jsonc"
     },
     "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "files.autoGuessEncoding": true,
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "git.autofetch": true,
