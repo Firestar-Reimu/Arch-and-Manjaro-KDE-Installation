@@ -63,6 +63,8 @@ sudo mkarchiso (profile_directory)/baseline
 
 右键点击开始菜单，选择“磁盘管理”，分出一块空分区，建议不小于 64GB
 
+**Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区（建议多于 256MiB），之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
+
 ### **关闭快速启动**
 
 Windows 工具 >> 控制面板 >> 电源选项 >> 选择电源按钮的功能 >> 更改当前不可用的设置 >> 关闭快速启动 >> 保存修改
@@ -77,7 +79,7 @@ ThinkPad 的操作如下：启动 ThinkPad 时按 `Enter` 打断正常开机，�
 
 在 UEFI/BIOS 设置界面：
 
-ThinkPad：Security >> Secure Boot >> Off
+ThinkPad 的操作如下：Security >> Secure Boot >> Off
 
 ### **删除多余的 Windows 启动项**
 
@@ -202,8 +204,6 @@ timedatectl set-ntp true
 更多操作参考以下网址：
 
 [Parted User's Manual](https://www.gnu.org/software/parted/manual/parted.html)
-
-**Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区，建议多于 256MiB，之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
 
 ### **创建文件系统**
 

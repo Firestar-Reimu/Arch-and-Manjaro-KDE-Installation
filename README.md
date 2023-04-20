@@ -63,6 +63,8 @@ sudo mkarchiso (profile_directory)/baseline
 
 右键点击开始菜单，选择“磁盘管理”，分出一块空分区，建议不小于 64GB
 
+**Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区（建议多于 256MiB），之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
+
 ### **关闭快速启动**
 
 Windows 工具 >> 控制面板 >> 电源选项 >> 选择电源按钮的功能 >> 更改当前不可用的设置 >> 关闭快速启动 >> 保存修改
@@ -77,7 +79,7 @@ ThinkPad 的操作如下：启动 ThinkPad 时按 `Enter` 打断正常开机，�
 
 在 UEFI/BIOS 设置界面：
 
-ThinkPad：Security >> Secure Boot >> Off
+ThinkPad 的操作如下：Security >> Secure Boot >> Off
 
 ### **删除多余的 Windows 启动项**
 
@@ -202,8 +204,6 @@ timedatectl set-ntp true
 更多操作参考以下网址：
 
 [Parted User's Manual](https://www.gnu.org/software/parted/manual/parted.html)
-
-**Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区，建议多于 256MiB，之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
 
 ### **创建文件系统**
 
@@ -2426,6 +2426,23 @@ enabled=false
 v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE Plasma 的“系统设置 >> 开机与关机 >> 自动启动”中设置
 
 **浏览器和 KDE Plasma 的网络连接设置都不需要更改**
+
+### **DNS 设置**
+
+DNS 会储存在 `/etc/resolv.conf` 文件中，一般由 `NetworkManager` 根据连接的网络自动生成，例如北京大学校园网的 DNS 服务器为：
+
+```text
+162.105.109.122
+162.105.109.88
+```
+
+而 `/etc/resolv.conf` 文件会被其它软件所改写，如 v2rayA 的“防止 DNS 污染”功能若设置为“仅防止 DNS 劫持（快速）”，则会覆盖 `/etc/resolv.conf` 文件
+
+如果要防止程序覆盖 `/etc/resolv.conf` 文件，可以通过设置不可变文件属性来为其建立写入保护：
+
+```bash
+sudo chattr +i /etc/resolv.conf
+```
 
 ### **TeX 安装**
 

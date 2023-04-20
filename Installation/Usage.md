@@ -712,6 +712,23 @@ v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE
 
 **浏览器和 KDE Plasma 的网络连接设置都不需要更改**
 
+### **DNS 设置**
+
+DNS 会储存在 `/etc/resolv.conf` 文件中，一般由 `NetworkManager` 根据连接的网络自动生成，例如北京大学校园网的 DNS 服务器为：
+
+```text
+162.105.109.122
+162.105.109.88
+```
+
+而 `/etc/resolv.conf` 文件会被其它软件所改写，如 v2rayA 的“防止 DNS 污染”功能若设置为“仅防止 DNS 劫持（快速）”，则会覆盖 `/etc/resolv.conf` 文件
+
+如果要防止程序覆盖 `/etc/resolv.conf` 文件，可以通过设置不可变文件属性来为其建立写入保护：
+
+```bash
+sudo chattr +i /etc/resolv.conf
+```
+
 ### **TeX 安装**
 
 **推荐从 ISO 安装 TeX Live 发行版，速度最快**
