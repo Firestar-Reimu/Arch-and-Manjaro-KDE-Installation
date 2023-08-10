@@ -1,11 +1,11 @@
 # **在 ThinkPad X13 2021 Intel 上安装 Arch Linux KDE Plasma + Windows 11 双系统的指南**
 
 ```text
-Operating System: Arch Linux
-KDE Plasma Version: 5.27.2
-KDE Frameworks Version: 5.103.0
-Qt Version: 5.15.8
-Kernel Version: 6.2.5-arch1-1 (64-bit)
+Operating System: Arch Linux 
+KDE Plasma Version: 5.27.7
+KDE Frameworks Version: 5.108.0
+Qt Version: 5.15.10
+Kernel Version: 6.4.9-arch1-1 (64-bit)
 Graphics Platform: X11
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -288,7 +288,7 @@ arch-chroot /mnt
 更新软件包缓存：
 
 ```bash
-pacman -Syyu
+pacman -Syu
 ```
 
 ### **时区**
@@ -507,13 +507,7 @@ systemctl enable sddm
 pacman -S plasma
 ```
 
-可以排除掉一些软件包：
-
-```text
-^4 ^5 ^6 ^22 ^34 ^42
-```
-
-即 `discover`、`drkonqi`、`flatpak-kcm`、`kwayland-integration`、`plasma-firewall`、`plasma-welcome`
+可以排除掉一些软件包，如 `discover`、`drkonqi`、`flatpak-kcm`、`kwayland-integration`、`plasma-firewall`、`plasma-welcome`
 
 `jack` 选择 `jack2`
 
@@ -524,7 +518,7 @@ pacman -S plasma
 #### **安装必要的软件**
 
 ```bash
-pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git noto-fonts-cjk
+pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git
 ```
 
 `firefox` 也可以替换为其余浏览器，但可能需要使用 AUR 软件包管理器，例如 `microsoft-edge-stable-bin` 和 `google-chrome`
@@ -593,6 +587,12 @@ Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需
 
 可以添加 Yakuake 下拉终端为自动启动
 
+#### **自动挂载设置**
+
+系统设置 >> 可移动存储设备 >> 所有设备
+
+勾选“登录时”和“插入时”，以及“自动挂载新的可移动设备”
+
 ### **终端快捷键配置**
 
 打开终端 Konsole/Yakuake（Yakuake 设置自动启动后可以用 `Fn+F12` 直接打开）：
@@ -645,13 +645,9 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 ### **Linux 挂载 Windows 磁盘**
 
+#### **使用 fstab 文件**
+
 **首先要确保设备加密和快速启动已经关闭，以下内容针对 Linux 5.15 及之后的内核中引入的 NTFS3 驱动**
-
-参考以下网址：
-
-[fstab -- Archwiki](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
-
-#### **使用 UUID/卷标**
 
 官方推荐的方法是使用 UUID，以分别挂载 C 盘和 D 盘到 `/home/(user_name)/C` 和 `/home/(user_name)/D` 为例，在终端中输入：
 
@@ -676,84 +672,74 @@ sudo vim /etc/fstab
 在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
 
 ```text
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
 ```
 
 重启电脑后，即可自动挂载
 
+**如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去对应的行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
+
 如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
 
 ```text
-(name_C)                     /home/(user_name)/C    ntfs3 defaults,umask=0 0 0
-(name_D)                     /home/(user_name)/D    ntfs3 defaults,umask=0 0 0
+(name_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
+(name_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
 ```
 
-**如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去这两行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
+参考以下网址：
 
-#### **使用图形化界面**
+[fstab -- Archwiki](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-**只支持旧版 `NTFS-3G`驱动，需要 `ntfs-3g` 软件包**
+[NTFS3 — The Linux Kernel documentation](https://docs.kernel.org/filesystems/ntfs3.html)
 
-在系统应用“KDE 分区管理器（`partitionmanager`）”中卸载 C 盘、D 盘，右键选择编辑挂载点，编辑为 `/home/(user_name)/C` 和 `/home/(user_name)/D`，选项全部不用勾选（使用默认配置），点击“执行”即可
+#### **命令行挂载 NTFS 移动硬盘**
 
-这相当于直接编辑 `/etc/fstab`，加入：
+首先使用 `lsblk` 查看硬盘分区 `/dev/(partition_name)`，如 `/dev/sda1`
 
-```text
-/dev/(name_C)                     /home/(user_name)/C    ntfs  0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs  0 0
-```
-
-好处是格式化磁盘后内核名称不变，依然可以挂载
-
-#### **如果 Windows 磁盘挂载错误**
-
-**首先检查 Windows 中是否关闭了快速启动**
-
-一般来讲是 Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，若关闭快速启动不能解决问题，使用下面的方法：
-
-检查占用进程：
+之后设置挂载点，默认是在 `/run/media/(user_name)/` 下创建一个和硬盘分区名称一致的文件夹：
 
 ```bash
-sudo fuser -m -u /dev/(partition_name)
+cd /run/media/(user_name)/
+sudo mkdir ./(partition_name)
 ```
 
-可以看到数字，就是占用目录的进程 PID，终止进程：
+也可以选择 `/mnt` 作为临时挂载点
+
+再将移动硬盘挂载到新创建的文件夹，如：
 
 ```bash
-sudo kill (PID_number)
+sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
 ```
 
-卸载磁盘分区：
+#### **如果 NTFS 磁盘挂载错误**
+
+一般来讲是该磁盘未正确卸载（如热插拔）、Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，此时 NTFS 分区会被标记为 `dirty`
+
+可以尝试强制挂载，需要加上 `force` 选项，如：
 
 ```bash
-sudo umount /dev/(partition_name)
+sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
 ```
 
-执行硬盘 NTFS 分区修复（需要 `ntfs-3g` 软件包，也可以在 Windows 上进行）：
+临时解决这个问题需要下载 AUR 软件包 `ntfsprogs-ntfs3` 以执行硬盘 NTFS 分区修复：
 
 ```bash
-sudo ntfsfix -b -d /dev/(partition_name)
+yay -S ntfsprogs-ntfs3
+sudo ntfsfix -d /dev/(partition_name)
 ```
 
 再重新挂载即可：
 
 ```bash
-sudo mount -t ntfs3 /dev/(partition_name) (mount_path)/(mount_folder)
+sudo mount -t ntfs3 /dev/(partition_name) /run/media/(user_name)/(partition_name)
 ```
 
-#### **挂载 NTFS 移动硬盘**
+根本的解决方案是在 Windows 中使用 `chkdsk` 修复，注意这里要使用盘符，以 `E:` 盘为例：
 
-Dolphin 中可以用 NTFS3 驱动挂载 NTFS 移动硬盘，但是会因为不支持 `windows_names` 参数报错，解决方法是创建文件 `/etc/udisks2/mount_options.conf` 并写入：
-
-```text
-[defaults]
-ntfs_defaults=uid=$UID,gid=$GID
+```powershell
+chkdsk E: /F
 ```
-
-重启电脑即可
-
-如果要设置自动挂载，可以在“系统设置 >> 可移动存储设备 >> 所有设备”中勾选“登录时”和“插入时”，以及“自动挂载新的可移动设备”
 
 ### **网络设置**
 
@@ -931,7 +917,7 @@ cd yay-bin
 makepkg -si
 ```
 
-yay 的命令与 `pacman` 相似，如 `yay -S (package_name)` 表示下载软件包、`yay -Syyu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R (package_name)` 表示删除软件包，其使用教程参考以下网址：
+yay 的命令与 `pacman` 相似，如 `yay -S (package_name)` 表示下载软件包、`yay -Syu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R (package_name)` 表示删除软件包，其使用教程参考以下网址：
 
 [yay -- GitHub](https://github.com/Jguer/yay)
 
@@ -982,7 +968,7 @@ Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
 
 ```bash
 sudo pacman -Sy archlinuxcn-keyring
-sudo pacman -Syyu
+sudo pacman -Syu
 ```
 
 这样就开启了 pacman 对 Arch Linux CN 的支持
@@ -1023,7 +1009,7 @@ pactree (package_name)
 
 #### **降级软件包**
 
-在 `/var/cache/pacman/pkg/` 中找到旧软件包（包括旧 AUR 软件包），双击打开安装实现手动降级，参考以下网址：
+在 `/var/cache/pacman/pkg/` 中找到旧软件包（旧 AUR 软件包在 `/home/(user_name)/.cache/yay/(package_name)/`），双击打开安装实现手动降级，参考以下网址：
 
 [Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
@@ -1183,33 +1169,25 @@ fc-cache -fv
 
 **微软系统字体文件夹在 `C:\Windows\Fonts`，可以复制到 `/usr/share/fonts` 安装，注意需要排除掉 MS Gothic、Yu Gothic 和 Malgun Gothic 字体，因它们只有部分日/韩文汉字字形（与中文汉字字形一样的会被排除，最后导致部分中文汉字显示为日/韩文字形）**
 
-#### **安装 Google Noto 字体**
+**注意 Microsoft Office 不支持嵌入 OTF 字体，只能嵌入 TTF 字体**
+
+#### **安装中文字体**
+
+推荐安装[思源黑体](https://github.com/adobe-fonts/source-han-sans)、[思源宋体](https://github.com/adobe-fonts/source-han-serif)
 
 命令行安装：
 
 ```bash
-sudo pacman -S noto-fonts noto-fonts-cjk
+sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts
 ```
 
-所有语言字体的下载地址如下：
-
-[Noto Fonts -- Google Fonts](https://fonts.google.com/noto/fonts)
-
-中文（CJK）字体的下载地址如下：
-
-[Noto CJK -- GitHub](https://github.com/googlefonts/noto-cjk)
-
-安装的 Noto CJK 字体可能在某些情况下（框架未定义地区）汉字字形与标准形态不符，例如门、关、复等字的字形与规范中国大陆简体中文不符
-
-这是因为每个程序中可以设置不同的默认字体，而这些字体的属性由 fontconfig 控制，其使用顺序是据地区代码以 A-Z 字母表顺序成默认排序，由于 `ja` 在 `zh` 之前，故优先显示日文字形
-
-解决方法是手动修改字体设置文件：
+并创建字体设置文件：
 
 ```bash
 sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 ```
 
-并加入以下内容：
+加入以下内容：
 
 ```xml
 <?xml version="1.0"?>
@@ -1218,39 +1196,27 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
     <alias>
         <family>sans-serif</family>
         <prefer>
-            <family>Noto Sans CJK SC</family>
-            <family>Noto Sans CJK TC</family>
-            <family>Noto Sans CJK HK</family>
-            <family>Noto Sans CJK JP</family>
-            <family>Noto Sans CJK KR</family>
+            <family>Source Han Sans CN</family>
         </prefer>
     </alias>
     <alias>
         <family>serif</family>
         <prefer>
-            <family>Noto Serif CJK SC</family>
-            <family>Noto Serif CJK TC</family>
-            <family>Noto Serif CJK HK</family>
-            <family>Noto Serif CJK JP</family>
-            <family>Noto Serif CJK KR</family>
-        </prefer>
-    </alias>
-    <alias>
-        <family>monospace</family>
-        <prefer>
-            <family>Noto Sans Mono CJK SC</family>
-            <family>Noto Sans Mono CJK TC</family>
-            <family>Noto Sans Mono CJK HK</family>
-            <family>Noto Sans Mono CJK JP</family>
-            <family>Noto Sans Mono CJK KR</family>
+            <family>Source Han Serif CN</family>
         </prefer>
     </alias>
 </fontconfig>
 ```
 
-保存退出即可
+保存退出，重启电脑即可
 
-**注意 Microsoft Office 不支持嵌入 OTF 字体，只能嵌入 TTF 字体**
+也可以用相同的方法安装其它 CJK 字体：
+
+```bash
+sudo pacman -S adobe-source-han-sans-hk-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-tw-fonts adobe-source-han-serif-hk-fonts adobe-source-han-serif-jp-fonts adobe-source-han-serif-kr-fonts adobe-source-han-serif-tw-fonts
+```
+
+编辑 `/etc/fonts/conf.d/64-language-selector-prefer.conf` 并在 `CN` 之后添加其它区域的字形
 
 ### **安装中文输入法**
 
@@ -1285,7 +1251,7 @@ Fcitx5 的配置在：
 可以添加词库：（部分包需要使用 AUR 源）
 
 ```bash
-yay -S fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki fcitx5-pinyin-sougou
+yay -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-sougou
 ```
 
 #### **其它版本**
@@ -1340,18 +1306,6 @@ echo    'Loading initial ramdisk ...'
 更本质是修改 `/etc/grub.d/10_linux`，删除 `message="$(gettext_printf "Loading Linux %s ..." ${version})"` 和 `message="$(gettext_printf "Loading initial ramdisk ...")"`
 
 #### **关闭启动时 fsck 的消息**
-
-第一种方法是将 fsck 的消息重定向到别的 TTY 窗口，缺点是开机卡住时需要先切换到别的 TTY 窗口才能进入 emergency mode
-
-编辑 Kernel parameters：
-
-```bash
-sudo vim /etc/default/grub
-```
-
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `console=tty(x)`，其中 `x` 可以为 2 ~ 6 中的任何一个数
-
-第二种方法是让 systemd 来检查文件系统：
 
 编辑 `/etc/mkinitcpio.conf`，在 `HOOKS` 一行中将 `udev` 改为 `systemd`
 
@@ -1837,7 +1791,13 @@ chown (user_name):(group_name) (file_name)
 
 ### **命令行进程查看器**
 
-在终端中输入：（需要 `htop` 软件包）
+在终端中输入：
+
+```bash
+top
+```
+
+或者使用功能更强大，有颜色高亮的 `htop`：
 
 ```bash
 htop
@@ -1975,13 +1935,57 @@ expand -t 4 (file_name)
 
 第一步设定一个 Tab 的长度等于 4 个空格，第二步设定从 Tab 替换为空格（反之则为 `:set noexpandtab`），第三步将文件中所有的 Tab 替换为对应数量的空格
 
-### **命令行解压 ZIP 压缩包**
+### **命令行解压压缩包**
+
+#### **.zip 格式**
 
 建议使用 `unar`（由 `unarchiver` 软件包提供），因为它可以自动检测文件编码（Dolphin 右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
 
 ```bash
 unar (file_name).zip
 ```
+
+#### **.rar 格式**
+
+也可以用 `unar` 命令解压：
+
+```bash
+unar (file_name).rar
+```
+
+#### **.tar.gz 格式**
+
+执行命令：（其中 `-z` 表示通过 gzip 解压）
+
+```bash
+tar -xzvf (file_name).tar.gz
+```
+
+#### **.tar.xz 格式**
+
+执行命令：（其中 `-J` 表示通过 xz 解压）
+
+```bash
+tar -xJvf (file_name).tar.xz
+```
+
+#### **.tar.bz2 格式**
+
+执行命令：（其中 `-j` 表示通过 bzip2 解压）
+
+```bash
+tar -xjvf (file_name).tar.bz2
+```
+
+#### **.gz 格式**
+
+例如压缩的 FITS 文件，其后缀是 `.gz`，此时需要用 `gzip` 解压：
+
+```bash
+gzip -d (file_name).fits.gz
+```
+
+`gzip -d` 也可以替换为 `gunzip` 命令
 
 ### **设置命令别名**
 
@@ -1999,7 +2003,7 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 默认的壁纸保存位置为 `/usr/share/wallpapers/`
 
-还可以使用包管理器（pacman/yay/pamac）下载壁纸，用“添加/删除软件”或 `pamac search wallpaper` 查找
+还可以使用包管理器（pacman/yay/pamac）下载壁纸
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
@@ -2074,17 +2078,19 @@ Inherits=(cursor_theme_name)
 
 打开终端 Konsole：
 
-设置 >> 编辑当前方案 >> 外观 >> Complex Text Layout >> 双向文字渲染
+设置 >> 编辑当前方案 >> 外观 >> 复杂文本布局 >> 双向文字渲染
 
-默认关闭连字，勾选“Word mode”和“ASCII 字符”（不勾选“Use the same attributes for whole word”）可以开启连字
+默认关闭连字，勾选“单词模式”和“ASCII 字符”（不勾选“对整个单词使用相同的属性”）可以开启连字
 
 ### **bash 配置提示符变量**
 
-bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容，可以显示用户名、主机名、时间、是否为超级用户，并显示颜色高亮：
+bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容：
 
 ```bash
-PS1="[\[$(tput sgr0)\]\[\033[38;5;196m\]\u\[$(tput sgr0)\] @ \[$(tput sgr0)\]\[\033[38;5;40m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;208m\]\W\[$(tput sgr0)\]] (\t)\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;196m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+PS1="[\e[0;36m\u\e[0m @ \e[0;32m\h\e[0m \W] (\e[0;35m\t\e[0m)\n\e[1;31m\$\e[0m "
 ```
+
+显示了用户名、主机名、时间、是否为超级用户，并带有颜色高亮
 
 说明文档参见以下网站：
 
@@ -2444,21 +2450,41 @@ DNS 会储存在 `/etc/resolv.conf` 文件中，一般由 `NetworkManager` 根�
 sudo chattr +i /etc/resolv.conf
 ```
 
-### **TeX 安装**
+### **TeX Live 安装**
 
-**推荐从 ISO 安装 TeX Live 发行版，速度最快**
+#### **使用 pacman 安装**
 
-首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
+可以使用 `pacman` 从 Arch Linux 的官方源下载所需要的 TeX Live 软件包：
+
+```bash
+sudo pacman texlive-basic texlive-bibtexextra texlive-bin texlive-fontsrecommended texlive-langchinese texlive-langcjk texlive-latex texlive-latexrecommended texlive-luatex texlive-mathscience texlive-pictures
+```
+
+Tex Live 软件包的文档可以在以下网站在线查看：
+
+[CTAN: Comprehensive TeX Archive Network](https://www.ctan.org/)
+
+[TeXdoc online documentation](https://texdoc.org/)
+
+也可以下载 `texlive-doc` 软件包（大小为 2.3 GiB）：
+
+```bash
+sudo pacman -S texlive-doc
+```
+
+之后也可以通过 Arch Linux 官方源更新
+
+#### **使用 ISO 镜像文件安装**
+
+**安装过程不建议用 sudo**
+
+首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，文件名为 `texlive.iso`
 
 在 Dolphin 中右键点击 ISO 镜像文件挂载（需要 `dolphin-plugins` 软件包），或在终端中运行：
 
 ```bash
 sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 ```
-
-#### **使用命令行界面安装（推荐）**
-
-**安装过程不建议用 sudo**
 
 进入镜像文件夹，运行：
 
@@ -2479,23 +2505,7 @@ I
 
 `TEXMFLOCAL` 会随 `TEXDIR` 自动更改
 
-CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
-
-更改到清华大学镜像需要在命令行中执行：
-
-```bash
-tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
-```
-
-更改到上海交大镜像需要在命令行中执行：
-
-```bash
-tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
-```
-
-#### **使用图形界面安装**
-
-首先要检查是否安装 `tcl` 和 `tk` 软件包：
+如果使用图形界面安装，首先要检查是否安装 `tcl` 和 `tk` 软件包：
 
 ```bash
 sudo pacman -S tcl tk
@@ -2523,6 +2533,22 @@ PATH=(TEXDIR)/bin/x86_64-linux:$PATH
 
 输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
 
+#### **更改 CTAN 镜像源**
+
+CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
+
+更改到清华大学镜像需要在命令行中执行：
+
+```bash
+tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+```
+
+更改到上海交大镜像需要在命令行中执行：
+
+```bash
+tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
+```
+
 #### **从安装程序安装**
 
 可以从[官网](https://www.tug.org/texlive/acquire-netinstall.html)下载 [install-tl-unx.tar.gz](https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz)，解压后可以找到一个 `install-tl` 文件，执行：
@@ -2533,7 +2559,7 @@ perl install-tl -select-repository -gui text
 
 第一步输入数字选择镜像站，建议选择清华大学镜像或上海交大镜像
 
-之后步骤与前面一致，大约需要1h（从 ISO 安装只需要10min，因为是直接从本地 ISO 镜像中安装，不需要网络）
+之后步骤与前面一致，大约需要 1h（从 ISO 安装只需要 10min，因为是直接从本地 ISO 镜像中安装，不需要网络）
 
 #### **biber 报错**
 
@@ -2551,7 +2577,9 @@ sudo pacman -S libxcrypt-compat
 
 #### **texdoc 报错**
 
-使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档，如果在运行 `biber` 的过程中出现以下报错：
+使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档
+
+如果在运行 `texdoc` 的过程中出现以下报错：
 
 ```text
 kf.service.services: KApplicationTrader: mimeType "x-scheme-handler/file" not found
@@ -2704,7 +2732,7 @@ Hi (user_name)! You've successfully authenticated, but GitHub does not provide s
 
 ### **Python 安装与配置**
 
-Arch Linux 预装了 Python，但没有安装包管理器，可以使用 `pip` 或 `conda`（即安装 Miniconda）
+Arch Linux 预装了 Python，但没有安装包管理器，可以使用 `pip` 或 `conda`
 
 #### **pip 安装**
 
@@ -2762,7 +2790,7 @@ export PATH=(miniconda_path)/bin:$PATH
 
 #### **Miniconda 配置软件源**
 
-输入以下命令：（Windows 用户无法直接创建名为 `.condarc` 的文件，可先执行 `conda config --set show_channel_urls yes` 生成该文件之后再修改）
+输入以下命令：（在 Windows 中用户无法直接创建名为 `.condarc` 的文件，可先执行 `conda config --set show_channel_urls yes` 生成该文件之后再修改）
 
 ```bash
 vim ~/.condarc
@@ -2847,7 +2875,7 @@ conda install (package_name)=(version_number)
 conda install -c conda-forge (package_name)
 ```
 
-更新包：（`pip` 没有 `update` 选项，相应命令为 `pip install --upgrade (package_name)`）
+更新包：（`pip` 的相应命令为 `pip install --upgrade (package_name)`）
 
 ```bash
 conda update (package_name)
@@ -3168,7 +3196,7 @@ yay -S typora
 
 找到 `tt` 一行，将 `font-family` 改成自己想要的等宽字体（`monospace`）
 
-### **SAOImageDS9 安装**
+### **SAOImageDS9 安装和设置**
 
 AUR 中有 `ds9` 和 `ds9-bin` 两个版本，推荐选择二进制包 `ds9-bin`：
 
@@ -3191,6 +3219,12 @@ xrdb -query
 ```
 
 即可解决
+
+设置 SAOImageDS9 使用鼠标左键拖动图片如下：
+
+Edit >> Preferences >> Pan Zoom >> 选择“Drag to Center”
+
+保存设置后，在“Edit >> Pan”模式下即可使用鼠标左键拖动图片
 
 ### **IRAF/PyRAF 安装**
 
@@ -3316,6 +3350,14 @@ make -j8
 
 如果出现图形交互界面，说明安装成功
 
+### **QQ 安装（可选）**
+
+可以下载基于 Electron 的官方 QQ Linux 版：
+
+```bash
+yay -S linuxqq
+```
+
 ### **微信安装（可选）**
 
 微信官方原生桌面版（原生适配高分辨率屏幕，不需要 Wine/Deepin Wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，显示表情符号需要下载 `noto-fonts-emoji`）：
@@ -3346,12 +3388,6 @@ Graphics >> Screen Resolution >> 192 dpi
 
 ```bash
 yay -S wemeet-bin
-```
-
-也有基于 Deepin Wine 的版本可供选择：
-
-```bash
-yay -S com.tencent.deepin.meeting
 ```
 
 #### **钉钉**
@@ -3429,3 +3465,70 @@ yay -S ktorrent
 ```text
 yay -S qbittorrent
 ```
+
+### **使用 CachyOS 内核（可选）**
+
+首先检查 CPU 是否支持 `x86-64-v3` 和 `x86-64-v4` 微架构：
+
+```bash
+/lib/ld-linux-x86-64.so.2 --help | grep supported
+```
+
+输出结果如：
+
+```
+x86-64-v4 (supported, searched)
+x86-64-v3 (supported, searched)
+x86-64-v2 (supported, searched)
+```
+
+说明支持 `x86-64-v3` 和 `x86-64-v4` 微架构
+
+导入密钥：
+
+```bash
+sudo pacman-key --recv-keys F3B607488DB35A47
+sudo pacman-key --lsign-key F3B607488DB35A47
+```
+
+编辑 `/etc/pacman.conf` 文件：
+
+```bash
+sudo vim /etc/pacman.conf
+```
+
+如果 CPU 支持 `x86-64-v3`，则添加：
+
+```text
+[cachyos-v3]
+Include = /etc/pacman.d/cachyos-v3-mirrorlist
+[cachyos]
+Include = /etc/pacman.d/cachyos-mirrorlist
+```
+
+如果 CPU 支持 `x86-64-v4`，则添加：
+
+```text
+[cachyos-v4]
+Include = /etc/pacman.d/cachyos-v4-mirrorlist
+[cachyos]
+Include = /etc/pacman.d/cachyos-mirrorlist
+```
+
+之后下载想要的内核，例如：
+
+```
+sudo pacman -S linux-cachyos
+```
+
+之后重新生成 GRUB 文件：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+重启电脑即可
+
+参考以下网址：
+
+https://github.com/CachyOS/linux-cachyos

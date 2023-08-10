@@ -122,7 +122,13 @@ chown (user_name):(group_name) (file_name)
 
 ### **命令行进程查看器**
 
-在终端中输入：（需要 `htop` 软件包）
+在终端中输入：
+
+```bash
+top
+```
+
+或者使用功能更强大，有颜色高亮的 `htop`：
 
 ```bash
 htop
@@ -260,13 +266,57 @@ expand -t 4 (file_name)
 
 第一步设定一个 Tab 的长度等于 4 个空格，第二步设定从 Tab 替换为空格（反之则为 `:set noexpandtab`），第三步将文件中所有的 Tab 替换为对应数量的空格
 
-### **命令行解压 ZIP 压缩包**
+### **命令行解压压缩包**
+
+#### **.zip 格式**
 
 建议使用 `unar`（由 `unarchiver` 软件包提供），因为它可以自动检测文件编码（Dolphin 右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
 
 ```bash
 unar (file_name).zip
 ```
+
+#### **.rar 格式**
+
+也可以用 `unar` 命令解压：
+
+```bash
+unar (file_name).rar
+```
+
+#### **.tar.gz 格式**
+
+执行命令：（其中 `-z` 表示通过 gzip 解压）
+
+```bash
+tar -xzvf (file_name).tar.gz
+```
+
+#### **.tar.xz 格式**
+
+执行命令：（其中 `-J` 表示通过 xz 解压）
+
+```bash
+tar -xJvf (file_name).tar.xz
+```
+
+#### **.tar.bz2 格式**
+
+执行命令：（其中 `-j` 表示通过 bzip2 解压）
+
+```bash
+tar -xjvf (file_name).tar.bz2
+```
+
+#### **.gz 格式**
+
+例如压缩的 FITS 文件，其后缀是 `.gz`，此时需要用 `gzip` 解压：
+
+```bash
+gzip -d (file_name).fits.gz
+```
+
+`gzip -d` 也可以替换为 `gunzip` 命令
 
 ### **设置命令别名**
 
@@ -284,7 +334,7 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 默认的壁纸保存位置为 `/usr/share/wallpapers/`
 
-还可以使用包管理器（pacman/yay/pamac）下载壁纸，用“添加/删除软件”或 `pamac search wallpaper` 查找
+还可以使用包管理器（pacman/yay/pamac）下载壁纸
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
@@ -359,17 +409,19 @@ Inherits=(cursor_theme_name)
 
 打开终端 Konsole：
 
-设置 >> 编辑当前方案 >> 外观 >> Complex Text Layout >> 双向文字渲染
+设置 >> 编辑当前方案 >> 外观 >> 复杂文本布局 >> 双向文字渲染
 
-默认关闭连字，勾选“Word mode”和“ASCII 字符”（不勾选“Use the same attributes for whole word”）可以开启连字
+默认关闭连字，勾选“单词模式”和“ASCII 字符”（不勾选“对整个单词使用相同的属性”）可以开启连字
 
 ### **bash 配置提示符变量**
 
-bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容，可以显示用户名、主机名、时间、是否为超级用户，并显示颜色高亮：
+bash 的配置文件在 `~/.bashrc`，默认提示符变量 PS1 可以设置为如下内容：
 
 ```bash
-PS1="[\[$(tput sgr0)\]\[\033[38;5;196m\]\u\[$(tput sgr0)\] @ \[$(tput sgr0)\]\[\033[38;5;40m\]\h\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;208m\]\W\[$(tput sgr0)\]] (\t)\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;196m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+PS1="[\e[0;36m\u\e[0m @ \e[0;32m\h\e[0m \W] (\e[0;35m\t\e[0m)\n\e[1;31m\$\e[0m "
 ```
+
+显示了用户名、主机名、时间、是否为超级用户，并带有颜色高亮
 
 说明文档参见以下网站：
 
@@ -729,21 +781,41 @@ DNS 会储存在 `/etc/resolv.conf` 文件中，一般由 `NetworkManager` 根�
 sudo chattr +i /etc/resolv.conf
 ```
 
-### **TeX 安装**
+### **TeX Live 安装**
 
-**推荐从 ISO 安装 TeX Live 发行版，速度最快**
+#### **使用 pacman 安装**
 
-首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载 TeX Live ISO，文件名为 `texlive.iso`（和 `texlive(year).iso`、`texlive(year)-(date).iso` 是一致的）
+可以使用 `pacman` 从 Arch Linux 的官方源下载所需要的 TeX Live 软件包：
+
+```bash
+sudo pacman texlive-basic texlive-bibtexextra texlive-bin texlive-fontsrecommended texlive-langchinese texlive-langcjk texlive-latex texlive-latexrecommended texlive-luatex texlive-mathscience texlive-pictures
+```
+
+Tex Live 软件包的文档可以在以下网站在线查看：
+
+[CTAN: Comprehensive TeX Archive Network](https://www.ctan.org/)
+
+[TeXdoc online documentation](https://texdoc.org/)
+
+也可以下载 `texlive-doc` 软件包（大小为 2.3 GiB）：
+
+```bash
+sudo pacman -S texlive-doc
+```
+
+之后也可以通过 Arch Linux 官方源更新
+
+#### **使用 ISO 镜像文件安装**
+
+**安装过程不建议用 sudo**
+
+首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，文件名为 `texlive.iso`
 
 在 Dolphin 中右键点击 ISO 镜像文件挂载（需要 `dolphin-plugins` 软件包），或在终端中运行：
 
 ```bash
 sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 ```
-
-#### **使用命令行界面安装（推荐）**
-
-**安装过程不建议用 sudo**
 
 进入镜像文件夹，运行：
 
@@ -764,23 +836,7 @@ I
 
 `TEXMFLOCAL` 会随 `TEXDIR` 自动更改
 
-CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
-
-更改到清华大学镜像需要在命令行中执行：
-
-```bash
-tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
-```
-
-更改到上海交大镜像需要在命令行中执行：
-
-```bash
-tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
-```
-
-#### **使用图形界面安装**
-
-首先要检查是否安装 `tcl` 和 `tk` 软件包：
+如果使用图形界面安装，首先要检查是否安装 `tcl` 和 `tk` 软件包：
 
 ```bash
 sudo pacman -S tcl tk
@@ -808,6 +864,22 @@ PATH=(TEXDIR)/bin/x86_64-linux:$PATH
 
 输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
 
+#### **更改 CTAN 镜像源**
+
+CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
+
+更改到清华大学镜像需要在命令行中执行：
+
+```bash
+tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+```
+
+更改到上海交大镜像需要在命令行中执行：
+
+```bash
+tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
+```
+
 #### **从安装程序安装**
 
 可以从[官网](https://www.tug.org/texlive/acquire-netinstall.html)下载 [install-tl-unx.tar.gz](https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz)，解压后可以找到一个 `install-tl` 文件，执行：
@@ -818,7 +890,7 @@ perl install-tl -select-repository -gui text
 
 第一步输入数字选择镜像站，建议选择清华大学镜像或上海交大镜像
 
-之后步骤与前面一致，大约需要1h（从 ISO 安装只需要10min，因为是直接从本地 ISO 镜像中安装，不需要网络）
+之后步骤与前面一致，大约需要 1h（从 ISO 安装只需要 10min，因为是直接从本地 ISO 镜像中安装，不需要网络）
 
 #### **biber 报错**
 
@@ -836,7 +908,9 @@ sudo pacman -S libxcrypt-compat
 
 #### **texdoc 报错**
 
-使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档，如果在运行 `biber` 的过程中出现以下报错：
+使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档
+
+如果在运行 `texdoc` 的过程中出现以下报错：
 
 ```text
 kf.service.services: KApplicationTrader: mimeType "x-scheme-handler/file" not found
@@ -989,7 +1063,7 @@ Hi (user_name)! You've successfully authenticated, but GitHub does not provide s
 
 ### **Python 安装与配置**
 
-Arch Linux 预装了 Python，但没有安装包管理器，可以使用 `pip` 或 `conda`（即安装 Miniconda）
+Arch Linux 预装了 Python，但没有安装包管理器，可以使用 `pip` 或 `conda`
 
 #### **pip 安装**
 
@@ -1047,7 +1121,7 @@ export PATH=(miniconda_path)/bin:$PATH
 
 #### **Miniconda 配置软件源**
 
-输入以下命令：（Windows 用户无法直接创建名为 `.condarc` 的文件，可先执行 `conda config --set show_channel_urls yes` 生成该文件之后再修改）
+输入以下命令：（在 Windows 中用户无法直接创建名为 `.condarc` 的文件，可先执行 `conda config --set show_channel_urls yes` 生成该文件之后再修改）
 
 ```bash
 vim ~/.condarc
@@ -1132,7 +1206,7 @@ conda install (package_name)=(version_number)
 conda install -c conda-forge (package_name)
 ```
 
-更新包：（`pip` 没有 `update` 选项，相应命令为 `pip install --upgrade (package_name)`）
+更新包：（`pip` 的相应命令为 `pip install --upgrade (package_name)`）
 
 ```bash
 conda update (package_name)
@@ -1453,7 +1527,7 @@ yay -S typora
 
 找到 `tt` 一行，将 `font-family` 改成自己想要的等宽字体（`monospace`）
 
-### **SAOImageDS9 安装**
+### **SAOImageDS9 安装和设置**
 
 AUR 中有 `ds9` 和 `ds9-bin` 两个版本，推荐选择二进制包 `ds9-bin`：
 
@@ -1476,6 +1550,12 @@ xrdb -query
 ```
 
 即可解决
+
+设置 SAOImageDS9 使用鼠标左键拖动图片如下：
+
+Edit >> Preferences >> Pan Zoom >> 选择“Drag to Center”
+
+保存设置后，在“Edit >> Pan”模式下即可使用鼠标左键拖动图片
 
 ### **IRAF/PyRAF 安装**
 
@@ -1601,6 +1681,14 @@ make -j8
 
 如果出现图形交互界面，说明安装成功
 
+### **QQ 安装（可选）**
+
+可以下载基于 Electron 的官方 QQ Linux 版：
+
+```bash
+yay -S linuxqq
+```
+
 ### **微信安装（可选）**
 
 微信官方原生桌面版（原生适配高分辨率屏幕，不需要 Wine/Deepin Wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，显示表情符号需要下载 `noto-fonts-emoji`）：
@@ -1631,12 +1719,6 @@ Graphics >> Screen Resolution >> 192 dpi
 
 ```bash
 yay -S wemeet-bin
-```
-
-也有基于 Deepin Wine 的版本可供选择：
-
-```bash
-yay -S com.tencent.deepin.meeting
 ```
 
 #### **钉钉**
@@ -1714,3 +1796,70 @@ yay -S ktorrent
 ```text
 yay -S qbittorrent
 ```
+
+### **使用 CachyOS 内核（可选）**
+
+首先检查 CPU 是否支持 `x86-64-v3` 和 `x86-64-v4` 微架构：
+
+```bash
+/lib/ld-linux-x86-64.so.2 --help | grep supported
+```
+
+输出结果如：
+
+```
+x86-64-v4 (supported, searched)
+x86-64-v3 (supported, searched)
+x86-64-v2 (supported, searched)
+```
+
+说明支持 `x86-64-v3` 和 `x86-64-v4` 微架构
+
+导入密钥：
+
+```bash
+sudo pacman-key --recv-keys F3B607488DB35A47
+sudo pacman-key --lsign-key F3B607488DB35A47
+```
+
+编辑 `/etc/pacman.conf` 文件：
+
+```bash
+sudo vim /etc/pacman.conf
+```
+
+如果 CPU 支持 `x86-64-v3`，则添加：
+
+```text
+[cachyos-v3]
+Include = /etc/pacman.d/cachyos-v3-mirrorlist
+[cachyos]
+Include = /etc/pacman.d/cachyos-mirrorlist
+```
+
+如果 CPU 支持 `x86-64-v4`，则添加：
+
+```text
+[cachyos-v4]
+Include = /etc/pacman.d/cachyos-v4-mirrorlist
+[cachyos]
+Include = /etc/pacman.d/cachyos-mirrorlist
+```
+
+之后下载想要的内核，例如：
+
+```
+sudo pacman -S linux-cachyos
+```
+
+之后重新生成 GRUB 文件：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+重启电脑即可
+
+参考以下网址：
+
+https://github.com/CachyOS/linux-cachyos
