@@ -1,6 +1,5 @@
 {
-    "editor.fontSize": 12,
-    "editor.fontFamily": "JetBrains Mono NL, Hack, Noto Sans Mono CJK SC, Noto Mono, Consolas, monospace",
+    "editor.fontFamily": "JetBrains Mono NL, Hack, SF Mono, Consolas, monospace",
     "editor.fontLigatures": false,
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
@@ -8,7 +7,6 @@
     "editor.renderWhitespace": "boundary",
     "editor.formatOnSave": true,
     "editor.wordWrap": "on",
-    "editor.maxTokenizationLineLength": 4294967296,
     "editor.tokenColorCustomizations": {
         "comments": {
             "fontStyle": "bold",
@@ -41,8 +39,7 @@
         "editorBracketHighlight.unexpectedBracket.foreground": "#ff0000"
     },
     "workbench.startupEditor": "none",
-    "workbench.colorTheme": "Default Light+",
-    "debug.console.fontSize": 12,
+    "workbench.colorTheme": "Default Light Modern",
     "debug.onTaskErrors": "showErrors",
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
@@ -53,7 +50,6 @@
             "overrideName": true
         }
     },
-    "terminal.integrated.fontSize": 12,
     "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.inheritEnv": false,
@@ -72,7 +68,7 @@
     "git.confirmSync": false,
     "git.autofetch": true,
     "git.openRepositoryInParentFolders": "always",
-    "markdown.preview.fontFamily": "'Noto Sans CJK SC', 'Noto Sans', sans-serif",
+    "markdown.preview.fontFamily": "'Source Han Sans CN', 'Source Sans', sans-serif",
     "latex-workshop.latex.tools": [
         {
             "name": "latexmk",
@@ -133,19 +129,13 @@
         "*.toc",
         "*.run.xml"
     ],
-    "latex-workshop.bind.enter.key": false,
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
     "latex-workshop.latex.autoClean.run": "onBuilt",
-    "latex-workshop.view.pdf.tab.openDelay": 0,
     "latex-workshop.view.pdf.viewer": "tab",
-    "python.linting.pylintArgs": [
-        "--generate-members"
-    ],
-    "python.formatting.autopep8Args": [
-        "--max-line-length=65536"
-    ],
+    "latex-workshop.intellisense.argumentHint.enabled": false,
     "jupyter.themeMatplotlibPlots": true,
-    "jupyter.sendSelectionToInteractiveWindow": true,
-    "latex-workshop.intellisense.argumentHint.enabled": false
+    "black-formatter.args": [
+        "--line-length=120"
+    ]
 }

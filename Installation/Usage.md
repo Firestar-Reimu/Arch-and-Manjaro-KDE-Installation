@@ -266,57 +266,139 @@ expand -t 4 (file_name)
 
 第一步设定一个 Tab 的长度等于 4 个空格，第二步设定从 Tab 替换为空格（反之则为 `:set noexpandtab`），第三步将文件中所有的 Tab 替换为对应数量的空格
 
-### **命令行解压压缩包**
+### **归档、压缩与解压缩**
 
-#### **.zip 格式**
+参考以下网址：
 
-建议使用 `unar`（由 `unarchiver` 软件包提供），因为它可以自动检测文件编码（Dolphin 右键菜单默认的 Ark 不具备这个功能，可能导致乱码）：
+[Archiving and compression -- ArchWiki](https://wiki.archlinux.org/title/Archiving_and_compression)
 
-```bash
-unar (file_name).zip
-```
+#### **zip 格式**
 
-#### **.rar 格式**
-
-也可以用 `unar` 命令解压：
+压缩需要用 `zip` 命令（需要单独安装 `zip` 软件包）：
 
 ```bash
-unar (file_name).rar
+zip (archive_name).zip (file_name)
 ```
 
-#### **.tar.gz 格式**
+这里的 `(file_name)` 可以是单个或多个文件，下同
 
-执行命令：（其中 `-z` 表示通过 gzip 解压）
+解压默认使用 `unzip` 命令（需要单独安装 `unzip` 软件包）：
 
 ```bash
-tar -xzvf (file_name).tar.gz
+unzip (archive_name).zip
 ```
 
-#### **.tar.xz 格式**
-
-执行命令：（其中 `-J` 表示通过 xz 解压）
+如果压缩文件编码不是 UTF-8，可能会导致文件名乱码，此时可以指定为其它编码例如 GBK 编码：
 
 ```bash
-tar -xJvf (file_name).tar.xz
+unzip -O gbk (archive_name).zip
 ```
 
-#### **.tar.bz2 格式**
-
-执行命令：（其中 `-j` 表示通过 bzip2 解压）
+这里建议使用 `unar`（由 `unarchiver` 软件包提供）解压，因为它可以自动检测文件编码：
 
 ```bash
-tar -xjvf (file_name).tar.bz2
+unar (archive_name).zip
 ```
 
-#### **.gz 格式**
+#### **rar 格式**
 
-例如压缩的 FITS 文件，其后缀是 `.gz`，此时需要用 `gzip` 解压：
+压缩需要用 `rar` 命令（需要从 AUR 安装 `rar` 软件包）：
 
 ```bash
-gzip -d (file_name).fits.gz
+rar a (archive_name).rar (file_name)
 ```
 
-`gzip -d` 也可以替换为 `gunzip` 命令
+解压时则将参数 `a` 换成 `x`：
+
+```bash
+rar x (archive_name).rar
+```
+
+也可以用 `unarchiver` 软件包提供的 `unar` 命令解压：
+
+```bash
+unar (archive_name).rar
+```
+
+#### **tar 格式**
+
+归档文件（不压缩）时使用 `tar` 命令：
+
+```bash
+tar -cvf (archive_name).tar (file_name)
+```
+
+解开归档文件时使用：
+
+```bash
+tar -xvf (archive_name).tar
+```
+
+此处的 `-c` 参数表示创建归档文件（create）；`-v` 参数表示显示详细信息（verbose），即被归档或解压的每一个文件的名字；`-f` 参数表示归档文件的文件名（不是被归档文件的文件名），解开时则为压缩包的文件名；`-x` 参数表示解开归档文件（extract）
+
+#### **tar.gz 格式**
+
+压缩命令：（其中 `-z` 表示通过 gzip 压缩或解压）
+
+```bash
+tar -czvf (archive_name).tar.gz (file_name)
+```
+
+解压命令：
+
+```bash
+tar -xzvf (archive_name).tar.gz
+```
+
+实际上 `tar` 可以自动识别压缩格式，所以可以使用如下命令（下同）：
+
+```bash
+tar -xvf (archive_name).tar.gz
+```
+
+#### **tar.xz 格式**
+
+压缩命令：（其中 `-J` 表示通过 xz 压缩或解压）
+
+```bash
+tar -cJvf (archive_name).tar.xz (file_name)
+```
+
+解压命令：
+
+```bash
+tar -xJvf (archive_name).tar.xz
+```
+
+#### **tar.bz2 格式**
+
+压缩命令：（其中 `-j` 表示通过 bzip2 压缩或解压）
+
+```bash
+tar -cjvf (archive_name).tar.bz2 (file_name)
+```
+
+解压命令：
+
+```bash
+tar -xjvf (archive_name).tar.bz2
+```
+
+#### **gz 格式**
+
+压缩命令：
+
+```bash
+gzip (file_name)
+```
+
+解压命令：（`gzip -d` 也可以替换为 `gunzip`）
+
+```bash
+gzip -d (file_name).gz
+```
+
+例如 gzip 压缩的 FITS 文件，其后缀是 `.fits.gz`，此时可以用 `gzip -d` 解压，得到 `.fits` 格式的文件
 
 ### **设置命令别名**
 
@@ -604,38 +686,48 @@ gpg --keyserver keyserver.ubuntu.com --recv-keys (pgp_key)
 sudo update-desktop-database
 ```
 
-### **向 AUR 提交软件包**
+### **生成 SSH 密钥**
 
-#### **SSH 密钥认证**
-
-首先生成一个 SSH 密钥，默认使用兼容性最好的 RSA 算法，现在推荐使用更安全的 ED25519 算法：
+生成一个 SSH 密钥默认使用兼容性最好的 RSA 算法，现在推荐使用更安全的 ED25519 算法：
 
 ```bash
 ssh-keygen -t ed25519 -C "(user_email)"
 ```
 
-第一步会询问 `Enter file in which to save the key`，默认是 `~/.ssh/id_ed25519`，可以改为别的名字，如 `~/.ssh/aur`
+第一步生成私钥，会询问 `Enter file in which to save the key`，默认是 `~/.ssh/id_ed25519`，可以改为别的位置和名字，如 `(ssh_folder)/(key_name)`
 
 第二步会提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
 
-这样创建的私钥位置为 `~/.ssh/aur`，公钥位置为 `~/.ssh/aur.pub`
+这样创建的私钥位置为 `(ssh_folder)/(key_name)`，公钥位置为 `(ssh_folder)/(key_name).pub`
 
-复制 `~/.ssh/aur.pub` 的内容（至少包括前缀 `ssh_ed25519` 和公钥的随机字符串），粘贴到 AUR 的“My Account >> SSH 密钥”一节，输入密码更新账号设置
+如果 SSH 密钥不在默认的 `~/.ssh`，则需要创建设置文件 `~/.ssh/config`（这个文件必须在 `~/.ssh/` 文件夹内）并写入：
 
-之后创建设置文件 `~/.ssh/config`，为 AUR 指定私钥的位置，即写入：
+```text
+IdentityFile (ssh_folder)/(key_name)
+```
+
+### **向 AUR 提交软件包**
+
+#### **连接 AUR 仓库**
+
+需要使用 SSH 连接 AUR 仓库
+
+复制 `~/(ssh_folder)/.ssh/aur.pub` 的内容（至少包括前缀 `ssh_ed25519` 和公钥的随机字符串），粘贴到 AUR 的“My Account >> SSH 密钥”一节，输入密码以更新账号设置
+
+在 `~/.ssh/config` 中为 AUR 指定 SSH 私钥的位置，即写入：
 
 ```text
 Host aur.archlinux.org
-    IdentityFile ~/.ssh/aur
-    User (user_name)
+User (user_name)
+IdentityFile (ssh_folder)/(key_name)
 ```
 
 #### **创建软件包仓库**
 
-如果要创建新的软件包，通过克隆所需的 [pkgbase](https://wiki.archlinux.org/title/PKGBUILD#pkgbase) 的方式建立一个远程 AUR 仓库和本地 Git 仓库：
+如果要创建新的软件包，通过克隆所需的 [pkgbase](https://wiki.archlinux.org/title/PKGBUILD#pkgbase) 的方式建立一个远程 AUR 仓库和本地 Git 仓库：（必须用 SSH 地址，需要登录 AUR 后才能看到）
 
 ```bash
-git clone ssh://aur@aur.archlinux.org/(pkgbase).git
+git clone ssh://aur@aur.archlinux.org/(package_name).git
 ```
 
 如果软件包还不存在，则会出现警告：
@@ -656,7 +748,7 @@ warning: You appear to have cloned an empty repository.
 makepkg --printsrcinfo > .SRCINFO
 ```
 
-添加文件并提交，最后推送这些变动到AUR上：
+添加文件并提交，最后推送这些变动到 AUR 上：
 
 ```bash
 git add PKGBUILD .SRCINFO
@@ -736,12 +828,10 @@ yay -S v2ray v2raya-bin
 启动 v2rayA 需要使用 `systemctl`：
 
 ```bash
-sudo systemctl enable --now v2raya
+sudo systemctl enable --now v2raya-lite
 ```
 
 之后 v2rayA 可以开机自启动
-
-注意现在 `v2ray` 升级到 5.x 版本，需要 v2RayA 升级到 2.x 版本，旧的 Qv2ray 已经无法使用，以后可能会迁移到 [sing-box](https://sing-box.sagernet.org/)
 
 之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
@@ -788,10 +878,12 @@ sudo chattr +i /etc/resolv.conf
 可以使用 `pacman` 从 Arch Linux 的官方源下载所需要的 TeX Live 软件包：
 
 ```bash
-sudo pacman texlive-basic texlive-bibtexextra texlive-bin texlive-fontsrecommended texlive-langchinese texlive-langcjk texlive-latex texlive-latexrecommended texlive-luatex texlive-mathscience texlive-pictures
+sudo pacman texlive-basic texlive-bibtexextra texlive-bin texlive-binextra texlive-fontsextra texlive-fontsrecommended texlive-langchinese texlive-langjapanese texlive-langcjk texlive-latex texlive-latexextra texlive-latexrecommended texlive-luatex texlive-mathscience texlive-pictures texlive-plaingeneric
 ```
 
-Tex Live 软件包的文档可以在以下网站在线查看：
+这里的 `texlive-langjapanese` 是用于提供 `texlive-luatexja` 软件包的，如果使用 XeTeX 则只需要下载 `latex-xetex` 即可，`texlive-xecjk` 在 `texlive-langcjk` 组中
+
+TeX Live 软件包的文档可以在以下网站在线查看：
 
 [CTAN: Comprehensive TeX Archive Network](https://www.ctan.org/)
 
@@ -1022,19 +1114,29 @@ yay -S github-desktop-bin gnome-keyring
 
 #### **生成新 SSH 密钥并添加到 ssh-agent**
 
+生成一个 SSH 密钥默认使用兼容性最好的 RSA 算法，现在推荐使用更安全的 ED25519 算法：
+
 ```bash
 ssh-keygen -t ed25519 -C "(user_email)"
 ```
 
-第一步会询问 `Enter file in which to save the key`，默认是 `~/.ssh/id_ed25519`，可以改为别的名字
+第一步生成私钥，会询问 `Enter file in which to save the key`，默认是 `~/.ssh/id_ed25519`，可以改为别的位置和名字，如 `(ssh_folder)/(key_name)`
 
 第二步会提示输入安全密码，可以按 `Enter` 跳过，不影响后续操作和使用
+
+这样创建的私钥位置为 `(ssh_folder)/(key_name)`，公钥位置为 `(ssh_folder)/(key_name).pub`
+
+如果 SSH 密钥不在默认的 `~/.ssh`，则需要创建设置文件 `~/.ssh/config`（这个文件必须在 `~/.ssh/` 文件夹内）并写入：
+
+```text
+IdentityFile (ssh_folder)/(key_name)
+```
 
 之后执行：
 
 ```bash
 eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
+ssh-add (ssh_folder)/(key_name)
 ```
 
 #### **新增 SSH 密钥到 GitHub 帐户**
@@ -1395,7 +1497,7 @@ yay -S vscodium-bin
 yay -S vscodium-git
 ```
 
-下载扩展：Python（会自动下载 Pylance、Jupyter 等扩展），LaTeX Workshop，C/C++，Markdown all in One，Prettier - Code formatter
+下载扩展：Python（需要单独下载代码风格检查工具 Pylint 和格式化工具 autopep8、Black Formatter 等）、Jupyter、LaTeX Workshop、Markdown all in One 等
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
 
@@ -1625,20 +1727,34 @@ pyraf
 
 退出 IRAF：
 
-```text
+```bash
 logout
 ```
 
 退出 PyRAF：
 
-```text
+```bash
 exit()
 ```
 
 启动参数编辑器（the EPAR Parameter Editor）的命令为：
 
-```text
+```bash
 epar (task_name)
+```
+
+### **Topcat 安装**
+
+Topcat 可以从 AUR 安装：
+
+```bash
+yay -S topcat
+```
+
+如果 Topcat 在高分辨率屏幕上显示过小，则编辑 `~/.profile` 并加入：
+
+```text
+export GDK_SCALE=2
 ```
 
 ### **Geant4 安装**
@@ -1691,25 +1807,11 @@ yay -S linuxqq
 
 ### **微信安装（可选）**
 
-微信官方原生桌面版（原生适配高分辨率屏幕，不需要 Wine/Deepin Wine 即可运行；但是功能较少，不支持截屏和“订阅号消息”，显示表情符号需要下载 `noto-fonts-emoji`）：
+推荐安装以下版本（在安装本软件包前需要启用 `multilib` 仓库）：
 
 ```bash
-yay -S com.tencent.weixin
+yay -S com.qq.weixin.spark
 ```
-
-功能较多，和最新的 Windows 电脑版同步更新，但依赖 Deepin Wine，且暂不支持“截屏时隐藏当前窗口”的版本：
-
-```bash
-yay -S deepin-wine-wechat
-```
-
-#### **deepin-wine-wechat 高分辨率适配调整**
-
-用命令 `/opt/apps/com.qq.weixin.deepin/files/run.sh winecfg` 调出 Wine Configuration，对于 200% 的放大率：
-
-Graphics >> Screen Resolution >> 192 dpi
-
-其余基于 Deepin Wine 的软件（如腾讯会议 `com.tencent.deepin.meeting`）也是类似的处理方法，将 `com.qq.weixin.deepin` 换成对应的文件夹名称即可（都在 `/opt/apps/` 目录下）
 
 ### **会议软件安装（可选）**
 
@@ -1727,7 +1829,7 @@ yay -S wemeet-bin
 yay -S dingtalk-bin
 ```
 
-高分辨率可以点击头像 >> 设置 >> 全局缩放，选择 150%
+高分辨率屏幕下可以点击头像 >> 设置 >> 全局缩放，选择 150%
 
 #### **Zoom**
 

@@ -2,10 +2,10 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 5.27.7
-KDE Frameworks Version: 5.108.0
-Qt Version: 5.15.10
-Kernel Version: 6.4.9-arch1-1 (64-bit)
+KDE Plasma Version: 5.27.80
+KDE Frameworks Version: 5.245.0
+Qt Version: 6.6.0
+Kernel Version: 6.6.1-arch1-1 (64-bit)
 Graphics Platform: X11
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -426,7 +426,7 @@ passwd (user_name)
 ```bash
 pacman -S sudo
 ```
-sudo 的配置文件是 `/etc/soduers`，更改配置需要使用命令 `visudo`，其默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入以下命令用 Vim 打开 `visudo`：
+sudo 的配置文件是 `/etc/sudoers`，更改配置需要使用命令 `visudo`，其默认编辑器是 Vi，若要改为 Vim，则首先在终端中输入以下命令用 Vim 打开 `visudo`：
 
 ```bash
 EDITOR=vim visudo
@@ -738,7 +738,7 @@ sudo mount -t ntfs3 /dev/(partition_name) /run/media/(user_name)/(partition_name
 根本的解决方案是在 Windows 中使用 `chkdsk` 修复，注意这里要使用盘符，以 `E:` 盘为例：
 
 ```powershell
-chkdsk E: /F
+chkdsk /F E:
 ```
 
 ### **网络设置**
