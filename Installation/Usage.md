@@ -770,18 +770,34 @@ kf.sonnet.core: No language dictionaries for the language: "en_US"
 sudo pacman -S aspell aspell-en
 ```
 
-### **运行 AppImage 文件或二进制文件**
+### **Gwenview 查看 EPS 图片**
 
-AppImage 的扩展名为 `.AppImage`，二进制文件没有扩展名，这两者一般可以直接双击或在终端输入文件名运行：
+下载 `kimageformats` 软件包：
 
-```bash
-(file_name)
+```
+sudo pacman -S kimageformats
 ```
 
-如果无法启动，则需要添加运行权限：
+`kimageformats` 提供了 Gwenview 对 EPS、PSD 等图片格式的支持，但 Gwenview 依然是以栅格化形式打开 EPS 矢量图，质量较差，建议用 Okular 查看 EPS 图片
+
+### **运行 AppImage 文件**
+
+AppImage 的扩展名为 `.AppImage`，可以直接双击或在终端输入文件名运行：
 
 ```bash
-chmod u+x (file_name)
+(file_name).AppImage
+```
+
+运行 AppImage 需要 FUSE2：
+
+```bash
+sudo pacman -S fuse2
+```
+
+并检查是否有运行权限，若没有则需要添加运行权限：
+
+```bash
+chmod u+x (file_name).AppImage
 ```
 
 然后双击或在终端输入文件名运行即可
@@ -817,23 +833,29 @@ debtap -P (package_name).deb
 
 会生成一个 `PKGBUILD` 文件，之后用 `makepkg -si` 也可安装
 
-### **V2Ray 安装与配置**
+### **v2ray 安装与配置**
 
-可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）
+v2ray 可以在官方软件源下载：
 
 ```bash
-yay -S v2ray v2raya-bin
+sudo pacman -S v2ray
+```
+
+推荐使用 v2rayA 客户端，可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）：
+
+```bash
+yay -S v2raya-bin
 ```
 
 启动 v2rayA 需要使用 `systemctl`：
 
 ```bash
-sudo systemctl enable --now v2raya-lite
+sudo systemctl enable --now v2raya
 ```
 
 之后 v2rayA 可以开机自启动
 
-之后在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
+在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
 右上角“设置”中，按照[推荐方法](https://v2raya.org/en/docs/prologue/quick-start/#transparent-proxy)进行设置，即将“透明代理/系统代理”改为“启用：大陆白名单模式”，“防止 DNS 污染”改为“仅防止 DNS 劫持（快速）”，“特殊模式”改为“supervisor”，保存并应用
 
@@ -878,10 +900,12 @@ sudo chattr +i /etc/resolv.conf
 可以使用 `pacman` 从 Arch Linux 的官方源下载所需要的 TeX Live 软件包：
 
 ```bash
-sudo pacman texlive-basic texlive-bibtexextra texlive-bin texlive-binextra texlive-fontsextra texlive-fontsrecommended texlive-langchinese texlive-langjapanese texlive-langcjk texlive-latex texlive-latexextra texlive-latexrecommended texlive-luatex texlive-mathscience texlive-pictures texlive-plaingeneric
+sudo pacman texlive-basic
 ```
 
-这里的 `texlive-langjapanese` 是用于提供 `texlive-luatexja` 软件包的，如果使用 XeTeX 则只需要下载 `latex-xetex` 即可，`texlive-xecjk` 在 `texlive-langcjk` 组中
+其余 TeX Live 软件包按需下载，可以在 [Arch Linux Packages](https://archlinux.org/packages/) 查看
+
+注意官方软件源的更新周期与 TeX Live 相同，即一年一次，且只能以软件包集合为最小单位下载
 
 TeX Live 软件包的文档可以在以下网站在线查看：
 
@@ -899,7 +923,7 @@ sudo pacman -S texlive-doc
 
 #### **使用 ISO 镜像文件安装**
 
-**安装过程不建议用 sudo**
+**安装过程不建议用 `sudo`，否则之后所有的 `tlmgr 命令都需要使用 `sudo`**
 
 首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，文件名为 `texlive.iso`
 
@@ -918,9 +942,10 @@ perl install-tl -gui text
 用大写字母命令控制安装：
 
 ```text
-C >> 输入字母选择要安装/不安装的软件包集合
+S >> 选择安装方案 >> R
+C >> 输入字母选择要安装/不安装的软件包集合 >> R
 D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
-O >> L >> 都选择默认位置（按 Enter） >> R
+O >> 只选择 E、F、Y >> R
 I
 ```
 
@@ -944,17 +969,21 @@ perl install-tl -gui
 
 #### **设置 PATH 环境变量**
 
-编辑 `~/.bashrc`，添加一行：
+编辑 `/etc/environment`，添加一行：
 
 ```bash
 PATH=(TEXDIR)/bin/x86_64-linux:$PATH
 ```
 
+之后重启电脑
+
+这样可以保证 Bash、Visual Studio Code 等都能够找到 TeX Live 的环境变量
+
 可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
 
 还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
 
-输入命令 `texconfig conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
+输入命令 `tlmgr conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
 
 #### **更改 CTAN 镜像源**
 
@@ -983,6 +1012,52 @@ perl install-tl -select-repository -gui text
 第一步输入数字选择镜像站，建议选择清华大学镜像或上海交大镜像
 
 之后步骤与前面一致，大约需要 1h（从 ISO 安装只需要 10min，因为是直接从本地 ISO 镜像中安装，不需要网络）
+
+#### **tlmgr 的常用命令**
+
+显示说明文档：
+
+```bash
+tlmgr -help
+```
+
+下载软件包：
+
+```bash
+tlmgr update (package_name)
+```
+
+这会同时下载软件包及其依赖
+
+更新自身：
+
+```bash
+tlmgr update -self
+```
+
+更新全部软件包：
+
+```bash
+tlmgr update -all
+```
+
+查找本地软件包：
+
+```bash
+tlmgr search (package_name)
+```
+
+从软件源（即完整的 TeX Live）查找软件包：
+
+```bash
+tlmgr search -global (package_name)
+```
+
+从软件源查找软件包文件（如 `.sty` 文件、`.def` 文件等）：
+
+```bash
+tlmgr search -global (file_name)
+```
 
 #### **biber 报错**
 
@@ -1181,6 +1256,12 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
 pip install (package_name)
 ```
 
+列出 pip 下载的所有包，包括下载的位置：
+
+```bash
+pip list -v
+```
+
 这里不建议安装 Spyder，安装最基本的包即可：
 
 ```bash
@@ -1206,6 +1287,8 @@ Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
 安装过程参考以下网址：（Miniconda 和 Anaconda 的安装步骤相同）
 
 [Anaconda Documentation -- Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/)
+
+注意最后一步要选择 `yes`
 
 如果使用 `zsh`，需要用 `zsh` 执行安装文件：
 
@@ -1554,6 +1637,20 @@ git config --global --add safe.directory "*"
 
 缩小比例：`Ctrl+-`
 
+#### **Python 插件设置**
+
+如果使用的是 Miniconda 提供的 Python，需要查询 Python 的安装位置：
+
+```bash
+which python
+```
+
+并将返回的结果 `(python_path)` 添加到 `settings.json` 中：
+
+```json
+"python.defaultInterpreterPath": "(python_path)"
+```
+
 #### **Latex Workshop 插件设置**
 
 若想在 [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
@@ -1797,6 +1894,16 @@ make -j8
 
 如果出现图形交互界面，说明安装成功
 
+### **相机安装（可选）**
+
+KDE 官方的相机应用是 Kamoso：
+
+```bash
+sudo pacman -S kamoso
+```
+
+需要区别于另一个 KDE 应用 Kamera，Kamera 提供了一个配置工具和一个 KIO 工作程序，用于在采用了此协议的数码相机上进行读写操作。
+
 ### **QQ 安装（可选）**
 
 可以下载基于 Electron 的官方 QQ Linux 版：
@@ -1810,8 +1917,10 @@ yay -S linuxqq
 推荐安装以下版本（在安装本软件包前需要启用 `multilib` 仓库）：
 
 ```bash
-yay -S com.qq.weixin.spark
+yay -S com.qq.weixin.spark wqy-microhei
 ```
+
+第一次启动时会要求选择放大倍率，与系统放大倍率相同，如系统放大倍率为 `200%` 则选择 `2.0`
 
 ### **会议软件安装（可选）**
 

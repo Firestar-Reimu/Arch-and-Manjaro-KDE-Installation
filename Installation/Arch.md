@@ -203,7 +203,7 @@ timedatectl set-ntp true
 
 更多操作参考以下网址：
 
-[Parted User's Manual](https://www.gnu.org/software/parted/manual/parted.html)
+[GNU Parted User Manual](https://www.gnu.org/software/parted/manual/parted.html)
 
 ### **创建文件系统**
 
@@ -219,13 +219,13 @@ XFS 和 EXT4 对应的命令就是 `mkfs.xfs` 和 `mkfs.ext4`
 
 ### **挂载分区**
 
-将根磁盘卷挂载到 `/mnt`
+首先将根磁盘卷挂载到 `/mnt`
 
 ```bash
 mount /dev/(root_partition) /mnt
 ```
 
-对于 UEFI 系统，挂载 EFI 系统分区：
+对于 UEFI 系统，挂载 EFI 系统分区（一般是 `lsblk` 输出的第一个分区，文件系统一般是 FAT32）：
 
 ```bash
 mount --mkdir /dev/(efi_system_partition) /mnt/boot
@@ -302,7 +302,13 @@ hwclock --systohc
 
 ### **本地化**
 
-编辑 `/etc/locale.gen`，然后取消掉 `en_US.UTF-8 UTF-8` 和 `zh_CN.UTF-8 UTF-8` 前的注释
+编辑 `/etc/locale.gen`：
+
+```bash
+vim /etc/locale.gen
+```
+
+取消掉 `en_US.UTF-8 UTF-8` 和 `zh_CN.UTF-8 UTF-8` 两行的注释
 
 接着生成 locale 信息：
 
@@ -376,16 +382,21 @@ passwd
 pacman -S grub efibootmgr
 ```
 
-输入 `efibootmgr` 可以看到所有的启动项，每一个启动项都有一个四位数字的编号 `(boot_number)`
+输入 `efibootmgr` 可以查看所有的启动项，每一个启动项都有一个四位数字的编号 `(boot_number)`，可以使用 `efibootmgr -b (boot_number) -B` 命令删除原来的启动项
 
-可以使用 `efibootmgr -b (boot_number) -B` 命令删除原来的启动项
+接着执行以下命令：
 
 ```bash
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=(ID)
-grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 其中 `(ID)` 是 Arch Linux 系统启动项在 BIOS 启动菜单中的名字
+
+最后更新 GRUB 设置：
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 ### **重启**
 
@@ -406,6 +417,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 命令行输入 `nmtui` 并按照终端上的图形界面一步一步操作
 
 ### **设置新用户**
+
+设置用户名为 `(user_name)`，建议只使用小写字母和数字：
 
 ```bash
 useradd -m -G wheel (user_name)
@@ -518,14 +531,12 @@ pacman -S plasma
 #### **安装必要的软件**
 
 ```bash
-pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview kimageformats spectacle yakuake okular poppler-data git
+pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle yakuake okular poppler-data git
 ```
 
 `firefox` 也可以替换为其余浏览器，但可能需要使用 AUR 软件包管理器，例如 `microsoft-edge-stable-bin` 和 `google-chrome`
 
 `dolphin-plugins` 提供了右键菜单挂载 ISO 镜像等选项
-
-`kimageformats` 提供了 Gwenview 对 EPS、PSD 等图片格式的支持，但 Gwenview 依然是以栅格化形式打开 EPS 矢量图，质量较差，建议用 Okular 查看 EPS 图片
 
 `poppler-data` 是 PDF 渲染所需的编码数据，不下载 `poppler-data` 会导致部分 PDF 文件的中文字体无法在 Okular 中显示
 
@@ -683,8 +694,8 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000
 如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
 
 ```text
-(name_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
-(name_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
+/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
 ```
 
 参考以下网址：
@@ -1205,6 +1216,12 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
             <family>Source Han Serif CN</family>
         </prefer>
     </alias>
+    <alias>
+        <family>monospace</family>
+        <prefer>
+            <family>Source Han Sans CN</family>
+        </prefer>
+    </alias>
 </fontconfig>
 ```
 
@@ -1251,7 +1268,7 @@ Fcitx5 的配置在：
 可以添加词库：（部分包需要使用 AUR 源）
 
 ```bash
-yay -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-sougou
+yay -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-moegirl fcitx5-pinyin-sougou
 ```
 
 #### **其它版本**
@@ -1305,7 +1322,30 @@ echo    'Loading initial ramdisk ...'
 
 更本质是修改 `/etc/grub.d/10_linux`，删除 `message="$(gettext_printf "Loading Linux %s ..." ${version})"` 和 `message="$(gettext_printf "Loading initial ramdisk ...")"`
 
+
+#### **关闭 plymouth 的消息并显示启动屏幕动画**
+
+编辑 `/etc/default/grub`，找到一行：
+
+```text
+GRUB_CMDLINE_LINUX_DEFAULT
+```
+
+加入参数 `quiet splash`
+
+最后执行：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+再重启即可
+
+默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
+
 #### **关闭启动时 fsck 的消息**
+
+关闭启动时 fsck 检查磁盘完整性的消息，如：`/dev/xxx: clean, xxx/xxxx files, xxxx/xxxxx blocks`
 
 编辑 `/etc/mkinitcpio.conf`，在 `HOOKS` 一行中将 `udev` 改为 `systemd`
 
@@ -1363,16 +1403,6 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 再重启即可
 
-#### **关闭重启时 systemd 的消息**
-
-参考以下网址：
-
-https://github.com/systemd/systemd/pull/23574
-
-方法如下：
-
-系统设置 >> 开机与关机 >> 登录屏幕（SDDM） >> 行为设置 >> “关机命令”和“重启命令”中加入 `--no-wall` 参数
-
 ### **在登录时自动解锁 KWallet**
 
 在登录时自动解锁 KWallet 需要安装 `kwallet-pam` 包来提供对 [PAM](https://wiki.archlinux.org/title/PAM) 的兼容模块：
@@ -1392,8 +1422,8 @@ sudo pacman -S kwallet-pam
 配置用户名、邮箱：
 
 ```bash
-git config --global user.name "(user_name)"
-git config --global user.email "(user_email)"
+git config --global user.name (user_name)
+git config --global user.email (user_email)
 ```
 
 Git 使用教程参考以下网址：
@@ -1539,6 +1569,95 @@ Hidden=false
 注意此时需要手动输入用户名和密码
 
 在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回 TTY1 图形化界面
+
+### **切换软件包仓库**
+
+参考以下网址：
+
+[Official repositories -- ArchWiki](https://wiki.archlinux.org/title/Official_repositories)
+
+#### **启用 multilib 仓库**
+
+multilib 包含着32位的软件和链接库，可以用于在64位系统上运行和构建32位软件，例如 `wine` 软件包等
+
+如果想启用 multilib 仓库，请在 `/etc/pacman.conf` 文件中取消 `[multilib]` 段落的注释：
+
+```text
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+然后更新系统：
+
+```bash
+sudo pacman -Syu
+```
+
+#### **启用测试仓库（可选）**
+
+测试仓库并不是“最新”软件包的仓库。测试仓库的目的是提供一个即将被放入主软件仓库的软件包的集散地。软件包维护者（和普通用户）可以访问并测试这些软件包以确保软件包没有问题。当位于测试仓库的软件包被测试无问题后，即可被移入主仓库。
+
+请同时启用 core-testing 和 extra-testing 仓库，即在 `/etc/pacman.conf` 文件中取消 `[core-testing]` 和 `[extra-testing]` 段落的注释：
+
+```text
+[core-testing]
+Include = /etc/pacman.d/mirrorlist
+
+[extra-testing]
+Include = /etc/pacman.d/mirrorlist
+```
+
+由于并不是所有的主仓库软件包都在测试仓库中有相应的版本，core 和 extra 主仓库应该保留，并保证相应的测试仓库在主仓库的前面，即：
+
+```text
+[core-testing]
+Include = /etc/pacman.d/mirrorlist
+
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra-testing]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+```
+
+#### **启用 kde-unstable 仓库（可选）**
+
+kde-unstable 仓库包含包含 KDE Plasma 和应用程序的测试版本
+
+如果想启用 kde-unstable 仓库，请在 `/etc/pacman.conf` 文件中添加：
+
+```text
+[kde-unstable]
+Include = /etc/pacman.d/mirrorlist
+```
+
+此时应该启用 core-testing 和 extra-testing 仓库，并保证 `[kde-unstable]` 在其它所有仓库的前面，即：
+
+```text
+[kde-unstable]
+Include = /etc/pacman.d/mirrorlist
+
+[core-testing]
+Include = /etc/pacman.d/mirrorlist
+
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra-testing]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+```
+
+然后更新系统：
+
+```bash
+sudo pacman -Syu
+```
 
 ### **切换到其它内核（可选）**
 
