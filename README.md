@@ -1311,17 +1311,15 @@ sudo pacman -S fcitx-sunpinyin
 
 #### **关闭启动时 GRUB 的消息**
 
-编辑 `/boot/grub/grub.cfg`，找到两行：
+修改 `/etc/grub.d/10_linux`，删除掉两行 `echo    '$(echo "$message" | grub_quote)'`
 
-```text
-echo    'Loading Linux linux'
-echo    'Loading initial ramdisk ...'
+执行：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-将其删除，重启即可
-
-更本质是修改 `/etc/grub.d/10_linux`，删除 `message="$(gettext_printf "Loading Linux %s ..." ${version})"` 和 `message="$(gettext_printf "Loading initial ramdisk ...")"`
-
+再重启即可
 
 #### **关闭 plymouth 的消息并显示启动屏幕动画**
 
@@ -2395,6 +2393,8 @@ uninstall_oh_my_zsh
 
 ### **GRUB 美化**
 
+#### **安装 GRUB 主题**
+
 选择主题 grub2-themes，下载地址如下：
 
 [grub2-themes -- GitHub](https://github.com/vinceliuice/grub2-themes)
@@ -2407,9 +2407,15 @@ uninstall_oh_my_zsh
 sudo ./install.sh -b -t tela -i white -s 2k
 ```
 
+#### **修改启动条目**
+
 删除多余启动条目，需要修改 `/boot/grub/grub.cfg`
 
 删除整一段 `submenu 'Advanced options for Arch Linux'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
+
+**注意之后不要再执行 `grub-mkconfig`，否则会覆盖更改**
+
+#### **恢复默认的 GRUB 设置**
 
 恢复默认的 `/boot/grub/grub.cfg` 需要输入：
 

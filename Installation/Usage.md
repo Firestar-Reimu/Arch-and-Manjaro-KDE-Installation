@@ -607,6 +607,8 @@ uninstall_oh_my_zsh
 
 ### **GRUB 美化**
 
+#### **安装 GRUB 主题**
+
 选择主题 grub2-themes，下载地址如下：
 
 [grub2-themes -- GitHub](https://github.com/vinceliuice/grub2-themes)
@@ -619,9 +621,15 @@ uninstall_oh_my_zsh
 sudo ./install.sh -b -t tela -i white -s 2k
 ```
 
+#### **修改启动条目**
+
 删除多余启动条目，需要修改 `/boot/grub/grub.cfg`
 
 删除整一段 `submenu 'Advanced options for Arch Linux'`，删除整一段 `UEFI Firmware Settings`，并将 `Windows Boot Manager (on /dev/nvme0n1p1)` 改为 `Windows`
+
+**注意之后不要再执行 `grub-mkconfig`，否则会覆盖更改**
+
+#### **恢复默认的 GRUB 设置**
 
 恢复默认的 `/boot/grub/grub.cfg` 需要输入：
 

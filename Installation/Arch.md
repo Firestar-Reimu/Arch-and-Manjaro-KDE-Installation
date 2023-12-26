@@ -1311,17 +1311,15 @@ sudo pacman -S fcitx-sunpinyin
 
 #### **关闭启动时 GRUB 的消息**
 
-编辑 `/boot/grub/grub.cfg`，找到两行：
+修改 `/etc/grub.d/10_linux`，删除掉两行 `echo    '$(echo "$message" | grub_quote)'`
 
-```text
-echo    'Loading Linux linux'
-echo    'Loading initial ramdisk ...'
+执行：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-将其删除，重启即可
-
-更本质是修改 `/etc/grub.d/10_linux`，删除 `message="$(gettext_printf "Loading Linux %s ..." ${version})"` 和 `message="$(gettext_printf "Loading initial ramdisk ...")"`
-
+再重启即可
 
 #### **关闭 plymouth 的消息并显示启动屏幕动画**
 
