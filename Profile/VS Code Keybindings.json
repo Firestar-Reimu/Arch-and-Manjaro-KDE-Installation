@@ -37,37 +37,57 @@
     {
         "key": "ctrl+m ctrl+f",
         "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\frac{$1}{$2}$0" },
+        "args": {
+            "snippet": "\\frac{$1}{$2}$0"
+        },
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
     },
     {
         "key": "ctrl+d ctrl+f",
         "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\dfrac{$1}{$2}$0" },
+        "args": {
+            "snippet": "\\dfrac{$1}{$2}$0"
+        },
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
     },
     {
         "key": "ctrl+m ctrl+p",
         "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\partial" },
+        "args": {
+            "snippet": "\\partial"
+        },
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
     },
     {
         "key": "ctrl+m ctrl+q",
         "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\sqrt{$1}" },
+        "args": {
+            "snippet": "\\sqrt{$1}"
+        },
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
     },
     {
         "key": "ctrl+m ctrl+d",
         "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\mathrm{d}" },
+        "args": {
+            "snippet": "\\mathrm{d}"
+        },
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
     },
     {
         "key": "ctrl+m ctrl+e",
         "command": "editor.action.insertSnippet",
-        "args": { "snippet": "\\mathrm{e}" },
+        "args": {
+            "snippet": "\\mathrm{e}"
+        },
+        "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+    },
+    {
+        "key": "ctrl+m ctrl+[",
+        "command": "editor.action.insertSnippet",
+        "args": {
+            "snippet": "\\[\n\t${1}\n\\]"
+        },
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
     }
 ]
