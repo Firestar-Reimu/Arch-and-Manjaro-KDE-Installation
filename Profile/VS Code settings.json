@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "JetBrains Mono NL, Hack, SF Mono, Consolas, monospace",
+    "editor.fontFamily": "JetBrains Mono, Hack, SF Mono, Consolas, monospace",
     "editor.fontLigatures": false,
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
@@ -29,7 +29,7 @@
     "editor.unicodeHighlight.nonBasicASCII": false,
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "workbench.colorCustomizations": {
-        "editor.selectionHighlightBackground": "#ffff55",
+        "editor.selectionHighlightBackground": "#ffff5555",
         "editorBracketHighlight.foreground1": "#00cc00",
         "editorBracketHighlight.foreground2": "#33ccff",
         "editorBracketHighlight.foreground3": "#aa00aa",

@@ -2,11 +2,11 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 5.27.80
-KDE Frameworks Version: 5.245.0
-Qt Version: 6.6.0
-Kernel Version: 6.6.1-arch1-1 (64-bit)
-Graphics Platform: X11
+KDE Plasma Version: 6.0.3
+KDE Frameworks Version: 6.0.0
+Qt Version: 6.6.3
+Kernel Version: 6.8.2-arch1-1 (64-bit)
+Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
 Graphics Processor: Mesa Intel® Xe Graphics
@@ -107,7 +107,7 @@ Linux 上可以用命令行刻录 USB 启动盘
 sudo wipefs --all /dev/sda
 ```
 
-之后直接将 ISO 镜像拷贝到 USB 中（这一步需要约2分钟）：
+之后直接将 ISO 镜像拷贝到 USB 中（这一步需要数分钟）：
 
 ```bash
 sudo cp (iso_path)/(iso_name) /dev/sda
@@ -183,7 +183,7 @@ timedatectl set-ntp true
 
 **对 Linux 分区建议使用 BTRFS/XFS/EXT4 文件系统**
 
-可以使用 `lsblk` 查看硬盘 `/dev/(disk_name)`，如 `/dev/sda`、`/dev/nvme0n1` 等，前者多用于 HDD，后者多用于 SSD
+可以使用 `lsblk -f` 或 `fdisk -l` 查看硬盘 `/dev/(disk_name)`，如 `/dev/sda`、`/dev/nvme0n1` 等，前者多用于 HDD，后者多用于 SSD
 
 修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例，注意要
 
@@ -387,10 +387,8 @@ pacman -S grub efibootmgr
 接着执行以下命令：
 
 ```bash
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=(ID)
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
 ```
-
-其中 `(ID)` 是 Arch Linux 系统启动项在 BIOS 启动菜单中的名字
 
 最后更新 GRUB 设置：
 
@@ -486,12 +484,12 @@ systemctl enable bluetooth
 
 ### **KDE Plasma 桌面安装**
 
-#### **安装 Xorg 和 SDDM**
+#### **安装 Wayland 和 SDDM**
 
-安装 Xorg：
+安装 Wayland：
 
 ```bash
-pacman -S xorg
+pacman -S wayland
 ```
 
 安装 SDDM：
@@ -520,21 +518,21 @@ systemctl enable sddm
 pacman -S plasma
 ```
 
-可以排除掉一些软件包，如 `discover`、`drkonqi`、`flatpak-kcm`、`kwayland-integration`、`plasma-firewall`、`plasma-welcome`
+可以排除掉一些软件包，如 `discover`、`drkonqi`、`flatpak-kcm`、`plasma-firewall`、`plasma-welcome`
 
 `jack` 选择 `jack2`
 
-`pipewire-session-manager` 选择 `wireplumber`
+`qt6-multimedia-backend` 选择 `qt6-multimedia-ffmpeg`
 
-`phonon-qt5-backend` 选择 `phonon-qt5-vlc`，这会自动下载 VLC 播放器
+`emoji-font` 选择 `noto-fonts-emoji`
 
 #### **安装必要的软件**
 
 ```bash
-pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle yakuake okular poppler-data git
+pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle yakuake okular poppler-data git adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts
 ```
 
-`firefox` 也可以替换为其余浏览器，但可能需要使用 AUR 软件包管理器，例如 `microsoft-edge-stable-bin` 和 `google-chrome`
+`firefox` 也可以替换为其余浏览器，但可能需要使用 AUR 软件包管理器（使用方法见下文），例如 `microsoft-edge-stable-bin` 和 `google-chrome`
 
 `dolphin-plugins` 提供了右键菜单挂载 ISO 镜像等选项
 
@@ -548,43 +546,49 @@ pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle ya
 
 ### **系统设置**
 
-**此时系统语言为英语，可以执行 `export LANG=zh_CN.UTF-8` 将终端输出修改为中文，再执行 `systemsettings` 打开系统设置**
+**此时系统语言为英语，可以执行 `export LANGUAGE=zh_CN.UTF-8` 将终端输出修改为中文，再执行 `systemsettings` 打开系统设置**
 
 #### **语言和区域设置**
 
-**将系统语言改为中文需要保证 `localectl list-locales` 输出包含 `zh_CN.UTF-8` 并且安装了中文字体**
+**将系统语言改为中文需要保证 `localectl list-locales` 输出包含 `zh_CN.UTF-8` 并且安装了中文字体（否则会缺字无法显示）**
 
-系统设置 >> 语言和区域设置 >> 语言 >> 改为“简体中文”
+系统设置 >> 区域和语言 >> 语言 >> 改为“简体中文”
 
 其余“数字”、“时间”、“货币”等选项可以分别修改，可以搜索“China”找到“简体中文”
 
-#### **电源与开机设置**
+#### **电源、开机、锁屏设置**
 
-系统设置 >> 电源管理 >> 节能 >> 勾选“按键事件处理” >> 合上笔记本盖时 >> 选择“关闭屏幕” >> 勾选“即使已连接外部显示器”
+系统设置 >> 省电功能 >> 节能 >> “交流供电”以及“电池供电” >> 合上笔记本盖时 >> 选择“息屏”
 
-系统设置 >> 开机与关机 >> 桌面会话 >> 登入时 >> 选择“以空会话启动”
+系统设置 >> 会话 >> 桌面会话 >> 登入时 >> 选择“启动为空会话”
+
+系统设置 >> 锁屏 >> 自动锁定屏幕 >> 调整空闲时间
 
 #### **高分辨率设置**
 
-系统设置 >> 显示和监控 >> 显示配置 >> 分辨率 >> 全局缩放 >> 200%
+Wayland 会自动启用缩放率 175% 和光标大小 24，如果不合适可以如下调整：
 
-系统设置 >> 光标 >> 大小 >> 36
+系统设置 >> 显示和监视器 >> 分辨率 >> 缩放率 >> 200%
+
+系统设置 >> 显示和监视器 >> 旧式应用程序（X11） >> 由应用程序进行缩放
+
+系统设置 >> 光标 >> 大小 >> 18
+
+#### **SDDM 设置**
+
+系统设置 >> 颜色和主题 >> 登录屏幕（SDDM） >> 选择“Breeze 微风” >> 应用 Plasma 设置
+
+创建文件 `/etc/sddm.conf.d/hidpi.conf`，并加入以下内容：
+
+```text
+[General]
+GreeterEnvironment=QT_SCREEN_SCALE_FACTORS=2,QT_FONT_DPI=192
+
+[Wayland]
+EnableHiDPI=true
+```
 
 然后重启电脑
-
-如果重启后发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启
-
-如果字体过小，需要在“系统设置 >> 外观 >> 字体” 中勾选“固定字体 DPI”，并调整 DPI 为 192
-
-#### **触摸板设置**
-
-系统设置 >> 输入设备 >> 触摸板 >> 手指轻触 >> 选择“轻触点击”
-
-#### **工作区行为设置**
-
-Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需要双击打开可以在此处设置：
-
-系统设置 >> 工作区行为 >> 常规行为 >> 单击文件、文件夹时 >> 选择“选中”
 
 #### **锁屏设置**
 
@@ -594,13 +598,13 @@ Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需
 
 #### **自动启动设置**
 
-系统设置 >> 开机与关机 >> 自动启动
+系统设置 >> 自动启动
 
 可以添加 Yakuake 下拉终端为自动启动
 
 #### **自动挂载设置**
 
-系统设置 >> 可移动存储设备 >> 所有设备
+系统设置 >> 磁盘和相机 >> 设备自动挂载 >> 所有设备
 
 勾选“登录时”和“插入时”，以及“自动挂载新的可移动设备”
 
@@ -608,7 +612,7 @@ Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需
 
 打开终端 Konsole/Yakuake（Yakuake 设置自动启动后可以用 `Fn+F12` 直接打开）：
 
-设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
+设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`，查找改为 `Ctrl+F`
 
 ### **SDDM 修改为中文**
 
@@ -683,8 +687,8 @@ sudo vim /etc/fstab
 在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
 
 ```text
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
 ```
 
 重启电脑后，即可自动挂载
@@ -694,13 +698,15 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000
 如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
 
 ```text
-/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
+/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
 ```
 
 参考以下网址：
 
-[fstab -- Archwiki](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[fstab -- Archwiki](https://wiki.archlinux.org/title/fstab)
+
+[mount(8) -- Arch manual pages](https://man.archlinux.org/man/mount.8)
 
 [NTFS3 — The Linux Kernel documentation](https://docs.kernel.org/filesystems/ntfs3.html)
 
@@ -862,12 +868,12 @@ sudo pacman -S modemmanager
 启用 ModemManager：
 
 ```bash
-sudo systemctl enable ModemManager
+sudo systemctl enable --now ModemManager
 ```
 
 此时 Plasma 系统托盘的网络设置会多出一个移动宽带的图标选项
 
-在“系统设置 >> 连接”中，点击右下角的加号创建新的链接，选择“移动宽带”并创建，按照以下步骤设置：
+在“系统设置 >> WiFi 和网络”中，点击右下角的加号创建新的链接，选择“移动宽带”并创建，按照以下步骤设置：
 
 设置移动宽带连接 >> 任何 GSM 设备
 
@@ -875,9 +881,11 @@ sudo systemctl enable ModemManager
 
 提供商 >> China Unicom
 
-选择您的方案 >> 未列出我的方案
+选择您的资费方案 >> 没有列出我的资费方案
 
 APN >> `bjlenovo12.njm2apn`
+
+保存即可激活
 
 **提供商和 APN 可以在 Windows 系统的“设置 >> 网络和 Internet >> 手机网络 >> 运营商设置”上查找到，在“活动网络”处能找到提供商，在“Internet APN >> 默认接入点 >> 视图”中可以找到 APN 地址**
 
@@ -886,6 +894,12 @@ APN >> `bjlenovo12.njm2apn`
 修改 hosts 文件可以有效访问 GitHub，需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠），修改内容参考以下网址：
 
 [HelloGitHub -- hosts](https://raw.hellogithub.com/hosts)
+
+可以用下面命令修改：
+
+```bash
+sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
+```
 
 #### **不显示回环连接**
 
@@ -1022,7 +1036,7 @@ pactree (package_name)
 
 在 `/var/cache/pacman/pkg/` 中找到旧软件包（旧 AUR 软件包在 `/home/(user_name)/.cache/yay/(package_name)/`），双击打开安装实现手动降级，参考以下网址：
 
-[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages)
 
 #### **清理缓存**
 
@@ -1233,7 +1247,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 sudo pacman -S adobe-source-han-sans-hk-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-tw-fonts adobe-source-han-serif-hk-fonts adobe-source-han-serif-jp-fonts adobe-source-han-serif-kr-fonts adobe-source-han-serif-tw-fonts
 ```
 
-编辑 `/etc/fonts/conf.d/64-language-selector-prefer.conf` 并在 `CN` 之后添加其它区域的字形
+并编辑 `/etc/fonts/conf.d/64-language-selector-prefer.conf` 并在 `CN` 之后添加其它区域的字形
 
 ### **安装中文输入法**
 
@@ -1242,7 +1256,7 @@ sudo pacman -S adobe-source-han-sans-hk-fonts adobe-source-han-sans-jp-fonts ado
 推荐使用 Fcitx5:
 
 ```bash
-yay -S fcitx5-im fcitx5-chinese-addons
+sudo pacman -S fcitx5-im fcitx5-chinese-addons
 ```
 
 编辑 `/etc/environment` 并添加以下几行：
@@ -1255,13 +1269,13 @@ XMODIFIERS=@im=fcitx
 
 然后重新登录，此时输入法会自动启动，默认的切换键是 `Ctrl+Space`
 
-**安装输入法之后需要重启电脑才能生效，如果无法启动输入法，在“系统设置 >> 区域设置 >> 输入法 >> 添加输入法”中手动添加“拼音”**
+**安装输入法之后需要重启电脑才能生效，如果无法启动输入法，在“系统设置 >> 输入法 >> 添加输入法”中手动添加“拼音”**
 
 #### **配置与词库**
 
 Fcitx5 的配置在：
 
-系统设置 >> 语言和区域设置 >> 输入法
+系统设置 >> 输入法
 
 注意有“全局选项”、“附加组件”、“拼音”三个配置区域
 
@@ -1299,107 +1313,23 @@ sudo pacman -S fcitx-sunpinyin
 
 也可以用 `sudo pacman -S sunpinyin` 安装 Sunpinyin
 
+### **安装 Firefox 的中文语言包**
+
+Firefox 浏览器的中文语言包可以在官方仓库中下载：
+
+```bash
+sudo pacman -S firefox-i18n-zh-cn
+```
+
 ### **关闭启动和关机时的系统信息**
 
-参考以下网址：
+修改 `/etc/grub.d/10_linux`，删除 `message="$(gettext_printf "Loading Linux %s ..." ${version})"` 和 `message="$(gettext_printf "Loading initial ramdisk ...")"` 两行
 
-[Silent Boot -- ArchWiki](https://wiki.archlinux.org/title/Silent_boot)
-
-[Improving Performance -- ArchWiki](https://wiki.archlinux.org/title/Improving_performance)
-
-主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
-
-#### **关闭启动时 GRUB 的消息**
-
-修改 `/etc/grub.d/10_linux`，删除掉两行 `echo    '$(echo "$message" | grub_quote)'`
-
-执行：
+然后执行：
 
 ```bash
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
-
-再重启即可
-
-#### **关闭 plymouth 的消息并显示启动屏幕动画**
-
-编辑 `/etc/default/grub`，找到一行：
-
-```text
-GRUB_CMDLINE_LINUX_DEFAULT
-```
-
-加入参数 `quiet splash`
-
-最后执行：
-
-```bash
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-再重启即可
-
-默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
-
-#### **关闭启动时 fsck 的消息**
-
-关闭启动时 fsck 检查磁盘完整性的消息，如：`/dev/xxx: clean, xxx/xxxx files, xxxx/xxxxx blocks`
-
-编辑 `/etc/mkinitcpio.conf`，在 `HOOKS` 一行中将 `udev` 改为 `systemd`
-
-再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
-
-```bash
-sudo systemctl edit --full systemd-fsck-root.service
-sudo systemctl edit --full systemd-fsck@.service
-```
-
-分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
-
-```text
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/lib/systemd/systemd-fsck
-TimeoutSec=0
-StandardOutput=null
-StandardError=journal+console
-```
-
-最后执行：
-
-```bash
-sudo mkinitcpio -P
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-再重启即可
-
-#### **关闭重启时 watchdog 的消息**
-
-编辑 Kernel parameters：
-
-```bash
-sudo vim /etc/default/grub
-```
-
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`
-
-再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
-
-```bash
-blacklist iTCO_wdt
-blacklist iTCO_vendor_support
-```
-
-这样可以屏蔽掉不需要的驱动，最后执行：
-
-```bash
-sudo mkinitcpio -P
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-再重启即可
 
 ### **在登录时自动解锁 KWallet**
 
@@ -1506,12 +1436,11 @@ bluetoothctl
 
 进入交互模式，此时命令前缀变为 `[bluetooth]#`（`bluetooth` 可能替换为已连接设备的名字），连接步骤如下：
 
-- 使用命令 `scan on` 去搜索发现所有可配对的设备
-- 使用命令 `devices` 获得要配对的设备的 MAC 地址，一般是 `XX:XX:XX:XX:XX:XX` 的形式
+- 使用命令 `scan on` 去搜索发现所有可配对的设备，找到要配对的设备的 MAC 地址 `(MAC_address)`，一般是 `XX:XX:XX:XX:XX:XX` 的形式
 - 使用命令 `pair (MAC_address)` 配对设备，可能需要输入 PIN 密码
 - 使用命令 `trust (MAC_address)` 将设备添加到信任列表
 - 使用命令 `connect (MAC_address)` 建立连接
-- 使用命令 `quit` 退出
+- 使用命令 `exit` 退出
 
 #### **SONY WH-1000XM3 耳机的蓝牙连接**
 
@@ -1525,11 +1454,7 @@ bluetoothctl
 
 长按圆形按钮直到灯 2 快速闪烁进入配对模式，可以在蓝牙中配对
 
-如果 Logitech 鼠标配对后屏幕光标无法移动，一般可以直接删除设备重新配对，如果仍然失败则按照下面步骤操作：
-
-安装 `bluez-utils`，输入 `bluetoothctl` 进入命令行界面
-
-然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse”一段的指引进行操作
+如果 Logitech 鼠标配对后屏幕光标无法移动，一般可以直接删除设备重新配对，如果仍然失败则按照“命令行连接蓝牙”一节操作
 
 ### **解决登录 Root 用户没有声音的问题**
 
@@ -1559,6 +1484,14 @@ Hidden=false
 ```
 
 保存，重启即可
+
+### **解决 Gwenview 无法打开大型图片的问题**
+
+在应用程序启动器中找到 Gwenview，右键点击，选择“编辑应用程序”
+
+找到“应用程序”，编辑环境变量，加入 `QT_IMAGEIO_MAXALLOC=(size)`
+
+默认值是 256，无法打开大型图片时要将其改成更大的值，如 4096
 
 ### **切换图形化界面和命令行界面**
 
@@ -1683,21 +1616,22 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 应用程序的快捷键配置在：
 
-系统设置 >> 快捷键
+系统设置 >> 键盘 >> 快捷键
 
-若没有想要的应用程序，可以点击下方的“添加应用程序”，例如设置 `Meta+Return`（即“Windows 徽标键 + Enter 键”）为启动 Konsole 的快捷键：
-
-系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`
+若没有想要的应用程序，可以点击“新增”
 
 ### **调整 CPU 频率（可选）**
 
 这需要 `tlp` 软件包：
 
 ```bash
-sudo vim /etc/tlp.conf
+sudo pacman -S tlp
+sudo systemctl enable tlp
 ```
 
-若更改 CPU 频率，修改以下位置：
+tlp 的设置文件在 `/etc/tlp.conf`
+
+若需要更改 CPU 性能设置，修改以下位置：
 
 ```text
 CPU_MIN_PERF_ON_AC=0
@@ -1706,7 +1640,7 @@ CPU_MIN_PERF_ON_BAT=0
 CPU_MAX_PERF_ON_BAT=30
 ```
 
-若更改 CPU 睿频设置，修改以下位置：
+若需要更改 CPU 睿频设置，修改以下位置：
 
 ```text
 CPU_BOOST_ON_AC=1
@@ -1765,16 +1699,6 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 ```
 
 **注意某些软件包如 `rider` 和 `qqmusic-bin` 等下载源不支持 axel，启用多线程下载后可能会导致构建失败**
-
-### **安装 KDE 的 Wayland 支持（不推荐）**
-
-与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
-
-```bash
-sudo pacman -S plasma-wayland-session
-```
-
-安装后即可在登录界面选择 Wayland 会话
 
 ### **重新开启 Secure Boot（未测试）**
 

@@ -2,11 +2,11 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 5.27.80
-KDE Frameworks Version: 5.245.0
-Qt Version: 6.6.0
-Kernel Version: 6.6.1-arch1-1 (64-bit)
-Graphics Platform: X11
+KDE Plasma Version: 6.0.3
+KDE Frameworks Version: 6.0.0
+Qt Version: 6.6.3
+Kernel Version: 6.8.2-arch1-1 (64-bit)
+Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
 Graphics Processor: Mesa Intel® Xe Graphics
@@ -107,7 +107,7 @@ Linux 上可以用命令行刻录 USB 启动盘
 sudo wipefs --all /dev/sda
 ```
 
-之后直接将 ISO 镜像拷贝到 USB 中（这一步需要约2分钟）：
+之后直接将 ISO 镜像拷贝到 USB 中（这一步需要数分钟）：
 
 ```bash
 sudo cp (iso_path)/(iso_name) /dev/sda
@@ -183,7 +183,7 @@ timedatectl set-ntp true
 
 **对 Linux 分区建议使用 BTRFS/XFS/EXT4 文件系统**
 
-可以使用 `lsblk` 查看硬盘 `/dev/(disk_name)`，如 `/dev/sda`、`/dev/nvme0n1` 等，前者多用于 HDD，后者多用于 SSD
+可以使用 `lsblk -f` 或 `fdisk -l` 查看硬盘 `/dev/(disk_name)`，如 `/dev/sda`、`/dev/nvme0n1` 等，前者多用于 HDD，后者多用于 SSD
 
 修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例，注意要
 
@@ -387,10 +387,8 @@ pacman -S grub efibootmgr
 接着执行以下命令：
 
 ```bash
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=(ID)
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
 ```
-
-其中 `(ID)` 是 Arch Linux 系统启动项在 BIOS 启动菜单中的名字
 
 最后更新 GRUB 设置：
 
@@ -486,12 +484,12 @@ systemctl enable bluetooth
 
 ### **KDE Plasma 桌面安装**
 
-#### **安装 Xorg 和 SDDM**
+#### **安装 Wayland 和 SDDM**
 
-安装 Xorg：
+安装 Wayland：
 
 ```bash
-pacman -S xorg
+pacman -S wayland
 ```
 
 安装 SDDM：
@@ -520,21 +518,21 @@ systemctl enable sddm
 pacman -S plasma
 ```
 
-可以排除掉一些软件包，如 `discover`、`drkonqi`、`flatpak-kcm`、`kwayland-integration`、`plasma-firewall`、`plasma-welcome`
+可以排除掉一些软件包，如 `discover`、`drkonqi`、`flatpak-kcm`、`plasma-firewall`、`plasma-welcome`
 
 `jack` 选择 `jack2`
 
-`pipewire-session-manager` 选择 `wireplumber`
+`qt6-multimedia-backend` 选择 `qt6-multimedia-ffmpeg`
 
-`phonon-qt5-backend` 选择 `phonon-qt5-vlc`，这会自动下载 VLC 播放器
+`emoji-font` 选择 `noto-fonts-emoji`
 
 #### **安装必要的软件**
 
 ```bash
-pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle yakuake okular poppler-data git
+pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle yakuake okular poppler-data git adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts
 ```
 
-`firefox` 也可以替换为其余浏览器，但可能需要使用 AUR 软件包管理器，例如 `microsoft-edge-stable-bin` 和 `google-chrome`
+`firefox` 也可以替换为其余浏览器，但可能需要使用 AUR 软件包管理器（使用方法见下文），例如 `microsoft-edge-stable-bin` 和 `google-chrome`
 
 `dolphin-plugins` 提供了右键菜单挂载 ISO 镜像等选项
 
@@ -548,43 +546,49 @@ pacman -S firefox konsole dolphin dolphin-plugins ark kate gwenview spectacle ya
 
 ### **系统设置**
 
-**此时系统语言为英语，可以执行 `export LANG=zh_CN.UTF-8` 将终端输出修改为中文，再执行 `systemsettings` 打开系统设置**
+**此时系统语言为英语，可以执行 `export LANGUAGE=zh_CN.UTF-8` 将终端输出修改为中文，再执行 `systemsettings` 打开系统设置**
 
 #### **语言和区域设置**
 
-**将系统语言改为中文需要保证 `localectl list-locales` 输出包含 `zh_CN.UTF-8` 并且安装了中文字体**
+**将系统语言改为中文需要保证 `localectl list-locales` 输出包含 `zh_CN.UTF-8` 并且安装了中文字体（否则会缺字无法显示）**
 
-系统设置 >> 语言和区域设置 >> 语言 >> 改为“简体中文”
+系统设置 >> 区域和语言 >> 语言 >> 改为“简体中文”
 
 其余“数字”、“时间”、“货币”等选项可以分别修改，可以搜索“China”找到“简体中文”
 
-#### **电源与开机设置**
+#### **电源、开机、锁屏设置**
 
-系统设置 >> 电源管理 >> 节能 >> 勾选“按键事件处理” >> 合上笔记本盖时 >> 选择“关闭屏幕” >> 勾选“即使已连接外部显示器”
+系统设置 >> 省电功能 >> 节能 >> “交流供电”以及“电池供电” >> 合上笔记本盖时 >> 选择“息屏”
 
-系统设置 >> 开机与关机 >> 桌面会话 >> 登入时 >> 选择“以空会话启动”
+系统设置 >> 会话 >> 桌面会话 >> 登入时 >> 选择“启动为空会话”
+
+系统设置 >> 锁屏 >> 自动锁定屏幕 >> 调整空闲时间
 
 #### **高分辨率设置**
 
-系统设置 >> 显示和监控 >> 显示配置 >> 分辨率 >> 全局缩放 >> 200%
+Wayland 会自动启用缩放率 175% 和光标大小 24，如果不合适可以如下调整：
 
-系统设置 >> 光标 >> 大小 >> 36
+系统设置 >> 显示和监视器 >> 分辨率 >> 缩放率 >> 200%
+
+系统设置 >> 显示和监视器 >> 旧式应用程序（X11） >> 由应用程序进行缩放
+
+系统设置 >> 光标 >> 大小 >> 18
+
+#### **SDDM 设置**
+
+系统设置 >> 颜色和主题 >> 登录屏幕（SDDM） >> 选择“Breeze 微风” >> 应用 Plasma 设置
+
+创建文件 `/etc/sddm.conf.d/hidpi.conf`，并加入以下内容：
+
+```text
+[General]
+GreeterEnvironment=QT_SCREEN_SCALE_FACTORS=2,QT_FONT_DPI=192
+
+[Wayland]
+EnableHiDPI=true
+```
 
 然后重启电脑
-
-如果重启后发现许多窗口和图标变小，建议先调整全局缩放为 100%，重新启动，再调至 200%，再重启
-
-如果字体过小，需要在“系统设置 >> 外观 >> 字体” 中勾选“固定字体 DPI”，并调整 DPI 为 192
-
-#### **触摸板设置**
-
-系统设置 >> 输入设备 >> 触摸板 >> 手指轻触 >> 选择“轻触点击”
-
-#### **工作区行为设置**
-
-Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需要双击打开可以在此处设置：
-
-系统设置 >> 工作区行为 >> 常规行为 >> 单击文件、文件夹时 >> 选择“选中”
 
 #### **锁屏设置**
 
@@ -594,13 +598,13 @@ Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需
 
 #### **自动启动设置**
 
-系统设置 >> 开机与关机 >> 自动启动
+系统设置 >> 自动启动
 
 可以添加 Yakuake 下拉终端为自动启动
 
 #### **自动挂载设置**
 
-系统设置 >> 可移动存储设备 >> 所有设备
+系统设置 >> 磁盘和相机 >> 设备自动挂载 >> 所有设备
 
 勾选“登录时”和“插入时”，以及“自动挂载新的可移动设备”
 
@@ -608,7 +612,7 @@ Dolphin 中单击文件、文件夹时的行为默认是单击打开，如果需
 
 打开终端 Konsole/Yakuake（Yakuake 设置自动启动后可以用 `Fn+F12` 直接打开）：
 
-设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`
+设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`，查找改为 `Ctrl+F`
 
 ### **SDDM 修改为中文**
 
@@ -683,8 +687,8 @@ sudo vim /etc/fstab
 在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
 
 ```text
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
 ```
 
 重启电脑后，即可自动挂载
@@ -694,13 +698,15 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000
 如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
 
 ```text
-/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,hide_dot_files,discard,prealloc 0 0
+/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
 ```
 
 参考以下网址：
 
-[fstab -- Archwiki](https://wiki.archlinux.org/title/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[fstab -- Archwiki](https://wiki.archlinux.org/title/fstab)
+
+[mount(8) -- Arch manual pages](https://man.archlinux.org/man/mount.8)
 
 [NTFS3 — The Linux Kernel documentation](https://docs.kernel.org/filesystems/ntfs3.html)
 
@@ -862,12 +868,12 @@ sudo pacman -S modemmanager
 启用 ModemManager：
 
 ```bash
-sudo systemctl enable ModemManager
+sudo systemctl enable --now ModemManager
 ```
 
 此时 Plasma 系统托盘的网络设置会多出一个移动宽带的图标选项
 
-在“系统设置 >> 连接”中，点击右下角的加号创建新的链接，选择“移动宽带”并创建，按照以下步骤设置：
+在“系统设置 >> WiFi 和网络”中，点击右下角的加号创建新的链接，选择“移动宽带”并创建，按照以下步骤设置：
 
 设置移动宽带连接 >> 任何 GSM 设备
 
@@ -875,9 +881,11 @@ sudo systemctl enable ModemManager
 
 提供商 >> China Unicom
 
-选择您的方案 >> 未列出我的方案
+选择您的资费方案 >> 没有列出我的资费方案
 
 APN >> `bjlenovo12.njm2apn`
+
+保存即可激活
 
 **提供商和 APN 可以在 Windows 系统的“设置 >> 网络和 Internet >> 手机网络 >> 运营商设置”上查找到，在“活动网络”处能找到提供商，在“Internet APN >> 默认接入点 >> 视图”中可以找到 APN 地址**
 
@@ -886,6 +894,12 @@ APN >> `bjlenovo12.njm2apn`
 修改 hosts 文件可以有效访问 GitHub，需要修改的文件是 `/etc/hosts`，Windows 下对应的文件位置为： `C:\Windows\System32\drivers\etc\hosts` （注意这里是反斜杠），修改内容参考以下网址：
 
 [HelloGitHub -- hosts](https://raw.hellogithub.com/hosts)
+
+可以用下面命令修改：
+
+```bash
+sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
+```
 
 #### **不显示回环连接**
 
@@ -1022,7 +1036,7 @@ pactree (package_name)
 
 在 `/var/cache/pacman/pkg/` 中找到旧软件包（旧 AUR 软件包在 `/home/(user_name)/.cache/yay/(package_name)/`），双击打开安装实现手动降级，参考以下网址：
 
-[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages)
 
 #### **清理缓存**
 
@@ -1233,7 +1247,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 sudo pacman -S adobe-source-han-sans-hk-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-tw-fonts adobe-source-han-serif-hk-fonts adobe-source-han-serif-jp-fonts adobe-source-han-serif-kr-fonts adobe-source-han-serif-tw-fonts
 ```
 
-编辑 `/etc/fonts/conf.d/64-language-selector-prefer.conf` 并在 `CN` 之后添加其它区域的字形
+并编辑 `/etc/fonts/conf.d/64-language-selector-prefer.conf` 并在 `CN` 之后添加其它区域的字形
 
 ### **安装中文输入法**
 
@@ -1242,7 +1256,7 @@ sudo pacman -S adobe-source-han-sans-hk-fonts adobe-source-han-sans-jp-fonts ado
 推荐使用 Fcitx5:
 
 ```bash
-yay -S fcitx5-im fcitx5-chinese-addons
+sudo pacman -S fcitx5-im fcitx5-chinese-addons
 ```
 
 编辑 `/etc/environment` 并添加以下几行：
@@ -1255,13 +1269,13 @@ XMODIFIERS=@im=fcitx
 
 然后重新登录，此时输入法会自动启动，默认的切换键是 `Ctrl+Space`
 
-**安装输入法之后需要重启电脑才能生效，如果无法启动输入法，在“系统设置 >> 区域设置 >> 输入法 >> 添加输入法”中手动添加“拼音”**
+**安装输入法之后需要重启电脑才能生效，如果无法启动输入法，在“系统设置 >> 输入法 >> 添加输入法”中手动添加“拼音”**
 
 #### **配置与词库**
 
 Fcitx5 的配置在：
 
-系统设置 >> 语言和区域设置 >> 输入法
+系统设置 >> 输入法
 
 注意有“全局选项”、“附加组件”、“拼音”三个配置区域
 
@@ -1299,107 +1313,23 @@ sudo pacman -S fcitx-sunpinyin
 
 也可以用 `sudo pacman -S sunpinyin` 安装 Sunpinyin
 
+### **安装 Firefox 的中文语言包**
+
+Firefox 浏览器的中文语言包可以在官方仓库中下载：
+
+```bash
+sudo pacman -S firefox-i18n-zh-cn
+```
+
 ### **关闭启动和关机时的系统信息**
 
-参考以下网址：
+修改 `/etc/grub.d/10_linux`，删除 `message="$(gettext_printf "Loading Linux %s ..." ${version})"` 和 `message="$(gettext_printf "Loading initial ramdisk ...")"` 两行
 
-[Silent Boot -- ArchWiki](https://wiki.archlinux.org/title/Silent_boot)
-
-[Improving Performance -- ArchWiki](https://wiki.archlinux.org/title/Improving_performance)
-
-主要是 [Kernel parameters](https://wiki.archlinux.org/title/Silent_boot#Kernel_parameters) 和 [fsck](https://wiki.archlinux.org/title/Silent_boot#fsck) 两段，以及关于 [watchdog](https://wiki.archlinux.org/title/Improving_performance#Watchdogs) 的说明
-
-#### **关闭启动时 GRUB 的消息**
-
-修改 `/etc/grub.d/10_linux`，删除掉两行 `echo    '$(echo "$message" | grub_quote)'`
-
-执行：
+然后执行：
 
 ```bash
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
-
-再重启即可
-
-#### **关闭 plymouth 的消息并显示启动屏幕动画**
-
-编辑 `/etc/default/grub`，找到一行：
-
-```text
-GRUB_CMDLINE_LINUX_DEFAULT
-```
-
-加入参数 `quiet splash`
-
-最后执行：
-
-```bash
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-再重启即可
-
-默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
-
-#### **关闭启动时 fsck 的消息**
-
-关闭启动时 fsck 检查磁盘完整性的消息，如：`/dev/xxx: clean, xxx/xxxx files, xxxx/xxxxx blocks`
-
-编辑 `/etc/mkinitcpio.conf`，在 `HOOKS` 一行中将 `udev` 改为 `systemd`
-
-再编辑 `systemd-fsck-root.service` 和 `systemd-fsck@.service`：
-
-```bash
-sudo systemctl edit --full systemd-fsck-root.service
-sudo systemctl edit --full systemd-fsck@.service
-```
-
-分别在 `Service` 一段中编辑 `StandardOutput` 和 `StandardError` 如下：
-
-```text
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/lib/systemd/systemd-fsck
-TimeoutSec=0
-StandardOutput=null
-StandardError=journal+console
-```
-
-最后执行：
-
-```bash
-sudo mkinitcpio -P
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-再重启即可
-
-#### **关闭重启时 watchdog 的消息**
-
-编辑 Kernel parameters：
-
-```bash
-sudo vim /etc/default/grub
-```
-
-在 `GRUB_CMDLINE_LINUX_DEFAULT` 中加入 `nowatchdog`
-
-再创建文件 `/etc/modprobe.d/watchdog.conf`，并写入：
-
-```bash
-blacklist iTCO_wdt
-blacklist iTCO_vendor_support
-```
-
-这样可以屏蔽掉不需要的驱动，最后执行：
-
-```bash
-sudo mkinitcpio -P
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-再重启即可
 
 ### **在登录时自动解锁 KWallet**
 
@@ -1506,12 +1436,11 @@ bluetoothctl
 
 进入交互模式，此时命令前缀变为 `[bluetooth]#`（`bluetooth` 可能替换为已连接设备的名字），连接步骤如下：
 
-- 使用命令 `scan on` 去搜索发现所有可配对的设备
-- 使用命令 `devices` 获得要配对的设备的 MAC 地址，一般是 `XX:XX:XX:XX:XX:XX` 的形式
+- 使用命令 `scan on` 去搜索发现所有可配对的设备，找到要配对的设备的 MAC 地址 `(MAC_address)`，一般是 `XX:XX:XX:XX:XX:XX` 的形式
 - 使用命令 `pair (MAC_address)` 配对设备，可能需要输入 PIN 密码
 - 使用命令 `trust (MAC_address)` 将设备添加到信任列表
 - 使用命令 `connect (MAC_address)` 建立连接
-- 使用命令 `quit` 退出
+- 使用命令 `exit` 退出
 
 #### **SONY WH-1000XM3 耳机的蓝牙连接**
 
@@ -1525,11 +1454,7 @@ bluetoothctl
 
 长按圆形按钮直到灯 2 快速闪烁进入配对模式，可以在蓝牙中配对
 
-如果 Logitech 鼠标配对后屏幕光标无法移动，一般可以直接删除设备重新配对，如果仍然失败则按照下面步骤操作：
-
-安装 `bluez-utils`，输入 `bluetoothctl` 进入命令行界面
-
-然后参考 [ArchWiki](https://wiki.archlinux.org/title/Bluetooth_mouse) 上“Problems with the Logitech BLE mouse”一段的指引进行操作
+如果 Logitech 鼠标配对后屏幕光标无法移动，一般可以直接删除设备重新配对，如果仍然失败则按照“命令行连接蓝牙”一节操作
 
 ### **解决登录 Root 用户没有声音的问题**
 
@@ -1559,6 +1484,14 @@ Hidden=false
 ```
 
 保存，重启即可
+
+### **解决 Gwenview 无法打开大型图片的问题**
+
+在应用程序启动器中找到 Gwenview，右键点击，选择“编辑应用程序”
+
+找到“应用程序”，编辑环境变量，加入 `QT_IMAGEIO_MAXALLOC=(size)`
+
+默认值是 256，无法打开大型图片时要将其改成更大的值，如 4096
 
 ### **切换图形化界面和命令行界面**
 
@@ -1683,21 +1616,22 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 应用程序的快捷键配置在：
 
-系统设置 >> 快捷键
+系统设置 >> 键盘 >> 快捷键
 
-若没有想要的应用程序，可以点击下方的“添加应用程序”，例如设置 `Meta+Return`（即“Windows 徽标键 + Enter 键”）为启动 Konsole 的快捷键：
-
-系统设置 >> 快捷键 >> 添加应用程序 >> Konsole >> Konsole 的快捷键设为 `Meta+Return`
+若没有想要的应用程序，可以点击“新增”
 
 ### **调整 CPU 频率（可选）**
 
 这需要 `tlp` 软件包：
 
 ```bash
-sudo vim /etc/tlp.conf
+sudo pacman -S tlp
+sudo systemctl enable tlp
 ```
 
-若更改 CPU 频率，修改以下位置：
+tlp 的设置文件在 `/etc/tlp.conf`
+
+若需要更改 CPU 性能设置，修改以下位置：
 
 ```text
 CPU_MIN_PERF_ON_AC=0
@@ -1706,7 +1640,7 @@ CPU_MIN_PERF_ON_BAT=0
 CPU_MAX_PERF_ON_BAT=30
 ```
 
-若更改 CPU 睿频设置，修改以下位置：
+若需要更改 CPU 睿频设置，修改以下位置：
 
 ```text
 CPU_BOOST_ON_AC=1
@@ -1765,16 +1699,6 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 ```
 
 **注意某些软件包如 `rider` 和 `qqmusic-bin` 等下载源不支持 axel，启用多线程下载后可能会导致构建失败**
-
-### **安装 KDE 的 Wayland 支持（不推荐）**
-
-与 Xorg 相比，Wayland 对触屏的支持更佳，但某些应用在 Wayland 上会有兼容性问题，目前 KDE 对 Wayland 的支持处于能用但还不太完善的状态
-
-```bash
-sudo pacman -S plasma-wayland-session
-```
-
-安装后即可在登录界面选择 Wayland 会话
 
 ### **重新开启 Secure Boot（未测试）**
 
@@ -1967,6 +1891,48 @@ iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
 ```bash
 ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 ```
+
+### **PDF 与图片之间的转换**
+
+#### **将 PDF 转换为多个图片**
+
+第一种方法是用 `poppler` 软件包提供的 `pdftoppm` 命令：（推荐）
+
+```bash
+pdftoppm -png -r (resolution) (pdf_name) (image_name)
+```
+
+分辨率 `(resolution)` 默认为 150 DPI，可以调整为更高的 300、600 等
+
+转化为 JPG 图片的命令为：
+
+```bash
+pdftoppm -jpeg -r (resolution) (pdf_name) (image_name)
+```
+
+第二种方法是用 `imagemagick` 软件包提供的 `convert` 命令：（图片质量不如第一种方法）
+
+```bash
+convert -density (resolution) -quality 100 (pdf_name) (image_name)
+```
+
+分辨率 `(resolution)` 至少为 300（单位为 DPI），压缩质量推荐选择 100，`(image_name)` 加入扩展名即可自动按照扩展名输出相应格式的图片
+
+#### **将多个图片转换为 PDF**
+
+使用 `img2pdf` 软件包提供的 `img2pdf` 命令：（强烈推荐，速度快）
+
+```bash
+img2pdf -o (pdf_name) (image_name)
+```
+
+这个命令还可以指定 PDF 页面大小：
+
+```bash
+img2pdf -o (pdf_name) --pagesize (page_size) (image_name)
+```
+
+其中 `(page_size)` 可以输入 `A4`、`B5`、`Letter` 等，也可以输入自定义的数字如 `10cmx15cm`
 
 ### **查找命令**
 
@@ -2205,16 +2171,6 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 还可以使用包管理器（pacman/yay/pamac）下载壁纸
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
-
-### **添加用户图标**
-
-系统设置 >> 用户账户 >> 图像
-
-### **开机美化**
-
-系统设置 >> 开机与关机 >> 登录屏幕（SDDM） >> 获取新 SDDM 主题 >> 应用 Plasma 设置
-
-系统设置 >> 外观 >> 欢迎屏幕 >> 获取新欢迎屏幕
 
 #### **SDDM 时间显示调整为 24 小时制**
 
@@ -2482,6 +2438,12 @@ sudo update-desktop-database
 
 ### **生成 SSH 密钥**
 
+首先安装 OpenSSH：
+
+```bash
+sudo pacman -S openssh
+```
+
 生成一个 SSH 密钥默认使用兼容性最好的 RSA 算法，现在推荐使用更安全的 ED25519 算法：
 
 ```bash
@@ -2499,6 +2461,8 @@ ssh-keygen -t ed25519 -C "(user_email)"
 ```text
 IdentityFile (ssh_folder)/(key_name)
 ```
+
+注意如果 `(ssh_folder)` 中含有空格，需要用 `\ ` 即反斜杠进行转义
 
 ### **向 AUR 提交软件包**
 
@@ -2627,18 +2591,18 @@ debtap -P (package_name).deb
 
 会生成一个 `PKGBUILD` 文件，之后用 `makepkg -si` 也可安装
 
-### **v2ray 安装与配置**
+### **v2rayA 安装与配置**
 
-v2ray 可以在官方软件源下载：
-
-```bash
-sudo pacman -S v2ray
-```
-
-推荐使用 v2rayA 客户端，可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）：
+v2rayA 客户端可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）：
 
 ```bash
 yay -S v2raya-bin
+```
+
+默认使用核心为 v2ray，可以在官方软件源下载：
+
+```bash
+sudo pacman -S v2ray
 ```
 
 启动 v2rayA 需要使用 `systemctl`：
@@ -2651,7 +2615,14 @@ sudo systemctl enable --now v2raya
 
 在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
-右上角“设置”中，按照[推荐方法](https://v2raya.org/en/docs/prologue/quick-start/#transparent-proxy)进行设置，即将“透明代理/系统代理”改为“启用：大陆白名单模式”，“防止 DNS 污染”改为“仅防止 DNS 劫持（快速）”，“特殊模式”改为“supervisor”，保存并应用
+右上角“设置”中，设置如下：
+
+透明代理/系统代理 >> 启用：大陆白名单模式
+透明代理/系统代理实现方式 >> tproxy
+防止 DNS 污染 >> 转发 DNS 请求
+特殊模式 >> 关闭
+
+保存并应用设置
 
 选择一个节点，点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
@@ -2664,9 +2635,40 @@ sudo systemctl enable --now v2raya
 enabled=false
 ```
 
+#### **v2rayA 更改核心**
+
+如果需要更改为 xray 核心，可以在 AUR 下载（AUR 软件库提供 `xray`、`xray-bin`）：
+
+```bash
+yay -S xray-bin
+```
+
+创建文件夹 `/etc/systemd/system/v2raya.service.d`，并添加一个 `xray.conf` 文件：
+
+```bash
+sudo mkdir /etc/systemd/system/v2raya.service.d
+cd /etc/systemd/system/v2raya.service.d
+sudo vim xray.conf
+```
+
+写入如下内容：
+
+```text
+[Service]
+Environment="V2RAYA_V2RAY_BIN=/usr/bin/xray"
+```
+
+再重启 v2rayA：
+
+```bash
+sudo systemctl daemon-reload && sudo systemctl restart v2raya
+```
+
+#### **v2rayA 设置任务栏图标**
+
 任务栏图标可以在 [v2rayATray](https://github.com/YidaozhanYa/v2rayATray) 下载，即下载 [PKGBUILD](https://github.com/YidaozhanYa/v2rayATray/blob/main/PKGBUILD)，在其所在的文件夹下执行 `makepkg -si` 即可安装
 
-v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE Plasma 的“系统设置 >> 开机与关机 >> 自动启动”中设置
+v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE Plasma 的“系统设置 >> 自动启动”中设置
 
 **浏览器和 KDE Plasma 的网络连接设置都不需要更改**
 
@@ -2689,6 +2691,74 @@ sudo chattr +i /etc/resolv.conf
 
 ### **TeX Live 安装**
 
+#### **使用 ISO 镜像文件安装**
+
+**一定要以 `sudo` 执行，否则无法安装到默认文件夹和设置 PATH 环境变量（无法写入）**
+
+首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，文件名为 `texlive.iso`
+
+在 Dolphin 中右键点击 ISO 镜像文件挂载（需要 `dolphin-plugins` 软件包），或在终端中运行：
+
+```bash
+sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
+```
+
+进入镜像文件夹，运行：
+
+```bash
+sudo perl install-tl -gui text
+```
+
+用大写字母命令控制安装：
+
+```text
+S >> 选择安装方案 >> R
+C >> 输入字母选择要安装/不安装的软件包集合 >> R
+D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
+O >> L >> 选择默认位置 >> R
+I
+```
+
+`<D> set directories` 中可以选择默认文件夹，若更改 `TEXDIR`，`TEXMFLOCAL` 等会随 `TEXDIR` 自动更改
+
+`<O> options` 中一定要选择 `<L> create symlinks in standard directories`，这会自动设置 PATH 环境变量
+
+如果使用图形界面安装，首先要检查是否安装 `tcl` 和 `tk` 软件包：
+
+```bash
+sudo pacman -S tcl tk
+```
+
+进入镜像文件夹，运行：
+
+```bash
+sudo perl install-tl -gui
+```
+
+即可在图形界面下载 TeX Live，高级设置需要点击左下角的 Advanced 按钮
+
+#### **手动设置 PATH 环境变量**
+
+**如果在安装时选择了 `<L> create symlinks in standard directories`，则不需要如下操作**
+
+编辑 `/etc/profile`，添加如下内容：
+
+```bash
+PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH; export PATH
+MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH; export MANPATH
+INFOPATH=/usr/local/texlive/2024/texmf-dist/doc/info:$INFOPATH; export INFOPATH
+```
+
+之后重启电脑
+
+这样可以保证 Bash、Visual Studio Code 等都能够找到 TeX Live 的环境变量
+
+可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
+
+还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
+
+输入命令 `tlmgr conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
+
 #### **使用 pacman 安装**
 
 可以使用 `pacman` 从 Arch Linux 的官方源下载所需要的 TeX Live 软件包：
@@ -2698,8 +2768,6 @@ sudo pacman texlive-basic
 ```
 
 其余 TeX Live 软件包按需下载，可以在 [Arch Linux Packages](https://archlinux.org/packages/) 查看
-
-注意官方软件源的更新周期与 TeX Live 相同，即一年一次，且只能以软件包集合为最小单位下载
 
 TeX Live 软件包的文档可以在以下网站在线查看：
 
@@ -2715,69 +2783,7 @@ sudo pacman -S texlive-doc
 
 之后也可以通过 Arch Linux 官方源更新
 
-#### **使用 ISO 镜像文件安装**
-
-**安装过程不建议用 `sudo`，否则之后所有的 `tlmgr 命令都需要使用 `sudo`**
-
-首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，文件名为 `texlive.iso`
-
-在 Dolphin 中右键点击 ISO 镜像文件挂载（需要 `dolphin-plugins` 软件包），或在终端中运行：
-
-```bash
-sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
-```
-
-进入镜像文件夹，运行：
-
-```bash
-perl install-tl -gui text
-```
-
-用大写字母命令控制安装：
-
-```text
-S >> 选择安装方案 >> R
-C >> 输入字母选择要安装/不安装的软件包集合 >> R
-D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
-O >> 只选择 E、F、Y >> R
-I
-```
-
-`TEXDIR` 需要选择 `/home/(user_name)/` 下的文件夹，否则无法写入
-
-`TEXMFLOCAL` 会随 `TEXDIR` 自动更改
-
-如果使用图形界面安装，首先要检查是否安装 `tcl` 和 `tk` 软件包：
-
-```bash
-sudo pacman -S tcl tk
-```
-
-进入镜像文件夹，运行：
-
-```bash
-perl install-tl -gui
-```
-
-即可在图形界面下载 TeX Live，高级设置需要点击左下角的 Advanced 按钮
-
-#### **设置 PATH 环境变量**
-
-编辑 `/etc/environment`，添加一行：
-
-```bash
-PATH=(TEXDIR)/bin/x86_64-linux:$PATH
-```
-
-之后重启电脑
-
-这样可以保证 Bash、Visual Studio Code 等都能够找到 TeX Live 的环境变量
-
-可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
-
-还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
-
-输入命令 `tlmgr conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
+**注意官方软件源的更新周期与 TeX Live 相同，即一年一次，且只能以软件包集合为最小单位下载**
 
 #### **更改 CTAN 镜像源**
 
@@ -2786,13 +2792,13 @@ CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
 更改到清华大学镜像需要在命令行中执行：
 
 ```bash
-tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
 ```
 
 更改到上海交大镜像需要在命令行中执行：
 
 ```bash
-tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
+sudo tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
 ```
 
 #### **从安装程序安装**
@@ -2800,7 +2806,7 @@ tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/t
 可以从[官网](https://www.tug.org/texlive/acquire-netinstall.html)下载 [install-tl-unx.tar.gz](https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz)，解压后可以找到一个 `install-tl` 文件，执行：
 
 ```bash
-perl install-tl -select-repository -gui text
+sudo perl install-tl -select-repository -gui text
 ```
 
 第一步输入数字选择镜像站，建议选择清华大学镜像或上海交大镜像
@@ -2818,7 +2824,7 @@ tlmgr -help
 下载软件包：
 
 ```bash
-tlmgr update (package_name)
+sudo tlmgr update (package_name)
 ```
 
 这会同时下载软件包及其依赖
@@ -2826,13 +2832,13 @@ tlmgr update (package_name)
 更新自身：
 
 ```bash
-tlmgr update -self
+sudo tlmgr update -self
 ```
 
 更新全部软件包：
 
 ```bash
-tlmgr update -all
+sudo tlmgr update -all
 ```
 
 查找本地软件包：
@@ -2853,9 +2859,27 @@ tlmgr search -global (package_name)
 tlmgr search -global (file_name)
 ```
 
+#### **命令行编译 LaTeX 源文件**
+
+建议使用 `latexmk`，可以自动编译 `.tex`、`.bib` 文件等，直到最后输出正确的 PDF 文件
+
+以 LuaLaTeX 为例，命令为：
+
+```bash
+latexmk -lualatex -bibtex -synctex=1 -interaction=nonstopmode -file-line-error --shell-escape (file_name)
+```
+
+如果使用 XeLaTeX，将 `-lualatex` 改为 `-xelatex` 即可
+
+清理编译时产生的多余文件的命令为：
+
+```bash
+latexmk -clean (file_name)
+```
+
 #### **biber 报错**
 
-biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：
+biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：（可以用 `biber --help` 尝试）
 
 ```text
 error while loading shared libraries: libcrypt.so.1: cannot open shared object file: No such file or directory
@@ -2867,24 +2891,6 @@ error while loading shared libraries: libcrypt.so.1: cannot open shared object f
 sudo pacman -S libxcrypt-compat
 ```
 
-#### **texdoc 报错**
-
-使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档
-
-如果在运行 `texdoc` 的过程中出现以下报错：
-
-```text
-kf.service.services: KApplicationTrader: mimeType "x-scheme-handler/file" not found
-```
-
-需要修改 `~/.config/mimeapps.list` 文件，加入：
-
-```text
-x-scheme-handler/file=firefox.desktop;
-```
-
-这里的 `firefox.desktop` 可以改为其它 PDF 预览程序（推荐用网页浏览器），可以在 `/usr/share/applications/` 文件夹找到
-
 #### **安装 MathTime Professional 2 字体**
 
 [MathTime Professional 2](https://www.pctex.com/mtpro2.html) 字体是 Type 1 字体，下载后为 `mtp2fonts.zip.tpm` 文件
@@ -2893,10 +2899,10 @@ x-scheme-handler/file=firefox.desktop;
 
 [Mathtime Installer -- GitHub](https://github.com/jamespfennell/mathtime-installer)
 
-下载[脚本](https://github.com/jamespfennell/mathtime-installer/blob/master/mtpro2-texlive.sh)，并安装 `unzip` 软件包，之后执行：
+下载 `mtpro2-texlive.sh`，并安装 `unzip` 软件包，之后执行：
 
 ```bash
-./mtpro2-texlive.sh -i mtp2fonts.zip.tpm
+bash mtpro2-texlive.sh -i mtp2fonts.zip.tpm
 ```
 
 之后可以用 `\usepackage{mtpro2}` 使用 MathTime Professional 2 字体，用 `texdoc mtpro2` 查看文档
@@ -2939,27 +2945,45 @@ sudo pacman -S texstudio
 
 补全 >> 取消勾选“输入参数”
 
-### **Thunderbird 配置**
+### **Thunderbird 安装与配置**
 
-#### **Thunderbird 首选项配置**
+#### **Thunderbird 安装**
 
-进入首选项界面调整显示：
+在官方仓库中安装 Thunderbird 邮件新闻客户端：
 
-首选项 >> 常规 >> Thunderbird 起始页 >> 清空并取消勾选
+```bash
+sudo pacman -S thunderbird
+```
 
-首选项 >> 常规 >> 默认搜索引擎 >> 改为 Bing
+可以安装中文语言包：
 
-首选项 >> 隐私与安全 >> 邮件内容 >> 勾选“允许消息中的远程内容”
+```bash
+sudo pacman -S thunderbird-i18n-zh-cn
+```
+
+打开 Thunderbird 后需要添加账户，输入自定义的姓名，现有的邮箱和密码即可，Thunderbird 会自动配置
+
+再添加账户可以在右上角菜单栏选择“添加账户”中的“现有邮箱”，并可以拖动账户更改排序
+
+#### **Thunderbird 设置**
+
+进入设置界面调整显示：
+
+设置 >> 常规 >> Thunderbird 起始页 >> 清空并取消勾选
+
+设置 >> 常规 >> 默认搜索引擎 >> 改为 Bing 或 Google
+
+设置 >> 隐私 >> 邮件内容 >> 勾选“允许消息中的远程内容”
 
 右键点击上方邮件工具栏，选择“自定义”，自行配置即可
 
-#### **Thunderbird 帐号配置**
+#### **Thunderbird 账户设置**
 
 点击邮箱帐号，配置“账户设置”如下：
 
 服务器 >> 服务器设置 >> 每隔 1 分钟检查一次新消息
 
-服务器 >> 服务器设置 >> 在删除消息时 >> 立即删除
+如果要删除账户，在“账户设置”左下角的“账户操作”中选择“删除账户”
 
 ### **GitHub Desktop 安装**
 
@@ -3076,11 +3100,23 @@ Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
 
 [Miniconda -- Conda documentation](https://docs.conda.io/en/latest/miniconda.html)
 
-或者在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/#)点击右侧的“获取下载链接”按钮，在“应用软件” >> Conda 里面选择
-
 安装过程参考以下网址：（Miniconda 和 Anaconda 的安装步骤相同）
 
 [Anaconda Documentation -- Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/)
+
+用 `bash` 执行安装文件：
+
+```bash
+bash Miniconda3-latest-Linux-x86_64.sh
+```
+
+按 `Enter` 查看许可协议，然后按住 `Enter` 滚动
+
+输入 `yes` 同意许可协议
+
+输入安装 Miniconda 的目录并按 `Enter` 确定
+
+最后一步输入 `yes` 执行 `conda init` 初始化 Miniconda
 
 注意最后一步要选择 `yes`
 
@@ -3143,15 +3179,23 @@ channels:
 ssl_verify: true
 ```
 
-下载所需要的包：
+#### **Miniconda 下载软件包**
+
+下载一些必要的包：
 
 ```bash
-conda install numpy matplotlib astropy black ipython
+conda install numpy matplotlib astropy black isort ipython jupyterlab
 ```
 
 各个操作系统平台上可下载的包可以在以下网站查询：
 
 [Anaconda Documentation -- Anaconda Package Lists](https://docs.anaconda.com/anaconda/packages/pkg-docs/)
+
+下载 JupyterLab 插件：
+
+```
+pip install lckr_jupyterlab_variableinspector jupyterlab-lsp python-lsp-server jupyterlab_execute_time jupyterlab-code-formatter jupyterlab-spellchecker ipympl jupyterlab_h5web
+```
 
 #### **Conda 常用命令**
 
@@ -3229,13 +3273,13 @@ Conda 默认会在 Miniconda/Anaconda 的安装位置创建一个 `base` 环境
 激活环境：
 
 ```bash
-source activate (environment_name)
+conda activate (environment_name)
 ```
 
 取消激活环境：
 
 ```bash
-source deactivate (environment_name)
+conda deactivate (environment_name)
 ```
 
 删除环境：
@@ -3445,7 +3489,7 @@ which python
 "python.defaultInterpreterPath": "(python_path)"
 ```
 
-#### **Latex Workshop 插件设置**
+#### **LaTeX Workshop 插件设置**
 
 若想在 [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
 
@@ -3552,62 +3596,82 @@ Edit >> Preferences >> Pan Zoom >> 选择“Drag to Center”
 
 ### **IRAF/PyRAF 安装**
 
-#### **从源代码安装（推荐）**
+#### **从 AUR 安装 IRAF**
 
-从源代码安装 IRAF/PyRAF 较为复杂，但软件版本较新，且支持 Python 3
-
-首先从 GitHub 上下载软件源代码，网址如下：
-
-[IRAF -- GitHub](https://github.com/iraf-community/iraf)
-
-新建一个文件夹，例如 `~/.iraf-source` 用于存放解压后得到的源代码
-
-进入 `~/.iraf-source`，首先运行安装脚本：
+可以从 AUR 安装 PyRAF：
 
 ```bash
-./install
+yay -S iraf-bin
 ```
 
-这里的选项全部选择默认即可，此时会新建一个 `~/.iraf` 文件夹
+#### **从源代码安装 IRAF**
 
-下一步是将 IRAF 添加到 PATH：
+首先下载编译依赖：
 
 ```bash
-export PATH=/home/(user-name)/.iraf/bin/:$PATH
+sudo pacman -S gcc make bison flex zlib curl expat readline
 ```
 
-此时便可以在 `~/.iraf-source` 中编译安装 IRAF（这一步需要的时间较长）：
+从 GitHub 上下载软件源代码：
 
 ```bash
-make linux64
-make sysgen 2>&1 | tee build.log
+git clone https://github.com/iraf-community/iraf.git
 ```
 
-接下来安装 PyRAF：
+进入 `iraf` 文件夹，并执行：
+
+```bash
+make 2>&1 | tee build.log
+```
+
+可以使用 `make test` 测试安装，输出的 `xfailed` 是预计就会失败的，不必担心
+
+之后执行：
+
+```bash
+sudo make install
+```
+
+将其安装到系统
+
+默认安装到 `/usr/local`，也可以更改为其它位置：
+
+```bash
+sudo make install prefix=(directory)
+```
+
+部分功能可能需要 xgterm：
+
+```bash
+yay -S xgterm-bin
+```
+
+#### **安装 PyRAF**
+
+可以用 pip 安装 PyRAF：
 
 ```bash
 pip install pyraf
 ```
 
-**在使用 IRAF/PyRAF 之前，需要在该文件夹运行 `mkiraf` 命令，才能使用**
-
-#### **从 AstroConda 安装**
-
-从 AstroConda 安装 IRAF/PyRAF 较为简便，缺点是软件版本较旧（仍是 PyRAF 2.1.15），且依赖 Python 2.7
-
-首先需要用 `conda config --add channels http://ssb.stsci.edu/astroconda` 加入 AstroConda 软件源，并推荐单独建立一个 IRAF 环境 `(iraf_environment)` 安装 IRAF/PyRAF：
-
-```bash
-conda create -n (iraf_environment) python=2.7 iraf-all pyraf-all stsci
-source activate (iraf_environment)
-```
-
 #### **IRAF/PyRAF 常用命令**
 
-启动 IRAF：
+启动 IRAF 的命令为：
 
 ```bash
-cl
+irafcl
+```
+
+列出所有可以使用的 IRAF 命令：
+
+```bash
+?
+```
+
+查看命令的说明文档：
+
+```bash
+help (command)
 ```
 
 启动 PyRAF：
@@ -3622,7 +3686,7 @@ pyraf
 logout
 ```
 
-退出 PyRAF：
+退出 PyRAF：（也可以用 `Ctrl+D`）
 
 ```bash
 exit()
@@ -3634,18 +3698,20 @@ exit()
 epar (task_name)
 ```
 
+退出参数编辑器的命令和 Vim 一样，也是 `:q`
+
 ### **Topcat 安装**
 
-Topcat 可以从 AUR 安装：
+天文数据表格操作工具 [Topcat](https://www.star.bris.ac.uk/~mbt/topcat/) 可以从 AUR 安装：
 
 ```bash
 yay -S topcat
 ```
 
-如果 Topcat 在高分辨率屏幕上显示过小，则编辑 `~/.profile` 并加入：
+如果 Topcat 在高分辨率屏幕上显示过小，则编辑 `~/.starjava.properties` 并加入：
 
 ```text
-export GDK_SCALE=2
+sun.java2d.uiScale=2
 ```
 
 ### **Geant4 安装**
@@ -3708,13 +3774,11 @@ yay -S linuxqq
 
 ### **微信安装（可选）**
 
-推荐安装以下版本（在安装本软件包前需要启用 `multilib` 仓库）：
+推荐安装以下版本：
 
 ```bash
-yay -S com.qq.weixin.spark wqy-microhei
+yay -S wechat-universal-bwrap
 ```
-
-第一次启动时会要求选择放大倍率，与系统放大倍率相同，如系统放大倍率为 `200%` 则选择 `2.0`
 
 ### **会议软件安装（可选）**
 
@@ -3739,6 +3803,8 @@ yay -S dingtalk-bin
 ```bash
 yay -S zoom
 ```
+
+高分辨率屏幕下调整全局缩放需要编辑 `~/.config/zoomus.conf`，加入一行 `scaleFactor=2`
 
 #### **Microsoft Teams**
 
@@ -3798,7 +3864,7 @@ yay -S ktorrent
 
 或者同样功能强大且跨平台的 qBittorrent：
 
-```text
+```bash
 yay -S qbittorrent
 ```
 

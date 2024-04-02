@@ -182,6 +182,48 @@ iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
 ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
 ```
 
+### **PDF 与图片之间的转换**
+
+#### **将 PDF 转换为多个图片**
+
+第一种方法是用 `poppler` 软件包提供的 `pdftoppm` 命令：（推荐）
+
+```bash
+pdftoppm -png -r (resolution) (pdf_name) (image_name)
+```
+
+分辨率 `(resolution)` 默认为 150 DPI，可以调整为更高的 300、600 等
+
+转化为 JPG 图片的命令为：
+
+```bash
+pdftoppm -jpeg -r (resolution) (pdf_name) (image_name)
+```
+
+第二种方法是用 `imagemagick` 软件包提供的 `convert` 命令：（图片质量不如第一种方法）
+
+```bash
+convert -density (resolution) -quality 100 (pdf_name) (image_name)
+```
+
+分辨率 `(resolution)` 至少为 300（单位为 DPI），压缩质量推荐选择 100，`(image_name)` 加入扩展名即可自动按照扩展名输出相应格式的图片
+
+#### **将多个图片转换为 PDF**
+
+使用 `img2pdf` 软件包提供的 `img2pdf` 命令：（强烈推荐，速度快）
+
+```bash
+img2pdf -o (pdf_name) (image_name)
+```
+
+这个命令还可以指定 PDF 页面大小：
+
+```bash
+img2pdf -o (pdf_name) --pagesize (page_size) (image_name)
+```
+
+其中 `(page_size)` 可以输入 `A4`、`B5`、`Letter` 等，也可以输入自定义的数字如 `10cmx15cm`
+
 ### **查找命令**
 
 `grep` 命令的用法为在文件或命令输出中查找字符串，例如：
@@ -419,16 +461,6 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 还可以使用包管理器（pacman/yay/pamac）下载壁纸
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
-
-### **添加用户图标**
-
-系统设置 >> 用户账户 >> 图像
-
-### **开机美化**
-
-系统设置 >> 开机与关机 >> 登录屏幕（SDDM） >> 获取新 SDDM 主题 >> 应用 Plasma 设置
-
-系统设置 >> 外观 >> 欢迎屏幕 >> 获取新欢迎屏幕
 
 #### **SDDM 时间显示调整为 24 小时制**
 
@@ -696,6 +728,12 @@ sudo update-desktop-database
 
 ### **生成 SSH 密钥**
 
+首先安装 OpenSSH：
+
+```bash
+sudo pacman -S openssh
+```
+
 生成一个 SSH 密钥默认使用兼容性最好的 RSA 算法，现在推荐使用更安全的 ED25519 算法：
 
 ```bash
@@ -713,6 +751,8 @@ ssh-keygen -t ed25519 -C "(user_email)"
 ```text
 IdentityFile (ssh_folder)/(key_name)
 ```
+
+注意如果 `(ssh_folder)` 中含有空格，需要用 `\ ` 即反斜杠进行转义
 
 ### **向 AUR 提交软件包**
 
@@ -841,18 +881,18 @@ debtap -P (package_name).deb
 
 会生成一个 `PKGBUILD` 文件，之后用 `makepkg -si` 也可安装
 
-### **v2ray 安装与配置**
+### **v2rayA 安装与配置**
 
-v2ray 可以在官方软件源下载：
-
-```bash
-sudo pacman -S v2ray
-```
-
-推荐使用 v2rayA 客户端，可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）：
+v2rayA 客户端可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）：
 
 ```bash
 yay -S v2raya-bin
+```
+
+默认使用核心为 v2ray，可以在官方软件源下载：
+
+```bash
+sudo pacman -S v2ray
 ```
 
 启动 v2rayA 需要使用 `systemctl`：
@@ -865,7 +905,14 @@ sudo systemctl enable --now v2raya
 
 在 [http://localhost:2017/](http://localhost:2017/) 打开 v2rayA 界面，导入订阅链接或服务器链接（ID 填用户的 UUID，AlterID 填 0，Security 选择 Auto，其余选项均为默认）
 
-右上角“设置”中，按照[推荐方法](https://v2raya.org/en/docs/prologue/quick-start/#transparent-proxy)进行设置，即将“透明代理/系统代理”改为“启用：大陆白名单模式”，“防止 DNS 污染”改为“仅防止 DNS 劫持（快速）”，“特殊模式”改为“supervisor”，保存并应用
+右上角“设置”中，设置如下：
+
+透明代理/系统代理 >> 启用：大陆白名单模式
+透明代理/系统代理实现方式 >> tproxy
+防止 DNS 污染 >> 转发 DNS 请求
+特殊模式 >> 关闭
+
+保存并应用设置
 
 选择一个节点，点击左上角柚红色的“就绪”按钮即可启动，按钮变为蓝色的“正在运行”
 
@@ -878,9 +925,40 @@ sudo systemctl enable --now v2raya
 enabled=false
 ```
 
+#### **v2rayA 更改核心**
+
+如果需要更改为 xray 核心，可以在 AUR 下载（AUR 软件库提供 `xray`、`xray-bin`）：
+
+```bash
+yay -S xray-bin
+```
+
+创建文件夹 `/etc/systemd/system/v2raya.service.d`，并添加一个 `xray.conf` 文件：
+
+```bash
+sudo mkdir /etc/systemd/system/v2raya.service.d
+cd /etc/systemd/system/v2raya.service.d
+sudo vim xray.conf
+```
+
+写入如下内容：
+
+```text
+[Service]
+Environment="V2RAYA_V2RAY_BIN=/usr/bin/xray"
+```
+
+再重启 v2rayA：
+
+```bash
+sudo systemctl daemon-reload && sudo systemctl restart v2raya
+```
+
+#### **v2rayA 设置任务栏图标**
+
 任务栏图标可以在 [v2rayATray](https://github.com/YidaozhanYa/v2rayATray) 下载，即下载 [PKGBUILD](https://github.com/YidaozhanYa/v2rayATray/blob/main/PKGBUILD)，在其所在的文件夹下执行 `makepkg -si` 即可安装
 
-v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE Plasma 的“系统设置 >> 开机与关机 >> 自动启动”中设置
+v2rayATray 的命令是 `v2raya_tray`，设置它为开机自启动可以在 KDE Plasma 的“系统设置 >> 自动启动”中设置
 
 **浏览器和 KDE Plasma 的网络连接设置都不需要更改**
 
@@ -903,6 +981,74 @@ sudo chattr +i /etc/resolv.conf
 
 ### **TeX Live 安装**
 
+#### **使用 ISO 镜像文件安装**
+
+**一定要以 `sudo` 执行，否则无法安装到默认文件夹和设置 PATH 环境变量（无法写入）**
+
+首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，文件名为 `texlive.iso`
+
+在 Dolphin 中右键点击 ISO 镜像文件挂载（需要 `dolphin-plugins` 软件包），或在终端中运行：
+
+```bash
+sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
+```
+
+进入镜像文件夹，运行：
+
+```bash
+sudo perl install-tl -gui text
+```
+
+用大写字母命令控制安装：
+
+```text
+S >> 选择安装方案 >> R
+C >> 输入字母选择要安装/不安装的软件包集合 >> R
+D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
+O >> L >> 选择默认位置 >> R
+I
+```
+
+`<D> set directories` 中可以选择默认文件夹，若更改 `TEXDIR`，`TEXMFLOCAL` 等会随 `TEXDIR` 自动更改
+
+`<O> options` 中一定要选择 `<L> create symlinks in standard directories`，这会自动设置 PATH 环境变量
+
+如果使用图形界面安装，首先要检查是否安装 `tcl` 和 `tk` 软件包：
+
+```bash
+sudo pacman -S tcl tk
+```
+
+进入镜像文件夹，运行：
+
+```bash
+sudo perl install-tl -gui
+```
+
+即可在图形界面下载 TeX Live，高级设置需要点击左下角的 Advanced 按钮
+
+#### **手动设置 PATH 环境变量**
+
+**如果在安装时选择了 `<L> create symlinks in standard directories`，则不需要如下操作**
+
+编辑 `/etc/profile`，添加如下内容：
+
+```bash
+PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH; export PATH
+MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH; export MANPATH
+INFOPATH=/usr/local/texlive/2024/texmf-dist/doc/info:$INFOPATH; export INFOPATH
+```
+
+之后重启电脑
+
+这样可以保证 Bash、Visual Studio Code 等都能够找到 TeX Live 的环境变量
+
+可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
+
+还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
+
+输入命令 `tlmgr conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
+
 #### **使用 pacman 安装**
 
 可以使用 `pacman` 从 Arch Linux 的官方源下载所需要的 TeX Live 软件包：
@@ -912,8 +1058,6 @@ sudo pacman texlive-basic
 ```
 
 其余 TeX Live 软件包按需下载，可以在 [Arch Linux Packages](https://archlinux.org/packages/) 查看
-
-注意官方软件源的更新周期与 TeX Live 相同，即一年一次，且只能以软件包集合为最小单位下载
 
 TeX Live 软件包的文档可以在以下网站在线查看：
 
@@ -929,69 +1073,7 @@ sudo pacman -S texlive-doc
 
 之后也可以通过 Arch Linux 官方源更新
 
-#### **使用 ISO 镜像文件安装**
-
-**安装过程不建议用 `sudo`，否则之后所有的 `tlmgr 命令都需要使用 `sudo`**
-
-首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，文件名为 `texlive.iso`
-
-在 Dolphin 中右键点击 ISO 镜像文件挂载（需要 `dolphin-plugins` 软件包），或在终端中运行：
-
-```bash
-sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
-```
-
-进入镜像文件夹，运行：
-
-```bash
-perl install-tl -gui text
-```
-
-用大写字母命令控制安装：
-
-```text
-S >> 选择安装方案 >> R
-C >> 输入字母选择要安装/不安装的软件包集合 >> R
-D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
-O >> 只选择 E、F、Y >> R
-I
-```
-
-`TEXDIR` 需要选择 `/home/(user_name)/` 下的文件夹，否则无法写入
-
-`TEXMFLOCAL` 会随 `TEXDIR` 自动更改
-
-如果使用图形界面安装，首先要检查是否安装 `tcl` 和 `tk` 软件包：
-
-```bash
-sudo pacman -S tcl tk
-```
-
-进入镜像文件夹，运行：
-
-```bash
-perl install-tl -gui
-```
-
-即可在图形界面下载 TeX Live，高级设置需要点击左下角的 Advanced 按钮
-
-#### **设置 PATH 环境变量**
-
-编辑 `/etc/environment`，添加一行：
-
-```bash
-PATH=(TEXDIR)/bin/x86_64-linux:$PATH
-```
-
-之后重启电脑
-
-这样可以保证 Bash、Visual Studio Code 等都能够找到 TeX Live 的环境变量
-
-可以运行 `tex --version` 检查是否安装成功，若成功应显示 TeX 的版本号、TeX Live 的版本号和版权信息
-
-还可以运行 `tlmgr --version` 和 `texdoc (package_name)` （选择常见的宏包名称如 `texdoc tex`）检查是否安装成功
-
-输入命令 `tlmgr conf` 可以查看 TeX Live 的文件夹设置，如 `TEXMFMAIN=(TEXDIR)/texmf-dist`
+**注意官方软件源的更新周期与 TeX Live 相同，即一年一次，且只能以软件包集合为最小单位下载**
 
 #### **更改 CTAN 镜像源**
 
@@ -1000,13 +1082,13 @@ CTAN 镜像源可以使用 TeX Live 包管理器 `tlmgr` 更改
 更改到清华大学镜像需要在命令行中执行：
 
 ```bash
-tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+sudo tlmgr option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
 ```
 
 更改到上海交大镜像需要在命令行中执行：
 
 ```bash
-tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
+sudo tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/tlnet/
 ```
 
 #### **从安装程序安装**
@@ -1014,7 +1096,7 @@ tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/t
 可以从[官网](https://www.tug.org/texlive/acquire-netinstall.html)下载 [install-tl-unx.tar.gz](https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz)，解压后可以找到一个 `install-tl` 文件，执行：
 
 ```bash
-perl install-tl -select-repository -gui text
+sudo perl install-tl -select-repository -gui text
 ```
 
 第一步输入数字选择镜像站，建议选择清华大学镜像或上海交大镜像
@@ -1032,7 +1114,7 @@ tlmgr -help
 下载软件包：
 
 ```bash
-tlmgr update (package_name)
+sudo tlmgr update (package_name)
 ```
 
 这会同时下载软件包及其依赖
@@ -1040,13 +1122,13 @@ tlmgr update (package_name)
 更新自身：
 
 ```bash
-tlmgr update -self
+sudo tlmgr update -self
 ```
 
 更新全部软件包：
 
 ```bash
-tlmgr update -all
+sudo tlmgr update -all
 ```
 
 查找本地软件包：
@@ -1067,9 +1149,27 @@ tlmgr search -global (package_name)
 tlmgr search -global (file_name)
 ```
 
+#### **命令行编译 LaTeX 源文件**
+
+建议使用 `latexmk`，可以自动编译 `.tex`、`.bib` 文件等，直到最后输出正确的 PDF 文件
+
+以 LuaLaTeX 为例，命令为：
+
+```bash
+latexmk -lualatex -bibtex -synctex=1 -interaction=nonstopmode -file-line-error --shell-escape (file_name)
+```
+
+如果使用 XeLaTeX，将 `-lualatex` 改为 `-xelatex` 即可
+
+清理编译时产生的多余文件的命令为：
+
+```bash
+latexmk -clean (file_name)
+```
+
 #### **biber 报错**
 
-biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：
+biber 是 biblatex 的默认后端，用来替换过时的 biblatex，如果在运行 biber 的过程中出现以下报错：（可以用 `biber --help` 尝试）
 
 ```text
 error while loading shared libraries: libcrypt.so.1: cannot open shared object file: No such file or directory
@@ -1081,24 +1181,6 @@ error while loading shared libraries: libcrypt.so.1: cannot open shared object f
 sudo pacman -S libxcrypt-compat
 ```
 
-#### **texdoc 报错**
-
-使用 `texdoc (package_name)` 命令获取 LaTeX 宏包的说明文档
-
-如果在运行 `texdoc` 的过程中出现以下报错：
-
-```text
-kf.service.services: KApplicationTrader: mimeType "x-scheme-handler/file" not found
-```
-
-需要修改 `~/.config/mimeapps.list` 文件，加入：
-
-```text
-x-scheme-handler/file=firefox.desktop;
-```
-
-这里的 `firefox.desktop` 可以改为其它 PDF 预览程序（推荐用网页浏览器），可以在 `/usr/share/applications/` 文件夹找到
-
 #### **安装 MathTime Professional 2 字体**
 
 [MathTime Professional 2](https://www.pctex.com/mtpro2.html) 字体是 Type 1 字体，下载后为 `mtp2fonts.zip.tpm` 文件
@@ -1107,10 +1189,10 @@ x-scheme-handler/file=firefox.desktop;
 
 [Mathtime Installer -- GitHub](https://github.com/jamespfennell/mathtime-installer)
 
-下载[脚本](https://github.com/jamespfennell/mathtime-installer/blob/master/mtpro2-texlive.sh)，并安装 `unzip` 软件包，之后执行：
+下载 `mtpro2-texlive.sh`，并安装 `unzip` 软件包，之后执行：
 
 ```bash
-./mtpro2-texlive.sh -i mtp2fonts.zip.tpm
+bash mtpro2-texlive.sh -i mtp2fonts.zip.tpm
 ```
 
 之后可以用 `\usepackage{mtpro2}` 使用 MathTime Professional 2 字体，用 `texdoc mtpro2` 查看文档
@@ -1153,27 +1235,45 @@ sudo pacman -S texstudio
 
 补全 >> 取消勾选“输入参数”
 
-### **Thunderbird 配置**
+### **Thunderbird 安装与配置**
 
-#### **Thunderbird 首选项配置**
+#### **Thunderbird 安装**
 
-进入首选项界面调整显示：
+在官方仓库中安装 Thunderbird 邮件新闻客户端：
 
-首选项 >> 常规 >> Thunderbird 起始页 >> 清空并取消勾选
+```bash
+sudo pacman -S thunderbird
+```
 
-首选项 >> 常规 >> 默认搜索引擎 >> 改为 Bing
+可以安装中文语言包：
 
-首选项 >> 隐私与安全 >> 邮件内容 >> 勾选“允许消息中的远程内容”
+```bash
+sudo pacman -S thunderbird-i18n-zh-cn
+```
+
+打开 Thunderbird 后需要添加账户，输入自定义的姓名，现有的邮箱和密码即可，Thunderbird 会自动配置
+
+再添加账户可以在右上角菜单栏选择“添加账户”中的“现有邮箱”，并可以拖动账户更改排序
+
+#### **Thunderbird 设置**
+
+进入设置界面调整显示：
+
+设置 >> 常规 >> Thunderbird 起始页 >> 清空并取消勾选
+
+设置 >> 常规 >> 默认搜索引擎 >> 改为 Bing 或 Google
+
+设置 >> 隐私 >> 邮件内容 >> 勾选“允许消息中的远程内容”
 
 右键点击上方邮件工具栏，选择“自定义”，自行配置即可
 
-#### **Thunderbird 帐号配置**
+#### **Thunderbird 账户设置**
 
 点击邮箱帐号，配置“账户设置”如下：
 
 服务器 >> 服务器设置 >> 每隔 1 分钟检查一次新消息
 
-服务器 >> 服务器设置 >> 在删除消息时 >> 立即删除
+如果要删除账户，在“账户设置”左下角的“账户操作”中选择“删除账户”
 
 ### **GitHub Desktop 安装**
 
@@ -1290,11 +1390,23 @@ Miniconda 是 Anaconda 的精简版，推荐使用 Miniconda
 
 [Miniconda -- Conda documentation](https://docs.conda.io/en/latest/miniconda.html)
 
-或者在[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/#)点击右侧的“获取下载链接”按钮，在“应用软件” >> Conda 里面选择
-
 安装过程参考以下网址：（Miniconda 和 Anaconda 的安装步骤相同）
 
 [Anaconda Documentation -- Installing on Linux](https://docs.anaconda.com/anaconda/install/linux/)
+
+用 `bash` 执行安装文件：
+
+```bash
+bash Miniconda3-latest-Linux-x86_64.sh
+```
+
+按 `Enter` 查看许可协议，然后按住 `Enter` 滚动
+
+输入 `yes` 同意许可协议
+
+输入安装 Miniconda 的目录并按 `Enter` 确定
+
+最后一步输入 `yes` 执行 `conda init` 初始化 Miniconda
 
 注意最后一步要选择 `yes`
 
@@ -1357,15 +1469,23 @@ channels:
 ssl_verify: true
 ```
 
-下载所需要的包：
+#### **Miniconda 下载软件包**
+
+下载一些必要的包：
 
 ```bash
-conda install numpy matplotlib astropy black ipython
+conda install numpy matplotlib astropy black isort ipython jupyterlab
 ```
 
 各个操作系统平台上可下载的包可以在以下网站查询：
 
 [Anaconda Documentation -- Anaconda Package Lists](https://docs.anaconda.com/anaconda/packages/pkg-docs/)
+
+下载 JupyterLab 插件：
+
+```
+pip install lckr_jupyterlab_variableinspector jupyterlab-lsp python-lsp-server jupyterlab_execute_time jupyterlab-code-formatter jupyterlab-spellchecker ipympl jupyterlab_h5web
+```
 
 #### **Conda 常用命令**
 
@@ -1443,13 +1563,13 @@ Conda 默认会在 Miniconda/Anaconda 的安装位置创建一个 `base` 环境
 激活环境：
 
 ```bash
-source activate (environment_name)
+conda activate (environment_name)
 ```
 
 取消激活环境：
 
 ```bash
-source deactivate (environment_name)
+conda deactivate (environment_name)
 ```
 
 删除环境：
@@ -1659,7 +1779,7 @@ which python
 "python.defaultInterpreterPath": "(python_path)"
 ```
 
-#### **Latex Workshop 插件设置**
+#### **LaTeX Workshop 插件设置**
 
 若想在 [LaTeX Workshop](https://github.com/James-Yu/LaTeX-Workshop) 里面添加 `\frac{}{}` 命令的快捷键为 `Ctrl+M Ctrl+F`，则添加一段：
 
@@ -1766,62 +1886,82 @@ Edit >> Preferences >> Pan Zoom >> 选择“Drag to Center”
 
 ### **IRAF/PyRAF 安装**
 
-#### **从源代码安装（推荐）**
+#### **从 AUR 安装 IRAF**
 
-从源代码安装 IRAF/PyRAF 较为复杂，但软件版本较新，且支持 Python 3
-
-首先从 GitHub 上下载软件源代码，网址如下：
-
-[IRAF -- GitHub](https://github.com/iraf-community/iraf)
-
-新建一个文件夹，例如 `~/.iraf-source` 用于存放解压后得到的源代码
-
-进入 `~/.iraf-source`，首先运行安装脚本：
+可以从 AUR 安装 PyRAF：
 
 ```bash
-./install
+yay -S iraf-bin
 ```
 
-这里的选项全部选择默认即可，此时会新建一个 `~/.iraf` 文件夹
+#### **从源代码安装 IRAF**
 
-下一步是将 IRAF 添加到 PATH：
+首先下载编译依赖：
 
 ```bash
-export PATH=/home/(user-name)/.iraf/bin/:$PATH
+sudo pacman -S gcc make bison flex zlib curl expat readline
 ```
 
-此时便可以在 `~/.iraf-source` 中编译安装 IRAF（这一步需要的时间较长）：
+从 GitHub 上下载软件源代码：
 
 ```bash
-make linux64
-make sysgen 2>&1 | tee build.log
+git clone https://github.com/iraf-community/iraf.git
 ```
 
-接下来安装 PyRAF：
+进入 `iraf` 文件夹，并执行：
+
+```bash
+make 2>&1 | tee build.log
+```
+
+可以使用 `make test` 测试安装，输出的 `xfailed` 是预计就会失败的，不必担心
+
+之后执行：
+
+```bash
+sudo make install
+```
+
+将其安装到系统
+
+默认安装到 `/usr/local`，也可以更改为其它位置：
+
+```bash
+sudo make install prefix=(directory)
+```
+
+部分功能可能需要 xgterm：
+
+```bash
+yay -S xgterm-bin
+```
+
+#### **安装 PyRAF**
+
+可以用 pip 安装 PyRAF：
 
 ```bash
 pip install pyraf
 ```
 
-**在使用 IRAF/PyRAF 之前，需要在该文件夹运行 `mkiraf` 命令，才能使用**
-
-#### **从 AstroConda 安装**
-
-从 AstroConda 安装 IRAF/PyRAF 较为简便，缺点是软件版本较旧（仍是 PyRAF 2.1.15），且依赖 Python 2.7
-
-首先需要用 `conda config --add channels http://ssb.stsci.edu/astroconda` 加入 AstroConda 软件源，并推荐单独建立一个 IRAF 环境 `(iraf_environment)` 安装 IRAF/PyRAF：
-
-```bash
-conda create -n (iraf_environment) python=2.7 iraf-all pyraf-all stsci
-source activate (iraf_environment)
-```
-
 #### **IRAF/PyRAF 常用命令**
 
-启动 IRAF：
+启动 IRAF 的命令为：
 
 ```bash
-cl
+irafcl
+```
+
+列出所有可以使用的 IRAF 命令：
+
+```bash
+?
+```
+
+查看命令的说明文档：
+
+```bash
+help (command)
 ```
 
 启动 PyRAF：
@@ -1836,7 +1976,7 @@ pyraf
 logout
 ```
 
-退出 PyRAF：
+退出 PyRAF：（也可以用 `Ctrl+D`）
 
 ```bash
 exit()
@@ -1848,18 +1988,20 @@ exit()
 epar (task_name)
 ```
 
+退出参数编辑器的命令和 Vim 一样，也是 `:q`
+
 ### **Topcat 安装**
 
-Topcat 可以从 AUR 安装：
+天文数据表格操作工具 [Topcat](https://www.star.bris.ac.uk/~mbt/topcat/) 可以从 AUR 安装：
 
 ```bash
 yay -S topcat
 ```
 
-如果 Topcat 在高分辨率屏幕上显示过小，则编辑 `~/.profile` 并加入：
+如果 Topcat 在高分辨率屏幕上显示过小，则编辑 `~/.starjava.properties` 并加入：
 
 ```text
-export GDK_SCALE=2
+sun.java2d.uiScale=2
 ```
 
 ### **Geant4 安装**
@@ -1922,13 +2064,11 @@ yay -S linuxqq
 
 ### **微信安装（可选）**
 
-推荐安装以下版本（在安装本软件包前需要启用 `multilib` 仓库）：
+推荐安装以下版本：
 
 ```bash
-yay -S com.qq.weixin.spark wqy-microhei
+yay -S wechat-universal-bwrap
 ```
-
-第一次启动时会要求选择放大倍率，与系统放大倍率相同，如系统放大倍率为 `200%` 则选择 `2.0`
 
 ### **会议软件安装（可选）**
 
@@ -1953,6 +2093,8 @@ yay -S dingtalk-bin
 ```bash
 yay -S zoom
 ```
+
+高分辨率屏幕下调整全局缩放需要编辑 `~/.config/zoomus.conf`，加入一行 `scaleFactor=2`
 
 #### **Microsoft Teams**
 
@@ -2012,7 +2154,7 @@ yay -S ktorrent
 
 或者同样功能强大且跨平台的 qBittorrent：
 
-```text
+```bash
 yay -S qbittorrent
 ```
 
