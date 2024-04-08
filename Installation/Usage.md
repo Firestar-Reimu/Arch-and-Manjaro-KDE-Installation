@@ -40,6 +40,14 @@ uname -a
 lsb_release -a
 ```
 
+### **命令的说明文档**
+
+在终端中输入：（需要 `man-db` 软件包）
+
+```bash
+man (command)
+```
+
 ### **文件权限与属性**
 
 #### **查看文件权限与属性**
@@ -1370,10 +1378,10 @@ pip install (package_name)
 pip list -v
 ```
 
-这里不建议安装 Spyder，安装最基本的包即可：
+下载 Python 软件包：
 
 ```bash
-pip install numpy matplotlib astropy black ipython
+pip install numpy matplotlib astropy black isort ipython jupyterlab
 ```
 
 使用 Matplotlib 绘图需要下载 tk 库：
@@ -1471,7 +1479,7 @@ ssl_verify: true
 
 #### **Miniconda 下载软件包**
 
-下载一些必要的包：
+下载 Python 软件包：
 
 ```bash
 conda install numpy matplotlib astropy black isort ipython jupyterlab
@@ -1586,14 +1594,6 @@ conda env remove -n (environment_name)
 conda config --add channels http://ssb.stsci.edu/astroconda
 ```
 
-这相当于在 `~/.condarc` 中 `channels` 一栏改为：
-
-```text
-channels:
-  - defaults
-  - http://ssb.stsci.edu/astroconda
-```
-
 这样就可以下载 `wcstools` 等软件
 
 #### **下载 JupyterLab**
@@ -1610,7 +1610,7 @@ pip install jupyterlab
 conda install -c conda-forge jupyterlab
 ```
 
-下载后用 `jupyter-lab` 命令在浏览器中打开（注意中间的连字符）
+下载后用 `jupyter-lab` 或 `jupyter lab` 命令在浏览器中打开
 
 #### **下载 photutils**
 
@@ -1634,29 +1634,25 @@ Spyder 配置如下：
 
 编辑选定的方案：
 
-文本：
+文本：（`B` 表示加粗）
 
-```text
-普通文本 #000000
-注释：#999999, B
-字符串：#00aa00
-数值：#aa0000
-关键字：#ff5500, B
-内置：#990099
-定义：#0000ff
-实例：#ff55ff, B
-```
+- 普通文本 `#000000`
+- 注释：`#aeaeae`，`B`
+- 字符串：`#ff7777`
+- 数值：`#a530e0`
+- 关键字：`#2aa4db`，`B`
+- 内置：`#f43232`，`B`
+- 定义：`#ee55b7`
+- 实例：`#00d29e`
 
 高亮：
 
-```text
-当前 Cell：#ffaaff
-当前行：#aaffff
-事件：#ffff00
-匹配圆括号：#99ff99
-不匹配圆括号：#ff9999
-链接：#55ff00
-```
+- 当前 Cell：`#e49dfd`
+- 当前行：`#b2ffdd`
+- 事件：`#fff442`
+- 匹配圆括号：`#ff7f27`
+- 不匹配圆括号：`#ff3535`
+- 链接：`#74f466`
 
 编辑器 >> 勾选“显示标签栏”、“显示缩进指导”、“显示行号”、“高亮显示当前行”、“高亮显示当前 Cell”，并把“高亮延迟时间”设定为 100 毫秒
 
@@ -1696,19 +1692,19 @@ yay -S visual-studio-code-bin
 yay -S visual-studio-code-insiders-bin
 ```
 
-第三方发布的从开源代码构建的二进制包：
+[VSCodium](https://vscodium.com/) 发布的从开源代码构建的二进制包：
 
 ```bash
 yay -S vscodium-bin
 ```
 
-从最新的开源代码构建：
+[VSCodium](https://vscodium.com/) 从最新的开源代码构建：
 
 ```bash
 yay -S vscodium-git
 ```
 
-下载扩展：Python（需要单独下载代码风格检查工具 Pylint 和格式化工具 autopep8、Black Formatter 等）、Jupyter、LaTeX Workshop、Markdown all in One 等
+下载扩展：Python（需要单独下载代码风格检查工具 Pylint 和格式化工具 autopep8 或 Black Formatter）、Jupyter、LaTeX Workshop、Markdown all in One 等
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
 
@@ -1798,7 +1794,7 @@ which python
 "[\n\t${1}\n\\]"
 ```
 
-重启 Visual Studio Code 即可生效
+重启 Visual Studio Code 即可生效，缺点是插件每次更新时会覆盖设置
 
 #### **Markdown All in One 插件设置**
 
@@ -1856,7 +1852,7 @@ yay -S typora
 
 ### **SAOImageDS9 安装和设置**
 
-AUR 中有 `ds9` 和 `ds9-bin` 两个版本，推荐选择二进制包 `ds9-bin`：
+AUR 中有 `ds9`、`ds9-bin` 和 `ds9-git` 三个版本，以二进制包 `ds9-bin` 为例：
 
 ```bash
 yay -S ds9-bin
@@ -1888,7 +1884,7 @@ Edit >> Preferences >> Pan Zoom >> 选择“Drag to Center”
 
 #### **从 AUR 安装 IRAF**
 
-可以从 AUR 安装 PyRAF：
+可以从 AUR 安装 IRAF：
 
 ```bash
 yay -S iraf-bin

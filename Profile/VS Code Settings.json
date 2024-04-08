@@ -5,42 +5,71 @@
     "editor.insertSpaces": true,
     "editor.tabSize": 4,
     "editor.renderWhitespace": "boundary",
-    "editor.formatOnSave": true,
     "editor.wordWrap": "on",
     "editor.tokenColorCustomizations": {
         "comments": {
             "fontStyle": "bold",
-            "foreground": "#999999"
+            "foreground": "#AEAEAE"
         },
         "keywords": {
             "fontStyle": "bold",
-            "foreground": "#ff5500"
+            "foreground": "#FF791B"
         },
         "functions": {
             "fontStyle": "bold",
-            "foreground": "#0000ff"
+            "foreground": "#EE55B7"
         },
-        "variables": "#dd55aa",
-        "strings": "#00aa00",
-        "numbers": "#aa0000"
+        "variables": "#2AA4DB",
+        "strings": "#FF7777",
+        "numbers": "#A530E0",
+        "textMateRules": [
+            {
+                "scope": [
+                    "meta.function-call.generic.python"
+                ],
+                "settings": {
+                    "foreground": "#F43232"
+                }
+            },
+            {
+                "scope": [
+                    "constant.other.general.math.tex"
+                ],
+                "settings": {
+                    "foreground": "#00D29E"
+                }
+            },
+            {
+                "scope": [
+                    "keyword.control.cite.latex",
+                    "keyword.control.ref.latex"
+                ],
+                "settings": {
+                    "foreground": "#CFBA0F",
+                    "fontStyle": "bold"
+                }
+            }
+        ]
     },
     "editor.unicodeHighlight.ambiguousCharacters": false,
     "editor.unicodeHighlight.includeComments": false,
     "editor.unicodeHighlight.nonBasicASCII": false,
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "workbench.colorCustomizations": {
-        "editor.selectionHighlightBackground": "#ffff5555",
-        "editorBracketHighlight.foreground1": "#00cc00",
-        "editorBracketHighlight.foreground2": "#33ccff",
-        "editorBracketHighlight.foreground3": "#aa00aa",
-        "editorBracketHighlight.foreground4": "#44ccaa",
-        "editorBracketHighlight.foreground5": "#4444bb",
-        "editorBracketHighlight.foreground6": "#8080ff",
-        "editorBracketHighlight.unexpectedBracket.foreground": "#ff0000"
+        "editor.selectionHighlightBackground": "#B2FFDD44",
+        "editor.wordHighlightBackground": "#74F46644",
+        "editor.findMatchBackground":"#A0FFF9",
+        "editor.findMatchHighlightBackground":"#FF51C444",
+        "editorBracketHighlight.foreground1": "#F8B500",
+        "editorBracketHighlight.foreground2": "#5383C3",
+        "editorBracketHighlight.foreground3": "#68BE8D",
+        "editorBracketHighlight.foreground4": "#BA2636",
+        "editorBracketHighlight.foreground5": "#E7609E",
+        "editorBracketHighlight.foreground6": "#C8C2C6",
+        "editorBracketHighlight.unexpectedBracket.foreground": "#FF3535"
     },
-    "workbench.startupEditor": "none",
     "workbench.colorTheme": "Default Light Modern",
-    "debug.onTaskErrors": "showErrors",
+    "update.showReleaseNotes": false,
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
             "source": "PowerShell",
@@ -53,6 +82,7 @@
     "terminal.integrated.cursorStyle": "line",
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.inheritEnv": false,
+    "debug.onTaskErrors": "showErrors",
     "explorer.confirmDelete": false,
     "security.workspace.trust.untrustedFiles": "open",
     "search.useReplacePreview": false,
@@ -77,9 +107,9 @@
                 "-lualatex",
                 "-bibtex",
                 "-synctex=1",
-                "--shell-escape",
                 "-interaction=nonstopmode",
                 "-file-line-error",
+                "--shell-escape",
                 "%DOCFILE%"
             ]
         },
@@ -131,12 +161,9 @@
     ],
     "latex-workshop.message.error.show": false,
     "latex-workshop.message.warning.show": false,
+    "latex-workshop.latex.autoBuild.run": "never",
     "latex-workshop.latex.autoClean.run": "onBuilt",
-    "latex-workshop.view.pdf.viewer": "tab",
     "latex-workshop.intellisense.argumentHint.enabled": false,
     "python.defaultInterpreterPath": "/home/firestar/.miniconda/bin/python",
-    "jupyter.themeMatplotlibPlots": true,
-    "black-formatter.args": [
-        "--line-length=120"
-    ]
+    "jupyter.themeMatplotlibPlots": true
 }

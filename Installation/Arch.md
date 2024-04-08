@@ -15,7 +15,7 @@ Product Name: 20WKA000CD
 System Version: ThinkPad X13 Gen 2i
 ```
 
-## **Windows 的准备工作**
+## **准备工作**
 
 ### **下载 Arch Linux 系统 ISO 镜像**
 
@@ -729,34 +729,183 @@ sudo mkdir ./(partition_name)
 sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
 ```
 
-#### **如果 NTFS 磁盘挂载错误**
+### **AUR 软件仓库**
 
-一般来讲是该磁盘未正确卸载（如热插拔）、Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，此时 NTFS 分区会被标记为 `dirty`
-
-可以尝试强制挂载，需要加上 `force` 选项，如：
+首先安装 `base-devel` 软件包：
 
 ```bash
-sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
+sudo pacman -S base-devel
 ```
 
-临时解决这个问题需要下载 AUR 软件包 `ntfsprogs-ntfs3` 以执行硬盘 NTFS 分区修复：
+之后下载支持 AUR 的软件包管理器
+
+**注意 Arch 预装的包管理器 pacman 不支持 AUR，也不打包 AUR 软件包管理器，需要单独下载 AUR 软件包管理器**
+
+#### **yay**
+
+yay 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器
+
+执行以下命令安装 yay：（需要保证能够连接 GitHub，一般需要修改 hosts）
 
 ```bash
-yay -S ntfsprogs-ntfs3
-sudo ntfsfix -d /dev/(partition_name)
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
+makepkg -si
 ```
 
-再重新挂载即可：
+yay 的命令与 `pacman` 相似，如 `yay -S (package_name)` 表示下载软件包、`yay -Syu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R (package_name)` 表示删除软件包，其使用教程参考以下网址：
+
+[yay -- GitHub](https://github.com/Jguer/yay)
+
+yay 支持在下载时修改 PKGBUILD 文件，方法是 `yay -S --editmenu (package_name)`
+
+如果下载软件包时不想要 yay 询问问题，可以用 `yay -S --no-confirm (package_name)`
+
+查找所有已下载的 AUR 软件包的命令为 `yay -Qm`
+
+#### **pamac**
+
+pamac 支持命令行和图形界面，“添加/删除软件”就是 pamac 的 GUI 版本，执行以下命令安装 `pamac`：
 
 ```bash
-sudo mount -t ntfs3 /dev/(partition_name) /run/media/(user_name)/(partition_name)
+git clone https://aur.archlinux.org/libpamac-aur.git
+cd libpamac-aur
+makepkg -si
+git clone https://aur.archlinux.org/pamac-aur.git
+cd pamac-aur
+makepkg -si
 ```
 
-根本的解决方案是在 Windows 中使用 `chkdsk` 修复，注意这里要使用盘符，以 `E:` 盘为例：
+其使用教程参考以下网址：
 
-```powershell
-chkdsk /F E:
+[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
+
+需要按照如下方式启用 pamac 的 AUR 支持：
+
+添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
+
+然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build (package_name)` 获取 AUR 的软件包
+
+**以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
+
+### **Arch Linux CN 软件仓库（可选）**
+
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
+
+```text
+[archlinuxcn]
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
 ```
+
+或上海交大镜像：
+
+```text
+[archlinuxcn]
+Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
+```
+
+之后执行下面的命令安装 `archlinuxcn-keyring` 包导入 GPG 密钥
+
+```bash
+sudo pacman -Sy archlinuxcn-keyring
+sudo pacman -Syu
+```
+
+这样就开启了 pacman 对 Arch Linux CN 的支持
+
+**注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
+
+### **包管理器的使用技巧**
+
+#### **搜索软件包**
+
+在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 或 `-s` 会启动下载程序）
+
+```bash
+yay -Ss (package_name)
+```
+
+这样可以搜索官方软件源、Arch Linux CN、AUR 上的软件
+
+或者在 `pamac` 上执行：
+
+```bash
+pamac search (package_name)
+```
+
+搜索已安装的软件包:
+
+```bash
+yay -Qs (package_name)
+```
+
+#### **检查依赖关系**
+
+以树状图的形式展示某软件包的依赖关系：（需要下载 `pacman-contrib` 软件包）
+
+```bash
+pactree (package_name)
+```
+
+#### **降级软件包**
+
+在 `/var/cache/pacman/pkg/` 中找到旧软件包（旧 AUR 软件包在 `/home/(user_name)/.cache/yay/(package_name)/`），双击打开安装实现手动降级，参考以下网址：
+
+[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages)
+
+#### **清理缓存**
+
+清理全部软件安装包：
+
+```bash
+yay -Scc
+```
+
+或者：
+
+```bash
+pamac clean
+```
+
+删除软件包时清理设置文件：
+
+```bash
+yay -Rn (package_name)
+```
+
+清理无用的孤立软件包：
+
+```bash
+yay -Rsn $(yay -Qdtq)
+```
+
+若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
+
+或者：
+
+```bash
+pamac remove -o
+```
+
+**若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`**
+
+#### **从本地安装包安装软件**
+
+pacman 有从本地安装包安装软件的功能，只需输入：
+
+```bash
+sudo pacman -U (package_name).tar.zst
+```
+
+#### **从 PKGBUILD 安装软件**
+
+在 PKGBUILD 所在的文件夹内执行：
+
+```bash
+makepkg -si
+```
+
+即可安装
 
 ### **网络设置**
 
@@ -918,180 +1067,6 @@ unmanaged-devices=interface-name:lo
 sudo systemctl restart NetworkManager
 ```
 
-### **AUR 软件仓库**
-
-首先安装 `base-devel` 软件包：
-
-```bash
-sudo pacman -S base-devel
-```
-
-之后下载支持 AUR 的软件包管理器
-
-**注意 Arch 预装的包管理器 pacman 不支持 AUR，也不打包 AUR 软件包管理器，需要单独下载 AUR 软件包管理器**
-
-#### **yay**
-
-yay 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器
-
-执行以下命令安装 yay：（需要保证能够连接 GitHub，一般需要修改 hosts）
-
-```bash
-git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
-makepkg -si
-```
-
-yay 的命令与 `pacman` 相似，如 `yay -S (package_name)` 表示下载软件包、`yay -Syu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R (package_name)` 表示删除软件包，其使用教程参考以下网址：
-
-[yay -- GitHub](https://github.com/Jguer/yay)
-
-yay 支持在下载时修改 PKGBUILD 文件，方法是 `yay -S --editmenu (package_name)`
-
-#### **pamac**
-
-pamac 支持命令行和图形界面，“添加/删除软件”就是 pamac 的 GUI 版本，执行以下命令安装 `pamac`：
-
-```bash
-git clone https://aur.archlinux.org/libpamac-aur.git
-cd libpamac-aur
-makepkg -si
-git clone https://aur.archlinux.org/pamac-aur.git
-cd pamac-aur
-makepkg -si
-```
-
-其使用教程参考以下网址：
-
-[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
-
-需要按照如下方式启用 pamac 的 AUR 支持：
-
-添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
-
-然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build (package_name)` 获取 AUR 的软件包
-
-**以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
-
-### **Arch Linux CN 软件仓库（可选）**
-
-在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
-
-```text
-[archlinuxcn]
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
-```
-
-或上海交大镜像：
-
-```text
-[archlinuxcn]
-Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch
-```
-
-之后执行下面的命令安装 `archlinuxcn-keyring` 包导入 GPG 密钥
-
-```bash
-sudo pacman -Sy archlinuxcn-keyring
-sudo pacman -Syu
-```
-
-这样就开启了 pacman 对 Arch Linux CN 的支持
-
-**注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
-
-### **包管理器的使用技巧**
-
-#### **搜索软件包**
-
-在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 或 `-s` 会启动下载程序）
-
-```bash
-yay -Ss (package_name)
-```
-
-这样可以搜索官方软件源、Arch Linux CN、AUR 上的软件
-
-或者在 `pamac` 上执行：
-
-```bash
-pamac search (package_name)
-```
-
-搜索已安装的软件包:
-
-```bash
-yay -Qs (package_name)
-```
-
-#### **检查依赖关系**
-
-以树状图的形式展示某软件包的依赖关系：（需要下载 `pacman-contrib` 软件包）
-
-```bash
-pactree (package_name)
-```
-
-#### **降级软件包**
-
-在 `/var/cache/pacman/pkg/` 中找到旧软件包（旧 AUR 软件包在 `/home/(user_name)/.cache/yay/(package_name)/`），双击打开安装实现手动降级，参考以下网址：
-
-[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages)
-
-#### **清理缓存**
-
-清理全部软件安装包：
-
-```bash
-yay -Scc
-```
-
-或者：
-
-```bash
-pamac clean
-```
-
-删除软件包时清理设置文件：
-
-```bash
-yay -Rn (package_name)
-```
-
-清理无用的孤立软件包：
-
-```bash
-yay -Rsn $(yay -Qdtq)
-```
-
-若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
-
-或者：
-
-```bash
-pamac remove -o
-```
-
-**若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`**
-
-#### **从本地安装包安装软件**
-
-pacman 有从本地安装包安装软件的功能，只需输入：
-
-```bash
-sudo pacman -U (package_name).tar.zst
-```
-
-#### **从 PKGBUILD 安装软件**
-
-在 PKGBUILD 所在的文件夹内执行：
-
-```bash
-makepkg -si
-```
-
-即可安装
-
 ### **Vim 配置**
 
 Vim 的配置文件主要有 `/usr/share/vim/vimfiles/archlinux.vim`，`/etc/vimrc` 和 `/home/(user_name)/.vimrc`，建议直接修改 `/etc/vimrc`，这样不会覆盖 `/usr/share/vim/vimfiles/archlinux.vim` 上定义的默认配置（语法高亮等）
@@ -1241,14 +1216,6 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 
 保存退出，重启电脑即可
 
-也可以用相同的方法安装其它 CJK 字体：
-
-```bash
-sudo pacman -S adobe-source-han-sans-hk-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-tw-fonts adobe-source-han-serif-hk-fonts adobe-source-han-serif-jp-fonts adobe-source-han-serif-kr-fonts adobe-source-han-serif-tw-fonts
-```
-
-并编辑 `/etc/fonts/conf.d/64-language-selector-prefer.conf` 并在 `CN` 之后添加其它区域的字形
-
 ### **安装中文输入法**
 
 #### **安装 Fcitx5 输入法**
@@ -1357,6 +1324,35 @@ git config --global user.email (user_email)
 Git 使用教程参考以下网址：
 
 [Git Documentation](https://git-scm.com/docs)
+
+#### **NTFS 磁盘无法挂载**
+
+一般来讲是该磁盘未正确卸载（如热插拔）、Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，此时 NTFS 分区会被标记为 `dirty`
+
+可以尝试强制挂载，需要加上 `force` 选项，如：
+
+```bash
+sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
+```
+
+临时解决这个问题需要下载 AUR 软件包 `ntfsprogs-ntfs3` 以执行硬盘 NTFS 分区修复：
+
+```bash
+yay -S ntfsprogs-ntfs3
+sudo ntfsfix -d /dev/(partition_name)
+```
+
+再重新挂载即可：
+
+```bash
+sudo mount -t ntfs3 /dev/(partition_name) /run/media/(user_name)/(partition_name)
+```
+
+根本的解决方案是在 Windows 中使用 `chkdsk` 修复，注意这里要使用盘符，以 `E:` 盘为例：
+
+```powershell
+chkdsk /F E:
+```
 
 ### **系统分区改变导致时进入 GRUB Rescue 模式**
 
