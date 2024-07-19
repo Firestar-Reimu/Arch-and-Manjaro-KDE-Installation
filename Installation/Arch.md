@@ -2,10 +2,10 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 6.0.3
-KDE Frameworks Version: 6.0.0
-Qt Version: 6.6.3
-Kernel Version: 6.8.2-arch1-1 (64-bit)
+KDE Plasma Version: 6.1.2
+KDE Frameworks Version: 6.4.0
+Qt Version: 6.7.2
+Kernel Version: 6.9.10-arch1-1 (64-bit)
 Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -729,6 +729,160 @@ sudo mkdir ./(partition_name)
 sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
 ```
 
+### **pacman 包管理器的使用技巧**
+
+这里介绍了 `pacman` 包管理器的常用操作
+
+更多操作参考以下网址：
+
+[Pacman -- ArchWiki](https://wiki.archlinux.org/title/Pacman)
+
+也可以使用 `man pacman` 和 `man pacman.conf` 查询
+
+#### **下载软件包**
+
+下载软件包：
+
+```bash
+sudo pacman -S (package_name)
+```
+
+#### **删除软件包**
+
+删除软件包：
+
+```bash
+sudo pacman -R (package_name)
+```
+
+删除软件包，及其所有未被其他已安装软件包依赖的软件包：
+
+```bash
+sudo pacman -Rs (package_name)
+```
+
+删除软件包，及其 `pacman` 备份文件：
+
+```bash
+sudo pacman -Rn (package_name)
+```
+
+#### **更新软件包**
+
+更新所有软件包：
+
+```bash
+sudo pacman -Syu
+```
+
+#### **搜索软件包**
+
+`pacman` 使用 `-Q` 参数查询本地软件包数据库，`-S` 查询远程数据库（包含全部软件包），以及 `-F` 查询文件数据库。要了解每个参数的子选项，分别参见 `pacman -Q --help`，`pacman -S --help` 和 `pacman -F --help`
+
+在远程数据库中查询软件包：
+
+```bash
+pacman -Ss (package_name)
+```
+
+搜索已安装的软件包：（`-s` 会使用正则表达式匹配所有相似的结果，如果没有 `-s` 会只显示全词匹配）
+
+```bash
+pacman -Qs (package_name)
+```
+
+列出所有已安装的软件包：
+
+```bash
+pacman -Q
+```
+
+列出所有已安装的仓库外（一般就是 AUR）软件包：
+
+```bash
+pacman -Qm
+```
+
+列出所有孤立软件包（不再作为依赖的软件包），可以加 `-q` 选项不显示版本号：
+
+```bash
+pacman -Qdt
+```
+
+获取已安装软件包所包含文件路径（比如用来查看软件包提供了什么可执行文件）：
+
+```bash
+pacman -Ql (package_name)
+```
+
+查询文件属于远程数据库中的哪个软件包：
+
+```bash
+pacman -F (file_name)
+```
+
+查询远程库中软件包包含的文件：
+
+```bash
+pacman -Fl (package_name)
+```
+
+#### **检查依赖关系**
+
+以树状图的形式展示某软件包的依赖关系：（需要下载 `pacman-contrib` 软件包）
+
+```bash
+pactree (package_name)
+```
+
+#### **降级软件包**
+
+在 `/var/cache/pacman/pkg/` 中找到旧软件包，双击打开安装实现手动降级，参考以下网址：
+
+[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages)
+
+#### **清理缓存**
+
+`pacman-contrib` 软件包提供的 `paccache` 脚本默认会删除所有缓存的版本和已卸载的软件包，除了最近的3个会被保留：
+
+```bash
+sudo paccache -r
+```
+
+更激进的方式是使用 `pacman` 清理全部软件安装包缓存：（即删除 `/var/cache/pacman/pkg/`、`/var/lib/pacman/` 下的全部内容）
+
+```bash
+sudo pacman -Scc
+```
+
+清理无用的孤立软件包：
+
+```bash
+sudo pacman -R $(pacman -Qdtq)
+```
+
+若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
+
+**若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`**
+
+#### **从本地安装包安装软件**
+
+pacman 有从本地安装包安装软件的功能，只需输入：
+
+```bash
+sudo pacman -U (package_name).tar.zst
+```
+
+#### **从 PKGBUILD 安装软件**
+
+在 PKGBUILD 所在的文件夹内执行：
+
+```bash
+makepkg -si
+```
+
+即可安装
+
 ### **AUR 软件仓库**
 
 首先安装 `base-devel` 软件包：
@@ -741,52 +895,43 @@ sudo pacman -S base-devel
 
 **注意 Arch 预装的包管理器 pacman 不支持 AUR，也不打包 AUR 软件包管理器，需要单独下载 AUR 软件包管理器**
 
-#### **yay**
+#### **paru**
 
-yay 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器
+paru 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器
 
-执行以下命令安装 yay：（需要保证能够连接 GitHub，一般需要修改 hosts）
+执行以下命令安装 paru：（需要保证能够连接 GitHub，一般需要修改 hosts）
 
 ```bash
-git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
+git clone https://aur.archlinux.org/paru-bin.git
+cd paru-bin
 makepkg -si
 ```
 
-yay 的命令与 `pacman` 相似，如 `yay -S (package_name)` 表示下载软件包、`yay -Syu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R (package_name)` 表示删除软件包，其使用教程参考以下网址：
+paru 是一个 pacman 封装，其命令与 pacman 基本相同，即将上一节的 `pacman/sudo pacman` 替换为 `paru`
 
-[yay -- GitHub](https://github.com/Jguer/yay)
+详细使用教程参考以下网址：
 
-yay 支持在下载时修改 PKGBUILD 文件，方法是 `yay -S --editmenu (package_name)`
+[paru -- GitHub](https://github.com/Morganamilo/paru)
 
-如果下载软件包时不想要 yay 询问问题，可以用 `yay -S --no-confirm (package_name)`
+也可以使用 `man paru` 和 `man paru.conf` 查询
 
-查找所有已下载的 AUR 软件包的命令为 `yay -Qm`
+如果不想让 `paru` 下载软件包时显示 `PKGBUILD` 文件内容，需要在 `/etc/paru.conf` 的 `[options]` 一栏中加入一行 `SkipReview`
 
-#### **pamac**
+#### **octopi**
 
-pamac 支持命令行和图形界面，“添加/删除软件”就是 pamac 的 GUI 版本，执行以下命令安装 `pamac`：
+octopi 是一个使用图形界面的软件包管理器，执行以下命令安装 `pamac`：
 
 ```bash
-git clone https://aur.archlinux.org/libpamac-aur.git
-cd libpamac-aur
-makepkg -si
-git clone https://aur.archlinux.org/pamac-aur.git
-cd pamac-aur
+git clone https://aur.archlinux.org/octopi.git
+cd octopi
 makepkg -si
 ```
 
 其使用教程参考以下网址：
 
-[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
+[Octopi -- Tinta escura](https://tintaescura.com/projects/octopi)
 
-需要按照如下方式启用 pamac 的 AUR 支持：
-
-添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
-
-然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build (package_name)` 获取 AUR 的软件包
-
-**以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
+octopi 的 AUR 支持需要点击中间的绿色外星人图标，依赖 paru 等软件包管理器
 
 ### **Arch Linux CN 软件仓库（可选）**
 
@@ -815,97 +960,32 @@ sudo pacman -Syu
 
 **注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
 
-### **包管理器的使用技巧**
+### **Arch4edu 软件仓库（可选）**
 
-#### **搜索软件包**
+Arch4edu 是面向高校用户推出的非官方软件仓库，支持 Arch Linux 和 Arch Linux ARM，主要包含高校用户常用的科研、教学及开发软件
 
-在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 或 `-s` 会启动下载程序）
-
-```bash
-yay -Ss (package_name)
-```
-
-这样可以搜索官方软件源、Arch Linux CN、AUR 上的软件
-
-或者在 `pamac` 上执行：
+首先导入 GPG 密钥：
 
 ```bash
-pamac search (package_name)
+pacman-key --recv-keys 7931B6D628C8D3BA
+pacman-key --finger 7931B6D628C8D3BA
+pacman-key --lsign-key 7931B6D628C8D3BA
 ```
 
-搜索已安装的软件包:
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
+
+```text
+[arch4edu]
+Server = https://mirrors.tuna.tsinghua.edu.cn/arch4edu/$arch
+```
+
+最后更新系统：
 
 ```bash
-yay -Qs (package_name)
+sudo pacman -Syu
 ```
 
-#### **检查依赖关系**
-
-以树状图的形式展示某软件包的依赖关系：（需要下载 `pacman-contrib` 软件包）
-
-```bash
-pactree (package_name)
-```
-
-#### **降级软件包**
-
-在 `/var/cache/pacman/pkg/` 中找到旧软件包（旧 AUR 软件包在 `/home/(user_name)/.cache/yay/(package_name)/`），双击打开安装实现手动降级，参考以下网址：
-
-[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages)
-
-#### **清理缓存**
-
-清理全部软件安装包：
-
-```bash
-yay -Scc
-```
-
-或者：
-
-```bash
-pamac clean
-```
-
-删除软件包时清理设置文件：
-
-```bash
-yay -Rn (package_name)
-```
-
-清理无用的孤立软件包：
-
-```bash
-yay -Rsn $(yay -Qdtq)
-```
-
-若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
-
-或者：
-
-```bash
-pamac remove -o
-```
-
-**若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`**
-
-#### **从本地安装包安装软件**
-
-pacman 有从本地安装包安装软件的功能，只需输入：
-
-```bash
-sudo pacman -U (package_name).tar.zst
-```
-
-#### **从 PKGBUILD 安装软件**
-
-在 PKGBUILD 所在的文件夹内执行：
-
-```bash
-makepkg -si
-```
-
-即可安装
+这样就开启了 pacman 对 Arch4edu 的支持
 
 ### **网络设置**
 
@@ -1113,9 +1193,10 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 
 ### **命令行界面输出语言为英语**
 
-在 `~/.bashrc` 中添加一行：
+在 `~/.bashrc` 中添加：
 
 ```text
+export LC_ALL=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 ```
 
@@ -1249,27 +1330,31 @@ Fcitx5 的配置在：
 可以添加词库：（部分包需要使用 AUR 源）
 
 ```bash
-yay -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-moegirl fcitx5-pinyin-sougou
+paru -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-moegirl fcitx5-pinyin-sougou
 ```
+
+虚拟键盘的配置在：
+
+系统设置 >> 键盘 >> 虚拟键盘 >> 选择 Fcitx5
 
 #### **其它版本**
 
 Fcitx5 对应的 git 版本为：（需要使用 AUR 源）
 
 ```bash
-yay -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+paru -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
 ```
 
 一个稳定的替代版本是 Fcitx 4：
 
 ```bash
-yay -S fcitx-im fcitx-configtool fcitx-cloudpinyin
+paru -S fcitx-im fcitx-configtool fcitx-cloudpinyin
 ```
 
 可以配合 googlepinyin 或 sunpinyin 使用，即执行：
 
 ```bash
-yay -S fcitx-googlepinyin
+paru -S fcitx-googlepinyin
 ```
 
 或者：
@@ -1338,7 +1423,7 @@ sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(parti
 临时解决这个问题需要下载 AUR 软件包 `ntfsprogs-ntfs3` 以执行硬盘 NTFS 分区修复：
 
 ```bash
-yay -S ntfsprogs-ntfs3
+paru -S ntfsprogs-ntfs3
 sudo ntfsfix -d /dev/(partition_name)
 ```
 
@@ -1487,7 +1572,7 @@ Hidden=false
 
 找到“应用程序”，编辑环境变量，加入 `QT_IMAGEIO_MAXALLOC=(size)`
 
-默认值是 256，无法打开大型图片时要将其改成更大的值，如 4096
+默认值是 256，无法打开大型图片时要将其改成更大的值，如 65536
 
 ### **切换图形化界面和命令行界面**
 

@@ -2,10 +2,10 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 6.0.3
-KDE Frameworks Version: 6.0.0
-Qt Version: 6.6.3
-Kernel Version: 6.8.2-arch1-1 (64-bit)
+KDE Plasma Version: 6.1.2
+KDE Frameworks Version: 6.4.0
+Qt Version: 6.7.2
+Kernel Version: 6.9.10-arch1-1 (64-bit)
 Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -729,6 +729,160 @@ sudo mkdir ./(partition_name)
 sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
 ```
 
+### **pacman 包管理器的使用技巧**
+
+这里介绍了 `pacman` 包管理器的常用操作
+
+更多操作参考以下网址：
+
+[Pacman -- ArchWiki](https://wiki.archlinux.org/title/Pacman)
+
+也可以使用 `man pacman` 和 `man pacman.conf` 查询
+
+#### **下载软件包**
+
+下载软件包：
+
+```bash
+sudo pacman -S (package_name)
+```
+
+#### **删除软件包**
+
+删除软件包：
+
+```bash
+sudo pacman -R (package_name)
+```
+
+删除软件包，及其所有未被其他已安装软件包依赖的软件包：
+
+```bash
+sudo pacman -Rs (package_name)
+```
+
+删除软件包，及其 `pacman` 备份文件：
+
+```bash
+sudo pacman -Rn (package_name)
+```
+
+#### **更新软件包**
+
+更新所有软件包：
+
+```bash
+sudo pacman -Syu
+```
+
+#### **搜索软件包**
+
+`pacman` 使用 `-Q` 参数查询本地软件包数据库，`-S` 查询远程数据库（包含全部软件包），以及 `-F` 查询文件数据库。要了解每个参数的子选项，分别参见 `pacman -Q --help`，`pacman -S --help` 和 `pacman -F --help`
+
+在远程数据库中查询软件包：
+
+```bash
+pacman -Ss (package_name)
+```
+
+搜索已安装的软件包：（`-s` 会使用正则表达式匹配所有相似的结果，如果没有 `-s` 会只显示全词匹配）
+
+```bash
+pacman -Qs (package_name)
+```
+
+列出所有已安装的软件包：
+
+```bash
+pacman -Q
+```
+
+列出所有已安装的仓库外（一般就是 AUR）软件包：
+
+```bash
+pacman -Qm
+```
+
+列出所有孤立软件包（不再作为依赖的软件包），可以加 `-q` 选项不显示版本号：
+
+```bash
+pacman -Qdt
+```
+
+获取已安装软件包所包含文件路径（比如用来查看软件包提供了什么可执行文件）：
+
+```bash
+pacman -Ql (package_name)
+```
+
+查询文件属于远程数据库中的哪个软件包：
+
+```bash
+pacman -F (file_name)
+```
+
+查询远程库中软件包包含的文件：
+
+```bash
+pacman -Fl (package_name)
+```
+
+#### **检查依赖关系**
+
+以树状图的形式展示某软件包的依赖关系：（需要下载 `pacman-contrib` 软件包）
+
+```bash
+pactree (package_name)
+```
+
+#### **降级软件包**
+
+在 `/var/cache/pacman/pkg/` 中找到旧软件包，双击打开安装实现手动降级，参考以下网址：
+
+[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages)
+
+#### **清理缓存**
+
+`pacman-contrib` 软件包提供的 `paccache` 脚本默认会删除所有缓存的版本和已卸载的软件包，除了最近的3个会被保留：
+
+```bash
+sudo paccache -r
+```
+
+更激进的方式是使用 `pacman` 清理全部软件安装包缓存：（即删除 `/var/cache/pacman/pkg/`、`/var/lib/pacman/` 下的全部内容）
+
+```bash
+sudo pacman -Scc
+```
+
+清理无用的孤立软件包：
+
+```bash
+sudo pacman -R $(pacman -Qdtq)
+```
+
+若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
+
+**若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`**
+
+#### **从本地安装包安装软件**
+
+pacman 有从本地安装包安装软件的功能，只需输入：
+
+```bash
+sudo pacman -U (package_name).tar.zst
+```
+
+#### **从 PKGBUILD 安装软件**
+
+在 PKGBUILD 所在的文件夹内执行：
+
+```bash
+makepkg -si
+```
+
+即可安装
+
 ### **AUR 软件仓库**
 
 首先安装 `base-devel` 软件包：
@@ -741,52 +895,43 @@ sudo pacman -S base-devel
 
 **注意 Arch 预装的包管理器 pacman 不支持 AUR，也不打包 AUR 软件包管理器，需要单独下载 AUR 软件包管理器**
 
-#### **yay**
+#### **paru**
 
-yay 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器
+paru 是一个支持官方仓库和 AUR 仓库的命令行软件包管理器
 
-执行以下命令安装 yay：（需要保证能够连接 GitHub，一般需要修改 hosts）
+执行以下命令安装 paru：（需要保证能够连接 GitHub，一般需要修改 hosts）
 
 ```bash
-git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
+git clone https://aur.archlinux.org/paru-bin.git
+cd paru-bin
 makepkg -si
 ```
 
-yay 的命令与 `pacman` 相似，如 `yay -S (package_name)` 表示下载软件包、`yay -Syu` 表示更新所有软件包（包括官方仓库和 AUR 仓库）、`yay -R (package_name)` 表示删除软件包，其使用教程参考以下网址：
+paru 是一个 pacman 封装，其命令与 pacman 基本相同，即将上一节的 `pacman/sudo pacman` 替换为 `paru`
 
-[yay -- GitHub](https://github.com/Jguer/yay)
+详细使用教程参考以下网址：
 
-yay 支持在下载时修改 PKGBUILD 文件，方法是 `yay -S --editmenu (package_name)`
+[paru -- GitHub](https://github.com/Morganamilo/paru)
 
-如果下载软件包时不想要 yay 询问问题，可以用 `yay -S --no-confirm (package_name)`
+也可以使用 `man paru` 和 `man paru.conf` 查询
 
-查找所有已下载的 AUR 软件包的命令为 `yay -Qm`
+如果不想让 `paru` 下载软件包时显示 `PKGBUILD` 文件内容，需要在 `/etc/paru.conf` 的 `[options]` 一栏中加入一行 `SkipReview`
 
-#### **pamac**
+#### **octopi**
 
-pamac 支持命令行和图形界面，“添加/删除软件”就是 pamac 的 GUI 版本，执行以下命令安装 `pamac`：
+octopi 是一个使用图形界面的软件包管理器，执行以下命令安装 `pamac`：
 
 ```bash
-git clone https://aur.archlinux.org/libpamac-aur.git
-cd libpamac-aur
-makepkg -si
-git clone https://aur.archlinux.org/pamac-aur.git
-cd pamac-aur
+git clone https://aur.archlinux.org/octopi.git
+cd octopi
 makepkg -si
 ```
 
 其使用教程参考以下网址：
 
-[Manjaro Wiki -- Pamac](https://wiki.manjaro.org/index.php/Pamac)
+[Octopi -- Tinta escura](https://tintaescura.com/projects/octopi)
 
-需要按照如下方式启用 pamac 的 AUR 支持：
-
-添加/删除软件 >> 设置（右上角的三横线图标） >> 首选项 >> AUR >> 启用 AUR 支持
-
-然后就可以用 pamac 的图形界面获取 AUR 软件包，或者用命令 `pamac build (package_name)` 获取 AUR 的软件包
-
-**以下所有的 `yay -S` 都可以用 `pamac build` 替代，或者在“添加/删除软件”搜索安装**
+octopi 的 AUR 支持需要点击中间的绿色外星人图标，依赖 paru 等软件包管理器
 
 ### **Arch Linux CN 软件仓库（可选）**
 
@@ -815,97 +960,32 @@ sudo pacman -Syu
 
 **注意一定要写第一行的 `[archlinuxcn]`，安装 archlinuxcn-keyring 时要用 `-Sy` 安装（更新后安装）**
 
-### **包管理器的使用技巧**
+### **Arch4edu 软件仓库（可选）**
 
-#### **搜索软件包**
+Arch4edu 是面向高校用户推出的非官方软件仓库，支持 Arch Linux 和 Arch Linux ARM，主要包含高校用户常用的科研、教学及开发软件
 
-在 `yay` 上执行：（`-s` 会使用正则表达式匹配所有相似的结果，如果只有 `-S` 或 `-s` 会启动下载程序）
-
-```bash
-yay -Ss (package_name)
-```
-
-这样可以搜索官方软件源、Arch Linux CN、AUR 上的软件
-
-或者在 `pamac` 上执行：
+首先导入 GPG 密钥：
 
 ```bash
-pamac search (package_name)
+pacman-key --recv-keys 7931B6D628C8D3BA
+pacman-key --finger 7931B6D628C8D3BA
+pacman-key --lsign-key 7931B6D628C8D3BA
 ```
 
-搜索已安装的软件包:
+在 `/etc/pacman.conf` 文件末尾添加以下两行以启用清华大学镜像：
+
+```text
+[arch4edu]
+Server = https://mirrors.tuna.tsinghua.edu.cn/arch4edu/$arch
+```
+
+最后更新系统：
 
 ```bash
-yay -Qs (package_name)
+sudo pacman -Syu
 ```
 
-#### **检查依赖关系**
-
-以树状图的形式展示某软件包的依赖关系：（需要下载 `pacman-contrib` 软件包）
-
-```bash
-pactree (package_name)
-```
-
-#### **降级软件包**
-
-在 `/var/cache/pacman/pkg/` 中找到旧软件包（旧 AUR 软件包在 `/home/(user_name)/.cache/yay/(package_name)/`），双击打开安装实现手动降级，参考以下网址：
-
-[Downgrading Packages -- ArchWiki](https://wiki.archlinux.org/title/Downgrading_packages)
-
-#### **清理缓存**
-
-清理全部软件安装包：
-
-```bash
-yay -Scc
-```
-
-或者：
-
-```bash
-pamac clean
-```
-
-删除软件包时清理设置文件：
-
-```bash
-yay -Rn (package_name)
-```
-
-清理无用的孤立软件包：
-
-```bash
-yay -Rsn $(yay -Qdtq)
-```
-
-若显示 `error: no targets specified (use -h for help)` 则说明没有孤立软件包需要清理
-
-或者：
-
-```bash
-pamac remove -o
-```
-
-**若不小心终止了 `pacman` 进程，则需要先删除 `/var/lib/pacman/db.lck` 才能再次启动 `pacman`**
-
-#### **从本地安装包安装软件**
-
-pacman 有从本地安装包安装软件的功能，只需输入：
-
-```bash
-sudo pacman -U (package_name).tar.zst
-```
-
-#### **从 PKGBUILD 安装软件**
-
-在 PKGBUILD 所在的文件夹内执行：
-
-```bash
-makepkg -si
-```
-
-即可安装
+这样就开启了 pacman 对 Arch4edu 的支持
 
 ### **网络设置**
 
@@ -1113,9 +1193,10 @@ nano 的配置文件在 `/etc/nanorc`，可以通过取消注释设置选项配�
 
 ### **命令行界面输出语言为英语**
 
-在 `~/.bashrc` 中添加一行：
+在 `~/.bashrc` 中添加：
 
 ```text
+export LC_ALL=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 ```
 
@@ -1249,27 +1330,31 @@ Fcitx5 的配置在：
 可以添加词库：（部分包需要使用 AUR 源）
 
 ```bash
-yay -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-moegirl fcitx5-pinyin-sougou
+paru -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-moegirl fcitx5-pinyin-sougou
 ```
+
+虚拟键盘的配置在：
+
+系统设置 >> 键盘 >> 虚拟键盘 >> 选择 Fcitx5
 
 #### **其它版本**
 
 Fcitx5 对应的 git 版本为：（需要使用 AUR 源）
 
 ```bash
-yay -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
+paru -S fcitx5-git fcitx5-chinese-addons-git fcitx5-gtk-git fcitx5-qt5-git fcitx5-configtool-git
 ```
 
 一个稳定的替代版本是 Fcitx 4：
 
 ```bash
-yay -S fcitx-im fcitx-configtool fcitx-cloudpinyin
+paru -S fcitx-im fcitx-configtool fcitx-cloudpinyin
 ```
 
 可以配合 googlepinyin 或 sunpinyin 使用，即执行：
 
 ```bash
-yay -S fcitx-googlepinyin
+paru -S fcitx-googlepinyin
 ```
 
 或者：
@@ -1338,7 +1423,7 @@ sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(parti
 临时解决这个问题需要下载 AUR 软件包 `ntfsprogs-ntfs3` 以执行硬盘 NTFS 分区修复：
 
 ```bash
-yay -S ntfsprogs-ntfs3
+paru -S ntfsprogs-ntfs3
 sudo ntfsfix -d /dev/(partition_name)
 ```
 
@@ -1487,7 +1572,7 @@ Hidden=false
 
 找到“应用程序”，编辑环境变量，加入 `QT_IMAGEIO_MAXALLOC=(size)`
 
-默认值是 256，无法打开大型图片时要将其改成更大的值，如 4096
+默认值是 256，无法打开大型图片时要将其改成更大的值，如 65536
 
 ### **切换图形化界面和命令行界面**
 
@@ -1710,10 +1795,10 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 
 #### **简要信息**
 
-可以使用能显示系统图标的 `neofetch`，在终端中输入：（需要下载 `neofetch` 软件包）
+可以使用能显示系统图标的 `fastfetch`，在终端中输入：（需要下载 `fastfetch` 软件包）
 
 ```bash
-neofetch
+fastfetch
 ```
 
 或者使用功能更强大的 `inxi`：（需要在 AUR 中下载 `inxi` 软件包）
@@ -1745,6 +1830,16 @@ uname -a
 ```bash
 lsb_release -a
 ```
+
+### **当前目录**
+
+在终端中输入：
+
+```bash
+pwd
+```
+
+可以获得当前目录的绝对路径
 
 ### **命令的说明文档**
 
@@ -2172,11 +2267,11 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 默认的壁纸保存位置为 `/usr/share/wallpapers/`
 
-还可以使用包管理器（pacman/yay/pamac）下载壁纸
+还可以使用包管理器下载壁纸
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
-#### **SDDM 时间显示调整为 24 小时制**
+### **SDDM 时间显示调整为 24 小时制**
 
 更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 或 `/usr/share/sddm/themes/(theme_name)/Clock.qml` 中的 `Qt.formatTime` 一行：
 
@@ -2191,6 +2286,26 @@ text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
 ```
 
 保存重启即可
+
+### **关闭 Plymouth 的消息并显示启动屏幕动画**
+
+编辑 `/etc/default/grub`，找到一行：
+
+```text
+GRUB_CMDLINE_LINUX_DEFAULT
+```
+
+加入参数 `splash`
+
+最后执行：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+再重启即可
+
+默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
 
 ### **主题 Mac 风格美化（可选）**
 
@@ -2264,13 +2379,13 @@ PS1="[\e[0;36m\u\e[0m @ \e[0;32m\h\e[0m \W] (\e[0;35m\t\e[0m)\n\e[1;31m\$\e[0m "
 [ble.sh](https://github.com/akinomyoga/ble.sh) 是一个使用纯 bash 编写的软件，可以提供代码高亮、自动补全等功能，可以在 AUR 中下载稳定版本：
 
 ```bash
-yay -S blesh
+paru -S blesh
 ```
 
 或者开发者版本：
 
 ```bash
-yay -S blesh-git
+paru -S blesh-git
 ```
 
 下载后，需要在 `.bashrc` 文件开头添加：
@@ -2518,6 +2633,14 @@ git commit -m (commit_message)
 git push
 ```
 
+### **Dolphin 显示文件预览图**
+
+首先在 Dolphin 的“设置 >> 配置 Dolphin >> 界面 >> 预览图”中勾选显示预览图的项目类型
+
+之后勾选菜单栏上的“视图 >> 显示预览图”即可显示预览图
+
+预览 PDF 文件、RAW 文件需要下载 `kdegraphics-thumbnailers`，预览视频文件需要下载 `ffmpegthumbs`
+
 ### **Kate 语言包下载**
 
 如果在打开 Kate 的时候出现：
@@ -2564,12 +2687,12 @@ chmod u+x (file_name).AppImage
 
 然后双击或在终端输入文件名运行即可
 
-### **用 debtap 安装 `.deb` 包**
+### **用 debtap 安装 DEB 包**
 
 首先要下载并更新 [debtap](https://github.com/helixarch/debtap) 包：
 
 ```bash
-yay -S debtap
+paru -S debtap
 sudo debtap -u
 ```
 
@@ -2600,7 +2723,7 @@ debtap -P (package_name).deb
 v2rayA 客户端可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）：
 
 ```bash
-yay -S v2raya-bin
+paru -S v2raya-bin
 ```
 
 默认使用核心为 v2ray，可以在官方软件源下载：
@@ -2644,7 +2767,7 @@ enabled=false
 如果需要更改为 xray 核心，可以在 AUR 下载（AUR 软件库提供 `xray`、`xray-bin`）：
 
 ```bash
-yay -S xray-bin
+paru -S xray-bin
 ```
 
 创建文件夹 `/etc/systemd/system/v2raya.service.d`，并添加一个 `xray.conf` 文件：
@@ -2994,7 +3117,7 @@ sudo pacman -S thunderbird-i18n-zh-cn
 推荐选择二进制包 `github-desktop-bin`：
 
 ```bash
-yay -S github-desktop-bin gnome-keyring
+paru -S github-desktop-bin gnome-keyring
 ```
 
 登录时要创建一个密钥环，密钥设为 GitHub 密码即可
@@ -3198,7 +3321,7 @@ conda install numpy matplotlib astropy black isort ipython jupyterlab
 下载 JupyterLab 插件：
 
 ```
-pip install lckr_jupyterlab_variableinspector jupyterlab-lsp python-lsp-server jupyterlab_execute_time jupyterlab-code-formatter jupyterlab-spellchecker ipympl jupyterlab_h5web
+pip install lckr_jupyterlab_variableinspector jupyterlab-lsp python-lsp-server[all] jupyterlab_execute_time jupyterlab-code-formatter jupyterlab-spellchecker ipympl jupyterlab_h5web
 ```
 
 #### **Conda 常用命令**
@@ -3389,25 +3512,25 @@ sudo pacman -S code
 微软官方的二进制包（包含部分私有的组件），同样可以用 `code` 命令打开（如果不介意私有组件而且不习惯 Code - OSS 的图标，个人推荐首选此项）：
 
 ```bash
-yay -S visual-studio-code-bin
+paru -S visual-studio-code-bin
 ```
 
 内测版本：
 
 ```bash
-yay -S visual-studio-code-insiders-bin
+paru -S visual-studio-code-insiders-bin
 ```
 
 [VSCodium](https://vscodium.com/) 发布的从开源代码构建的二进制包：
 
 ```bash
-yay -S vscodium-bin
+paru -S vscodium-bin
 ```
 
 [VSCodium](https://vscodium.com/) 从最新的开源代码构建：
 
 ```bash
-yay -S vscodium-git
+paru -S vscodium-git
 ```
 
 下载扩展：Python（需要单独下载代码风格检查工具 Pylint 和格式化工具 autopep8 或 Black Formatter）、Jupyter、LaTeX Workshop、Markdown all in One 等
@@ -3525,7 +3648,7 @@ Visual Studio Code 自带 Markdown 预览功能，但是不支持快捷键（如
 JetBrains Fleet 已经在 AUR 上打包：
 
 ```bash
-yay -S jetbrains-fleet
+paru -S jetbrains-fleet
 ```
 
 ### **Typora 安装和设置**
@@ -3535,7 +3658,7 @@ yay -S jetbrains-fleet
 Typora 可以从 AUR 安装：
 
 ```bash
-yay -S typora
+paru -S typora
 ```
 
 #### **源代码模式设置**
@@ -3561,7 +3684,7 @@ yay -S typora
 AUR 中有 `ds9`、`ds9-bin` 和 `ds9-git` 三个版本，以二进制包 `ds9-bin` 为例：
 
 ```bash
-yay -S ds9-bin
+paru -S ds9-bin
 ```
 
 如果出现这样的错误导致 SAOImageDS9 无法打开或闪退：
@@ -3593,7 +3716,7 @@ Edit >> Preferences >> Pan Zoom >> 选择“Drag to Center”
 可以从 AUR 安装 IRAF：
 
 ```bash
-yay -S iraf-bin
+paru -S iraf-bin
 ```
 
 #### **从源代码安装 IRAF**
@@ -3635,7 +3758,7 @@ sudo make install prefix=(directory)
 部分功能可能需要 xgterm：
 
 ```bash
-yay -S xgterm-bin
+paru -S xgterm-bin
 ```
 
 #### **安装 PyRAF**
@@ -3697,7 +3820,7 @@ epar (task_name)
 天文数据表格操作工具 [Topcat](https://www.star.bris.ac.uk/~mbt/topcat/) 可以从 AUR 安装：
 
 ```bash
-yay -S topcat
+paru -S topcat
 ```
 
 如果 Topcat 在高分辨率屏幕上显示过小，则编辑 `~/.starjava.properties` 并加入：
@@ -3746,6 +3869,28 @@ make -j8
 
 如果出现图形交互界面，说明安装成功
 
+### **Docker 安装**
+
+可以在官方仓库安装 Docker：
+
+```bash
+sudo pacman -S docker
+```
+
+之后执行：
+
+```bash
+sudo systemctl enable docker
+```
+
+再执行：
+
+```bash
+sudo docker info
+```
+
+以检查 Docker 运行状态，如果正常显示 Docker 信息说明安装成功
+
 ### **相机安装（可选）**
 
 KDE 官方的相机应用是 Kamoso：
@@ -3761,7 +3906,7 @@ sudo pacman -S kamoso
 可以下载基于 Electron 的官方 QQ Linux 版：
 
 ```bash
-yay -S linuxqq
+paru -S linuxqq
 ```
 
 ### **微信安装（可选）**
@@ -3769,7 +3914,7 @@ yay -S linuxqq
 推荐安装以下版本：
 
 ```bash
-yay -S wechat-universal-bwrap
+paru -S wechat-universal-bwrap
 ```
 
 ### **会议软件安装（可选）**
@@ -3779,13 +3924,13 @@ yay -S wechat-universal-bwrap
 推荐安装官方原生的腾讯会议 Linux 版：
 
 ```bash
-yay -S wemeet-bin
+paru -S wemeet-bin
 ```
 
 #### **钉钉**
 
 ```bash
-yay -S dingtalk-bin
+paru -S dingtalk-bin
 ```
 
 高分辨率屏幕下可以点击头像 >> 设置 >> 全局缩放，选择 150%
@@ -3793,7 +3938,7 @@ yay -S dingtalk-bin
 #### **Zoom**
 
 ```bash
-yay -S zoom
+paru -S zoom
 ```
 
 高分辨率屏幕下调整全局缩放需要编辑 `~/.config/zoomus.conf`，加入一行 `scaleFactor=2`
@@ -3801,13 +3946,13 @@ yay -S zoom
 #### **Microsoft Teams**
 
 ```bash
-yay -S teams
+paru -S teams
 ```
 
 #### **Slack**
 
 ```bash
-yay -S slack-desktop
+paru -S slack-desktop
 ```
 
 ### **音乐软件安装（可选）**
@@ -3815,13 +3960,13 @@ yay -S slack-desktop
 #### **网易云音乐**
 
 ```bash
-yay -S netease-cloud-music
+paru -S netease-cloud-music
 ```
 
 #### **QQ 音乐**
 
 ```bash
-yay -S qqmusic-bin
+paru -S qqmusic-bin
 ```
 
 默认是暗色主题，右上角皮肤键（衣服图案）可以更改为亮色主题
@@ -3831,19 +3976,19 @@ yay -S qqmusic-bin
 WPS 安装：
 
 ```bash
-yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+paru -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 ```
 
 LibreOffice 安装：
 
 ```bash
-yay -S libreoffice-fresh
+paru -S libreoffice-fresh
 ```
 
 ### **百度网盘安装（可选）**
 
 ```bash
-yay -S baidunetdisk-bin
+paru -S baidunetdisk-bin
 ```
 
 ### **BitTorrent 客户端安装（可选）**
@@ -3851,13 +3996,21 @@ yay -S baidunetdisk-bin
 推荐使用 KDE 官方客户端 KTorrent：
 
 ```bash
-yay -S ktorrent
+paru -S ktorrent
 ```
 
 或者同样功能强大且跨平台的 qBittorrent：
 
 ```bash
-yay -S qbittorrent
+paru -S qbittorrent
+```
+
+### **Filelight 安装（可选）**
+
+Filelight 是一款以图形化方式显示电脑磁盘使用情况的应用程序，可以从官方仓库安装：
+
+```bash
+paru -S filelight
 ```
 
 ### **使用 CachyOS 内核（可选）**

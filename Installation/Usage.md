@@ -4,10 +4,10 @@
 
 #### **简要信息**
 
-可以使用能显示系统图标的 `neofetch`，在终端中输入：（需要下载 `neofetch` 软件包）
+可以使用能显示系统图标的 `fastfetch`，在终端中输入：（需要下载 `fastfetch` 软件包）
 
 ```bash
-neofetch
+fastfetch
 ```
 
 或者使用功能更强大的 `inxi`：（需要在 AUR 中下载 `inxi` 软件包）
@@ -39,6 +39,16 @@ uname -a
 ```bash
 lsb_release -a
 ```
+
+### **当前目录**
+
+在终端中输入：
+
+```bash
+pwd
+```
+
+可以获得当前目录的绝对路径
 
 ### **命令的说明文档**
 
@@ -466,11 +476,11 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 默认的壁纸保存位置为 `/usr/share/wallpapers/`
 
-还可以使用包管理器（pacman/yay/pamac）下载壁纸
+还可以使用包管理器下载壁纸
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
-#### **SDDM 时间显示调整为 24 小时制**
+### **SDDM 时间显示调整为 24 小时制**
 
 更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 或 `/usr/share/sddm/themes/(theme_name)/Clock.qml` 中的 `Qt.formatTime` 一行：
 
@@ -485,6 +495,26 @@ text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
 ```
 
 保存重启即可
+
+### **关闭 Plymouth 的消息并显示启动屏幕动画**
+
+编辑 `/etc/default/grub`，找到一行：
+
+```text
+GRUB_CMDLINE_LINUX_DEFAULT
+```
+
+加入参数 `splash`
+
+最后执行：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+再重启即可
+
+默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
 
 ### **主题 Mac 风格美化（可选）**
 
@@ -558,13 +588,13 @@ PS1="[\e[0;36m\u\e[0m @ \e[0;32m\h\e[0m \W] (\e[0;35m\t\e[0m)\n\e[1;31m\$\e[0m "
 [ble.sh](https://github.com/akinomyoga/ble.sh) 是一个使用纯 bash 编写的软件，可以提供代码高亮、自动补全等功能，可以在 AUR 中下载稳定版本：
 
 ```bash
-yay -S blesh
+paru -S blesh
 ```
 
 或者开发者版本：
 
 ```bash
-yay -S blesh-git
+paru -S blesh-git
 ```
 
 下载后，需要在 `.bashrc` 文件开头添加：
@@ -812,6 +842,14 @@ git commit -m (commit_message)
 git push
 ```
 
+### **Dolphin 显示文件预览图**
+
+首先在 Dolphin 的“设置 >> 配置 Dolphin >> 界面 >> 预览图”中勾选显示预览图的项目类型
+
+之后勾选菜单栏上的“视图 >> 显示预览图”即可显示预览图
+
+预览 PDF 文件、RAW 文件需要下载 `kdegraphics-thumbnailers`，预览视频文件需要下载 `ffmpegthumbs`
+
 ### **Kate 语言包下载**
 
 如果在打开 Kate 的时候出现：
@@ -858,12 +896,12 @@ chmod u+x (file_name).AppImage
 
 然后双击或在终端输入文件名运行即可
 
-### **用 debtap 安装 `.deb` 包**
+### **用 debtap 安装 DEB 包**
 
 首先要下载并更新 [debtap](https://github.com/helixarch/debtap) 包：
 
 ```bash
-yay -S debtap
+paru -S debtap
 sudo debtap -u
 ```
 
@@ -894,7 +932,7 @@ debtap -P (package_name).deb
 v2rayA 客户端可以直接使用包管理器安装（AUR 软件库提供 `v2raya`、`v2raya-bin` 和 `v2raya-git`）：
 
 ```bash
-yay -S v2raya-bin
+paru -S v2raya-bin
 ```
 
 默认使用核心为 v2ray，可以在官方软件源下载：
@@ -938,7 +976,7 @@ enabled=false
 如果需要更改为 xray 核心，可以在 AUR 下载（AUR 软件库提供 `xray`、`xray-bin`）：
 
 ```bash
-yay -S xray-bin
+paru -S xray-bin
 ```
 
 创建文件夹 `/etc/systemd/system/v2raya.service.d`，并添加一个 `xray.conf` 文件：
@@ -1288,7 +1326,7 @@ sudo pacman -S thunderbird-i18n-zh-cn
 推荐选择二进制包 `github-desktop-bin`：
 
 ```bash
-yay -S github-desktop-bin gnome-keyring
+paru -S github-desktop-bin gnome-keyring
 ```
 
 登录时要创建一个密钥环，密钥设为 GitHub 密码即可
@@ -1492,7 +1530,7 @@ conda install numpy matplotlib astropy black isort ipython jupyterlab
 下载 JupyterLab 插件：
 
 ```
-pip install lckr_jupyterlab_variableinspector jupyterlab-lsp python-lsp-server jupyterlab_execute_time jupyterlab-code-formatter jupyterlab-spellchecker ipympl jupyterlab_h5web
+pip install lckr_jupyterlab_variableinspector jupyterlab-lsp python-lsp-server[all] jupyterlab_execute_time jupyterlab-code-formatter jupyterlab-spellchecker ipympl jupyterlab_h5web
 ```
 
 #### **Conda 常用命令**
@@ -1683,25 +1721,25 @@ sudo pacman -S code
 微软官方的二进制包（包含部分私有的组件），同样可以用 `code` 命令打开（如果不介意私有组件而且不习惯 Code - OSS 的图标，个人推荐首选此项）：
 
 ```bash
-yay -S visual-studio-code-bin
+paru -S visual-studio-code-bin
 ```
 
 内测版本：
 
 ```bash
-yay -S visual-studio-code-insiders-bin
+paru -S visual-studio-code-insiders-bin
 ```
 
 [VSCodium](https://vscodium.com/) 发布的从开源代码构建的二进制包：
 
 ```bash
-yay -S vscodium-bin
+paru -S vscodium-bin
 ```
 
 [VSCodium](https://vscodium.com/) 从最新的开源代码构建：
 
 ```bash
-yay -S vscodium-git
+paru -S vscodium-git
 ```
 
 下载扩展：Python（需要单独下载代码风格检查工具 Pylint 和格式化工具 autopep8 或 Black Formatter）、Jupyter、LaTeX Workshop、Markdown all in One 等
@@ -1819,7 +1857,7 @@ Visual Studio Code 自带 Markdown 预览功能，但是不支持快捷键（如
 JetBrains Fleet 已经在 AUR 上打包：
 
 ```bash
-yay -S jetbrains-fleet
+paru -S jetbrains-fleet
 ```
 
 ### **Typora 安装和设置**
@@ -1829,7 +1867,7 @@ yay -S jetbrains-fleet
 Typora 可以从 AUR 安装：
 
 ```bash
-yay -S typora
+paru -S typora
 ```
 
 #### **源代码模式设置**
@@ -1855,7 +1893,7 @@ yay -S typora
 AUR 中有 `ds9`、`ds9-bin` 和 `ds9-git` 三个版本，以二进制包 `ds9-bin` 为例：
 
 ```bash
-yay -S ds9-bin
+paru -S ds9-bin
 ```
 
 如果出现这样的错误导致 SAOImageDS9 无法打开或闪退：
@@ -1887,7 +1925,7 @@ Edit >> Preferences >> Pan Zoom >> 选择“Drag to Center”
 可以从 AUR 安装 IRAF：
 
 ```bash
-yay -S iraf-bin
+paru -S iraf-bin
 ```
 
 #### **从源代码安装 IRAF**
@@ -1929,7 +1967,7 @@ sudo make install prefix=(directory)
 部分功能可能需要 xgterm：
 
 ```bash
-yay -S xgterm-bin
+paru -S xgterm-bin
 ```
 
 #### **安装 PyRAF**
@@ -1991,7 +2029,7 @@ epar (task_name)
 天文数据表格操作工具 [Topcat](https://www.star.bris.ac.uk/~mbt/topcat/) 可以从 AUR 安装：
 
 ```bash
-yay -S topcat
+paru -S topcat
 ```
 
 如果 Topcat 在高分辨率屏幕上显示过小，则编辑 `~/.starjava.properties` 并加入：
@@ -2040,6 +2078,28 @@ make -j8
 
 如果出现图形交互界面，说明安装成功
 
+### **Docker 安装**
+
+可以在官方仓库安装 Docker：
+
+```bash
+sudo pacman -S docker
+```
+
+之后执行：
+
+```bash
+sudo systemctl enable docker
+```
+
+再执行：
+
+```bash
+sudo docker info
+```
+
+以检查 Docker 运行状态，如果正常显示 Docker 信息说明安装成功
+
 ### **相机安装（可选）**
 
 KDE 官方的相机应用是 Kamoso：
@@ -2055,7 +2115,7 @@ sudo pacman -S kamoso
 可以下载基于 Electron 的官方 QQ Linux 版：
 
 ```bash
-yay -S linuxqq
+paru -S linuxqq
 ```
 
 ### **微信安装（可选）**
@@ -2063,7 +2123,7 @@ yay -S linuxqq
 推荐安装以下版本：
 
 ```bash
-yay -S wechat-universal-bwrap
+paru -S wechat-universal-bwrap
 ```
 
 ### **会议软件安装（可选）**
@@ -2073,13 +2133,13 @@ yay -S wechat-universal-bwrap
 推荐安装官方原生的腾讯会议 Linux 版：
 
 ```bash
-yay -S wemeet-bin
+paru -S wemeet-bin
 ```
 
 #### **钉钉**
 
 ```bash
-yay -S dingtalk-bin
+paru -S dingtalk-bin
 ```
 
 高分辨率屏幕下可以点击头像 >> 设置 >> 全局缩放，选择 150%
@@ -2087,7 +2147,7 @@ yay -S dingtalk-bin
 #### **Zoom**
 
 ```bash
-yay -S zoom
+paru -S zoom
 ```
 
 高分辨率屏幕下调整全局缩放需要编辑 `~/.config/zoomus.conf`，加入一行 `scaleFactor=2`
@@ -2095,13 +2155,13 @@ yay -S zoom
 #### **Microsoft Teams**
 
 ```bash
-yay -S teams
+paru -S teams
 ```
 
 #### **Slack**
 
 ```bash
-yay -S slack-desktop
+paru -S slack-desktop
 ```
 
 ### **音乐软件安装（可选）**
@@ -2109,13 +2169,13 @@ yay -S slack-desktop
 #### **网易云音乐**
 
 ```bash
-yay -S netease-cloud-music
+paru -S netease-cloud-music
 ```
 
 #### **QQ 音乐**
 
 ```bash
-yay -S qqmusic-bin
+paru -S qqmusic-bin
 ```
 
 默认是暗色主题，右上角皮肤键（衣服图案）可以更改为亮色主题
@@ -2125,19 +2185,19 @@ yay -S qqmusic-bin
 WPS 安装：
 
 ```bash
-yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
+paru -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
 ```
 
 LibreOffice 安装：
 
 ```bash
-yay -S libreoffice-fresh
+paru -S libreoffice-fresh
 ```
 
 ### **百度网盘安装（可选）**
 
 ```bash
-yay -S baidunetdisk-bin
+paru -S baidunetdisk-bin
 ```
 
 ### **BitTorrent 客户端安装（可选）**
@@ -2145,13 +2205,21 @@ yay -S baidunetdisk-bin
 推荐使用 KDE 官方客户端 KTorrent：
 
 ```bash
-yay -S ktorrent
+paru -S ktorrent
 ```
 
 或者同样功能强大且跨平台的 qBittorrent：
 
 ```bash
-yay -S qbittorrent
+paru -S qbittorrent
+```
+
+### **Filelight 安装（可选）**
+
+Filelight 是一款以图形化方式显示电脑磁盘使用情况的应用程序，可以从官方仓库安装：
+
+```bash
+paru -S filelight
 ```
 
 ### **使用 CachyOS 内核（可选）**
