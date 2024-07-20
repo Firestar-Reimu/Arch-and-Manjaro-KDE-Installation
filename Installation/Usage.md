@@ -480,7 +480,25 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
-### **SDDM 时间显示调整为 24 小时制**
+### **SDDM 设置**
+
+#### **SDDM 修改为中文**
+
+创建一个新文件：`/etc/sddm.locale`，写入：
+
+```text
+LANG="zh_CN.UTF-8"
+```
+
+再编辑 `/lib/systemd/system/sddm.service`，在 `[Service]` 一节内加入：
+
+```text
+EnvironmentFile=-/etc/sddm.locale
+```
+
+前面的 `-` 号表示即使 `/etc/sddm.locale` 不存在，也不会报错
+
+#### **SDDM 时间显示调整为 24 小时制**
 
 更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 或 `/usr/share/sddm/themes/(theme_name)/Clock.qml` 中的 `Qt.formatTime` 一行：
 

@@ -614,121 +614,6 @@ EnableHiDPI=true
 
 设置 >> 配置键盘快捷键 >> 复制改为 `Ctrl+C` ，粘贴改为 `Ctrl+V`，查找改为 `Ctrl+F`
 
-### **SDDM 修改为中文**
-
-创建一个新文件：`/etc/sddm.locale`，写入：
-
-```text
-LANG="zh_CN.UTF-8"
-```
-
-再编辑 `/lib/systemd/system/sddm.service`，在 `[Service]` 一节内加入：
-
-```text
-EnvironmentFile=-/etc/sddm.locale
-```
-
-前面的 `-` 号表示即使 `/etc/sddm.locale` 不存在，也不会报错
-
-### **双系统启动设置**
-
-下载 `os-prober`：
-
-```bash
-sudo pacman -S os-prober
-```
-
-想要让 `grub-mkconfig` 探测其他已经安装的系统并自动把他们添加到启动菜单中，编辑 `/etc/default/grub` 并取消下面这一行的注释：
-
-```text
-GRUB_DISABLE_OS_PROBER=false
-```
-
-想要让 GRUB 记住上一次启动的启动项，首先将 `GRUB_DEFAULT` 的值改为 `saved`，再取消下面这一行的注释：
-
-```text
-GRUB_SAVEDEFAULT=true
-```
-
-使用 `grub-mkconfig` 工具重新生成 `/boot/grub/grub.cfg`：
-
-```bash
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-此时会显示找到 Windows Boot Manager，说明设置双系统成功
-
-### **Linux 挂载 Windows 磁盘**
-
-#### **使用 fstab 文件**
-
-**首先要确保设备加密和快速启动已经关闭，以下内容针对 Linux 5.15 及之后的内核中引入的 NTFS3 驱动**
-
-官方推荐的方法是使用 UUID，以分别挂载 C 盘和 D 盘到 `/home/(user_name)/C` 和 `/home/(user_name)/D` 为例，在终端中输入：
-
-```bash
-lsblk -f
-```
-
-在输出结果中可以发现 Windows 的硬盘分区，其中第一列（`NAME`）是卷标，第四列（`UUID`）是 UUID：
-
-```text
-NAME       FSTYPE       LABEL   UUID
-├─(name_C) ntfs         C       (UUID_C)
-├─(name_D) ntfs         D       (UUID_D)
-```
-
-接着就来修改系统文件：
-
-```bash
-sudo vim /etc/fstab
-```
-
-在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
-
-```text
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
-```
-
-重启电脑后，即可自动挂载
-
-**如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去对应的行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
-
-如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
-
-```text
-/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
-```
-
-参考以下网址：
-
-[fstab -- Archwiki](https://wiki.archlinux.org/title/fstab)
-
-[mount(8) -- Arch manual pages](https://man.archlinux.org/man/mount.8)
-
-[NTFS3 — The Linux Kernel documentation](https://docs.kernel.org/filesystems/ntfs3.html)
-
-#### **命令行挂载 NTFS 移动硬盘**
-
-首先使用 `lsblk` 查看硬盘分区 `/dev/(partition_name)`，如 `/dev/sda1`
-
-之后设置挂载点，默认是在 `/run/media/(user_name)/` 下创建一个和硬盘分区名称一致的文件夹：
-
-```bash
-cd /run/media/(user_name)/
-sudo mkdir ./(partition_name)
-```
-
-也可以选择 `/mnt` 作为临时挂载点
-
-再将移动硬盘挂载到新创建的文件夹，如：
-
-```bash
-sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
-```
-
 ### **pacman 包管理器的使用技巧**
 
 这里介绍了 `pacman` 包管理器的常用操作
@@ -986,6 +871,107 @@ sudo pacman -Syu
 ```
 
 这样就开启了 pacman 对 Arch4edu 的支持
+
+### **双系统启动设置**
+
+下载 `os-prober`：
+
+```bash
+sudo pacman -S os-prober
+```
+
+想要让 `grub-mkconfig` 探测其他已经安装的系统并自动把他们添加到启动菜单中，编辑 `/etc/default/grub` 并取消下面这一行的注释：
+
+```text
+GRUB_DISABLE_OS_PROBER=false
+```
+
+想要让 GRUB 记住上一次启动的启动项，首先将 `GRUB_DEFAULT` 的值改为 `saved`，再取消下面这一行的注释：
+
+```text
+GRUB_SAVEDEFAULT=true
+```
+
+使用 `grub-mkconfig` 工具重新生成 `/boot/grub/grub.cfg`：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+此时会显示找到 Windows Boot Manager，说明设置双系统成功
+
+如果下载了 AUR 软件包 `update-grub`，则可以直接执行 `sudo update-grub` 更新 GRUB 设置
+
+### **Linux 挂载 Windows 磁盘**
+
+#### **使用 fstab 文件**
+
+**首先要确保设备加密和快速启动已经关闭，以下内容针对 Linux 5.15 及之后的内核中引入的 NTFS3 驱动**
+
+官方推荐的方法是使用 UUID，以分别挂载 C 盘和 D 盘到 `/home/(user_name)/C` 和 `/home/(user_name)/D` 为例，在终端中输入：
+
+```bash
+lsblk -f
+```
+
+在输出结果中可以发现 Windows 的硬盘分区，其中第一列（`NAME`）是卷标，第四列（`UUID`）是 UUID：
+
+```text
+NAME       FSTYPE       LABEL   UUID
+├─(name_C) ntfs         C       (UUID_C)
+├─(name_D) ntfs         D       (UUID_D)
+```
+
+接着就来修改系统文件：
+
+```bash
+sudo vim /etc/fstab
+```
+
+在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
+
+```text
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+```
+
+重启电脑后，即可自动挂载
+
+**如果需要格式化 C 盘或 D 盘，先从 `/etc/fstab` 中删去对应的行，再操作，之后磁盘的 `UUID` 会被更改，再编辑 `/etc/fstab` ，重启挂载即可**
+
+如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
+
+```text
+/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+```
+
+参考以下网址：
+
+[fstab -- Archwiki](https://wiki.archlinux.org/title/fstab)
+
+[mount(8) -- Arch manual pages](https://man.archlinux.org/man/mount.8)
+
+[NTFS3 — The Linux Kernel documentation](https://docs.kernel.org/filesystems/ntfs3.html)
+
+#### **命令行挂载 NTFS 移动硬盘**
+
+首先使用 `lsblk` 查看硬盘分区 `/dev/(partition_name)`，如 `/dev/sda1`
+
+之后设置挂载点，默认是在 `/run/media/(user_name)/` 下创建一个和硬盘分区名称一致的文件夹：
+
+```bash
+cd /run/media/(user_name)/
+sudo mkdir ./(partition_name)
+```
+
+也可以选择 `/mnt` 作为临时挂载点
+
+再将移动硬盘挂载到新创建的文件夹，如：
+
+```bash
+sudo mount -t ntfs3 -o force /dev/(partition_name) /run/media/(user_name)/(partition_name)
+```
 
 ### **网络设置**
 
@@ -2271,7 +2257,25 @@ KDE Plasma 每个版本的壁纸可以在这里找到：
 
 右键点击桌面得到桌面菜单，点击“配置桌面和壁纸”即可选择想要的壁纸，位置建议选择“缩放并裁剪”
 
-### **SDDM 时间显示调整为 24 小时制**
+### **SDDM 设置**
+
+#### **SDDM 修改为中文**
+
+创建一个新文件：`/etc/sddm.locale`，写入：
+
+```text
+LANG="zh_CN.UTF-8"
+```
+
+再编辑 `/lib/systemd/system/sddm.service`，在 `[Service]` 一节内加入：
+
+```text
+EnvironmentFile=-/etc/sddm.locale
+```
+
+前面的 `-` 号表示即使 `/etc/sddm.locale` 不存在，也不会报错
+
+#### **SDDM 时间显示调整为 24 小时制**
 
 更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 或 `/usr/share/sddm/themes/(theme_name)/Clock.qml` 中的 `Qt.formatTime` 一行：
 
