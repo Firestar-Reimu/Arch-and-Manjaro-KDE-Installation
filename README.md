@@ -2655,13 +2655,15 @@ kf.sonnet.core: No language dictionaries for the language: "en_US"
 sudo pacman -S aspell aspell-en
 ```
 
-### **Gwenview 查看 EPS 图片**
+### **Gwenview 扩展**
 
-下载 `kimageformats` 软件包：
+下载 `qt6-imageformats` 和 `kimageformats` 软件包：
 
 ```
-sudo pacman -S kimageformats
+sudo pacman -S qt6-imageformats kimageformats
 ```
+
+`qt6-imageformats` 提供了 Gwenview 对 WebP、TIFF 等图片格式的支持
 
 `kimageformats` 提供了 Gwenview 对 EPS、PSD 等图片格式的支持，但 Gwenview 依然是以栅格化形式打开 EPS 矢量图，质量较差，建议用 Okular 查看 EPS 图片
 
