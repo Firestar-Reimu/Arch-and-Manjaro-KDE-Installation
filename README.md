@@ -2291,7 +2291,7 @@ text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
 
 保存重启即可
 
-### **关闭 Plymouth 的消息并显示启动屏幕动画**
+### **Plymouth 启动屏幕动画**
 
 编辑 `/etc/default/grub`，找到一行：
 
@@ -2310,6 +2310,12 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 再重启即可
 
 默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
+
+Plymouth 动画的缩放设置需要更改 `/etc/plymouth//plymouthd.conf`
+
+在 `[Daemon]` 一节中加入一行 `DeviceScale=2`
+
+执行 `sudo mkinitcpio -P` 再重启即可
 
 ### **主题 Mac 风格美化（可选）**
 

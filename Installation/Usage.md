@@ -192,12 +192,20 @@ iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
 
 ### **转换图片格式**
 
-这需要 `imagemagick` 软件包，它提供了 `convert` 等命令
+这需要 `imagemagick` 软件包，它提供了 `magick` 命令
 
 例如批量将图片从 PNG 格式转换为 JPG 格式：
 
 ```bash
-ls -1 *.png | xargs -n 1 bash -c 'convert "$0" "${0%.png}.jpg"'
+ls -1 *.png | xargs -n 1 bash -c 'magick "$0" "${0%.png}.jpg"'
+```
+
+### **批量裁剪图片**
+
+同样需要使用 `imagemagick` 软件包，以下命令将原始图片裁剪为宽度为 W 像素、长度为 L 像素的图片：
+
+```bash
+magick mogrify -crop Wxl+20+20 (image_name)
 ```
 
 ### **PDF 与图片之间的转换**
@@ -218,10 +226,10 @@ pdftoppm -png -r (resolution) (pdf_name) (image_name)
 pdftoppm -jpeg -r (resolution) (pdf_name) (image_name)
 ```
 
-第二种方法是用 `imagemagick` 软件包提供的 `convert` 命令：（图片质量不如第一种方法）
+第二种方法是用 `imagemagick` 软件包提供的 `magick` 命令：（图片质量不如第一种方法）
 
 ```bash
-convert -density (resolution) -quality 100 (pdf_name) (image_name)
+magick -density (resolution) -quality 100 (pdf_name) (image_name)
 ```
 
 分辨率 `(resolution)` 至少为 300（单位为 DPI），压缩质量推荐选择 100，`(image_name)` 加入扩展名即可自动按照扩展名输出相应格式的图片
@@ -514,7 +522,7 @@ text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
 
 保存重启即可
 
-### **关闭 Plymouth 的消息并显示启动屏幕动画**
+### **Plymouth 启动屏幕动画**
 
 编辑 `/etc/default/grub`，找到一行：
 
@@ -533,6 +541,12 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 再重启即可
 
 默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
+
+Plymouth 动画的缩放设置需要更改 `/etc/plymouth//plymouthd.conf`
+
+在 `[Daemon]` 一节中加入一行 `DeviceScale=2`
+
+执行 `sudo mkinitcpio -P` 再重启即可
 
 ### **主题 Mac 风格美化（可选）**
 
