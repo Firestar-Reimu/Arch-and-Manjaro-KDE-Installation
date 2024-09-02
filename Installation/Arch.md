@@ -1568,6 +1568,53 @@ Hidden=false
 
 在命令行界面解决问题后，按快捷键 `Ctrl+Alt+Fn+F1` 可以转换回 TTY1 图形化界面
 
+### **电源管理方案**
+
+#### **使用图形界面**
+
+这需要使用 `powerdevil` 软件包：
+
+```bash
+sudo pacman -S powerdevil
+```
+
+之后即可在“系统设置 >> 系统 >> 电源管理”中设置电源方案
+
+#### **使用命令行工具**
+
+这需要 `tlp` 软件包：
+
+```bash
+sudo pacman -S tlp
+sudo systemctl enable tlp
+```
+
+tlp 的设置文件在 `/etc/tlp.conf`
+
+若需要更改 CPU 性能设置，修改以下位置：
+
+```text
+CPU_MIN_PERF_ON_AC=0
+CPU_MAX_PERF_ON_AC=100
+CPU_MIN_PERF_ON_BAT=0
+CPU_MAX_PERF_ON_BAT=30
+```
+
+若需要更改 CPU 睿频设置，修改以下位置：
+
+```text
+CPU_BOOST_ON_AC=1
+CPU_BOOST_ON_BAT=0
+```
+
+保存、关闭，在终端中输入：
+
+```bash
+sudo tlp start
+```
+
+**不需要高性能的时候可以关闭睿频，这样可以大幅增加续航、减少发热**
+
 ### **切换软件包仓库**
 
 参考以下网址：
@@ -1687,46 +1734,29 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 若没有想要的应用程序，可以点击“新增”
 
-### **调整 CPU 频率（可选）**
+### **添加打印机（可选）**
 
-这需要 `tlp` 软件包：
-
-```bash
-sudo pacman -S tlp
-sudo systemctl enable tlp
-```
-
-tlp 的设置文件在 `/etc/tlp.conf`
-
-若需要更改 CPU 性能设置，修改以下位置：
-
-```text
-CPU_MIN_PERF_ON_AC=0
-CPU_MAX_PERF_ON_AC=100
-CPU_MIN_PERF_ON_BAT=0
-CPU_MAX_PERF_ON_BAT=30
-```
-
-若需要更改 CPU 睿频设置，修改以下位置：
-
-```text
-CPU_BOOST_ON_AC=1
-CPU_BOOST_ON_BAT=0
-```
-
-保存、关闭，在终端中输入：
+需要下载 `system-config-printer` 和 `cups`：
 
 ```bash
-sudo tlp start
+sudo pacman -S system-config-printer cups
 ```
 
-**不需要高性能的时候可以关闭睿频，这样可以大幅增加续航、减少发热**
+并启用 `cups` 服务：
 
-### **显示 Intel CPU 频率（可选）**
+```bash
+sudo systemctl enable --now cups
+```
 
-安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/frankenfruity/plasma-pstate)
+此时在“系统设置 >> 已连接的设备 >> 打印机”中添加打印机
 
-右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
+如果无法自动发现，需要选择“手动配置”，输入打印机的 IPP 地址如：（注意不要遗漏中间的 `://`）
+
+```text
+ipp://xxx.xxx.xxx.xxx
+```
+
+再选择打印机的制造商和型号，即可添加打印机，添加后可以打印测试页或自检页确认是否添加成功
 
 ### **硬件视频加速（可选）**
 

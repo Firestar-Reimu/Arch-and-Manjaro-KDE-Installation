@@ -776,6 +776,12 @@ ILoveCandy
 
 在这里可以下载桌面小部件，并在“添加部件”处添加
 
+### **在桌面显示 Intel CPU 频率（可选）**
+
+安装 KDE 小部件：[Intel P-state and CPU-Freq Manager](https://github.com/frankenfruity/plasma-pstate)
+
+右键点击顶栏，选择“添加部件”，找到 Intel P-state and CPU-Freq Manager 并添加在顶栏即可
+
 ## **软件的下载与配置**
 
 ### **PGP 密钥无法导入**
