@@ -615,7 +615,7 @@ PS1="[\e[0;36m\u\e[0m @ \e[0;32m\h\e[0m \W] (\e[0;35m\t\e[0m)\n\e[1;31m\$\e[0m "
 
 [bashrc PS1 generator](https://bashrcgenerator.com/)
 
-### **bash 配置 ble.sh**
+### **bash 配置 blesh**
 
 [ble.sh](https://github.com/akinomyoga/ble.sh) 是一个使用纯 bash 编写的软件，可以提供代码高亮、自动补全等功能，可以在 AUR 中下载稳定版本：
 

@@ -2,10 +2,10 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 6.1.2
-KDE Frameworks Version: 6.4.0
+KDE Plasma Version: 6.1.4
+KDE Frameworks Version: 6.5.0
 Qt Version: 6.7.2
-Kernel Version: 6.9.10-arch1-1 (64-bit)
+Kernel Version: 6.10.7-arch1-1 (64-bit)
 Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM

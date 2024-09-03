@@ -2,10 +2,10 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 6.1.2
-KDE Frameworks Version: 6.4.0
+KDE Plasma Version: 6.1.4
+KDE Frameworks Version: 6.5.0
 Qt Version: 6.7.2
-Kernel Version: 6.9.10-arch1-1 (64-bit)
+Kernel Version: 6.10.7-arch1-1 (64-bit)
 Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -2422,7 +2422,7 @@ PS1="[\e[0;36m\u\e[0m @ \e[0;32m\h\e[0m \W] (\e[0;35m\t\e[0m)\n\e[1;31m\$\e[0m "
 
 [bashrc PS1 generator](https://bashrcgenerator.com/)
 
-### **bash 配置 ble.sh**
+### **bash 配置 blesh**
 
 [ble.sh](https://github.com/akinomyoga/ble.sh) 是一个使用纯 bash 编写的软件，可以提供代码高亮、自动补全等功能，可以在 AUR 中下载稳定版本：
 
