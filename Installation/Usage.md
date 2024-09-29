@@ -542,7 +542,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
 
-Plymouth 动画的缩放设置需要更改 `/etc/plymouth//plymouthd.conf`
+Plymouth 动画的缩放设置需要更改 `/etc/plymouth/plymouthd.conf`
 
 在 `[Daemon]` 一节中加入一行 `DeviceScale=2`
 
@@ -2148,7 +2148,7 @@ KDE 官方的相机应用是 Kamoso：
 sudo pacman -S kamoso
 ```
 
-需要区别于另一个 KDE 应用 Kamera，Kamera 提供了一个配置工具和一个 KIO 工作程序，用于在采用了此协议的数码相机上进行读写操作。
+需要区别于另一个 KDE 应用 Kamera，Kamera 提供了一个配置工具和一个 KIO 工作程序，用于在采用了此协议的数码相机上进行读写操作
 
 ### **QQ 安装（可选）**
 
