@@ -2,10 +2,10 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 6.1.4
-KDE Frameworks Version: 6.5.0
-Qt Version: 6.7.2
-Kernel Version: 6.10.7-arch1-1 (64-bit)
+KDE Plasma Version: 6.2.1
+KDE Frameworks Version: 6.7.0
+Qt Version: 6.8.0
+Kernel Version: 6.11.3-arch1-1 (64-bit)
 Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -61,7 +61,7 @@ sudo mkarchiso (profile_directory)/baseline
 
 ### **为 Linux 系统分区**
 
-右键点击开始菜单，选择“磁盘管理”，分出一块空分区，建议不小于 64GB
+右键点击开始菜单，选择“磁盘管理”，分出一块空分区，建议不小于 64GiB
 
 **Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区（建议多于 256MiB），之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
 
@@ -181,13 +181,33 @@ timedatectl set-ntp true
 
 ### **建立硬盘分区**
 
-**对 Linux 分区建议使用 BTRFS/XFS/EXT4 文件系统**
+**对 Linux 分区建议使用 EXT4/XFS/BTRFS 文件系统**
 
 可以使用 `lsblk -f` 或 `fdisk -l` 查看硬盘 `/dev/(disk_name)`，如 `/dev/sda`、`/dev/nvme0n1` 等，前者多用于 HDD，后者多用于 SSD
 
-修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例，注意要
+修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例：
 
-使用 `parted /dev/(disk_name)` 修改分区，可以使用交互模式
+使用 `parted /dev/(disk_name)` 修改分区，此时进入交互模式，命令行前面会提示 `(parted)`
+
+如果一个硬盘没有做过分区，或者是需要修改分区表的类型，则要为对应的设备创建/重建分区表，使用以下命令创建 GUID 分区表（GPT）：
+
+```bash
+(parted) mklabel gpt
+```
+
+对于 UEFI/GPT 分区方案，需要创建新的 EFI 系统分区（建议从 1MiB 开始对齐）：
+
+```bash
+(parted) mkpart "EFI system partition" fat32 1MiB 256MiB
+(parted) set 1 esp on
+```
+
+再创建一个 Linux 根分区：
+
+```bash
+(parted) mkpart "root partition" ext4 256MiB 100%
+(parted) type 2 4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
+```
 
 `parted` 常用命令：
 
@@ -195,7 +215,7 @@ timedatectl set-ntp true
 - `print`：显示分区状态
 - `unit`：更改单位，推荐使用 `s`（扇区）
 - `set`：设置 `flag`，例如在分区 1 上创建 EFI 分区需要设置 `flag` 为 `esp`：`set 1 esp on`
-- `mkpart`：创建分区，分区类型选择 `primary`，文件系统类型选择 `fat32`（对 EFI 分区），`btrfs/xfs/ext4`（对 Linux 分区），`ntfs`（对 Windows 分区）
+- `mkpart`：创建分区，分区标签可以自定义，文件系统类型选择 `fat32`（对 EFI 分区），`ext4/xfs/btrfs`（对 Linux 分区），`ntfs`（对 Windows 分区）
 - `resizepart`：改变分区大小
 - `rm`：删除分区
 - `name`：更改分区名字，比如将分区 2 改名为 `Arch`，需要设置：`name 2 'Arch'`
@@ -207,13 +227,13 @@ timedatectl set-ntp true
 
 ### **创建文件系统**
 
-例如，要在根分区 `/dev/(root_partition)` 上创建一个 BTRFS 文件系统，请运行：
+例如，要在根分区 `/dev/(root_partition)` 上创建一个 EXT4 文件系统，请运行：
 
 ```bash
-mkfs.btrfs /dev/(root_partition)
+mkfs.ext4 /dev/(root_partition)
 ```
 
-XFS 和 EXT4 对应的命令就是 `mkfs.xfs` 和 `mkfs.ext4`
+XFS 和 BTRFS 对应的命令就是 `mkfs.xfs` 和 `mkfs.btrfs`
 
 如果需要覆盖原有分区，加入 `-f` 参数强制执行即可
 
@@ -662,7 +682,9 @@ sudo pacman -Syu
 
 #### **搜索软件包**
 
-`pacman` 使用 `-Q` 参数查询本地软件包数据库，`-S` 查询远程数据库（包含全部软件包），以及 `-F` 查询文件数据库。要了解每个参数的子选项，分别参见 `pacman -Q --help`，`pacman -S --help` 和 `pacman -F --help`
+`pacman` 使用 `-Q` 参数查询本地软件包数据库，`-S` 查询远程数据库（包含全部软件包），以及 `-F` 查询文件数据库
+
+要了解每个参数的子选项，分别参见 `pacman -Q --help`，`pacman -S --help` 和 `pacman -F --help`
 
 在远程数据库中查询软件包：
 
@@ -1640,9 +1662,9 @@ sudo pacman -Syu
 
 #### **启用测试仓库（可选）**
 
-测试仓库并不是“最新”软件包的仓库。测试仓库的目的是提供一个即将被放入主软件仓库的软件包的集散地。软件包维护者（和普通用户）可以访问并测试这些软件包以确保软件包没有问题。当位于测试仓库的软件包被测试无问题后，即可被移入主仓库。
+**测试仓库并不是“最新”软件包的仓库，测试仓库的目的是提供一个即将被放入主软件仓库的软件包的集散地**
 
-请同时启用 core-testing 和 extra-testing 仓库，即在 `/etc/pacman.conf` 文件中取消 `[core-testing]` 和 `[extra-testing]` 段落的注释：
+若要启用测试仓库，请同时启用 core-testing 和 extra-testing 仓库，即在 `/etc/pacman.conf` 文件中取消 `[core-testing]` 和 `[extra-testing]` 段落的注释：
 
 ```text
 [core-testing]
@@ -1796,6 +1818,43 @@ DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
 ```
 
 **注意某些软件包如 `rider` 和 `qqmusic-bin` 等下载源不支持 axel，启用多线程下载后可能会导致构建失败**
+
+### **建立交换文件（可选）**
+
+相比于使用一个磁盘分区作为交换空间，使用交换文件可以更方便地随时调整大小或者移除，当磁盘空间有限时，使用交换文件更加理想
+
+可以使用 `mkswap` 命令建立交换文件，交换文件的大小推荐为与内存大小相等，此处以 16GiB 为例：
+
+```bash
+sudo mkswap -U clear -s 16G -F /swapfile
+```
+激活交换文件：
+
+```bash
+sudo swapon /swapfile
+```
+
+最后在 `/etc/fstab` 中加入交换文件的条目：
+
+```text
+/swapfile none swap defaults 0 0
+```
+
+现在输入 `free -h` 即可在 `Swap` 一行查看交换文件的使用情况
+
+如果要删除交换文件，必须先关闭交换文件的使用：
+
+```bash
+sudo swapoff /swapfile
+```
+
+再删除文件：
+
+```bash
+sudo rm -f /swapfile
+```
+
+**对于 BTRFS 文件系统，建立交换文件的命令有一些不同，参见 [BTRFS Swap File -- ArchWiki](https://wiki.archlinux.org/title/Btrfs#Swap_file)**
 
 ### **重新开启 Secure Boot（未测试）**
 
@@ -2349,7 +2408,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 默认的启动屏幕动画可以在“系统设置 >> 外观 >> 启动屏幕”更改
 
-Plymouth 动画的缩放设置需要更改 `/etc/plymouth//plymouthd.conf`
+Plymouth 动画的缩放设置需要更改 `/etc/plymouth/plymouthd.conf`
 
 在 `[Daemon]` 一节中加入一行 `DeviceScale=2`
 
@@ -3955,7 +4014,7 @@ KDE 官方的相机应用是 Kamoso：
 sudo pacman -S kamoso
 ```
 
-需要区别于另一个 KDE 应用 Kamera，Kamera 提供了一个配置工具和一个 KIO 工作程序，用于在采用了此协议的数码相机上进行读写操作。
+需要区别于另一个 KDE 应用 Kamera，Kamera 提供了一个配置工具和一个 KIO 工作程序，用于在采用了此协议的数码相机上进行读写操作
 
 ### **QQ 安装（可选）**
 

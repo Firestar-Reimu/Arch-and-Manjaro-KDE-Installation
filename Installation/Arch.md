@@ -2,10 +2,10 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 6.1.4
-KDE Frameworks Version: 6.5.0
-Qt Version: 6.7.2
-Kernel Version: 6.10.7-arch1-1 (64-bit)
+KDE Plasma Version: 6.2.1
+KDE Frameworks Version: 6.7.0
+Qt Version: 6.8.0
+Kernel Version: 6.11.3-arch1-1 (64-bit)
 Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -185,9 +185,29 @@ timedatectl set-ntp true
 
 可以使用 `lsblk -f` 或 `fdisk -l` 查看硬盘 `/dev/(disk_name)`，如 `/dev/sda`、`/dev/nvme0n1` 等，前者多用于 HDD，后者多用于 SSD
 
-修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例，注意要
+修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例：
 
-使用 `parted /dev/(disk_name)` 修改分区，可以使用交互模式
+使用 `parted /dev/(disk_name)` 修改分区，此时进入交互模式，命令行前面会提示 `(parted)`
+
+如果一个硬盘没有做过分区，或者是需要修改分区表的类型，则要为对应的设备创建/重建分区表，使用以下命令创建 GUID 分区表（GPT）：
+
+```bash
+(parted) mklabel gpt
+```
+
+对于 UEFI/GPT 分区方案，需要创建新的 EFI 系统分区（建议从 1MiB 开始对齐）：
+
+```bash
+(parted) mkpart "EFI system partition" fat32 1MiB 256MiB
+(parted) set 1 esp on
+```
+
+再创建一个 Linux 根分区：
+
+```bash
+(parted) mkpart "root partition" ext4 256MiB 100%
+(parted) type 2 4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
+```
 
 `parted` 常用命令：
 
@@ -195,7 +215,7 @@ timedatectl set-ntp true
 - `print`：显示分区状态
 - `unit`：更改单位，推荐使用 `s`（扇区）
 - `set`：设置 `flag`，例如在分区 1 上创建 EFI 分区需要设置 `flag` 为 `esp`：`set 1 esp on`
-- `mkpart`：创建分区，分区类型选择 `primary`，文件系统类型选择 `fat32`（对 EFI 分区），`ext4/xfs/btrfs`（对 Linux 分区），`ntfs`（对 Windows 分区）
+- `mkpart`：创建分区，分区标签可以自定义，文件系统类型选择 `fat32`（对 EFI 分区），`ext4/xfs/btrfs`（对 Linux 分区），`ntfs`（对 Windows 分区）
 - `resizepart`：改变分区大小
 - `rm`：删除分区
 - `name`：更改分区名字，比如将分区 2 改名为 `Arch`，需要设置：`name 2 'Arch'`
