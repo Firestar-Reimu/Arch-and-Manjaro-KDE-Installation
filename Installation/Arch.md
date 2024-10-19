@@ -227,7 +227,13 @@ timedatectl set-ntp true
 
 ### **创建文件系统**
 
-例如，要在根分区 `/dev/(root_partition)` 上创建一个 EXT4 文件系统，请运行：
+如果新创建了 EFI 系统分区 `/dev/(EFI_system_partition)` ，需要使用 `mkfs.fat` 将其格式化为 FAT32：
+
+```bash
+mkfs.fat -F 32 /dev/(EFI_system_partition)
+```
+
+例如要在根分区 `/dev/(root_partition)` 上创建一个 EXT4 文件系统，请运行：
 
 ```bash
 mkfs.ext4 /dev/(root_partition)
@@ -236,6 +242,8 @@ mkfs.ext4 /dev/(root_partition)
 XFS 和 BTRFS 对应的命令就是 `mkfs.xfs` 和 `mkfs.btrfs`
 
 如果需要覆盖原有分区，加入 `-f` 参数强制执行即可
+
+**只有在分区步骤中创建 EFI 系统分区时才需要格式化，如果这个磁盘上已经存在一个 EFI 系统分区，将它重新格式化会破坏其他已安装操作系统的引导加载程序**
 
 ### **挂载分区**
 
@@ -248,7 +256,7 @@ mount /dev/(root_partition) /mnt
 对于 UEFI 系统，挂载 EFI 系统分区（一般是 `lsblk` 输出的第一个分区，文件系统一般是 FAT32）：
 
 ```bash
-mount --mkdir /dev/(efi_system_partition) /mnt/boot
+mount --mkdir /dev/(EFI_system_partition) /mnt/boot
 ```
 
 **挂载 EFI 系统分区一定要加 `--mkdir` 参数**
@@ -286,12 +294,14 @@ Server = https://mirror.sjtu.edu.cn/archlinux/$repo/os/$arch
 使用 `pacstrap` 脚本，安装 base 软件包、Linux 内核、常规硬件的固件、文本编辑器等：
 
 ```bash
-pacstrap /mnt base linux linux-firmware sof-firmware vim
+pacstrap /mnt base linux linux-firmware vim
 ```
+
+对于本电脑，还需要安装 `sof-firmware` 声卡驱动
 
 ### **生成 fstab 文件**
 
-用以下命令生成 fstab 文件 (用 `-U` 或 `-L` 选项设置 UUID 或卷标)：
+用以下命令生成 fstab 文件（用 `-U` 或 `-L` 选项设置 UUID 或卷标，）：
 
 ```bash
 genfstab -U /mnt >> /mnt/etc/fstab
