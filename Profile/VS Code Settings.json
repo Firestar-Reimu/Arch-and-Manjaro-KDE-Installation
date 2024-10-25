@@ -165,5 +165,7 @@
     "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.intellisense.argumentHint.enabled": false,
     "python.defaultInterpreterPath": "/home/firestar/.miniconda/bin/python",
-    "jupyter.themeMatplotlibPlots": true
+    "python.analysis.extraPaths": [
+        "/home/firestar/.miniconda/bin"
+    ]
 }
