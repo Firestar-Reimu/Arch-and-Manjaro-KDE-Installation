@@ -78,7 +78,7 @@ ls -l
 
 #### **修改文件权限**
 
-在终端里使用 `chmod` 命令可以修改文件权限：
+在终端里使用 `chmod` 命令可以修改文件（包括目录文件，即文件夹）权限：
 
 ```bash
 chmod (who)=(permissions) (file_name)

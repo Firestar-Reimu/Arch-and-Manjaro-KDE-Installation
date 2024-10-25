@@ -163,7 +163,9 @@ iwctl station (device_name) get-networks
 iwctl station (device_name) connect (SSID)
 ```
 
-也可以输入 `iwctl` 进入交互模式，此时会显示 `[iwd]#` 标志上面的命令不加 `iwctl` 输入，最后用 `exit` 推出
+也可以输入 `iwctl` 进入交互模式，此时命令前面会显示 `[iwd]#` 标志
+
+上面的命令不加 `iwctl` 输入，最后用 `exit` 推出
 
 连接到有线或无线网络后，可以用 `ping` 测试：
 
@@ -187,7 +189,13 @@ timedatectl set-ntp true
 
 修改分区可以用 `parted /dev/(disk_name)`、`cfdisk /dev/(disk_name)`、`fdisk /dev/(disk_name)` 等，下面以 `parted` 为例：
 
-使用 `parted /dev/(disk_name)` 修改分区，此时进入交互模式，命令行前面会提示 `(parted)`
+运行：
+
+```bash
+parted /dev/(disk_name)
+```
+
+此时进入交互模式，命令行前面会显示 `(parted)`
 
 如果一个硬盘没有做过分区，或者是需要修改分区表的类型，则要为对应的设备创建/重建分区表，使用以下命令创建 GUID 分区表（GPT）：
 
@@ -340,7 +348,7 @@ vim /etc/locale.gen
 
 取消掉 `en_US.UTF-8 UTF-8` 和 `zh_CN.UTF-8 UTF-8` 两行的注释
 
-接着生成 locale 信息：
+接着生成 locale 信息，运行：
 
 ```bash
 locale-gen
@@ -362,7 +370,7 @@ LANG=en_US.UTF-8
 (my_hostname)
 ```
 
-编辑本地主机名解析 `/etc/hosts`，写入：（编辑 `/etc/hosts` 时空白建议用 `Tab` 键，下同）
+编辑本地主机名解析 `/etc/hosts`，写入：（编辑 `/etc/hosts` 时空白建议用 `Tab` 键）
 
 ```text
 127.0.0.1        localhost
@@ -385,8 +393,6 @@ systemctl enable NetworkManager
 **一定要安装网络管理软件，否则重启后将无法联网**
 
 ### **创建 initramfs**
-
-执行 `ls /boot` 检查 `/boot` 中是否有遗留的旧内核 initramfs，若有则删除之
 
 之后执行以下命令：
 
@@ -414,10 +420,10 @@ pacman -S grub efibootmgr
 
 输入 `efibootmgr` 可以查看所有的启动项，每一个启动项都有一个四位数字的编号 `(boot_number)`，可以使用 `efibootmgr -b (boot_number) -B` 命令删除原来的启动项
 
-接着执行以下命令：
+接着执行以下命令：（`--bootloader-id` 可以自定义）
 
 ```bash
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Archlinux
 ```
 
 最后更新 GRUB 设置：
@@ -507,10 +513,7 @@ Defaults:(user_name) !authenticate
 
 ```bash
 pacman -S bluez pulseaudio-bluetooth
-systemctl enable bluetooth
 ```
-
-这里的 `pulseaudio-bluetooth` 是用于连接蓝牙耳机的
 
 ### **KDE Plasma 桌面安装**
 
@@ -550,9 +553,9 @@ pacman -S plasma
 
 可以排除掉一些软件包，如 `discover`、`drkonqi`、`flatpak-kcm`、`plasma-firewall`、`plasma-welcome`
 
-`jack` 选择 `jack2`
-
 `qt6-multimedia-backend` 选择 `qt6-multimedia-ffmpeg`
+
+`jack` 选择 `pipewire-jack`
 
 `emoji-font` 选择 `noto-fonts-emoji`
 
@@ -963,9 +966,13 @@ sudo vim /etc/fstab
 在最后加入这两行：（编辑 `/etc/fstab` 时空白建议用 `Tab` 键）
 
 ```text
-UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
-UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+UUID=(UUID_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,discard 0 0
+UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,discard 0 0
 ```
+
+此处的挂载选项可以在此基础上自行选择增减，参见：
+
+[NTFS3 — The Linux Kernel documentation](https://docs.kernel.org/filesystems/ntfs3.html)
 
 重启电脑后，即可自动挂载
 
@@ -974,8 +981,8 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,windows_
 如果安装生成 fstab 文件时使用 `-L` 选项，即 `genfstab -L /mnt >> /mnt/etc/fstab`，则 `/etc/fstab` 中应加入：
 
 ```text
-/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
-/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,windows_names,hide_dot_files,umask=000 0 0
+/dev/(name_C)                     /home/(user_name)/C    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,discard 0 0
+/dev/(name_D)                     /home/(user_name)/D    ntfs3 defaults,uid=1000,gid=1000,nohidden,windows_names,discard 0 0
 ```
 
 参考以下网址：
@@ -983,8 +990,6 @@ UUID=(UUID_D)                     /home/(user_name)/D    ntfs3 defaults,windows_
 [fstab -- Archwiki](https://wiki.archlinux.org/title/fstab)
 
 [mount(8) -- Arch manual pages](https://man.archlinux.org/man/mount.8)
-
-[NTFS3 — The Linux Kernel documentation](https://docs.kernel.org/filesystems/ntfs3.html)
 
 #### **命令行挂载 NTFS 移动硬盘**
 
@@ -1348,7 +1353,7 @@ Fcitx5 的配置在：
 可以添加词库：（部分包需要使用 AUR 源）
 
 ```bash
-paru -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-moegirl fcitx5-pinyin-sougou
+paru -S fcitx5-pinyin-zhwiki fcitx5-pinyin-custom-pinyin-dictionary fcitx5-pinyin-moegirl
 ```
 
 虚拟键盘的配置在：
@@ -1428,7 +1433,7 @@ Git 使用教程参考以下网址：
 
 [Git Documentation](https://git-scm.com/docs)
 
-#### **NTFS 磁盘无法挂载**
+### **NTFS 磁盘无法挂载**
 
 一般来讲是该磁盘未正确卸载（如热插拔）、Windows 开启了快速启动，或者进行了优化磁盘等操作导致的，此时 NTFS 分区会被标记为 `dirty`
 
@@ -1655,7 +1660,7 @@ sudo tlp start
 
 #### **启用 multilib 仓库**
 
-multilib 包含着32位的软件和链接库，可以用于在64位系统上运行和构建32位软件，例如 `wine` 软件包等
+multilib 包含着 32 位的软件和链接库，可以用于在 64 位系统上运行和构建 32 位软件，例如 `wine` 软件包等
 
 如果想启用 multilib 仓库，请在 `/etc/pacman.conf` 文件中取消 `[multilib]` 段落的注释：
 
@@ -1954,7 +1959,7 @@ ls -l
 
 #### **修改文件权限**
 
-在终端里使用 `chmod` 命令可以修改文件权限：
+在终端里使用 `chmod` 命令可以修改文件（包括目录文件，即文件夹）权限：
 
 ```bash
 chmod (who)=(permissions) (file_name)
