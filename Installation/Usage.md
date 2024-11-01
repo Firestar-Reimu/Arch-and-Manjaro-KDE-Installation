@@ -472,6 +472,22 @@ gzip -d (file_name).gz
 
 在 `~/.bashrc` 中添加一句 `alias (new_command)=(old-command)`，这样直接输入 `new_command` 即等效于输入 `old_command`
 
+### **查看软件是否运行在 XWayland 下**
+
+安装 `xorg-xlsclients`：
+
+```bash
+sudo pacman -S xorg-xlsclients
+```
+
+运行 `xlsclients`，列出当前运行中的 XWayland 软件，如：
+
+```
+Archlinux  code
+```
+
+说明 Visual Studio Code 运行在 XWayland 下
+
 ## **美化**
 
 ### **自定义壁纸**

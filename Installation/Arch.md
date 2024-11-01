@@ -63,7 +63,7 @@ sudo mkarchiso (profile_directory)/baseline
 
 右键点击开始菜单，选择“磁盘管理”，分出一块空分区，建议不小于 64GiB
 
-**Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区（建议多于 256MiB），之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
+**Windows 安装程序会创建一个 100MiB 的 EFI 系统分区，一般并不足以放下双系统所需要的所有文件（即 Linux 的 GRUB 文件），可以在将 Windows 安装到盘上之前就用 Arch 安装媒体创建一个较大的 EFI 系统分区（建议多于 512MiB），之后 Windows 安装程序将会使用你自己创建的 EFI 分区，而不是再创建一个**
 
 ### **关闭快速启动**
 
@@ -512,7 +512,8 @@ Defaults:(user_name) !authenticate
 ### **安装并启用蓝牙**
 
 ```bash
-pacman -S bluez pulseaudio-bluetooth
+pacman -S bluez
+systemctl enable bluetooth
 ```
 
 ### **KDE Plasma 桌面安装**
@@ -558,6 +559,8 @@ pacman -S plasma
 `jack` 选择 `pipewire-jack`
 
 `emoji-font` 选择 `noto-fonts-emoji`
+
+这一步默认下载的是 Pipewire 多媒体框架，以替代原有的 PulseAudio
 
 #### **安装必要的软件**
 
@@ -1503,6 +1506,31 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 以修复启动项
 
+### **从 USB 启动盘启动**
+
+如果计算机无法启动，可以尝试从 USB 启动盘启动以修复电脑
+
+首先根据“刻录 USB 启动盘”一节中的内容创建一个 USB 启动盘
+
+之后在 UEFI 中设置从 USB 启动
+
+启动后需要挂载电脑上 Arch Linux 的分区：
+
+```bash
+mount /dev/(root_partition) /mnt
+mount --mkdir /dev/(efi_system_partition) /mnt/boot
+```
+
+更改根目录到已安装的系统：
+
+```bash
+arch-chroot /mnt
+```
+
+这样就可以在已安装的系统中更改文件设置等以正常启动
+
+退出时，输入 `exit` 退出 `chroot` 环境，输入 `umount -R /mnt` 手动卸载被挂载的分区，最后执行 `reboot` 重启系统
+
 ### **调整文件夹名称为英文**
 
 修改 `~/.config/user-dirs.dirs`，改为：
@@ -1652,13 +1680,72 @@ sudo tlp start
 
 **不需要高性能的时候可以关闭睿频，这样可以大幅增加续航、减少发热**
 
+### **NVIDIA 显卡**
+
+如果电脑使用了 NVIDIA 独立显卡，需要根据显卡型号下载对应的驱动程序，参考以下网址：
+
+[NVIDIA -- ArchWiki](https://wiki.archlinux.org/title/NVIDIA)
+
+对于较新的 RTX 系列显卡，推荐使用 `nvidia-open` 软件包：
+
+```bash
+sudo pacman -S nvidia-open
+```
+
+下一步是编辑 `/etc/default/grub`，在 `GRUB_CMDLINE_LINUX_DEFAULT` 一行中添加 `nvidia_drm.modeset=1 nvidia_drm.fbdev=1`
+
+更新 GRUB：
+
+```bash
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+之后编辑 `/etc/mkinitcpio.conf`，在 `MODULES` 一行的括号中添加 `nvidia nvidia_modeset nvidia_uvm nvidia_drm`，在 `HOOKS` 一行的括号中删除 `kms` 一项
+
+重新生成 initramfs：
+
+```bash
+sudo mkinitcpio -P
+```
+
+最后在 `/etc/pacman.d/` 中建立 `hooks` 文件夹：
+
+```bash
+sudo mkdir -p /etc/pacman.d/hooks/
+```
+
+之后创建一个 `nvidia.hook` 文件，写入：
+
+```text
+[Trigger]
+Operation=Install
+Operation=Upgrade
+Operation=Remove
+Type=Package
+# Uncomment the installed NVIDIA package
+Target=nvidia-open
+#Target=nvidia
+#Target=nvidia-lts
+# If running a different kernel, modify below to match
+Target=linux
+
+[Action]
+Description=Updating NVIDIA module in initcpio
+Depends=mkinitcpio
+When=PostTransaction
+NeedsTargets
+Exec=/bin/sh -c 'while read -r trg; do case $trg in linux*) exit 0; esac; done; /usr/bin/mkinitcpio -P'
+```
+
+即可重启电脑
+
 ### **切换软件包仓库**
 
 参考以下网址：
 
 [Official repositories -- ArchWiki](https://wiki.archlinux.org/title/Official_repositories)
 
-#### **启用 multilib 仓库**
+#### **启用 multilib 仓库（可选）**
 
 multilib 包含着 32 位的软件和链接库，可以用于在 64 位系统上运行和构建 32 位软件，例如 `wine` 软件包等
 
