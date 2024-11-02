@@ -1327,7 +1327,7 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 
 #### **安装 Fcitx5 输入法**
 
-推荐使用 Fcitx5:
+推荐使用 Fcitx5 输入法：
 
 ```bash
 sudo pacman -S fcitx5-im fcitx5-chinese-addons
@@ -1882,7 +1882,7 @@ ipp://xxx.xxx.xxx.xxx
 
 再选择打印机的制造商和型号，即可添加打印机，添加后可以打印测试页或自检页确认是否添加成功
 
-### **硬件视频加速（可选）**
+### **Intel 硬件视频加速（可选）**
 
 如果想要获得硬件视频加速，可以下载 `intel-media-driver`
 
@@ -1902,19 +1902,19 @@ sudo pacman -S intel-media-driver
  sudo pacman -S axel
 ```
 
-编辑 `/etc/pacman.conf` 文件（在第 21 行）:
+编辑 `/etc/pacman.conf` 文件，取消注释 `XferCommand` 一行，并改为：（这里的 16 可以换成其它数字）
 
 ```bash
-XferCommand = /usr/bin/axel -n 10 -o %o %u
+XferCommand = /usr/bin/axel -n 16 -o %o %u
 ```
 
-编辑 `/etc/makepkg.conf` 文件（在第 12-17 行）:
+编辑 `/etc/makepkg.conf` 文件，修改 `DLAGENTS` 一段为：
 
 ```bash
-DLAGENTS=('file::/usr/bin/curl -gqC - -o %o %u'
-'ftp::/usr/bin/axel -n 10 -o %o %u'
-'http::/usr/bin/axel -n 10 -o %o %u'
-'https::/usr/bin/axel -n 10 -o %o %u'
+DLAGENTS=('file::/usr/bin/axel -n 16 -o %o %u'
+'ftp::/usr/bin/axel -n 16 -o %o %u'
+'http::/usr/bin/axel -n 16 -o %o %u'
+'https::/usr/bin/axel -n 16 -o %o %u'
 'rsync::/usr/bin/rsync --no-motd -z %u %o'
 'scp::/usr/bin/scp -C %u %o')
 ```
@@ -2685,7 +2685,7 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 omz update
 ```
 
-卸载 Oh-My-Zsh，执行:
+卸载 Oh-My-Zsh，执行：
 
 ```text
 uninstall_oh_my_zsh

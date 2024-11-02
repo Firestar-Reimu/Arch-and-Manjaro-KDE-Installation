@@ -717,7 +717,7 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 omz update
 ```
 
-卸载 Oh-My-Zsh，执行:
+卸载 Oh-My-Zsh，执行：
 
 ```text
 uninstall_oh_my_zsh
