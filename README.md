@@ -3055,7 +3055,7 @@ sudo chattr +i /etc/resolv.conf
 
 **一定要以 `sudo` 执行，否则无法安装到默认文件夹和设置 PATH 环境变量（无法写入）**
 
-首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，文件名为 `texlive.iso`
+首先在[清华大学镜像](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/)或者[上海交大镜像](https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texlive/Images/)下载最新的 TeX Live ISO，一般在 `/CTAN/systems/texlive/Images/` 下，文件名为 `texlive.iso`
 
 在 Dolphin 中右键点击 ISO 镜像文件挂载（需要 `dolphin-plugins` 软件包），或在终端中运行：
 
@@ -3066,7 +3066,7 @@ sudo mount -t iso9660 -o ro,loop,noauto (texlive_path)/texlive.iso /mnt
 进入镜像文件夹，运行：
 
 ```bash
-sudo perl install-tl -gui text
+sudo perl install-tl --gui text
 ```
 
 用大写字母命令控制安装：
@@ -3092,7 +3092,7 @@ sudo pacman -S tcl tk
 进入镜像文件夹，运行：
 
 ```bash
-sudo perl install-tl -gui
+sudo perl install-tl --gui
 ```
 
 即可在图形界面下载 TeX Live，高级设置需要点击左下角的 Advanced 按钮
@@ -3166,7 +3166,7 @@ sudo tlmgr option repository https://mirrors.sjtug.sjtu.edu.cn/ctan/systems/texl
 可以从[官网](https://www.tug.org/texlive/acquire-netinstall.html)下载 [install-tl-unx.tar.gz](https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz)，解压后可以找到一个 `install-tl` 文件，执行：
 
 ```bash
-sudo perl install-tl -select-repository -gui text
+sudo perl install-tl --select-repository --gui text
 ```
 
 第一步输入数字选择镜像站，建议选择清华大学镜像或上海交大镜像
@@ -3178,7 +3178,7 @@ sudo perl install-tl -select-repository -gui text
 显示说明文档：
 
 ```bash
-tlmgr -help
+tlmgr --help
 ```
 
 下载软件包：
@@ -3192,13 +3192,13 @@ sudo tlmgr update (package_name)
 更新自身：
 
 ```bash
-sudo tlmgr update -self
+sudo tlmgr update --self
 ```
 
 更新全部软件包：
 
 ```bash
-sudo tlmgr update -all
+sudo tlmgr update --all
 ```
 
 查找本地软件包：
@@ -3207,16 +3207,16 @@ sudo tlmgr update -all
 tlmgr search (package_name)
 ```
 
-从软件源（即完整的 TeX Live）查找软件包：
+从软件源（即完整的 TeX Live）查找软件包，开启全词匹配：
 
 ```bash
-tlmgr search -global (package_name)
+tlmgr search --global --word (package_name)
 ```
 
-从软件源查找软件包文件（如 `.sty` 文件、`.def` 文件等）：
+从本地查找软件包文件（如 `.sty` 文件、`.def` 文件等），返回文件位置：
 
 ```bash
-tlmgr search -global (file_name)
+tlmgr search --file (file_name)
 ```
 
 #### **命令行编译 LaTeX 源文件**
