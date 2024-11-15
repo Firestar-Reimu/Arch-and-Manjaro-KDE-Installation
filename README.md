@@ -3784,12 +3784,24 @@ paru -S vscodium-git
 "editor.fontLigatures": false,
 ```
 
-Fira Code 的连字可以设置为：
+以 Fira Code 为例，连字可以设置为：
 
 ```json
 "editor.fontFamily": "Fira Code",
 "editor.fontLigatures": "'calt' off, 'cv16', 'ss01', 'ss03', 'ss05', 'zero'",
 ```
+
+#### **Visual Studio Code 不在“打开方式”/“打开文件夹方式”菜单内**
+
+在 1.90.0 版本之后，Visual Studio Code 在 `code.desktop` 中删除了 `inode/directory`，使得“打开方式”/“打开文件夹方式”菜单中没有 Visual Studio Code
+
+解决该问题的方法是下载 AUR 软件包 `vscode-xdg-patch-hook`：
+
+```bash
+paru -S vscode-xdg-patch-hook
+```
+
+它可以自动修改所有所需的文件，并顺带解决其它一些问题
 
 #### **Visual Studio Code 无法识别 Git 存储库**
 
