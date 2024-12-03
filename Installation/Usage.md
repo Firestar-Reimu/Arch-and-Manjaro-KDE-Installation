@@ -1662,16 +1662,16 @@ conda create -n (environment_name)
 
 Conda 默认会在 Miniconda/Anaconda 的安装位置创建一个 `base` 环境
 
-激活环境：
+激活/切换环境：
 
 ```bash
 conda activate (environment_name)
 ```
 
-取消激活环境：
+取消激活当前环境：
 
 ```bash
-conda deactivate (environment_name)
+conda deactivate
 ```
 
 删除环境：
