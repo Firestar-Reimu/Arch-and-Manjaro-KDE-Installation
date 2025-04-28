@@ -112,14 +112,6 @@
                 "--shell-escape",
                 "%DOCFILE%"
             ]
-        },
-        {
-            "name": "clean",
-            "command": "latexmk",
-            "args": [
-                "-c",
-                "%DOCFILE%"
-            ]
         }
     ],
     "latex-workshop.latex.recipes": [
@@ -127,12 +119,6 @@
             "name": "latexmk",
             "tools": [
                 "latexmk"
-            ]
-        },
-        {
-            "name": "clean",
-            "tools": [
-                "clean"
             ]
         }
     ],

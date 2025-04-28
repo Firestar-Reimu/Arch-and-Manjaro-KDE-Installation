@@ -2,10 +2,10 @@
 
 ```text
 Operating System: Arch Linux
-KDE Plasma Version: 6.2.1
-KDE Frameworks Version: 6.7.0
-Qt Version: 6.8.0
-Kernel Version: 6.11.3-arch1-1 (64-bit)
+KDE Plasma Version: 6.3.4
+KDE Frameworks Version: 6.13.0
+Qt Version: 6.9.0
+Kernel Version: 6.14.4-arch1-1 (64-bit)
 Graphics Platform: Wayland
 Processors: 8 × 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz
 Memory: 15.3 GiB of RAM
@@ -213,7 +213,7 @@ parted /dev/(disk_name)
 再创建一个 Linux 根分区：
 
 ```bash
-(parted) mkpart "root partition" ext4 256MiB 100%
+(parted) mkpart "Arch Linux" ext4 256MiB 100%
 (parted) type 2 4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
 ```
 
@@ -235,6 +235,8 @@ parted /dev/(disk_name)
 
 ### **创建文件系统**
 
+**只有在分区步骤中创建 EFI 系统分区时才需要格式化，如果这个磁盘上已经存在一个 EFI 系统分区，将它重新格式化会破坏其他已安装操作系统的引导加载程序**
+
 如果新创建了 EFI 系统分区 `/dev/(EFI_system_partition)` ，需要使用 `mkfs.fat` 将其格式化为 FAT32：
 
 ```bash
@@ -251,8 +253,6 @@ XFS 和 BTRFS 对应的命令就是 `mkfs.xfs` 和 `mkfs.btrfs`
 
 如果需要覆盖原有分区，加入 `-f` 参数强制执行即可
 
-**只有在分区步骤中创建 EFI 系统分区时才需要格式化，如果这个磁盘上已经存在一个 EFI 系统分区，将它重新格式化会破坏其他已安装操作系统的引导加载程序**
-
 ### **挂载分区**
 
 首先将根磁盘卷挂载到 `/mnt`
@@ -267,7 +267,7 @@ mount /dev/(root_partition) /mnt
 mount --mkdir /dev/(EFI_system_partition) /mnt/boot
 ```
 
-**挂载 EFI 系统分区一定要加 `--mkdir` 参数**
+**挂载 EFI 系统分区一定要加 `--mkdir` 参数，并在挂载根磁盘卷后再挂载**
 
 ### **选择镜像源**
 
@@ -306,6 +306,10 @@ pacstrap /mnt base linux linux-firmware vim
 ```
 
 对于本电脑，还需要安装 `sof-firmware` 声卡驱动
+
+如果选择根分区文件系统为 XFS，需要下载 `xfsprogs`
+
+如果选择根分区文件系统为 BTRFS，需要下载 `btrfs-progs`
 
 ### **生成 fstab 文件**
 
@@ -384,7 +388,7 @@ LANG=en_US.UTF-8
 pacman -S networkmanager
 ```
 
-启用 `NetworkManager`（`systemctl` 命令对大小写敏感）：
+启用 `NetworkManager`（`systemctl` 命令对大小写敏感，下同）：
 
 ```bash
 systemctl enable NetworkManager
@@ -814,7 +818,7 @@ makepkg -si
 sudo pacman -S base-devel
 ```
 
-之后下载支持 AUR 的软件包管理器
+之后下载支持 AUR 的软件包管理器，例如 paru、yay 等 CLI 包管理器，或 octopi、pamac 等 GUI 包管理器
 
 **注意 Arch 预装的包管理器 pacman 不支持 AUR，也不打包 AUR 软件包管理器，需要单独下载 AUR 软件包管理器**
 
@@ -842,7 +846,7 @@ paru 是一个 pacman 封装，其命令与 pacman 基本相同，即将上一�
 
 #### **octopi**
 
-octopi 是一个使用图形界面的软件包管理器，执行以下命令安装 `pamac`：
+octopi 是一个使用图形界面的软件包管理器，执行以下命令安装 `octopi`：
 
 ```bash
 git clone https://aur.archlinux.org/octopi.git
@@ -1333,17 +1337,15 @@ sudo vim /etc/fonts/conf.d/64-language-selector-prefer.conf
 sudo pacman -S fcitx5-im fcitx5-chinese-addons
 ```
 
-编辑 `/etc/environment` 并添加以下几行：
+编辑 `/etc/environment` 并添加：
 
 ```text
-GTK_IM_MODULE=fcitx
-QT_IM_MODULE=fcitx
 XMODIFIERS=@im=fcitx
 ```
 
-然后重新登录，此时输入法会自动启动，默认的切换键是 `Ctrl+Space`
+在“系统设置 >> 键盘 >> 虚拟键盘”中选择“Fcitx”
 
-**安装输入法之后需要重启电脑才能生效，如果无法启动输入法，在“系统设置 >> 输入法 >> 添加输入法”中手动添加“拼音”**
+在“系统设置 >> 输入法 >> 添加输入法”中添加“拼音”，默认的切换键是 `Ctrl+Space`
 
 #### **配置与词库**
 
@@ -1689,32 +1691,16 @@ sudo tlp start
 对于较新的 RTX 系列显卡，推荐使用 `nvidia-open` 软件包：
 
 ```bash
-sudo pacman -S nvidia-open
+sudo pacman -S nvidia-open nvidia-utils
 ```
 
-下一步是编辑 `/etc/default/grub`，在 `GRUB_CMDLINE_LINUX_DEFAULT` 一行中添加 `nvidia_drm.modeset=1 nvidia_drm.fbdev=1`
-
-更新 GRUB：
-
-```bash
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-之后编辑 `/etc/mkinitcpio.conf`，在 `MODULES` 一行的括号中添加 `nvidia nvidia_modeset nvidia_uvm nvidia_drm`，在 `HOOKS` 一行的括号中删除 `kms` 一项
-
-重新生成 initramfs：
-
-```bash
-sudo mkinitcpio -P
-```
-
-最后在 `/etc/pacman.d/` 中建立 `hooks` 文件夹：
+为了避免更新 NVIDIA 驱动之后忘了更新 initramfs，在 `/etc/pacman.d/` 中建立 `hooks` 文件夹：
 
 ```bash
 sudo mkdir -p /etc/pacman.d/hooks/
 ```
 
-之后创建一个 `nvidia.hook` 文件，写入：
+之后在此创建一个 `nvidia.hook` 文件，写入：
 
 ```text
 [Trigger]
@@ -1958,14 +1944,6 @@ sudo rm -f /swapfile
 
 **对于 BTRFS 文件系统，建立交换文件的命令有一些不同，参见 [BTRFS Swap File -- ArchWiki](https://wiki.archlinux.org/title/Btrfs#Swap_file)**
 
-### **重新开启 Secure Boot（未测试）**
-
-如果想在开启 Secure Boot 的情况下登录进 Arch Linux，可以使用经过微软签名的 PreLoader 或者 shim，然后在 UEFI 设置中将 Secure Boot 级别设置为 Microsoft & 3rd Party CA
-
-具体教程参考以下网址：
-
-[Secure Boot -- ArchWiki](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Microsoft_Windows)
-
 ## **一些有用的命令总结**
 
 ### **获取设备信息**
@@ -2025,6 +2003,10 @@ pwd
 ```bash
 man (command)
 ```
+
+### **设置命令别名**
+
+在 `~/.bashrc` 中添加一句 `alias (new_command)=(old-command)`，这样直接输入 `new_command` 即等效于输入 `old_command`
 
 ### **文件权限与属性**
 
@@ -2137,86 +2119,6 @@ free
 ```bash
 journalctl -rb -1
 ```
-
-### **查看并转换编码**
-
-查看编码的命令为：
-
-```bash
-file -i (file_name)
-```
-
-其中 `charset` 一栏的输出即为文件编码
-
-转换编码可以使用系统预装的 `iconv`，方法为：
-
-```bash
-iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
-```
-
-该方法适合对文本文件转换编码，对 ZIP 压缩包和 PDF 文件等二进制文件则无法使用
-
-`iconv` 支持的编码格式可以用 `iconv -l` 查看
-
-### **转换图片格式**
-
-这需要 `imagemagick` 软件包，它提供了 `magick` 命令
-
-例如批量将图片从 PNG 格式转换为 JPG 格式：
-
-```bash
-ls -1 *.png | xargs -n 1 bash -c 'magick "$0" "${0%.png}.jpg"'
-```
-
-### **批量裁剪图片**
-
-同样需要使用 `imagemagick` 软件包，以下命令将原始图片裁剪为宽度为 W 像素、长度为 L 像素的图片：
-
-```bash
-magick mogrify -crop Wxl+20+20 (image_name)
-```
-
-### **PDF 与图片之间的转换**
-
-#### **将 PDF 转换为多个图片**
-
-第一种方法是用 `poppler` 软件包提供的 `pdftoppm` 命令：（推荐）
-
-```bash
-pdftoppm -png -r (resolution) (pdf_name) (image_name)
-```
-
-分辨率 `(resolution)` 默认为 150 DPI，可以调整为更高的 300、600 等
-
-转化为 JPG 图片的命令为：
-
-```bash
-pdftoppm -jpeg -r (resolution) (pdf_name) (image_name)
-```
-
-第二种方法是用 `imagemagick` 软件包提供的 `magick` 命令：（图片质量不如第一种方法）
-
-```bash
-magick -density (resolution) -quality 100 (pdf_name) (image_name)
-```
-
-分辨率 `(resolution)` 至少为 300（单位为 DPI），压缩质量推荐选择 100，`(image_name)` 加入扩展名即可自动按照扩展名输出相应格式的图片
-
-#### **将多个图片转换为 PDF**
-
-使用 `img2pdf` 软件包提供的 `img2pdf` 命令：（强烈推荐，速度快）
-
-```bash
-img2pdf -o (pdf_name) (image_name)
-```
-
-这个命令还可以指定 PDF 页面大小：
-
-```bash
-img2pdf -o (pdf_name) --pagesize (page_size) (image_name)
-```
-
-其中 `(page_size)` 可以输入 `A4`、`B5`、`Letter` 等，也可以输入自定义的数字如 `10cmx15cm`
 
 ### **查找命令**
 
@@ -2436,9 +2338,85 @@ gzip -d (file_name).gz
 
 例如 gzip 压缩的 FITS 文件，其后缀是 `.fits.gz`，此时可以用 `gzip -d` 解压，得到 `.fits` 格式的文件
 
-### **设置命令别名**
+### **查看并转换编码**
 
-在 `~/.bashrc` 中添加一句 `alias (new_command)=(old-command)`，这样直接输入 `new_command` 即等效于输入 `old_command`
+查看编码的命令为：
+
+```bash
+file -i (file_name)
+```
+
+其中 `charset` 一栏的输出即为文件编码
+
+转换编码可以使用系统预装的 `iconv`，方法为：
+
+```bash
+iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
+```
+
+该方法适合对文本文件转换编码，对 ZIP 压缩包和 PDF 文件等二进制文件则无法使用
+
+`iconv` 支持的编码格式可以用 `iconv -l` 查看
+
+### **转换图片格式**
+
+这需要 `imagemagick` 软件包，它提供了 `magick` 命令
+
+例如批量将图片从 PNG 格式转换为 JPG 格式：
+
+```bash
+ls -1 *.png | xargs -n 1 bash -c 'magick "$0" "${0%.png}.jpg"'
+```
+
+### **批量裁剪图片**
+
+同样需要使用 `imagemagick` 软件包，以下命令将原始图片裁剪为宽度为 W 像素、长度为 L 像素的图片：
+
+```bash
+magick mogrify -crop Wxl+20+20 (image_name)
+```
+
+### **PDF 与图片之间的转换**
+
+#### **将 PDF 转换为多个图片**
+
+第一种方法是用 `poppler` 软件包提供的 `pdftoppm` 命令：（推荐）
+
+```bash
+pdftoppm -png -r (resolution) (pdf_name) (image_name)
+```
+
+分辨率 `(resolution)` 默认为 150 DPI，可以调整为更高的 300、600 等
+
+转化为 JPG 图片的命令为：
+
+```bash
+pdftoppm -jpeg -r (resolution) (pdf_name) (image_name)
+```
+
+第二种方法是用 `imagemagick` 软件包提供的 `magick` 命令：（图片质量不如第一种方法）
+
+```bash
+magick -density (resolution) -quality 100 (pdf_name) (image_name)
+```
+
+分辨率 `(resolution)` 至少为 300（单位为 DPI），压缩质量推荐选择 100，`(image_name)` 加入扩展名即可自动按照扩展名输出相应格式的图片
+
+#### **将多个图片转换为 PDF**
+
+使用 `img2pdf` 软件包提供的 `img2pdf` 命令：（强烈推荐，速度快）
+
+```bash
+img2pdf -o (pdf_name) (image_name)
+```
+
+这个命令还可以指定 PDF 页面大小：
+
+```bash
+img2pdf -o (pdf_name) --pagesize (page_size) (image_name)
+```
+
+其中 `(page_size)` 可以输入 `A4`、`B5`、`Letter` 等，也可以输入自定义的数字如 `10cmx15cm`
 
 ### **查看软件是否运行在 XWayland 下**
 
@@ -2489,22 +2467,6 @@ EnvironmentFile=-/etc/sddm.locale
 ```
 
 前面的 `-` 号表示即使 `/etc/sddm.locale` 不存在，也不会报错
-
-#### **SDDM 时间显示调整为 24 小时制**
-
-更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 或 `/usr/share/sddm/themes/(theme_name)/Clock.qml` 中的 `Qt.formatTime` 一行：
-
-```text
-text: Qt.formatTime(timeSource.data["Local"]["DateTime"])
-```
-
-将其改为：
-
-```text
-text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
-```
-
-保存重启即可
 
 ### **Plymouth 启动屏幕动画**
 
@@ -3073,7 +3035,7 @@ sudo perl install-tl --gui text
 
 ```text
 S >> 选择安装方案 >> R
-C >> 输入字母选择要安装/不安装的软件包集合 >> R
+C >> 输入字母选择要安装/不安装的软件包集合（参考：abcefglmDFGJP） >> R
 D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
 O >> L >> 选择默认位置 >> R
 I
@@ -3184,10 +3146,16 @@ tlmgr --help
 下载软件包：
 
 ```bash
-sudo tlmgr update (package_name)
+sudo tlmgr install (package_name)
 ```
 
 这会同时下载软件包及其依赖
+
+更新软件包：
+
+```bash
+sudo tlmgr update (package_name)
+```
 
 更新自身：
 
@@ -3766,6 +3734,12 @@ paru -S vscodium-bin
 paru -S vscodium-git
 ```
 
+为使用 KDE/Plasma 全局菜单，还需要安装 `libdbusmenu-glib` 包：
+
+```bash
+sudo pacman -S libdbusmenu-glib
+```
+
 下载扩展：Python（需要单独下载代码风格检查工具 Pylint 和格式化工具 autopep8 或 Black Formatter）、Jupyter、LaTeX Workshop、Markdown all in One 等
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
@@ -4170,6 +4144,12 @@ paru -S wechat-universal-bwrap
 
 ```bash
 paru -S wemeet-bin
+```
+
+在 Wayland 上会产生无法共享屏幕的问题，还需要安装 `wemeet-wayland-screenshare-git` 包：
+
+```bash
+paru -S wemeet-wayland-screenshare-git
 ```
 
 #### **钉钉**

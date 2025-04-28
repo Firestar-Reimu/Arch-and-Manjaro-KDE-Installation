@@ -58,6 +58,10 @@ pwd
 man (command)
 ```
 
+### **设置命令别名**
+
+在 `~/.bashrc` 中添加一句 `alias (new_command)=(old-command)`，这样直接输入 `new_command` 即等效于输入 `old_command`
+
 ### **文件权限与属性**
 
 #### **查看文件权限与属性**
@@ -169,86 +173,6 @@ free
 ```bash
 journalctl -rb -1
 ```
-
-### **查看并转换编码**
-
-查看编码的命令为：
-
-```bash
-file -i (file_name)
-```
-
-其中 `charset` 一栏的输出即为文件编码
-
-转换编码可以使用系统预装的 `iconv`，方法为：
-
-```bash
-iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
-```
-
-该方法适合对文本文件转换编码，对 ZIP 压缩包和 PDF 文件等二进制文件则无法使用
-
-`iconv` 支持的编码格式可以用 `iconv -l` 查看
-
-### **转换图片格式**
-
-这需要 `imagemagick` 软件包，它提供了 `magick` 命令
-
-例如批量将图片从 PNG 格式转换为 JPG 格式：
-
-```bash
-ls -1 *.png | xargs -n 1 bash -c 'magick "$0" "${0%.png}.jpg"'
-```
-
-### **批量裁剪图片**
-
-同样需要使用 `imagemagick` 软件包，以下命令将原始图片裁剪为宽度为 W 像素、长度为 L 像素的图片：
-
-```bash
-magick mogrify -crop Wxl+20+20 (image_name)
-```
-
-### **PDF 与图片之间的转换**
-
-#### **将 PDF 转换为多个图片**
-
-第一种方法是用 `poppler` 软件包提供的 `pdftoppm` 命令：（推荐）
-
-```bash
-pdftoppm -png -r (resolution) (pdf_name) (image_name)
-```
-
-分辨率 `(resolution)` 默认为 150 DPI，可以调整为更高的 300、600 等
-
-转化为 JPG 图片的命令为：
-
-```bash
-pdftoppm -jpeg -r (resolution) (pdf_name) (image_name)
-```
-
-第二种方法是用 `imagemagick` 软件包提供的 `magick` 命令：（图片质量不如第一种方法）
-
-```bash
-magick -density (resolution) -quality 100 (pdf_name) (image_name)
-```
-
-分辨率 `(resolution)` 至少为 300（单位为 DPI），压缩质量推荐选择 100，`(image_name)` 加入扩展名即可自动按照扩展名输出相应格式的图片
-
-#### **将多个图片转换为 PDF**
-
-使用 `img2pdf` 软件包提供的 `img2pdf` 命令：（强烈推荐，速度快）
-
-```bash
-img2pdf -o (pdf_name) (image_name)
-```
-
-这个命令还可以指定 PDF 页面大小：
-
-```bash
-img2pdf -o (pdf_name) --pagesize (page_size) (image_name)
-```
-
-其中 `(page_size)` 可以输入 `A4`、`B5`、`Letter` 等，也可以输入自定义的数字如 `10cmx15cm`
 
 ### **查找命令**
 
@@ -468,9 +392,85 @@ gzip -d (file_name).gz
 
 例如 gzip 压缩的 FITS 文件，其后缀是 `.fits.gz`，此时可以用 `gzip -d` 解压，得到 `.fits` 格式的文件
 
-### **设置命令别名**
+### **查看并转换编码**
 
-在 `~/.bashrc` 中添加一句 `alias (new_command)=(old-command)`，这样直接输入 `new_command` 即等效于输入 `old_command`
+查看编码的命令为：
+
+```bash
+file -i (file_name)
+```
+
+其中 `charset` 一栏的输出即为文件编码
+
+转换编码可以使用系统预装的 `iconv`，方法为：
+
+```bash
+iconv -f (from_encoding) -t (to_encoding) (from_file_name) -o (to_file_name)
+```
+
+该方法适合对文本文件转换编码，对 ZIP 压缩包和 PDF 文件等二进制文件则无法使用
+
+`iconv` 支持的编码格式可以用 `iconv -l` 查看
+
+### **转换图片格式**
+
+这需要 `imagemagick` 软件包，它提供了 `magick` 命令
+
+例如批量将图片从 PNG 格式转换为 JPG 格式：
+
+```bash
+ls -1 *.png | xargs -n 1 bash -c 'magick "$0" "${0%.png}.jpg"'
+```
+
+### **批量裁剪图片**
+
+同样需要使用 `imagemagick` 软件包，以下命令将原始图片裁剪为宽度为 W 像素、长度为 L 像素的图片：
+
+```bash
+magick mogrify -crop Wxl+20+20 (image_name)
+```
+
+### **PDF 与图片之间的转换**
+
+#### **将 PDF 转换为多个图片**
+
+第一种方法是用 `poppler` 软件包提供的 `pdftoppm` 命令：（推荐）
+
+```bash
+pdftoppm -png -r (resolution) (pdf_name) (image_name)
+```
+
+分辨率 `(resolution)` 默认为 150 DPI，可以调整为更高的 300、600 等
+
+转化为 JPG 图片的命令为：
+
+```bash
+pdftoppm -jpeg -r (resolution) (pdf_name) (image_name)
+```
+
+第二种方法是用 `imagemagick` 软件包提供的 `magick` 命令：（图片质量不如第一种方法）
+
+```bash
+magick -density (resolution) -quality 100 (pdf_name) (image_name)
+```
+
+分辨率 `(resolution)` 至少为 300（单位为 DPI），压缩质量推荐选择 100，`(image_name)` 加入扩展名即可自动按照扩展名输出相应格式的图片
+
+#### **将多个图片转换为 PDF**
+
+使用 `img2pdf` 软件包提供的 `img2pdf` 命令：（强烈推荐，速度快）
+
+```bash
+img2pdf -o (pdf_name) (image_name)
+```
+
+这个命令还可以指定 PDF 页面大小：
+
+```bash
+img2pdf -o (pdf_name) --pagesize (page_size) (image_name)
+```
+
+其中 `(page_size)` 可以输入 `A4`、`B5`、`Letter` 等，也可以输入自定义的数字如 `10cmx15cm`
 
 ### **查看软件是否运行在 XWayland 下**
 
@@ -521,22 +521,6 @@ EnvironmentFile=-/etc/sddm.locale
 ```
 
 前面的 `-` 号表示即使 `/etc/sddm.locale` 不存在，也不会报错
-
-#### **SDDM 时间显示调整为 24 小时制**
-
-更改 `/usr/share/sddm/themes/(theme_name)/components/Clock.qml` 或 `/usr/share/sddm/themes/(theme_name)/Clock.qml` 中的 `Qt.formatTime` 一行：
-
-```text
-text: Qt.formatTime(timeSource.data["Local"]["DateTime"])
-```
-
-将其改为：
-
-```text
-text: Qt.formatTime(timeSource.data["Local"]["DateTime"], "H:mm:ss")
-```
-
-保存重启即可
 
 ### **Plymouth 启动屏幕动画**
 
@@ -1105,7 +1089,7 @@ sudo perl install-tl --gui text
 
 ```text
 S >> 选择安装方案 >> R
-C >> 输入字母选择要安装/不安装的软件包集合 >> R
+C >> 输入字母选择要安装/不安装的软件包集合（参考：abcefglmDFGJP） >> R
 D >> 输入数字，选择要安装 TeX Live 的各种位置 >> R
 O >> L >> 选择默认位置 >> R
 I
@@ -1216,10 +1200,16 @@ tlmgr --help
 下载软件包：
 
 ```bash
-sudo tlmgr update (package_name)
+sudo tlmgr install (package_name)
 ```
 
 这会同时下载软件包及其依赖
+
+更新软件包：
+
+```bash
+sudo tlmgr update (package_name)
+```
 
 更新自身：
 
@@ -1798,6 +1788,12 @@ paru -S vscodium-bin
 paru -S vscodium-git
 ```
 
+为使用 KDE/Plasma 全局菜单，还需要安装 `libdbusmenu-glib` 包：
+
+```bash
+sudo pacman -S libdbusmenu-glib
+```
+
 下载扩展：Python（需要单独下载代码风格检查工具 Pylint 和格式化工具 autopep8 或 Black Formatter）、Jupyter、LaTeX Workshop、Markdown all in One 等
 
 扩展保存在 `~/.vscode/extensions/` 文件夹内
@@ -2202,6 +2198,12 @@ paru -S wechat-universal-bwrap
 
 ```bash
 paru -S wemeet-bin
+```
+
+在 Wayland 上会产生无法共享屏幕的问题，还需要安装 `wemeet-wayland-screenshare-git` 包：
+
+```bash
+paru -S wemeet-wayland-screenshare-git
 ```
 
 #### **钉钉**
