@@ -4099,7 +4099,7 @@ sudo pacman -S docker
 之后执行：
 
 ```bash
-sudo systemctl enable docker
+sudo systemctl enable --now docker
 ```
 
 再执行：
@@ -4109,6 +4109,16 @@ sudo docker info
 ```
 
 以检查 Docker 运行状态，如果正常显示 Docker 信息说明安装成功
+
+### **开启 OpenSSH 服务端**
+
+sshd 是 OpenSSH 服务器守护程序，开启 sshd 之后，其它电脑可以用 `ssh` 命令连接本电脑：
+
+```bash
+sudo systemctl enable --now sshd
+```
+
+本机的 IP 地址可以使用 `ip addr` 命令查询
 
 ### **相机安装（可选）**
 

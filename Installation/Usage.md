@@ -2102,6 +2102,14 @@ paru -S topcat
 sun.java2d.uiScale=2
 ```
 
+### **CARTA 安装**
+
+天文数据立方体分析和渲染工具 [CARTA](https://cartavis.org) 可以从 AUR 安装：
+
+```bash
+paru -S carta-appimage
+```
+
 ### **Geant4 安装**
 
 #### **从源代码安装 Geant4**
@@ -2153,7 +2161,7 @@ sudo pacman -S docker
 之后执行：
 
 ```bash
-sudo systemctl enable docker
+sudo systemctl enable --now docker
 ```
 
 再执行：
@@ -2163,6 +2171,16 @@ sudo docker info
 ```
 
 以检查 Docker 运行状态，如果正常显示 Docker 信息说明安装成功
+
+### **开启 OpenSSH 服务端**
+
+sshd 是 OpenSSH 服务器守护程序，开启 sshd 之后，其它电脑可以用 `ssh` 命令连接本电脑：
+
+```bash
+sudo systemctl enable --now sshd
+```
+
+本机的 IP 地址可以使用 `ip addr` 命令查询
 
 ### **相机安装（可选）**
 
@@ -2205,6 +2223,8 @@ paru -S wemeet-bin
 ```bash
 paru -S wemeet-wayland-screenshare-git
 ```
+
+在共享屏幕的时候选择任意一个桌面，等待几秒直到弹出一个 Screen Sharing 的窗口，选择录制某个屏幕或者单独录制某个窗口
 
 #### **钉钉**
 
