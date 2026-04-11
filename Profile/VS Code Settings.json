@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "JetBrains Mono, Hack, SF Mono, Consolas, monospace",
+    "editor.fontFamily": "JetBrains Mono NL, Hack, SF Mono, Consolas, monospace",
     "editor.fontLigatures": false,
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
@@ -56,10 +56,10 @@
     "editor.unicodeHighlight.nonBasicASCII": false,
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "workbench.colorCustomizations": {
-        "editor.selectionHighlightBackground": "#B2FFDD44",
-        "editor.wordHighlightBackground": "#74F46644",
+        "editor.selectionBackground": "#FF7F2777",
+        "editor.wordHighlightBackground": "#74F46633",
         "editor.findMatchBackground":"#A0FFF9",
-        "editor.findMatchHighlightBackground":"#FF51C444",
+        "editor.findMatchHighlightBackground":"#FF51C422",
         "editorBracketHighlight.foreground1": "#F8B500",
         "editorBracketHighlight.foreground2": "#5383C3",
         "editorBracketHighlight.foreground3": "#68BE8D",
@@ -68,7 +68,7 @@
         "editorBracketHighlight.foreground6": "#C8C2C6",
         "editorBracketHighlight.unexpectedBracket.foreground": "#FF3535"
     },
-    "workbench.colorTheme": "Default Light Modern",
+    "workbench.colorTheme": "Dark 2026",
     "update.showReleaseNotes": false,
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
@@ -150,8 +150,8 @@
     "latex-workshop.latex.autoBuild.run": "never",
     "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.intellisense.argumentHint.enabled": false,
-    "python.defaultInterpreterPath": "/home/firestar/.miniconda/bin/python",
+    "python.defaultInterpreterPath": "/home/firestar/.miniforge/bin/python",
     "python.analysis.extraPaths": [
-        "/home/firestar/.miniconda/bin"
+        "/home/firestar/.miniforge/bin"
     ]
 }
